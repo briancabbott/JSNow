@@ -1,0 +1,3 @@
+child_process(14275)::clone(https://github.com/antlr/stringtemplate4-objc):stderr:data: Cloning into 'undefined\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/stringtemplate4-objc'...
+child_process(14275)::clone(https://github.com/antlr/stringtemplate4-objc):stderr:data: POST git-upload-pack (175 bytes)
+child_process(14275)::clone(https://github.com/antlr/stringtemplate4-objc):stderr:data: warning: You appear to have cloned an empty repository.
