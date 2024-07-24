@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-plugin-transform-async-functions undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-plugin-transform-async-functions",
+    "repo": "https://github.com/babel/babel-plugin-transform-async-functions",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-plugin-transform-async-functions",
+    "startTime": "2024-07-20T17:48:41.785Z",
+    "endTime": "2024-07-20T17:48:43.003Z",
+    "childProcessPid": 4102,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-plugin-transform-async-functions--4102",
+    "executionErrors": []
+}

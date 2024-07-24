@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-bot undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-bot",
+    "repo": "https://github.com/babel/babel-bot",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-bot",
+    "startTime": "2024-07-20T17:48:21.910Z",
+    "endTime": "2024-07-20T17:48:23.560Z",
+    "childProcessPid": 3904,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-bot--3904",
+    "executionErrors": []
+}

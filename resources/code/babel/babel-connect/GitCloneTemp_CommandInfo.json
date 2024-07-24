@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-connect undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-connect",
+    "repo": "https://github.com/babel/babel-connect",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-connect",
+    "startTime": "2024-07-20T17:48:27.681Z",
+    "endTime": "2024-07-20T17:48:28.805Z",
+    "childProcessPid": 3992,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-connect--3992",
+    "executionErrors": []
+}

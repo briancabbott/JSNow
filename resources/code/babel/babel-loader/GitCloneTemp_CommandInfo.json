@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-loader undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-loader",
+    "repo": "https://github.com/babel/babel-loader",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-loader",
+    "startTime": "2024-07-20T17:48:34.587Z",
+    "endTime": "2024-07-20T17:48:39.946Z",
+    "childProcessPid": 4058,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-loader--4058",
+    "executionErrors": []
+}

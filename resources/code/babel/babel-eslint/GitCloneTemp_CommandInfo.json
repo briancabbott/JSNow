@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-eslint undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-eslint",
+    "repo": "https://github.com/babel/babel-eslint",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-eslint",
+    "startTime": "2024-07-20T17:48:28.806Z",
+    "endTime": "2024-07-20T17:48:32.617Z",
+    "childProcessPid": 4014,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-eslint--4014",
+    "executionErrors": []
+}

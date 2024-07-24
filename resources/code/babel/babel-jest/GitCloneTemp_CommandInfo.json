@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-jest undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-jest",
+    "repo": "https://github.com/babel/babel-jest",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-jest",
+    "startTime": "2024-07-20T17:48:32.629Z",
+    "endTime": "2024-07-20T17:48:34.571Z",
+    "childProcessPid": 4036,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-jest--4036",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-configuration-examples undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-configuration-examples",
+    "repo": "https://github.com/babel/babel-configuration-examples",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-configuration-examples",
+    "startTime": "2024-07-20T17:48:26.108Z",
+    "endTime": "2024-07-20T17:48:27.680Z",
+    "childProcessPid": 3970,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-configuration-examples--3970",
+    "executionErrors": []
+}

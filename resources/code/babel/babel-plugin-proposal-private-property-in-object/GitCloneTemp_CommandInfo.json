@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-plugin-proposal-private-property-in-object undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-plugin-proposal-private-property-in-object",
+    "repo": "https://github.com/babel/babel-plugin-proposal-private-property-in-object",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-plugin-proposal-private-property-in-object",
+    "startTime": "2024-07-20T17:48:39.948Z",
+    "endTime": "2024-07-20T17:48:41.784Z",
+    "childProcessPid": 4080,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-plugin-proposal-private-property-in-object--4080",
+    "executionErrors": []
+}
