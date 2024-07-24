@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/antlr/stringtemplate3 undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/stringtemplate3",
+    "repo": "https://github.com/antlr/stringtemplate3",
+    "targetPath": "undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/stringtemplate3",
+    "startTime": "2024-07-19T02:42:30.471Z",
+    "endTime": "2024-07-19T02:42:32.158Z",
+    "childProcessPid": 14231,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--antlr--stringtemplate3--14231",
+    "executionErrors": []
+}

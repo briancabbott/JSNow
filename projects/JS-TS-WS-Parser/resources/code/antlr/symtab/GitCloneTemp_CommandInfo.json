@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/antlr/symtab undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/symtab",
+    "repo": "https://github.com/antlr/symtab",
+    "targetPath": "undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/symtab",
+    "startTime": "2024-07-19T02:42:33.990Z",
+    "endTime": "2024-07-19T02:42:34.817Z",
+    "childProcessPid": 14295,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--antlr--symtab--14295",
+    "executionErrors": []
+}

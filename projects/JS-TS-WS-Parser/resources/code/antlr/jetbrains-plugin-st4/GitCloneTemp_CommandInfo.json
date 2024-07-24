@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/antlr/jetbrains-plugin-st4 undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/jetbrains-plugin-st4",
+    "repo": "https://github.com/antlr/jetbrains-plugin-st4",
+    "targetPath": "undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/jetbrains-plugin-st4",
+    "startTime": "2024-07-19T02:42:27.483Z",
+    "endTime": "2024-07-19T02:42:28.711Z",
+    "childProcessPid": 14187,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--antlr--jetbrains-plugin-st4--14187",
+    "executionErrors": []
+}

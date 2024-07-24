@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/antlr/stringtemplate4-objc undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/stringtemplate4-objc",
+    "repo": "https://github.com/antlr/stringtemplate4-objc",
+    "targetPath": "undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/stringtemplate4-objc",
+    "startTime": "2024-07-19T02:42:33.521Z",
+    "endTime": "2024-07-19T02:42:33.989Z",
+    "childProcessPid": 14275,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--antlr--stringtemplate4-objc--14275",
+    "executionErrors": []
+}

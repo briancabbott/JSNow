@@ -1,0 +1,13 @@
+<?xml version='1.0'?>
+<list>
+	<option name="STGroup_TEMPLATE_NAME">
+		<value>
+			<option name="FOREGROUND" value="808000"/>
+		</value>
+	</option>
+	<option name="ST_TAG">
+		<value>
+			<option name="BACKGROUND" value="ffffff"/>
+		</value>
+	</option>
+</list>
