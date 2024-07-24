@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "name": "dynamic-code-branch-checks",
+  "version": "1.0.0",
+  "description": "npm, I just want to run some tests",
+  "main": "index.js",
+  "scripts": {
+    "build": "ecmarkup spec.emu index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/dynamic-code-branch-checks.git"
+  },
+  "author": "Mike Samuel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tc39/dynamic-code-branch-checks/issues"
+  },
+  "homepage": "https://github.com/tc39/dynamic-code-branch-checks#readme",
+  "devDependencies": {
+    "ecmarkup": "^18.1.3",
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": [
+    "build"
+  ]
+}

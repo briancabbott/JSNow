@@ -1,0 +1,96 @@
+- name: Project types & templates
+  href: projects/index.md
+  items:
+    - name: Open folder
+      href: projects/openfolder.md
+    - name: ASP.NET
+      href: projects/aspnet/index.md
+      items:
+        - name: ASP.NET Classic
+          href: projects/aspnet/aspnetclassic.md
+        - name: ASP.NET Core
+          href: projects/aspnet/aspnetcore.md
+    - name: Node.js
+      href: projects/nodejs.md
+    - name: Universal Windows Projects
+      href: projects/uwp.md
+    - name: Cordova
+      href: projects/cordova.md
+- name: Configuration
+  href: configuration/index.md
+  items:
+    - name: tsconfig.json
+      href: configuration/tsconfig.md
+    - name: MSBuild
+      href: configuration/msbuild.md
+    - name: Versioning
+      href: configuration/versioning.md
+- name: Editor features
+  href: editor/index.md
+  items:
+    - name: Intellisense
+      href: editor/intellisense.md
+    - name: Error and Todo lists
+      href: editor/lists.md
+    - name: Formatting
+      href: editor/formatting.md
+    - name: Refactoring & quick fixes
+      href: editor/refactoring.md
+    - name: Linting
+      href: editor/linting.md
+- name: Using type definitions
+  href: types/index.md
+  items:
+    - name: "@types and DefinitelyTyped"
+      href: types/attypes.md
+    - name: JsDoc support
+      href: types/jsdoc.md
+    - name: Automatic type acquisition
+      href: types/ata.md
+    - name: Type checking JavaScript
+      href: types/allowjs.md
+- name: Node.js
+  href: nodejs/index.md
+  items:
+    - name: Node.js requirements
+      href: nodejs/requirements.md
+    - name: Package management
+      href: nodejs/npm.md
+    - name: Unit testing
+      href: nodejs/unittesting.md
+    - name: Running tasks
+      href: nodejs/taskexplorer.md
+    - name: The interactive window
+      href: nodejs/interactivewindow.md
+    - name: Publishing to Azure
+      href: nodejs/azure.md
+- name: Support for JS frameworks
+  href: frameworks/index.md
+  items:
+    - name: JSX & React
+      href: frameworks/jsx.md
+    - name: Angular
+      href: frameworks/angular.md
+    - name: Vue.js
+      href: frameworks/vue.md
+    - name: Gulp & Webpack
+      href: frameworks/gulpwebpack.md
+- name: Debugging
+  href: debugging/index.md
+  items:
+    - name: Client-side debugging
+      href: debugging/clientSideDebugging.md
+    - name: Using source maps
+      href: debugging/sourcemaps.md
+- name: Building & publishing
+  href: build/index.md
+  items:
+    - name: The tsc command-line
+      href: build/tsc.md
+    - name: Building with NuGet
+      href: build/nuget.md
+- name: Troubleshooting
+  href: troubleshooting/index.md
+  items:
+    - name: NewtonSoft.Json versioning
+      href: troubleshooting/newtonsoft.md

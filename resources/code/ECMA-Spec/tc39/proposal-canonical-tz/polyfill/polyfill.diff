@@ -1,0 +1,118 @@
+diff --git a/.gitmodules b/.gitmodules
+index 1c6831c7..73008e46 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -1,3 +1,4 @@
+ [submodule "polyfill/test262"]
+ 	path = polyfill/test262
+-	url = https://github.com/tc39/test262
++	url = https://github.com/justingrant/test262
++	branch = proposal-canonical-tz-tests
+diff --git a/polyfill/index.d.ts b/polyfill/index.d.ts
+index 784677c9..b11758ea 100644
+--- a/polyfill/index.d.ts
++++ b/polyfill/index.d.ts
+@@ -1138,6 +1138,7 @@ export namespace Temporal {
+     static from(timeZone: TimeZoneLike): Temporal.TimeZone | TimeZoneProtocol;
+     constructor(timeZoneIdentifier: string);
+     readonly id: string;
++    equals(timeZone: TimeZoneLike): boolean;
+     getOffsetNanosecondsFor(instant: Temporal.Instant | string): number;
+     getOffsetStringFor(instant: Temporal.Instant | string): string;
+     getPlainDateTimeFor(instant: Temporal.Instant | string, calendar?: CalendarLike): Temporal.PlainDateTime;
+diff --git a/polyfill/lib/ecmascript.mjs b/polyfill/lib/ecmascript.mjs
+index e7f04c0b..0aa7ef19 100644
+--- a/polyfill/lib/ecmascript.mjs
++++ b/polyfill/lib/ecmascript.mjs
+@@ -2101,7 +2101,7 @@ export function ToTemporalTimeZoneSlotValue(temporalTimeZoneLike) {
+ 
+     const record = GetAvailableNamedTimeZoneIdentifier(tzName);
+     if (!record) throw new RangeError(`Unrecognized time zone ${tzName}`);
+-    return record.primaryIdentifier;
++    return record.identifier;
+   }
+   if (z) return 'UTC';
+   // if !tzName && !z then offset must be present
+@@ -2126,7 +2126,23 @@ export function TimeZoneEquals(one, two) {
+   if (one === two) return true;
+   const tz1 = ToTemporalTimeZoneIdentifier(one);
+   const tz2 = ToTemporalTimeZoneIdentifier(two);
+-  return tz1 === tz2;
++  if (tz1 === tz2) return true;
++  const offsetNs1 = ParseTimeZoneIdentifier(tz1).offsetNanoseconds;
++  const offsetNs2 = ParseTimeZoneIdentifier(tz2).offsetNanoseconds;
++  if (offsetNs1 === undefined && offsetNs2 === undefined) {
++    // It's costly to call GetAvailableNamedTimeZoneIdentifier, so (unlike the
++    // spec) the polyfill will early-return if one of them isn't recognized. Try
++    // the second ID first because it's more likely to be unknown, because it
++    // can come from the argument of TimeZone.p.equals as opposed to the first
++    // ID which comes from the receiver.
++    const idRecord2 = GetAvailableNamedTimeZoneIdentifier(tz2);
++    if (!idRecord2) return false;
++    const idRecord1 = GetAvailableNamedTimeZoneIdentifier(tz1);
++    if (!idRecord1) return false;
++    return idRecord1.primaryIdentifier === idRecord2.primaryIdentifier;
++  } else {
++    return offsetNs1 === offsetNs2;
++  }
+ }
+ 
+ export function TemporalDateTimeToDate(dateTime) {
+diff --git a/polyfill/lib/intl.mjs b/polyfill/lib/intl.mjs
+index 9d78ee43..d86269a5 100644
+--- a/polyfill/lib/intl.mjs
++++ b/polyfill/lib/intl.mjs
+@@ -139,7 +139,7 @@ Object.defineProperty(DateTimeFormat, 'prototype', {
+ 
+ function resolvedOptions() {
+   const resolved = this[ORIGINAL].resolvedOptions();
+-  resolved.timeZone = this[TZ_CANONICAL];
++  resolved.timeZone = this[TZ_ORIGINAL];
+   return resolved;
+ }
+ 
+diff --git a/polyfill/lib/timezone.mjs b/polyfill/lib/timezone.mjs
+index 7c6c8a2e..857385ad 100644
+--- a/polyfill/lib/timezone.mjs
++++ b/polyfill/lib/timezone.mjs
+@@ -33,7 +33,7 @@ export class TimeZone {
+     } else {
+       const record = ES.GetAvailableNamedTimeZoneIdentifier(stringIdentifier);
+       if (!record) throw new RangeError(`Invalid time zone identifier: ${stringIdentifier}`);
+-      stringIdentifier = record.primaryIdentifier;
++      stringIdentifier = record.identifier;
+     }
+     CreateSlots(this);
+     SetSlot(this, TIMEZONE_ID, stringIdentifier);
+@@ -51,6 +51,11 @@ export class TimeZone {
+     if (!ES.IsTemporalTimeZone(this)) throw new TypeError('invalid receiver');
+     return GetSlot(this, TIMEZONE_ID);
+   }
++  equals(other) {
++    if (!ES.IsTemporalTimeZone(this)) throw new TypeError('invalid receiver');
++    const timeZoneSlotValue = ES.ToTemporalTimeZoneSlotValue(other);
++    return ES.TimeZoneEquals(this, timeZoneSlotValue);
++  }
+   getOffsetNanosecondsFor(instant) {
+     if (!ES.IsTemporalTimeZone(this)) throw new TypeError('invalid receiver');
+     instant = ES.ToTemporalInstant(instant);
+diff --git a/polyfill/lib/zoneddatetime.mjs b/polyfill/lib/zoneddatetime.mjs
+index cbd4f8c8..ed1a4143 100644
+--- a/polyfill/lib/zoneddatetime.mjs
++++ b/polyfill/lib/zoneddatetime.mjs
+@@ -478,7 +478,7 @@ export class ZonedDateTime {
+     } else {
+       const record = ES.GetAvailableNamedTimeZoneIdentifier(timeZoneIdentifier);
+       if (!record) throw new RangeError(`toLocaleString formats built-in time zones, not ${timeZoneIdentifier}`);
+-      optionsCopy.timeZone = record.primaryIdentifier;
++      optionsCopy.timeZone = record.identifier;
+     }
+ 
+     const formatter = new DateTimeFormat(locales, optionsCopy);
+diff --git a/polyfill/test262 b/polyfill/test262
+index c5b24c64..c472ab5e 160000
+--- a/polyfill/test262
++++ b/polyfill/test262
+@@ -1 +1 @@
+-Subproject commit c5b24c64c3c27544f15e1c18ef274924cff1e32c
++Subproject commit c472ab5e2d0047015b90d003828507321a8f7eb6

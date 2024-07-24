@@ -1,0 +1,84 @@
+<!doctype html>
+<meta charset="utf8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="spec" href="es2015" />
+<pre class="metadata">
+title: ECMAScript class static initialization blocks
+stage: 3
+contributors: Ron Buckton, Ecma International
+</pre>
+
+<emu-biblio href="biblio.json"></emu-biblio>
+<emu-biblio href="ecma262biblio.json"></emu-biblio>
+
+<emu-intro id="sec-intro">
+  <h1>Introduction</h1>
+  <emu-import href="sec-introduction.html"></emu-import>
+</emu-intro>
+
+<emu-clause id="sec-ecmascript-data-types-and-values" aoid="Type">
+  <h1>ECMAScript Data Types and Values</h1>
+  <emu-import href="sec-ecmascript-specification-types-patch.html"></emu-import>
+</emu-clause>
+
+<emu-clause id="sec-abstract-operations">
+  <h1>Abstract Operations</h1>
+  <emu-import href="sec-operations-on-objects-patch.html"></emu-import>
+</emu-clause>
+
+<emu-clause id="sec-syntax-directed-operations">
+  <h1>Syntax-Directed Operations</h1>
+  <p>In addition to those defined in this section, specialized syntax-directed operations are defined throughout this specification.</p>
+  <emu-clause id="sec-syntax-directed-operations-scope-analysis">
+    <h1>Scope Analysis</h1>
+    <emu-import href="sec-static-semantics-lexicallydeclarednames-patch.html"></emu-import>
+    <emu-import href="sec-static-semantics-lexicallyscopeddeclarations-patch.html"></emu-import>
+    <emu-import href="sec-static-semantics-vardeclarednames-patch.html"></emu-import>
+    <emu-import href="sec-static-semantics-varscopeddeclarations-patch.html"></emu-import>
+  </emu-clause>
+
+  <emu-clause id="sec-syntax-directed-operations-labels">
+    <h1>Labels</h1>
+    <emu-import href="sec-static-semantics-containsduplicatelabels-patch.html"></emu-import>
+    <emu-import href="sec-static-semantics-containsundefinedbreaktarget-patch.html"></emu-import>
+    <emu-import href="sec-static-semantics-containsundefinedcontinuetarget-patch.html"></emu-import>
+  </emu-clause>
+  <emu-clause id="sec-syntax-directed-operations-contains">
+    <h1>Contains</h1>
+    <emu-import href="sec-static-semantics-contains-patch.html"></emu-import>
+    <emu-import href="sec-static-semantics-computedpropertycontains-patch.html"></emu-import>
+  </emu-clause>
+  <emu-clause id="sec-syntax-directed-operations-miscellaneous">
+    <h1>Miscellaneous</h1>
+    <p>These operations are used in multiple places throughout the specification.</p>
+    <emu-import href="sec-static-semantics-propname-patch.html"></emu-import>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-ordinary-and-exotic-objects-behaviours">
+  <h1>Ordinary and Exotic Objects Behaviours</h1>
+  <emu-clause id="sec-ecmascript-function-objects">
+    <h1>ECMAScript Function Objects</h1>
+    <emu-clause id="sec-ecmascript-function-objects-call-thisargument-argumentslist">
+      <h1>[[Call]] ( _thisArgument_, _argumentsList_ )</h1>
+      <emu-import href="sec-runtime-semantics-evaluatebody-patch.html"></emu-import>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-ecmascript-language-statements-and-declarations">
+  <h1>ECMAScript Language: Statements and Declarations</h1>
+  <emu-clause id="sec-continue-statement">
+    <h1>The `continue` Statement</h1>
+    <emu-import href="sec-continue-statement-static-semantics-early-errors-patch.html"></emu-import>
+  </emu-clause>
+  <emu-clause id="sec-break-statement">
+    <h1>The `break` Statement</h1>
+    <emu-import href="sec-break-statement-static-semantics-early-errors-patch.html"></emu-import>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-ecmascript-language-functions-and-classes">
+  <h1>ECMAScript Language: Functions and Classes</h1>
+  <emu-import href="sec-class-definitions-patch.html"></emu-import>
+</emu-clause>

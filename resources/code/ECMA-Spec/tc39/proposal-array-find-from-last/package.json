@@ -1,0 +1,23 @@
+{
+  "name": "proposal-array-find-from-last",
+  "description": "Proposal for .findLast() and .findLastIndex methods on array.",
+  "version": "0.0.1",
+  "author": {
+    "name": "Wenlu Wang",
+    "email": "kingwenlu@gmail.com"
+  },
+  "scripts": {
+    "start": "npm run build-loose -- --watch",
+    "build": "npm run build-loose -- --strict",
+    "build-loose": "ecmarkup --verbose spec.html docs/index.html"
+  },
+  "homepage": "https://github.com/Kingwl/proposal-array-find-from-last",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kingwl/proposal-array-find-from-last.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "ecmarkup": "^6.0.0"
+  }
+}

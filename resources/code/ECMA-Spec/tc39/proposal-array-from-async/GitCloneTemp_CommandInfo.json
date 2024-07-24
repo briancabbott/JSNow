@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-array-from-async undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-array-from-async",
+    "repo": "https://github.com/tc39/proposal-array-from-async",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-array-from-async",
+    "startTime": "2024-07-18T18:15:10.977Z",
+    "endTime": "2024-07-18T18:15:12.564Z",
+    "childProcessPid": 19310,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-array-from-async--19310",
+    "executionErrors": []
+}

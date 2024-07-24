@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Vue.js support </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Vue.js support ">
+    <meta name="generator" content="docfx 2.36.1.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="vuejs-support">Vue.js support</h1>
+
+<p>Visual Studio improved support for <a href="https://vuejs.org/">Vue.js</a> framework, which enhances the experience when developing an application with Vue.js, JavaScript and TypeScript.</p>
+<h2 id="feature-overview">Feature overview</h2>
+<p>In addition to the normal Visual Studio features when writing TypeScript or JavaScript, you&#39;ll see new behavior for Vue.js specific features:</p>
+<ul>
+<li>Supported Script, Style and Template blocks in .vue files.</li>
+<li>Recognize lang attribute on .vue files.</li>
+<li>Preconfigured Vue.js project and file templates.</li>
+</ul>
+<h2 id="using-the-vuejs-project-and-file-templates">Using the Vue.js project and file templates</h2>
+<p>Visual Studio comes preconfigured with basic Vue.js templates. To use them you need to have installed the Node.js workload. If you don&#39;t have it installed yet, follow the steps localed on <a href="../nodejs/requirements.html">Node.js requirements</a>.</p>
+<h4 id="create-a-basic-vuejs-project">Create a basic Vue.js project</h4>
+<ol>
+<li>Open Visual Studio and choose <strong>File &gt; New &gt; Project</strong> from the main menu.</li>
+<li>Under <strong>JavaScript &gt; Node.js</strong> or <strong>TypeScript &gt; Node.js</strong>, choose <strong>Basic Vue.js Web Application</strong> and click OK.</li>
+</ol>
+<h4 id="adding-a-vue-file">Adding a .vue file</h4>
+<ol>
+<li>Right click on any folder on <strong>Solution Explorer &gt; Add &gt; New Item</strong>.</li>
+<li>Select either <strong>JavaScript Vue Single File Component</strong> or <strong>TypeScript Vue Single File Component</strong>, click Add.</li>
+</ol>
+<h4 id="building-and-debugging">Building and debugging</h4>
+<p>The Vue.js project template uses the build npm script by configuring a post build event. If you wish to modify this setting, open the project file and locate the line below:</p>
+<pre><code class="lang-xml">&lt;PostBuildEvent&gt;npm run build&lt;/PostBuildEvent&gt;
+</code></pre><p>Debugging runs <code>node_modules\@vue\cli-service\bin\vue-cli-service.js serve</code>. You can see and modify this settings on the project properties.</p>
+<h2 id="create-a-vuejs-project-with-aspnet-core-and-the-vue-cli">Create a Vue.js project with ASP.NET Core and the vue-cli</h2>
+<p>Vue.js provides an official CLI for quickly scaffolding projects. If you would like to use it to create your application, follow the steps below to setup your development environment.</p>
+<div class="NOTE"><h5>Note</h5><p>This steps assumes you already have some knowledge about the Vue.js framework. If not, we suggest to visit <a href="https://vuejs.org/">Vue.js</a> for details about it.</p>
+</div>
+<h3 id="create-a-new-aspnet-core-project">Create a new ASP.NET Core project</h3>
+<p>We use an Empty ASP.NET Core Application (C#) for this example, but you can choose from a variety of projects and languages of your choice.</p>
+<h5 id="create-an-empty-project">Create an Empty project:</h5>
+<ol>
+<li>Open Visual Studio and choose <strong>File &gt; New &gt; Project</strong> from the main menu.</li>
+<li>Under <strong>Visual C# &gt; Web</strong>, choose <strong>ASP.NET Core Web Application</strong> and click OK.</li>
+<li>Select <strong>Empty</strong>, click OK.</li>
+</ol>
+<h5 id="configure-the-project-startup">Configure the project startup:</h5>
+<ol>
+<li>Open the file <strong>./Startup.cs</strong>, and add the following lines to the Configure method:</li>
+</ol>
+<pre><code class="lang-c#">app.UseDefaultFiles() // Enables default file mapping on the web root.
+app.UseStaticFiles(); // Marks files on the web root as servable.
+</code></pre><h3 id="install-the-vue-cli">Install the vue-cli</h3>
+<p>To install the vue-cli, open a Command Prompt and type <code>npm install --g vue-cli</code> or <code>npm install -g @vue/cli</code> for version 3.0 (currently in beta).</p>
+<h4 id="use-the-vue-cli-to-scaffold-a-new-client-application">Use the vue-cli to scaffold a new client application:</h4>
+<ol>
+<li>Go to your Command Prompt and change directory to your project root folder.</li>
+<li>Type <code>vue init webpack ClientApp</code> and follow the additional questions.</li>
+</ol>
+<h5 id="tweak-the-webpack-config-to-output-the-built-files-to-wwwroot">Tweak the webpack config to output the built files to wwwroot:</h5>
+<ol>
+<li>Open the file <strong>./ClientApp/config/index.js</strong>, and change the <code>build.index</code> and <code>build.assetsRoot</code> to wwwroot path:</li>
+</ol>
+<pre><code class="lang-js">// Template for index.html
+index: path.resolve(__dirname, &#39;../../wwwroot/index.html&#39;),
+
+// Paths
+assetsRoot: path.resolve(__dirname, &#39;../../wwwroot&#39;),
+</code></pre><h5 id="indicate-the-project-to-build-the-clientapp-everytime-building-is-triggered">Indicate the project to build the ClientApp everytime building is triggered:</h5>
+<ol>
+<li>Go to <strong>Project properties &gt; Build Events</strong></li>
+<li>On <strong>Pre-build event command line</strong> type <code>npm --prefix ./ClientApp run build</code>.</li>
+</ol>
+<h5 id="configure-webpacks-output-module-names">Configure webpack&#39;s output module names:</h5>
+<ol>
+<li>Open the file <strong>./ClientApp/build/webpack.base.conf.js</strong>, and add the following properties to the output property:</li>
+</ol>
+<pre><code class="lang-js">devtoolModuleFilenameTemplate: &#39;[absolute-resource-path]&#39;,
+devtoolFallbackModuleFilenameTemplate: &#39;[absolute-resource-path]?[hash]&#39;
+</code></pre><h4 id="use-the-vue-cli-30-currently-in-beta-with-typescript">Use the vue-cli 3.0 (currently in beta) with TypeScript</h4>
+<ol>
+<li>Go to your Command Prompt and change directory to your project root folder.</li>
+<li>Type <code>vue create ClientApp</code> and choose <strong>Manually select features</strong>.</li>
+<li>Choose Typescript and any other options desired.</li>
+<li>Follow the additional questions.</li>
+</ol>
+<h5 id="configure-vuejs-typescript-project">Configure Vue.js-TypeScript project</h5>
+<ol>
+<li>Open the file <strong>./ClientApp/tsconfig.json</strong> and add to the compiler options <code>noEmit:true</code> for avoiding cluttering your project everytime you build on Visual Studio.</li>
+<li><p>Create a vue.config.js file on ./ClientApp/ as below, for configuring webpack and setting the wwwroot folder:</p>
+<pre><code class="lang-js">module.exports = {
+ outputDir: &#39;../wwwroot&#39;,
+
+ configureWebpack: {
+     output: {
+         devtoolModuleFilenameTemplate: &#39;[absolute-resource-path]&#39;,
+         devtoolFallbackModuleFilenameTemplate: &#39;[absolute-resource-path]?[hash]&#39;
+     }
+ }
+};
+</code></pre></li>
+</ol>
+<h5 id="building-with-vue-cli-30">Building with vue-cli 3.0</h5>
+<p>There is an unknown issue with the vue-cli 3.0 that prevents automating the build process. Everytime you wish to refresh the wwwroot folder you will need to run the command <code>npm run build</code> on the ClientApp folder.</p>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>Lang attribute only supports JavaScript and TypeScript languages. The accepted values are: js, jsx, ts and tsx.</li>
+<li>Lang attribute doesn&#39;t work with template or style tags.</li>
+<li>Debugging script blocks in .vue files is not supported due to its preprocessed nature.</li>
+<li>TypeScript doesn&#39;t recognize .vue files as modules. A file like below is needed to tell TypeScript what a .vue files look like (vue-cli 3.0 template already includes this file).
+<code>js
+// ./ClientApp/vue-shims.d.ts
+declare module &quot;*.vue&quot; {
+  import Vue from &quot;vue&quot;;
+  export default Vue;
+}</code></li>
+<li>Running the command <code>npm run build</code> as a pre-build event on the project properties doesn&#39;t work when using vue-cli 3.0.</li>
+</ul>
+<h2 id="additional-resources">Additional resources</h2>
+<ul>
+<li><a href="https://vuejs.org/v2/guide">https://vuejs.org/v2/guide</a> - Vue get started guide.</li>
+<li><a href="https://github.com/vuejs/vue-cli">https://github.com/vuejs/vue-cli</a> - Vue CLI project.</li>
+<li><a href="https://webpack.js.org/configuration/">https://webpack.js.org/configuration/</a> - Webpack configuration documentation.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/billti/jsdocs/blob/master/articles/frameworks/vue.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

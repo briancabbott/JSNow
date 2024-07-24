@@ -1,0 +1,26 @@
+---
+name: lint spec
+
+jobs:
+  test:
+    name: Ensure that we can build the spec
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install ecmarkup
+      - run: npm install --global ecmarkup
+
+      - name: ensure no line starts with tabs
+      - run: |
+          for f in *emu; do
+            if ! [ grep '^\t' "$f" ]; then
+              echo "$f has lines that begin with a tab";
+              exit 1;
+            fi
+          done
+
+      - name: Try to generate spec, being strict
+      - run: ecmarkup --lint-spec --strict spec.emu out.html

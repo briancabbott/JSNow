@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "downlevelIteration": true,
+        "target": "ES5",
+        "declaration": true,
+        "sourceMap": true,
+        "outDir": "dist/"
+    },
+    "include": ["polyfill/*.ts"],
+    "exclude": ["polyfill/*.spec.ts"]
+}

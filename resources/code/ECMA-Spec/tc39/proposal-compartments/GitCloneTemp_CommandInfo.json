@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-compartments undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-compartments",
+    "repo": "https://github.com/tc39/proposal-compartments",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-compartments",
+    "startTime": "2024-07-18T18:15:58.027Z",
+    "endTime": "2024-07-18T18:15:59.058Z",
+    "childProcessPid": 20146,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-compartments--20146",
+    "executionErrors": []
+}

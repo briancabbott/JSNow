@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "name": "cancelable-promise",
+  "description": "Cancelable promises proposal for JavaScript",
+  "keywords": [
+    "tc39",
+    "javascript",
+    "ecmascript",
+    "spec",
+    "promise",
+    "promises-aplus",
+    "cancelable promises",
+    "cancelation"
+  ],
+  "version": "1.0.0-pre",
+  "author": "Domenic Denicola <d@domenic.me> (https://domenic.me/)",
+  "license": "WTFPL",
+  "repository": "tc39/proposal-cancelable-promises",
+  "scripts": {
+    "spec": "ecmarkup spec.html out/index.html",
+    "watch": "ecmarkup --watch spec.html out/index.html"
+  },
+  "devDependencies": {
+    "ecmarkup": "^3.3.1"
+  }
+}

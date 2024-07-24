@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-dynamic-modules undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-dynamic-modules",
+    "repo": "https://github.com/tc39/proposal-dynamic-modules",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-dynamic-modules",
+    "startTime": "2024-07-18T18:16:16.031Z",
+    "endTime": "2024-07-18T18:16:16.840Z",
+    "childProcessPid": 20542,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-dynamic-modules--20542",
+    "executionErrors": []
+}

@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Unit testing in Node.js </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Unit testing in Node.js ">
+    <meta name="generator" content="docfx 2.36.1.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="unit-testing-in-nodejs">Unit testing in Node.js</h1>
+
+<p>The Node.js Tools For Visual Studio allows you to write and run unit tests using some of the more popular
+frameworks without the need to switch to a command prompt.</p>
+<p>The supported frameworks are:</p>
+<ul>
+<li>Mocha (<a href="http://mochajs.org/">mochajs.org</a>)</li>
+<li>Jasmine (<a href="https://jasmine.github.io/">Jasmine.github.io</a>)</li>
+<li>Tape (<a href="https://github.com/substack/tape">github.com/substack/tape</a>)</li>
+<li>Export Runner (a Node.js tools specific framework)</li>
+</ul>
+<div class="WARNING"><h5>Warning</h5><p>An issue in Tape currently prevents Tape tests from running.
+If <a href="https://github.com/substack/tape/pull/361">this PR</a> is merged, the issue should be resolved.</p>
+</div>
+<p>If your favorite framework is not supported, see <a href="#addingFramework">Add support for a unit test framework</a> for information on adding support. </p>
+<h2 id="write-unit-tests">Write unit tests</h2>
+<p>Before adding unit tests to your project, make sure the framework you plan to use is installed <strong>locally</strong> in your project. This is easiest using the <a href="npm.html#npmInstallWindow">npm install window</a>.</p>
+<p>The preferred way to add unit tests to your project is by creating a <code>tests</code> folder in
+your project, and setting that as the test root in project properties. You also need
+to select the test framework you want to use.</p>
+<p><img src="../../images/node/unit-test-project-properties.png" alt="Set test root and test framework"></p>
+<p>You can add simple blank tests to your project, using the Add New Item dialog, both JavaScript and TypeScript are supported in the same project.</p>
+<p><img src="../../images/node/unit-test-add-new-item.png" alt="Add new unit test"></p>
+<p>For a Mocha unit test, use the following code:</p>
+<pre><code class="lang-javascript">var assert = require(&#39;assert&#39;);
+
+describe(&#39;Test Suite 1&#39;, function() {
+    it(&#39;Test 1&#39;, function() {
+        assert.ok(true, &quot;This shouldn&#39;t fail&quot;);
+    })
+
+    it(&#39;Test 2&#39;, function() {
+        assert.ok(1 === 1, &quot;This shouldn&#39;t fail&quot;);
+        assert.ok(false, &quot;This should fail&quot;);
+    })
+})
+</code></pre><p>You must also set the <strong>Test Framework</strong> property to <strong>Mocha</strong>.</p>
+<p><img src="../../images/node/UnitTestsFrameworkMocha.png" alt="Test Framework"></p>
+<p>After opening Test Explorer (from the <strong>Test</strong> &gt; <strong>Windows</strong> &gt; <strong>Test Explorer</strong> menu), tests are discovered and
+displayed. If tests are not showing initially, then rebuild the project to refresh the list.</p>
+<p><img src="../../images/node/UnitTestsDiscoveryMocha.png" alt="Test Explorer"></p>
+<div class="NOTE"><h5>Note</h5><p>Do not use the <code>outdir</code> or <code>outfile</code> option in <em>tsconfig.json</em>, because Test Explorer won&#39;t be able to find your unit tests in TypeScript files.</p>
+</div>
+<h2 id="run-tests">Run tests</h2>
+<p>You can run tests in Visual Studio 2017 or from the command line.</p>
+<h3 id="run-tests-in-visual-studio-2017">Run tests in Visual Studio 2017</h3>
+<p>You can run the tests by clicking the <strong>Run All</strong> link in the Test Explorer window. Or, you can run tests by selecting one or more tests or groups, right-clicking, and selecting <strong>Run Selected Tests</strong> from the shorcut menu. Tests run in the background, and Test Explorer automatically updates and shows the results. Further, you can also debug selected tests by selecting <strong>Debug Selected Tests</strong>.</p>
+<div class="NOTE"><h5>Note</h5><p>We don&#39;t currently support profiling tests, or code coverage.</p>
+</div>
+<h3 id="run-tests-from-the-command-line">Run tests from the command line</h3>
+<p>You can run the tests from the Developer Command Prompt for VS 2017 using the following command:</p>
+<pre><code>vstest.console.exe &lt;path to project file&gt;\NodejsConsoleApp23.njsproj /TestAdapterPath:&lt;VisualStudioFolder&gt;\Common7\IDE\Extensions\Microsoft\NodeJsTools\TestAdapter
+</code></pre><p>This should show output similar to:</p>
+<pre><code>Microsoft (R) Test Execution Command Line Tool Version 15.5.0
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+Processing: NodejsConsoleApp23\NodejsConsoleApp23\UnitTest1.js
+  Creating TestCase:NodejsConsoleApp23\NodejsConsoleApp23\UnitTest1.js::Test Suite 1 Test 1::mocha
+  Creating TestCase:NodejsConsoleApp23\NodejsConsoleApp23\UnitTest1.js::Test Suite 1 Test 2::mocha
+Processing finished for framework of Mocha
+Passed   Test Suite 1 Test 1
+Standard Output Messages:
+ Using default Mocha settings
+ 1..2
+ ok 1 Test Suite 1 Test 1
+
+Failed   Test Suite 1 Test 2
+Standard Output Messages:
+ not ok 1 Test Suite 1 Test 2
+   AssertionError [ERR_ASSERTION]: This should fail
+       at Context.&lt;anonymous&gt; (NodejsConsoleApp23\NodejsConsoleApp23\UnitTest1.js:10:16)
+
+Total tests: 2. Passed: 1. Failed: 1. Skipped: 0.
+Test Run Failed.
+Test execution time: 1.5731 Seconds
+</code></pre><div class="NOTE"><h5>Note</h5><p>If you get an error indicating that <em>vstest.console.exe</em> cannot be found, make sure you&#39;ve opened the Developer Command Prompt and not a regular command prompt. </p>
+</div>
+<h2 id="addingFramework">Add support for a unit test framework</h2>
+<p>You can extend the support for additional test frameworks by implementing the discovery and execution logic using JavaScript. In the following location:</p>
+<p><em><visualstudiofolder>\Common7\IDE\Extensions\Microsoft\NodeJsTools\TestAdapter\TestFrameworks</visualstudiofolder></em></p>
+<p>You see folders for the supported test frameworks. Under each folder, a JavaScript file named after the folder contains two exported functions:</p>
+<ul>
+<li><code>find_tests</code></li>
+<li><code>run_tests</code></li>
+</ul>
+<p>For examples of <code>find_tests</code> and <code>run_tests</code> implementations, see the implementation of Mocha.</p>
+<p>The name of the folder must match the name of the <em>.js</em> file. Discovery of test frameworks occurs at Visual Studio start. If a framework is added while Visual Studio is running, restart Visual Studio to detect the framework.</p>
+<p>Make sure to set the <strong>TestFramework</strong> property on your test file(s) to match the name of the subfolder under TestFrameworks.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/billti/jsdocs/blob/master/articles/nodejs/unittesting.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

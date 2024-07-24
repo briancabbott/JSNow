@@ -1,0 +1,35 @@
+{
+  "name": "ecmascript-cancellation",
+  "version": "1.0.0",
+  "description": "Proposal for a Cancellation API for ECMAScript",
+  "private": true,
+  "scripts": {
+    "compile": "gulp build",
+    "start": "gulp start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/proposal-cancellation.git"
+  },
+  "keywords": [
+    "javascript",
+    "ecmascript",
+    "cancellation",
+    "cancellationtoken",
+    "cancel",
+    "canceltoken"
+  ],
+  "author": "Ron Buckton (rbuckton@microsoft.com)",
+  "license": "SEE LICENSE IN https://tc39.github.io/ecma262/#sec-copyright-and-software-license",
+  "bugs": {
+    "url": "https://github.com/tc39/proposal-cancellation/issues"
+  },
+  "homepage": "https://github.com/tc39/proposal-cancellation#readme",
+  "devDependencies": {
+    "del": "^2.2.2",
+    "ecmarkup": "^3.11.2",
+    "gulp": "^3.9.1",
+    "gulp-emu": "^1.1.0",
+    "gulp-live-server": "0.0.30"
+  }
+}

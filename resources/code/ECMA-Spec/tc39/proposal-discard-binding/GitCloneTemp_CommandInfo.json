@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-discard-binding undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-discard-binding",
+    "repo": "https://github.com/tc39/proposal-discard-binding",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-discard-binding",
+    "startTime": "2024-07-18T18:16:10.958Z",
+    "endTime": "2024-07-18T18:16:11.932Z",
+    "childProcessPid": 20410,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-discard-binding--20410",
+    "executionErrors": []
+}

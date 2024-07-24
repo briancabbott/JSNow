@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-collection-methods undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-collection-methods",
+    "repo": "https://github.com/tc39/proposal-collection-methods",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-collection-methods",
+    "startTime": "2024-07-18T18:15:56.107Z",
+    "endTime": "2024-07-18T18:15:57.111Z",
+    "childProcessPid": 20102,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-collection-methods--20102",
+    "executionErrors": []
+}

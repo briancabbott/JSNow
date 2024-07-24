@@ -1,0 +1,34 @@
+{
+  "name": "asyncawait",
+  "description": "Async/await syntax for ECMAScript",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=0.11.0"
+  },
+  "author": "Brian Terlson",
+  "licenses": [
+    {
+      "type": "Apache V2",
+      "url": "https://github.com/lukehoban/ecmascript-asyncawait/blob/master/LICENSE"
+    }
+  ],
+  "dependencies": {
+    "ecmarkup": "^2.5.1",
+    "q": "*",
+    "regenerator": "^0.8.34",
+    "request": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lukehoban/ecmascript-asyncawait.git"
+  },
+  "keywords": [
+    "async",
+    "await",
+    "javascript"
+  ],
+  "license": "Apache V2",
+  "scripts": {
+    "update-pages": "node node_modules/ecmarkup/bin/ecmarkup.js spec/index.html _index.html --css _ecmarkup.css --js _ecmarkup.js && git checkout gh-pages && rm index.html ecmarkup.css ecmarkup.js && mv _index.html index.html && mv _ecmarkup.css ecmarkup.css && mv _ecmarkup.js ecmarkup.js && git add index.html ecmarkup.js ecmarkup.css && git commit -m \"update pages\" && git checkout master"
+  }
+}

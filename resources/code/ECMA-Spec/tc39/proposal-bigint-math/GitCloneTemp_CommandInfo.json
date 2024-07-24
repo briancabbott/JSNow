@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-bigint-math undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-bigint-math",
+    "repo": "https://github.com/tc39/proposal-bigint-math",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-bigint-math",
+    "startTime": "2024-07-18T18:15:32.540Z",
+    "endTime": "2024-07-18T18:15:36.910Z",
+    "childProcessPid": 19750,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-bigint-math--19750",
+    "executionErrors": []
+}

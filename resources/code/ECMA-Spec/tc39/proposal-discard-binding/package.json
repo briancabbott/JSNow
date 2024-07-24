@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "name": "proposal-discard-binding",
+  "description": "A repository template for ECMAScript proposals.",
+  "scripts": {
+    "build": "gulp build",
+    "start": "gulp start"
+  },
+  "homepage": "https://github.com/tc39/proposal-discard-binding#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/proposal-discard-binding.git"
+  },
+  "license": "SEE LICENSE IN https://tc39.es/ecma262/#sec-copyright-and-software-license",
+  "devDependencies": {
+    "@tc39/ecma262-biblio": "^2.1.2571",
+    "del": "^6.0.0",
+    "ecmarkup": "^18.0.0",
+    "gulp": "^4.0.2",
+    "gulp-emu": "^2.2.0",
+    "gulp-live-server": "0.0.31",
+    "gulp-rename": "^2.0.0"
+  },
+  "engines": {
+    "node": ">= 12"
+  }
+}

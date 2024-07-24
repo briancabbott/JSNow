@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-async-iterator-helpers undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-async-iterator-helpers",
+    "repo": "https://github.com/tc39/proposal-async-iterator-helpers",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-async-iterator-helpers",
+    "startTime": "2024-07-18T18:15:27.208Z",
+    "endTime": "2024-07-18T18:15:28.052Z",
+    "childProcessPid": 19618,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-async-iterator-helpers--19618",
+    "executionErrors": []
+}

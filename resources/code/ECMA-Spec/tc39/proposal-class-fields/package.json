@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "proposal-class-fields",
+  "version": "1.0.0",
+  "description": "ECMAScript Class Fields proposal",
+  "repository": "tc39/proposal-class-fields",
+  "author": "ECMA TC39",
+  "license": "SEE LICENSE IN https://tc39.github.io/ecma262/#sec-copyright-and-software-license",
+  "homepage": "https://tc39.github.io/proposal-class-fields/",
+  "scripts": {
+    "prebuild": "mkdirp out",
+    "build": "ecmarkup spec.html out/index.html"
+  },
+  "dependencies": {
+    "ecmarkup": "^3.12.0",
+    "mkdirp": "^0.5.1"
+  },
+  "devDependencies": {
+    "@alrra/travis-scripts": "^3.0.0"
+  }
+}

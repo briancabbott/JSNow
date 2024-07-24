@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-dynamic-import-host-adjustment undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-dynamic-import-host-adjustment",
+    "repo": "https://github.com/tc39/proposal-dynamic-import-host-adjustment",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-dynamic-import-host-adjustment",
+    "startTime": "2024-07-18T18:16:15.234Z",
+    "endTime": "2024-07-18T18:16:16.030Z",
+    "childProcessPid": 20520,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-dynamic-import-host-adjustment--20520",
+    "executionErrors": []
+}

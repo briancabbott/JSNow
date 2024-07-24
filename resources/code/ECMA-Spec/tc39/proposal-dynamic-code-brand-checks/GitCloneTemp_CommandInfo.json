@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-dynamic-code-brand-checks undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-dynamic-code-brand-checks",
+    "repo": "https://github.com/tc39/proposal-dynamic-code-brand-checks",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-dynamic-code-brand-checks",
+    "startTime": "2024-07-18T18:16:13.414Z",
+    "endTime": "2024-07-18T18:16:14.405Z",
+    "childProcessPid": 20476,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-dynamic-code-brand-checks--20476",
+    "executionErrors": []
+}

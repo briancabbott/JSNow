@@ -1,0 +1,52 @@
+{
+  "private": true,
+  "name": "proposal-canonical-tz",
+  "version": "1.0.0",
+  "description": "TC39 Proposal (stacked on Temporal) to improve handling of changes to the IANA Time Zone Database.",
+  "engines": {
+    "node": ">=12.16.0"
+  },
+  "main": "polyfill/lib/index.mjs",
+  "devDependencies": {
+    "@tc39/ecma262-biblio": "=2.1.2589",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "ecmarkup": "^17.0.1",
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "mkdirp": "^3.0.1",
+    "prettier": "^2.8.8",
+    "typescript": "^5.1.3"
+  },
+  "scripts": {
+    "test": "cd temporal/polyfill && npm install && npm test && npm run test262",
+    "codecov:test262": "cd temporal/polyfill && npm install && npm run codecov:test262",
+    "test-demitasse": "cd temporal/polyfill && npm install && npm run test",
+    "test262": "cd temporal/polyfill && npm install && npm run test262",
+    "lint": "cd temporal && npm run lint",
+    "build:polyfill": "cd temporal/polyfill && npm install && npm run build",
+    "prebuild:spec": "mkdirp out",
+    "build:spec": "ecmarkup --lint-spec --strict --load-biblio @tc39/ecma262-biblio spec.html out/index.html",
+    "pretty": "eslint . --ext js,mjs,.d.ts --fix",
+    "build": "npm run build:polyfill && npm run build:spec",
+    "refresh-polyfill": "./refresh_polyfill_code.sh",
+    "refresh-polyfill-ci": "CI=1 ./refresh_polyfill_code.sh",
+    "update": "./update_deps.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justingrant/proposal-canonical-tz.git"
+  },
+  "author": "Justin Grant <justingrant@users.noreply.github.com>",
+  "license": "BSD-3-Clause",
+  "prettier": {
+    "printWidth": 120,
+    "trailingComma": "none",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "arrowParens": "always"
+  }
+}

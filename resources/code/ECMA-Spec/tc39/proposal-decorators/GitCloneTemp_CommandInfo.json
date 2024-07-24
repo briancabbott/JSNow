@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-decorators undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-decorators",
+    "repo": "https://github.com/tc39/proposal-decorators",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-decorators",
+    "startTime": "2024-07-18T18:16:03.868Z",
+    "endTime": "2024-07-18T18:16:04.972Z",
+    "childProcessPid": 20278,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-decorators--20278",
+    "executionErrors": []
+}

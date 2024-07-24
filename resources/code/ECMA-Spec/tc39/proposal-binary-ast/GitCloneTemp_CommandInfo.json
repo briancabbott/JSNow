@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-binary-ast undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-binary-ast",
+    "repo": "https://github.com/tc39/proposal-binary-ast",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-binary-ast",
+    "startTime": "2024-07-18T18:15:36.910Z",
+    "endTime": "2024-07-18T18:15:38.025Z",
+    "childProcessPid": 19772,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-binary-ast--19772",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-array-equality undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-array-equality",
+    "repo": "https://github.com/tc39/proposal-array-equality",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-array-equality",
+    "startTime": "2024-07-18T18:15:08.174Z",
+    "endTime": "2024-07-18T18:15:09.056Z",
+    "childProcessPid": 19243,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-array-equality--19243",
+    "executionErrors": []
+}

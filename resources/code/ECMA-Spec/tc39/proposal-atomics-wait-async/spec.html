@@ -1,0 +1,356 @@
+<!doctype html>
+<meta charset="utf8">
+<script src="ecmarkup.js"></script>
+<link rel="stylesheet" href="ecmarkup.css">
+<title>Atomics.waitAsync</title>
+<pre class=metadata>
+  title: Atomics.waitAsync
+  status: proposal
+  stage: 3
+  location: https://github.com/tc39/proposal-atomics-wait-async
+  copyright: false
+  contributors: Lars Hansen, Shu-yu Guo
+</pre>
+<emu-intro id="intro">
+  <h1>Atomics.waitAsync</h1>
+  <p>We provide a new API, `Atomics.waitAsync`, that an agent can use to wait on a shared memory location (to later be awoken by some agent calling Atomics.notify on that location) without waiting synchronously (ie, without blocking). Notably this API is useful in agents whose [[CanBlock]] attribute is false, such as the main thread of a web browser document, but the API is not restricted to such agents.</p>
+  <p>The API is promise-based. Very high performance is not a requirement, but good performance is desirable.</p>
+</emu-intro>
+
+<emu-clause id="sec-semantics">
+  <h1>Semantics</h1>
+
+  <emu-clause id="sec-hostresolveinagent" aoid="HostResolveInAgent">
+    <h1>HostResolveInAgent ( _agentSignifier_, _promiseCapability_, _resolution_)</h1>
+    <p><ins>This is a new section.</ins></p>
+    <p>HostResolveInAgent is an implementation-defined abstract operation that takes three arguments, an agent signifier _agentSignifier_, a PromiseCapability Record _promiseCapability_, and a value _resolution_. The host's responsibility is to resolve _promiseCapability_ in the agent signified by _agentSignifier_ with _resolution_ in finite time. The host may delay resolving _promiseCapability_ in _agentSignifier_, e.g. for resource management reasons, but the promise must eventually be resolved.</p>
+  </emu-clause>
+
+  <emu-clause id="sec-getwaiterlist">
+    <h1>GetWaiterList ( _block_, _i_ )</h1>
+    <p><ins>A <dfn>Waiter Record</dfn> is a Record value used to denote a particular call to `Atomics.wait` or `Atomics.waitAsync`. It has fields as defined by <emu-xref href="#table-waiterrecord"></emu-xref>.</ins></p>
+    <emu-table id="table-waiterrecord" caption="Waiter Record Fields">
+      <table>
+        <tbody>
+          <tr>
+            <th>
+              Field Name
+            </th>
+            <th>
+              Value
+            </th>
+            <th>
+              Meaning
+            </th>
+          </tr>
+          <tr>
+            <td>
+              [[AgentSignifier]]
+            </td>
+            <td>
+              An agent signifier
+            </td>
+            <td>
+              The agent that called `Atomics.wait` or `Atomics.waitAsync`.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[PromiseCapability]]
+            </td>
+            <td>
+              A PromiseCapability Record or *undefined*
+            </td>
+            <td>
+              If denoting a call to `Atomics.waitAsync`, the resulting promise, otherwise *undefined*.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Timeout]]
+            </td>
+            <td>
+              A non-negative Number
+            </td>
+            <td>
+              The timeout in milliseconds.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Result]]
+            </td>
+            <td>
+              *"ok"* or *"timed-out"*
+            </td>
+            <td>
+              The return value of the call.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </emu-table>
+    <p>A <dfn>WaiterList</dfn> is a <del>semantic object that contains an ordered List of those agents that are waiting on a location (_block_, _i_) in shared memory; _block_ is a Shared Data Block and _i_ a byte offset into the memory of _block_. A WaiterList object also optionally contains a Synchronize event denoting the previous leaving of its critical section.</del><ins>Record value used to explain waiting and notification of agents via `Atomics.wait`, `Atomics.waitAsync`, and `Atomics.notify`. It has fields as defined by <emu-xref href="#table-waiterlist"></emu-xref>.</ins></p>
+    <emu-table id="table-waiterlist" caption="WaiterList Record Fields">
+      <table>
+        <tbody>
+          <tr>
+            <th>
+              Field Name
+            </th>
+            <th>
+              Value
+            </th>
+            <th>
+              Meaning
+            </th>
+          </tr>
+          <tr>
+            <td>
+              [[Waiters]]
+            </td>
+            <td>
+              An ordered List of Waiter Records
+            </td>
+            <td>
+              The calls to `Atomics.wait` or `Atomics.waitAsync` that are waiting on the location with which this WaiterList is associated.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[MostRecentLeaveEvent]]
+            </td>
+            <td>
+              A Synchronize event or *undefined*
+            </td>
+            <td>
+              The event of the most recent leaving of its critical section, or *undefined* if its critical section has never been entered.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </emu-table>
+    <p><ins>There can be multiple Waiter Records in a WaiterList with the same agent signifier.</ins></p>
+    <p>The agent cluster has a store of WaiterList <del>objects</del><ins>Records</ins>; the store is indexed by (_block_, _i_)<ins>, where _block_ is a Shared Data Block and _i_ a byte offset into the memory of _block_</ins>. WaiterLists are agent-independent: a lookup in the store of WaiterLists by (_block_, _i_) will result in the same WaiterList object in any agent in the agent cluster.</p>
+    <p>Operations on a WaiterList&mdash;adding and removing waiting agents, traversing the list of agents, suspending and notifying agents on the list, setting and retrieving the Synchronize event&mdash;may only be performed by agents that have entered the WaiterList's critical section.</p>
+    <emu-note>
+      <p>Conceptually, agents that call either `Atomics.wait` or `Atomics.waitAsync` are appended to WaiterList. For calls to `Atomics.waitAsync`, the appended Waiter Record's [[PromiseCapability]] field contains the Promise returned by the call. For calls to `Atomics.wait`, the appended Waiter Record's [[PromiseCapability]] field is *null*.</p>
+      <p>Waiting agents are notified in FIFO order for fairness. There is a single FIFO queue shared by both synchronous and asynchronous waiters.</p>
+    </emu-note>
+    <p>The abstract operation GetWaiterList takes two arguments, a Shared Data Block _block_ and a nonnegative integer _i_. It performs the following steps:</p>
+    <emu-alg>
+      1. Assert: _block_ is a Shared Data Block.
+      1. Assert: _i_ and _i_ + 3 are valid byte offsets within the memory of _block_.
+      1. Assert: _i_ is divisible by 4.
+      1. Return the WaiterList that is referenced by the pair (_block_, _i_).
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-entercriticalsection" aoid="EnterCriticalSection">
+    <h1>EnterCriticalSection ( _WL_ )</h1>
+    <p>The abstract operation EnterCriticalSection takes one argument, a WaiterList _WL_. It performs the following steps:</p>
+    <emu-alg>
+      1. Assert: The calling agent is not in the critical section for any WaiterList.
+      1. Wait until no agent is in the critical section for _WL_, then enter the critical section for _WL_ (without allowing any other agent to enter).
+      1. If _WL_<del> has a Synchronize event</del><ins>.[[MostRecentLeaveEvent]] is *undefined*</ins>, then
+        1. NOTE: A _WL_ whose critical section has been entered at least once has a Synchronize event set by LeaveCriticalSection.
+        1. Let _execution_ be the [[CandidateExecution]] field of the surrounding agent's Agent Record.
+        1. Let _eventsRecord_ be the Agent Events Record in _execution_.[[EventsRecords]] whose [[AgentSignifier]] is AgentSignifier().
+        1. Let _entererEventList_ be _eventsRecord_.[[EventList]].
+        1. Let _enterEvent_ be a new Synchronize event.
+        1. Append _enterEvent_ to _entererEventList_.
+        1. Let _leaveEvent_ be the Synchronize event in _WL_.
+        1. Append (_leaveEvent_, _enterEvent_) to _eventRecords_.[[AgentSynchronizesWith]].
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-leavecriticalsection" aoid="LeaveCriticalSection">
+    <h1>LeaveCriticalSection ( _WL_ )</h1>
+    <p>The abstract operation LeaveCriticalSection takes one argument, a WaiterList _WL_. It performs the following steps:</p>
+    <emu-alg>
+      1. Assert: The calling agent is in the critical section for _WL_.
+      1. Let _execution_ be the [[CandidateExecution]] field of the calling surrounding's Agent Record.
+      1. Let _eventsRecord_ be the Agent Events Record in _execution_.[[EventsRecords]] whose [[AgentSignifier]] is AgentSignifier().
+      1. Let _leaverEventList_ be _eventsRecord_.[[EventList]].
+      1. Let _leaveEvent_ be a new Synchronize event.
+      1. Append _leaveEvent_ to _leaverEventList_.
+      1. Set <del>the Synchronize event in _WL_ to _leaveEvent_</del><ins>_WL_.[[MostRecentLeaveEvent]] to _leaveEvent_</ins>.
+      1. Leave the critical section for _WL_.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-triggertimeout" aoid="TriggerTimeout">
+    <h1>TriggerTimeout( _WL_, _waiterRecord_ )</h1>
+    <p><ins>This is a new abstract operation.</ins></p>
+    <p>The abstract operation TriggerTimeout takes two arguments, a WaiterList _WL_ and a Waiter Record _waiterRecord_. It performs the following steps:</p>
+    <emu-alg>
+      1. Assert: _waiterRecord_.[[Timeout]] is finite.
+      1. Perform EnterCriticalSection(_WL_).
+      1. If _waiterRecord_ is in _WL_.[[Waiters]], then
+          1. Set _waiterRecord_.[[Result]] to *"timed-out"*.
+          1. Perform RemoveWaiter(_WL_, _waiterRecord_).
+          1. Perform NotifyWaiter(_WL_, _waiterRecord_).
+      1. Perform LeaveCriticalSection(_WL_).
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-addwaiter" aoid="AddWaiter">
+    <h1>AddWaiter ( _WL_, <del>_W_</del><ins>_waiterRecord_</ins> )</h1>
+    <p>The abstract operation AddWaiter takes two arguments, a WaiterList _WL_ and <del>an agent signifier _W_</del><ins>a Waiter Record _waiterRecord_</ins>. It performs the following steps:</p>
+    <emu-alg>
+      1. Assert: The calling agent is in the critical section for _WL_.
+      1. <del>Assert: _W_ is not on the list of waiters in any WaiterList.</del>
+      1. <ins>Assert: There is no Waiter Record in _WL_.[[Waiters]] whose [[PromiseCapability]] field is _waiterRecord_.[[PromiseCapability]] and [[AgentSignifier]] field is _waiterRecord_.[[AgentSignifier]].</ins>
+      1. <del>Add _W_ to the end of the list of waiters in _WL_.</del>
+      1. <ins>Append _waiterRecord_ as the last element of _WL_.[[Waiters]]</ins>
+      1. <ins>If _waiterRecord_.[[Timeout]] is finite, then in parallel,</ins>
+        1. <ins>Wait _waiterRecord_.[[Timeout]] milliseconds.</ins>
+        1. <ins>Perform TriggerTimeout(_WL_, _waiterRecord_).</ins>
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-removewaiter" aoid="RemoveWaiter">
+    <h1>RemoveWaiter ( _WL_, <del>_W_</del><ins>_waiterRecord_</ins> )</h1>
+    <p>The abstract operation RemoveWaiter takes two arguments, a WaiterList _WL_ and <del>an agent signifier _W_</del><ins>a Waiter Record _waiterRecord_</ins>. It performs the following steps:</p>
+    <emu-alg>
+      1. Assert: The calling agent is in the critical section for _WL_.
+      1. Assert: <del>_W_</del><ins>_waiterRecord_</ins> is <del>on the list of waiters</del> in _WL_<ins>.[[Waiters]]</ins>.
+      1. Remove <del>_W_</del><ins>_waiterRecord_</ins> from <del>the list of waiters in</del> _WL_<ins>.[[Waiters]]</ins>.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-suspend" aoid="Suspend">
+    <p>Change this function not to take a _timeout_ argument. Timeouts are now handled in the caller. (Not intended as a normative change.)</p>
+    <h1>Suspend ( _WL_, _W_<del>, _timeout_</del> )</h1>
+    <p>The abstract operation Suspend takes <del>three</del><ins>two</ins> arguments, a WaiterList _WL_<del>,</del><ins>and</ins> an agent signifier _W_<del>, and a nonnegative, non-*NaN* Number _timeout_</del>. It performs the following steps:</p>
+    <emu-alg>
+      1. Assert: The calling agent is in the critical section for _WL_.
+      1. Assert: _W_ is equal to AgentSignifier().
+      1. Assert: <del>_W_ is on the list of waiters.</del><ins>There is a Waiter Record</ins> in _WL_<ins>.[[Waiters]] whose [[AgentSignifier]] field is _W_ and whose [[PromiseCapability]] field is *undefined*.</ins>
+      1. Assert: AgentCanSuspend() is *true*.
+      1. Perform LeaveCriticalSection(_WL_) and suspend _W_<del> for up to _timeout_ milliseconds</del>, performing the combined operation in such a way that a notification that arrives after the critical section is exited but before the suspension takes effect is not lost.  _W_ can <del>notify either because the timeout expired or because it was</del><ins>be</ins> notified explicitly by another agent calling NotifyWaiter(_WL_, _waiterRecord_, ...), and not for any other reasons at all.
+      1. Perform EnterCriticalSection(_WL_).
+      1. <del>If _W_ was notified explicitly by another agent calling NotifyWaiter(_WL_, _W_), return *true*.</del>
+      1. <del>Return *false*.</del>
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-notifywaiter" aoid="NotifyWaiter">
+    <h1>NotifyWaiter ( _WL_, <del>_W_</del><ins>_waiterRecord_</ins> )</h1>
+    <p>The abstract operation NotifyWaiter takes two arguments,
+      a WaiterList _WL_ and <del>an agent signifier _W_</del><ins>a Waiter Record _waiterRecord_</ins>. It performs the following steps:</p>
+    <emu-alg>
+      1. Assert: The calling agent is in the critical section for _WL_.
+      1. <del>Assert: _W_ is on the list of waiters in _WL_.</del>
+      1. <ins>Assert: _waiterRecord_.[[Result]] is either the String *"ok"* or the String *"timed-out"*.</ins>
+      1. <del>Notify the agent _W_.</del>
+      1. <ins>If _waiterRecord_.[[PromiseCapability]] is *undefined*, then</ins>
+        1. <ins>NOTE: An *undefined* promise capability denotes a blocking wait.</ins>
+        1. <ins>Notify the agent _waiterRecord_.[[AgentSignifier]].</ins>
+      1. <ins>Else,</ins>
+        1. <ins>Perform HostResolveInAgent(_waiterRecord_.[[AgentSignifier]], _waiterRecord_.[[PromiseCapability]], _waiterRecord_.[[Result]])</ins>
+        1. <ins>NOTE: An agent must not access another agent's promise capability in any capacity beyond passing it to the host.</ins>
+    </emu-alg>
+    <emu-note>
+      <p>The embedding may delay notifying <del>_W_</del><ins>the agent whose signifier is _waiterRecord_.[[AgentSignifier]]</ins>, e.g. for resource management reasons, but <del>_W_</del><ins>that agent</ins> must eventually be notified in order to guarantee forward progress.</p>
+    </emu-note>
+  </emu-clause>
+
+  <emu-clause id="sec-dowait" aoid="DoWait">
+    <h1>DoWait ( _mode_, _typedArray_, _index_, _value_, _timeout_ )</h1>
+    <p><ins>This is a new abstract operation.</ins></p>
+    <p>The abstract operation DoWait takes five arguments, _mode_ which is one of (~sync~, ~async~), and values _typedArray_, _idnex_, _value_, and _timeout_. It performs the following steps:</p>
+    <emu-alg>
+      1. Let _buffer_ be ? ValidateSharedIntegerTypedArray(_typedArray_, *true*).
+      1. Let _i_ be ? ValidateAtomicAccess(_typedArray_, _index_).
+      1. Let _arrayTypeName_ be _typedArray_.[[TypedArrayName]].
+      1. If _arrayTypeName_ is *"BigInt64Array"*, let _v_ be ? ToBigInt64(_value_).
+      1. Otherwise, let _v_ be ? ToInt32(_value_).
+      1. Let _q_ be ? ToNumber(_timeout_).
+      1. If _q_ is *NaN*, let _t_ be *+&infin;*, else let _t_ be max(_q_, 0).
+      1. If _mode_ is ~sync~, then
+        1. Let _B_ be AgentCanSuspend().
+        1. If _B_ is *false*, throw a *TypeError* exception.
+      1. Let _block_ be _buffer_.[[ArrayBufferData]].
+      1. Let _offset_ be _typedArray_.[[ByteOffset]].
+      1. Let _indexedPosition_ be (_i_ &times; 4) + _offset_.
+      1. Let _WL_ be GetWaiterList(_block_, _indexedPosition_).
+      1. Let _promiseCapability_ be *undefined*.
+      1. Let _resultObject_ be *undefined*.
+      1. If _mode_ is ~async~, then
+        1. Set _promiseCapability_ to ! NewPromiseCapability(%Promise%).
+        1. Set _resultObject_ to ! OrdinaryObjectCreate(%Object.prototype%).
+      1. Perform EnterCriticalSection(_WL_).
+      1. Let _w_ be ! AtomicLoad(_typedArray_, _i_).
+      1. If _v_ is not equal to _w_, then
+        1. Perform LeaveCriticalSection(_WL_).
+        1. If _mode_ is ~sync~, then
+          1. Return the String *"not-equal"*.
+        1. Perform ! CreateDataPropertyOrThrow(_resultObject_, *"async"*, *false*).
+        1. Perform ! CreateDataPropertyOrThrow(_resultObject_, *"value"*, *"not-equal"*).
+        1. Return _resultObject_.
+      1. If _t_ is 0 and _mode_ is ~async~, then
+        1. NOTE: There is no special handling of synchronous immediate timeouts. Asynchronous immediate timeouts have special handling in order to fail fast and avoid Promise machinery.
+        1. Perform LeaveCriticalSection(_WL_).
+        1. Perform ! CreateDataPropertyOrThrow(_resultObject_, *"async"*, *false*).
+        1. Perform ! CreateDataPropertyOrThrow(_resultObject_, *"value"*, *"timed-out"*).
+        1. Return _resultObject_.
+      1. Let _W_ be AgentSignifier().
+      1. Let _waiterRecord_ be a new Waiter Record { [[AgentSignifier]]: _W_, [[PromiseCapability]]: _promiseCapability_, [[Timeout]]: _t_, [[Result]]: *"ok"* }.
+      1. Perform AddWaiter(_WL_, _waiterRecord_).
+      1. If _mode_ is ~sync~, then
+        1. Perform Suspend(_WL_, _W_).
+      1. Perform LeaveCriticalSection(_WL_).
+      1. If _mode_ is ~sync~, then
+        1. Return _waiterRecord_.[[Result]].
+      1. Perform ! CreateDataPropertyOrThrow(_resultObject_, *"async"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_resultObject_, *"value"*, _promiseCapability_.[[Promise]]).
+      1. Return _resultObject_.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-atomics.wait">
+    <h1>Atomics.wait ( _typedArray_, _index_, _value_, _timeout_ )</h1>
+    <p>`Atomics.wait` puts the calling agent in a wait queue and puts it to sleep until it is notified or the sleep times out. The following steps are taken:</p>
+    <emu-alg>
+      1. <del>Let _buffer_ be ? ValidateSharedIntegerTypedArray(_typedArray_, *true*).</del>
+      1. <del>Let _i_ be ? ValidateAtomicAccess(_typedArray_, _index_).</del>
+      1. <del>If _arrayTypeName_ is *"BigInt64Array"*, let _v_ be ? ToBigInt64(_value_).</del>
+      1. <del>Otherwise, let _v_ be ? ToInt32(_value_).</del>
+      1. <del>Let _q_ be ? ToNumber(_timeout_).</del>
+      1. <del>If _q_ is *NaN*, let _t_ be *+&infin;*, else let _t_ be max(_q_, 0).</del>
+      1. <del>Let _B_ be AgentCanSuspend().</del>
+      1. <del>If _B_ is *false*, throw a *TypeError* exception.</del>
+      1. <del>Let _block_ be _buffer_.[[ArrayBufferData]].</del>
+      1. <del>Let _offset_ be _typedArray_.[[ByteOffset]].</del>
+      1. <del>Let _indexedPosition_ be (_i_ &times; 4) + _offset.</del>
+      1. <del>Let _WL_ be GetWaiterList(_block_, _indexedPosition_).</del>
+      1. <del>Perform EnterCriticalSection(_WL_).</del>
+      1. <del>Let _w_ be ! AtomicLoad(_typedArray_, _i_).</del>
+      1. <del>If _v_ is not equal to _w_, then</del>
+        1. <del>Perform LeaveCriticalSection(_WL_).</del>
+        1. <del>Return the String *"not-equal"*.</del>
+      1. <del>Let _W_ be AgentSignifier().</del>
+      1. <del>Perform AddWaiter(_WL_, _W_).</del>
+      1. <del>Let _notified_ be Suspend(_WL_, _W_, _t_).</del>
+      1. <del>If _notified_ is *true*, then</del>
+        1. <del>Assert: _W_ is not on the list of waiters in _WL_.</del>
+      1. <del>Else,</del>
+        1. <del>Perform RemoveWaiter(_WL_, _W_).</del>
+      1. <del>Perform LeaveCriticalSection(_WL_).</del>
+      1. <del>If _notified_ is *true*, return the String *"ok"*.</del>
+      1. <del>Return the String *"timed-out"*.</del>
+      1. <ins>Return DoWait(~sync~, _typedArray_, _index_, _value_, _timeout_).</ins>
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="atomics.waitasync">
+    <h1>Atomics.waitAsync ( _typedArray_, _index_, _value_, _timeout_ )</h1>
+    <p><ins>This is a new method.</ins></p>
+    <p>`Atomics.waitAsync` returns a Promise that is resolved when the calling agent is notified or the sleep times out. The following steps are taken:</p>
+    <emu-alg>
+      1. Return DoWait(~async~, _typedArray_, _index_, _value_, _timeout_).
+    </emu-alg>
+  </emu-clause>
+
+</emu-clause>

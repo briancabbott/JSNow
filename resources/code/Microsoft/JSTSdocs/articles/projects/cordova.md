@@ -1,0 +1,3 @@
+# Cordova projects
+
+TODO

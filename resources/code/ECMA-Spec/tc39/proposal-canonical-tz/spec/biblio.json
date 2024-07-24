@@ -1,0 +1,62 @@
+[
+  {
+    "location": "https://tc39.es/ecma402/",
+    "entries": [
+      {
+        "type": "op",
+        "aoid": "CanonicalizeLocaleList",
+        "id": "sec-canonicalizelocalelist"
+      },
+      {
+        "type": "op",
+        "aoid": "GetNumberOption",
+        "id": "sec-getnumberoption"
+      },
+      {
+        "type": "op",
+        "aoid": "ResolveLocale",
+        "id": "sec-resolvelocale"
+      },
+      {
+        "type": "clause",
+        "number": "Internal slots",
+        "id": "sec-intl.datetimeformat-internal-slots"
+      },
+      {
+        "type": "clause",
+        "number": "get Intl.DateTimeFormat.prototype.format",
+        "id": "sec-intl.datetimeformat.prototype.format"
+      },
+      {
+        "type": "clause",
+        "number": "6.1",
+        "id": "sec-case-sensitivity-and-case-mapping"
+      },
+      {
+        "type": "term",
+        "term": "ASCII-case-insensitive match",
+        "id": "sec-case-sensitivity-and-case-mapping"
+      },
+      {
+        "type": "term",
+        "term": "ASCII-lowercase",
+        "id": "sec-case-sensitivity-and-case-mapping"
+      },
+      {
+        "type": "term",
+        "term": "%DateTimeFormat%",
+        "id": "sec-intl-datetimeformat-constructor"
+      },
+      {
+        "type": "clause",
+        "number": "Table 6",
+        "id": "table-datetimeformat-components"
+      },
+      {
+        "type": "op",
+        "aoid": "PartitionPattern",
+        "id": "sec-partitionpattern"
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-cancellation undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-cancellation",
+    "repo": "https://github.com/tc39/proposal-cancellation",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-cancellation",
+    "startTime": "2024-07-18T18:15:42.806Z",
+    "endTime": "2024-07-18T18:15:43.773Z",
+    "childProcessPid": 19882,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-cancellation--19882",
+    "executionErrors": []
+}

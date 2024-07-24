@@ -1,0 +1,24 @@
+name: Polyfill test
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+jobs:
+  test262:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: Install dev deps
+      run: npm install
+    - name: Run test262 tests
+      run: npm run test262
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dev deps
+      run: npm install
+    - name: Test the polyfill
+      run: npm run test

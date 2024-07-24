@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en-GB-oxendict">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="img/favicon.ico">
+<link href="ecmarkup.css" rel="stylesheet">
+<script src="ecmarkup.js"></script>
+</head>
+<body>
+  <title>Builtin Modules</title>
+<pre class="metadata">
+  title: Builtin Modules
+  status: proposal
+  stage: 1
+  date: 2020-09-10
+  location: https://github.com/tc39/proposal-built-in-modules
+  copyright: false
+  contributors: Michael Saboff & Mattijs Hoitink
+</pre>
+<emu-intro id="sec-intro">
+  <h1>Builtin Modules</h1>
+  <p>Proposal to add a mechanism for enabling a more extensive standard library in JavaScript via a collection of built in modules. With this infrastructure in place it will be possible to start iterating on standard library features as additional modules.</p>
+</emu-intro>
+
+<emu-clause id="sec-scope">
+  <h1>Scope</h1>
+  <p>This Standard defines the ECMAScript 2021 general-purpose programming language.</p>
+</emu-clause>
+
+<emu-clause id="sec-ecmascript-language-scripts-and-modules">
+  <h1>ECMAScript Language: Scripts and Modules</h1>
+
+  <emu-clause id="sec-scripts">
+    <h1>Scripts</h1>
+    <p>...</p>
+  </emu-clause>
+
+  <emu-clause id="sec-modules">
+    <h1>Modules</h1>
+    <h2>Syntax</h2>
+    <emu-grammar type="definition">
+      Module :
+        ModuleBody?
+
+      ModuleBody :
+        ModuleItemList
+
+      ModuleItemList :
+        ModuleItem
+        ModuleItemList ModuleItem
+
+      ModuleItem :
+        ImportDeclaration
+        ExportDeclaration
+        StatementListItem[~Yield, ~Await, ~Return]
+    </emu-grammar>
+
+    <emu-clause id="sec-module-semantics">
+      <h1>Module Semantics</h1>
+
+    <emu-clause id="sec-abstract-module-records">
+      <h1>Abstract Module Records</h1>
+        <p>A <dfn>Module Record</dfn> encapsulates structural information about the imports and exports of a single module. This information is used to link the imports and exports of sets of connected modules. A Module Record includes four fields that are only used when evaluating a module.</p>
+        <p>For specification purposes Module Record values are values of the Record specification type and can be thought of as existing in a simple object-oriented hierarchy where Module Record is an abstract class with both abstract and concrete subclasses. This specification defines the abstract subclass named Cyclic Module Record and its concrete subclass named Source Text Module Record. Other specifications and implementations may define additional Module Record subclasses corresponding to alternative module definition facilities that they defined.</p>
+        <p>Module Record defines the fields listed in <emu-xref href="#table-module-record-fields"></emu-xref>. All Module Definition subclasses include at least those fields. Module Record also defines the abstract method list in <emu-xref href="#table-abstract-methods-of-module-records"></emu-xref>. All Module definition subclasses must provide concrete implementations of these abstract methods.</p>
+        <emu-table id="table-module-record-fields" caption="Module Record Fields" oldids="table-36">
+          <table>
+            <thead>
+            <tr>
+              <th>
+                Field Name
+              </th>
+              <th>
+                Value Type
+              </th>
+              <th>
+                Meaning
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>
+                [[Realm]]
+              </td>
+              <td>
+                Realm Record | *undefined*
+              </td>
+              <td>
+                The Realm within which this module was created. *undefined* if not yet assigned.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                [[Environment]]
+              </td>
+              <td>
+                module Environment Record | *undefined*
+              </td>
+              <td>
+                The Environment Record containing the top level bindings for this module. This field is set when the module is linked.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                [[Namespace]]
+              </td>
+              <td>
+                Object | *undefined*
+              </td>
+              <td>
+                The Module Namespace Object (<emu-xref href="#sec-module-namespace-objects"></emu-xref>) if one has been created for this module. Otherwise *undefined*.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                [[HostDefined]]
+              </td>
+              <td>
+                Any, default value is *undefined*.
+              </td>
+              <td>
+                Field reserved for use by host environments that need to associate additional information with a module.
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </emu-table>
+        <emu-table id="table-abstract-methods-of-module-records" caption="Abstract Methods of Module Records" oldids="table-37">
+          <table>
+            <tbody>
+            <tr>
+              <th>
+                Method
+              </th>
+              <th>
+                Purpose
+              </th>
+            </tr>
+            <tr>
+              <td>
+                GetExportedNames([_exportStarSet_])
+              </td>
+              <td>
+                Return a list of all names that are either directly or indirectly exported from this module.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                ResolveExport(_exportName_ [, _resolveSet_])
+              </td>
+              <td>
+                <p>Return the binding of a name exported by this module. Bindings are represented by a <dfn id="resolvedbinding-record">ResolvedBinding Record</dfn>, of the form { [[Module]]: Module Record, [[BindingName]]: String }. If the export is a Module Namespace Object without a direct binding in any module, [[BindingName]] will be set to *"\*namespace\*"*. Return *null* if the name cannot be resolved, or *"ambiguous"* if multiple bindings were found.</p>
+                <p>Each time this operation is called with a specific _exportName_, _resolveSet_ pair as arguments it must return the same result if it completes normally.</p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Link()
+              </td>
+              <td>
+                <p>Prepare the module for evaluation by transitively resolving all module dependencies and creating a module Environment Record.</p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Evaluate()
+              </td>
+              <td>
+                <p>If this module has already been evaluated successfully, return *undefined*; if it has already been evaluated unsuccessfully, throw the exception that was produced. Otherwise, transitively evaluate all module dependencies of this module and then evaluate this module.</p>
+                <p>Link must have completed successfully prior to invoking this method.</p>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </emu-table>
+      </emu-clause>
+
+      <ins class="block">
+      <emu-clause id="sec-synthetic-module-records">
+        <h1>Synthetic Module Records</h1>
+
+        <p>A <dfn>Synthetic Module Record</dfn> is used to represent information about a module that is defined by specifications. Its exports are derived from a pair of lists, of string keys and of ECMAScript values. The set of exported names is static, and determined at creation time (as an argument to CreateSyntheticModule), while the set of exported values can be changed over time using SetModuleExport. It has no imports or dependencies.</p>
+
+        <emu-note>A Synthetic Module Record could be used for defining a variety of module types: for example, built-in modules, or JSON modules, or CSS modules.</emu-note>
+
+        <p>In addition to the fields defined in <emu-xref href="#table-module-record-fields"></emu-xref>, Synthetic Module Records have the additional fields listed in <emu-xref href="#table-synthetic-module-record-fields"></emu-xref>. Each of these fields is initially set in CreateSyntheticModule.</p>
+
+        <emu-table id="table-synthetic-module-record-fields" caption="Additional Fields of Synthetic Module Records">
+          <table>
+            <thead>
+              <th>Field Name
+              <th>Value Type
+              <th>Meaning
+            </thead>
+            <tbody>
+              <tr>
+                <td>[[ExportNames]]
+                <td>List of String
+                <td>A List of all names that are exported.
+              </tr>
+              <tr>
+                <td>[[IsFrozen]]
+                <td>Boolean
+                <td>If *true*, the module cannot be modified.
+              </tr>
+              <tr>
+                <td>[[EvaluationSteps]]
+                <td>An abstract operation
+                <td>An abstract operation that will be performed upon evaluation of the module, taking the Synthetic Module Record as its sole argument. These will usually set up the exported values, by using SetModuleExport. They must not modify [[ExportNames]]. They may return an abrupt completion.
+              </tr>
+            </tbody>
+          </table>
+        </emu-table>
+
+        <emu-clause id="sec-createsyntheticmodule" aoid="CreateSyntheticModule">
+          <h1>CreateSyntheticModule ( _exportNames_, _evaluationSteps_, _realm_, _hostDefined_ )</h1>
+
+          <p>The abstract operation CreateSyntheticModule creates a Synthetic Module Record based upon the given exported names and evaluation steps. It performs the following steps:</p>
+
+          <emu-alg>
+            1. Return Synthetic Module Record { [[Realm]]: _realm_, [[Environment]]: *undefined*, [[Namespace]]: *undefined*, [[HostDefined]]: _hostDefined_, [[ExportNames]]: _exportNames_, [[IsFrozen]]: *false*, [[EvaluationSteps]]: _evaluationSteps_ }.
+          </emu-alg>
+
+          <emu-note type="editor">It seems we could set up the environment either here or in Instantiate(). I've chosen to do so in Instantiate() for symmetry with Source Text Module Records, but I don't think there's any actual requirement in that regard.</emu-note>
+        </emu-clause>
+
+        <emu-clause id="sec-smr-concrete-methods">
+          <h1>Concrete Methods</h1>
+
+          <p>The following are the concrete methods for Synthetic Module Record that implement the corresponding Module Record abstract methods.</p>
+
+          <emu-note type="editor">I find having this wrapping sub-clause cleaner and suggest we do the same for Source Text Module Records in the main spec.</emu-note>
+
+          <emu-clause id="sec-smr-freeze">
+            <h1>Freeze ( )</h1>
+
+            <p>The Freeze concrete method of a Synthetic Module Record implements the corresponding Module Record abstract method.</p>
+            <p>It performs the following steps:</p>
+
+            <emu-alg>
+              1. Let _module_ be this Synthetic Module Record.
+              1. Set _module_.[[IsFrozen]] to *true*.
+            </emu-alg>
+          </emu-clause>
+
+          <emu-clause id="sec-smr-getexportednames">
+            <h1>GetExportedNames ( _exportStarSet_ )</h1>
+
+            <p>The GetExportedNames concrete method of a Synthetic Module Record implements the corresponding Module Record abstract method.</p>
+            <p>It performs the following steps:</p>
+
+            <emu-alg>
+              1. Let _module_ be this Synthetic Module Record.
+              1. Return _module_.[[ExportNames]].
+            </emu-alg>
+          </emu-clause>
+
+          <emu-clause id="sec-smr-resolveexport">
+            <h1>ResolveExport ( _exportName_, _resolveSet_ )</h1>
+
+            <p>The ResolveExport concrete method of a Synthetic Module Record implements the corresponding Module Record abstract method.</p>
+            <p>It performs the following steps:</p>
+
+            <emu-alg>
+              1. Let _module_ be this Synthetic Module Record.
+              1. If _module_.[[ExportNames]] does not contain _exportName_, return null.
+              1. Return ResolvedBinding Record { [[Module]]: _module_, [[BindingName]]: _exportName_ }.
+            </emu-alg>
+          </emu-clause>
+
+          <emu-clause id="sec-smr-setmoduleexport" aoid="SetModuleExport">
+            <h1>SetModuleExport ( _exportName_, _exportValue_ )</h1>
+
+            <p>The abstract operation SetModuleExport can be used to set or change the exported value for a pre-established export of a Synthetic Module Record. It performs the following steps:</p>
+
+            <emu-alg>
+              1. Let _module_ be this Synthetic Module Record.
+              1. Let _envRec_ be _module_.[[Environment]]'s EnvironmentRecord.
+              1. Perform _envRec_.SetMutableBinding(_exportName_, _exportValue_, *true*).
+            </emu-alg>
+          </emu-clause>
+
+          <emu-clause id="sec-smr-instantiate">
+            <h1>Instantiate ( )</h1>
+
+            <p>The Instantiate concrete method of a Synthetic Module Record implements the corresponding Module Record abstract method.</p>
+            <p>It performs the following steps:</p>
+
+            <emu-alg>
+              1. Let _module_ be this Synthetic Module Record.
+              1. Let _realm_ be _module_.[[Realm]].
+              1. Assert: _realm_ is not *undefined*.
+              1. Let _env_ be NewModuleEnvironment(_realm_.[[GlobalEnv]]).
+              1. Set _module_.[[Environment]] to _env_.
+              1. Let _envRec_ be _env_'s EnvironmentRecord.
+              1. For each element _exportName_ in _module_.[[ExportNames]], do
+                1. Perform ! _envRec_.CreateMutableBinding(_exportName_, *false*).
+                1. Perform ! _envRec_.InitializeBinding(_exportName_, *undefined*).
+              1. Return *undefined*.
+            </emu-alg>
+          </emu-clause>
+
+          <emu-clause id="sec-smr-Evaluate">
+            <h1>Evaluate ( )</h1>
+
+            <p>The Evaluate concrete method of a Synthetic Module Record implements the corresponding Module Record abstract method.</p>
+            <p>It performs the following steps:</p>
+
+            <emu-alg>
+              1. Let _module_ be this Synthetic Module Record.
+              1. Let _moduleCxt_ be a new ECMAScript code execution context.
+              1. Set the Function of _moduleCxt_ to *null*.
+              1. Assert: _module_.[[Realm]] is not *undefined*.
+              1. Set the Realm of _moduleCxt_ to _module_.[[Realm]].
+              1. Set the ScriptOrModule of _moduleCxt_ to _module_.
+              1. Set the VariableEnvironment of _moduleCxt_ to _module_.[[Environment]].
+              1. Set the LexicalEnvironment of _moduleCxt_ to _module_.[[Environment]].
+              1. Suspend the currently running execution context.
+              1. Push _moduleCxt_ on to the execution context stack; _moduleCxt_ is now the running execution context.
+              1. Let _result_ be the result of performing ? _module_.[[EvaluationSteps]](_module_).
+              1. Suspend _moduleCxt_ and remove it from the execution context stack.
+              1. Resume the context that is now on the top of the execution context stack as the running execution context.
+              1. Return Completion(_result_).
+            </emu-alg>
+          </emu-clause>
+        </emu-clause>
+
+        <emu-clause id="example-synthetic-module-record">
+          <h1>Example uses of Synthetic Module Records</h1>
+
+          <p>This non-normative section shows how one could define a few different Synthetic Module Records.</p>
+
+          <emu-note type="editor">Although these seem somewhat verbose, that is largely because ECMAScript specification text doesn't generally allow "closures" where you would define an algorithm or set of steps inline. Host environment specification styles are different, and hosts could write their synthetic module creation more compactly and concisely by inlining instead of using separately-defined evaluation steps.</emu-note>
+
+          <emu-clause id="example-smr-object-wrapper">
+            <h1>A module wrapping a single object</h1>
+
+            <p>The following algorithm, given an object _object_, creates a Synthetic Module Record which default-exports the object. This might be useful, for example, for JSON or CSS modules.</p>
+
+            <emu-alg>
+              1. Return CreateSyntheticModule(&laquo; `"default"` &raquo;, ExampleObjectWrapperModuleEvaluation, the current Realm Record, _object_).
+            </emu-alg>
+
+            <emu-clause id="example-smr-object-wrapper-evaluation-steps" aoid="ExampleObjectWrapperModuleEvaluation">
+              <h1>ExampleObjectWrapperModuleEvaluation ( _module_ )</h1>
+
+              <emu-alg>
+                1. Perform _module_.SetModuleExport( `"default"`, _module_.[[HostDefined]]).
+              </emu-alg>
+            </emu-clause>
+          </emu-clause>
+
+          <emu-clause id="example-smr-object-addition">
+            <h1>A "builtin module" for addition</h1>
+
+            <p>The following algorithm creates a Synthetic Module Record with a single export, `"add"`, which provides a built-in function object that adds its two arguments.</p>
+
+            <emu-alg>
+              1. Return CreateSyntheticModule(&laquo; `"add"` &raquo;, ExampleAdderModuleEvaluation, the current Realm Record, *undefined*).
+            </emu-alg>
+
+            <emu-clause id="example-smr-adder-evaluation-steps" aoid="ExampleAdderModuleEvaluation">
+              <h1>ExampleAdderModuleEvaluation ( _module_ )</h1>
+
+              <emu-alg>
+                1. Let _adderSteps_ be the algorithm steps defined in <emu-xref href="#example-smr-adder-function-steps" title></emu-xref>.
+                1. Let _adderFunction_ be CreateBuiltinFunction(_adderSteps_).
+                1. Perform _module_SetModuleExport( `"add"`, _adderFunction_).
+              </emu-alg>
+            </emu-clause>
+
+            <emu-clause id="example-smr-adder-function-steps">
+              <h1>Example Adder Functions</h1>
+
+              <p>An example adder function is an anonymous built-in function. When called with arguments _arg1_ and _arg2_, the following steps are taken:</p>
+
+              <emu-alg>
+                1. Set _arg1_ to ? ToNumber(_arg1_).
+                1. Set _arg2_ to ? ToNumber(_arg2_).
+                1. Return _arg1_ + _arg2_.
+              </emu-alg>
+            </emu-clause>
+          </emu-clause>
+        </emu-clause>
+      </emu-clause>
+      </ins>
+
+      <ins class="block">
+      <emu-clause id="sec-hosthasbuiltinmodule" aoid="HostHasBuiltinModule">
+        <h1>Runtime Semantics: HostHasBuiltinModule ( _referencingScriptOrModule_, _specifier_ )</h1>
+        <p>HostHasBuiltinModule is a host-defined abstract operation that provides a means check for a module registered with |ModuleSpecifier| String, _specifier_, occurring within the context of the script or module represented by the Script Record or Module Record _referencingScriptOrModule_. _referencingScriptOrModule_ may also be *null*, if the resolution is being performed in the context of an <emu-xref href="#sec-import-calls">`import()`</emu-xref> expression, and there is no active script or module at that time.</p>
+
+        <p>The implementation of HostResolveBuiltinModule must conform to the following requirements:</p>
+        <ul>
+          <li>
+            The normal return value is a *Boolean*, *true* if a mtching module can be found and *false* otherwise.
+          </li>
+        </ul>
+        <p>Multiple different _referencingScriptOrModule_, _specifier_ pairs may map to the same Module Record instance. The actual mapping semantic is host-defined but typically a normalization process is applied to _specifier_ as part of the mapping process. A typical normalization process would include actions such as alphabetic case folding and expansion of relative and abbreviated path specifiers.</p>
+      </emu-clause>
+      </ins>
+
+      <ins class="block">
+      <emu-clause id="sec-hostcreatebuiltinmodule" aoid="HostCreateBuiltinModule">
+        <h1>Runtime Semantics: HostCreateBuiltinModule ( _referencingScriptOrModule_, _specifier_, _module_ )</h1>
+        <p>HostCreateBuiltinModule is a host-defined abstract operation that adds a module defined by the Synthetic Module Record, _module_, with the key |ModuleSpecifier| String, _specifier_, within the context of the script or module represented by the Script Record or Module Record _referencingScriptOrModule_.</p>
+
+        <p>The implementation of HostCreateBuiltinModule must conform to the following requirements:</p>
+        <ul>
+          <li>
+            The value of _referencingScriptOrModule_ must not be *null*.
+          </li>
+          <li>
+            If a Module Record corresponding to the pair _referencingScriptOrModule_, _specifier_ already exists, it is replaced.
+          </li>
+        </ul>
+      </emu-clause>
+      </ins>
+
+      <ins class="block">
+      <emu-clause id="sec-hostresolvebuiltinmodule" aoid="HostResolveBuiltinModule">
+        <h1>Runtime Semantics: HostResolveBuiltinModule ( _referencingScriptOrModule_, _specifier_ )</h1>
+        <p>HostResolveBuiltinModule is a host-defined abstract operation that provides the Synthetic Module Record instance that corresponds to the |ModuleSpecifier| String, _specifier_, occurring within the context of the script or module represented by the Script Record or Module Record _referencingScriptOrModule_. _referencingScriptOrModule_ may also be *null*, if the resolution is being performed in the context of an <emu-xref href="#sec-import-calls">`import()`</emu-xref> expression, and there is no active script or module at that time.</p>
+
+        <emu-note>
+          <p>It is possible for a host to implement this abstract operation with HostResolveImportedModule.</p>
+        </emu-note>
+
+        <p>The implementation of HostResolveBuiltinModule must conform to the following requirements:</p>
+        <ul>
+          <li>
+            The normal return value must be an instance of a Synthetic Module Record.
+          </li>
+          <li>
+            If a Module Record corresponding to the pair _referencingScriptOrModule_, _specifier_ does not exist or cannot be created, an exception must be thrown.
+          </li>
+          <li>
+            Each time this operation is called with a specific _referencingScriptOrModule_, _specifier_ pair as arguments it must return the same Module Record instance if it completes normally.
+          </li>
+        </ul>
+        <p>Multiple different _referencingScriptOrModule_, _specifier_ pairs may map to the same Module Record instance. The actual mapping semantic is host-defined but typically a normalization process is applied to _specifier_ as part of the mapping process. A typical normalization process would include actions such as alphabetic case folding and expansion of relative and abbreviated path specifiers.</p>
+      </emu-clause>
+      </ins>
+
+      <emu-clause id="sec-hostresolveimportedmodule" aoid="HostResolveImportedModule">
+        <h1>Runtime Semantics: HostResolveImportedModule ( _referencingScriptOrModule_, _specifier_ )</h1>
+        <p>HostResolveImportedModule is a host-defined abstract operation that provides the concrete Module Record subclass instance that corresponds to the |ModuleSpecifier| String, _specifier_, occurring within the context of the script or module represented by the Script Record or Module Record _referencingScriptOrModule_. _referencingScriptOrModule_ may also be *null*, if the resolution is being performed in the context of an <emu-xref href="#sec-import-calls">`import()`</emu-xref> expression, and there is no active script or module at that time.</p>
+
+        <emu-note>
+          <p>An example of when _referencingScriptOrModule_ can be *null* is in a web browser host. There, if a user clicks on a control given by</p>
+
+          <pre><code class="html">&lt;button type="button" onclick="import('./foo.mjs')"&gt;Click me&lt;/button&gt;</code></pre>
+          <p>there will be no active script or module at the time the <emu-xref href="#sec-import-calls">`import()`</emu-xref> expression runs. More generally, this can happen in any situation where the host pushes execution contexts with *null* ScriptOrModule components onto the execution context stack.</p>
+        </emu-note>
+
+        <p>The implementation of HostResolveImportedModule must conform to the following requirements:</p>
+        <ul>
+          <li>
+            The normal return value must be an instance of a concrete subclass of Module Record.
+          </li>
+          <li>
+            If a Module Record corresponding to the pair _referencingScriptOrModule_, _specifier_ does not exist or cannot be created, an exception must be thrown.
+          </li>
+          <li>
+            Each time this operation is called with a specific _referencingScriptOrModule_, _specifier_ pair as arguments it must return the same Module Record instance if it completes normally.
+          </li>
+        </ul>
+        <p>Multiple different _referencingScriptOrModule_, _specifier_ pairs may map to the same Module Record instance. The actual mapping semantic is host-defined but typically a normalization process is applied to _specifier_ as part of the mapping process. A typical normalization process would include actions such as alphabetic case folding and expansion of relative and abbreviated path specifiers.</p>
+      </emu-clause>
+
+      <emu-clause id="sec-hostimportmoduledynamically" aoid="HostImportModuleDynamically">
+        <h1>Runtime Semantics: HostImportModuleDynamically ( _referencingScriptOrModule_, _specifier_, _promiseCapability_ )</h1>
+        <p>HostImportModuleDynamically is a host-defined abstract operation that performs any necessary setup work in order to make available the module corresponding to the |ModuleSpecifier| String, _specifier_, occurring within the context of the script or module represented by the Script Record or Module Record _referencingScriptOrModule_. (_referencingScriptOrModule_ may also be *null*, if there is no active script or module when the <emu-xref href="#sec-import-calls">`import()`</emu-xref> expression occurs.) It then performs FinishDynamicImport to finish the dynamic import process.</p>
+
+        <p>The implementation of HostImportModuleDynamically must conform to the following requirements:</p>
+
+        <ul>
+          <li>
+            The abstract operation must always complete normally with *undefined*. Success or failure must instead be signaled as discussed below.
+          </li>
+          <li>
+            The host environment must conform to one of the two following sets of requirements:
+            <dl>
+              <dt>Success path</dt>
+
+              <dd>
+                <ul>
+                  <li>At some future time, the host environment must perform FinishDynamicImport(_referencingScriptOrModule_, _specifier_, _promiseCapability_, NormalCompletion(*undefined*)).</li>
+
+                  <li>Any subsequent call to HostResolveImportedModule after FinishDynamicImport has completed, given the arguments _referencingScriptOrModule_ and _specifier_, must complete normally.</li>
+
+                  <li>The completion value of any subsequent call to HostResolveImportedModule after FinishDynamicImport has completed, given the arguments _referencingScriptOrModule_ and _specifier_, must be a module which has already been evaluated, i.e. whose Evaluate concrete method has already been called and returned a normal completion.</li>
+                </ul>
+              </dd>
+
+              <dt>Failure path</dt>
+
+              <dd>
+                <ul>
+                  <li>At some future time, the host environment must perform FinishDynamicImport(_referencingScriptOrModule_, _specifier_, _promiseCapability_, an abrupt completion), with the abrupt completion representing the cause of failure.</li>
+                </ul>
+              </dd>
+            </dl>
+          </li>
+          <li>
+            If the host environment takes the success path once for a given _referencingScriptOrModule_, _specifier_ pair, it must always do so for subsequent calls.
+          </li>
+          <li>
+            The operation must not call _promiseCapability_.[[Resolve]] or _promiseCapability_.[[Reject]], but instead must treat _promiseCapability_ as an opaque identifying value to be passed through to FinishDynamicImport.
+          </li>
+        </ul>
+
+        <p>The actual process performed is host-defined, but typically consists of performing whatever I/O operations are necessary to allow HostResolveImportedModule to synchronously retrieve the appropriate Module Record, and then calling its Evaluate concrete method. This might require performing similar normalization as HostResolveImportedModule does.</p>
+      </emu-clause>
+
+      <emu-clause id="sec-finishdynamicimport" aoid="FinishDynamicImport">
+        <h1>Runtime Semantics: FinishDynamicImport ( _referencingScriptOrModule_, _specifier_, _promiseCapability_, _completion_ )</h1>
+        <p>The abstract operation FinishDynamicImport takes arguments _referencingScriptOrModule_, _specifier_, _promiseCapability_ (a PromiseCapability Record), and _completion_. FinishDynamicImport completes the process of a dynamic import originally started by an <emu-xref href="#sec-import-calls">`import()`</emu-xref> call, resolving or rejecting the promise returned by that call as appropriate according to _completion_. It is performed by host environments as part of HostImportModuleDynamically. It performs the following steps when called:</p>
+
+        <emu-alg>
+          1. If _completion_ is an abrupt completion, then perform ! Call(_promiseCapability_.[[Reject]], *undefined*, &laquo; _completion_.[[Value]] &raquo;).
+          1. Else,
+            1. Assert: _completion_ is a normal completion and _completion_.[[Value]] is *undefined*.
+            1. Let _moduleRecord_ be ! HostResolveImportedModule(_referencingScriptOrModule_, _specifier_).
+            1. Assert: Evaluate has already been invoked on _moduleRecord_ and successfully completed.
+            1. Let _namespace_ be GetModuleNamespace(_moduleRecord_).
+            1. If _namespace_ is an abrupt completion, perform ! Call(_promiseCapability_.[[Reject]], *undefined*, &laquo; _namespace_.[[Value]] &raquo;).
+            1. Else, perform ! Call(_promiseCapability_.[[Resolve]], *undefined*, &laquo; _namespace_.[[Value]] &raquo;).
+        </emu-alg>
+      </emu-clause>
+
+      <emu-clause id="sec-getmodulenamespace" aoid="GetModuleNamespace">
+        <h1>Runtime Semantics: GetModuleNamespace ( _module_ )</h1>
+        <p>The abstract operation GetModuleNamespace takes argument _module_. It retrieves the Module Namespace Object representing _module_'s exports, lazily creating it the first time it was requested, and storing it in _module_.[[Namespace]] for future retrieval. It performs the following steps when called:</p>
+
+        <emu-alg>
+          1. Assert: _module_ is an instance of a concrete subclass of Module Record.
+          1. Assert: If _module_ is a Cyclic Module Record, then _module_.[[Status]] is not ~unlinked~.
+          1. Let _namespace_ be _module_.[[Namespace]].
+          1. If _namespace_ is *undefined*, then
+            1. Let _exportedNames_ be ? _module_.GetExportedNames().
+            1. Let _unambiguousNames_ be a new empty List.
+            1. For each element _name_ of _exportedNames_, do
+              1. Let _resolution_ be ? _module_.ResolveExport(_name_).
+              1. If _resolution_ is a ResolvedBinding Record, append _name_ to _unambiguousNames_.
+            1. Set _namespace_ to ModuleNamespaceCreate(_module_, _unambiguousNames_).
+          1. Return _namespace_.
+        </emu-alg>
+        <emu-note>
+          <p>The only way GetModuleNamespace can throw is via one of the triggered HostResolveImportedModule calls. Unresolvable names are simply excluded from the namespace at this point. They will lead to a real linking error later unless they are all ambiguous star exports that are not explicitly requested anywhere.</p>
+        </emu-note>
+      </emu-clause>
+
+      <emu-clause id="sec-module-semantics-runtime-semantics-evaluation">
+        <h1>Runtime Semantics: Evaluation</h1>
+        <emu-grammar>Module : [empty]</emu-grammar>
+        <emu-alg>
+          1. Return NormalCompletion(*undefined*).
+        </emu-alg>
+        <emu-grammar>ModuleBody : ModuleItemList</emu-grammar>
+        <emu-alg>
+          1. Let _result_ be the result of evaluating |ModuleItemList|.
+          1. If _result_.[[Type]] is ~normal~ and _result_.[[Value]] is ~empty~, then
+            1. Return NormalCompletion(*undefined*).
+          1. Return Completion(_result_).
+        </emu-alg>
+        <emu-grammar>ModuleItemList : ModuleItemList ModuleItem</emu-grammar>
+        <emu-alg>
+          1. Let _sl_ be the result of evaluating |ModuleItemList|.
+          1. ReturnIfAbrupt(_sl_).
+          1. Let _s_ be the result of evaluating |ModuleItem|.
+          1. Return Completion(UpdateEmpty(_s_, _sl_)).
+        </emu-alg>
+        <emu-note>
+          <p>The value of a |ModuleItemList| is the value of the last value-producing item in the |ModuleItemList|.</p>
+        </emu-note>
+        <emu-grammar>ModuleItem : ImportDeclaration</emu-grammar>
+        <emu-alg>
+          1. Return NormalCompletion(~empty~).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<ins class="block">
+<emu-clause id="sec-ecmascript-language-standard-library">
+  <h1>ECMAScript Language: Standard Library</h1>
+
+  <p>The Standard Library contains a set of modules builtin within the implementation. These builtin library modules may reside within the ECMAScript language implementation or they may be part of the containing host.</p>
+  <emu-clause id="sec-standard-library-imports">
+    <h1>Standard Library Imports</h1>
+    <p>Importing a library follows the same syntax as importing any other type of module. The difference is the format of the |StringLiteral| of a standard library begins with a |ModuleDomain| that specifies where the module resides. For ECMAScript modules, the |ModuleDomain| is `js:`. Host environments can define additional |ModuleDomain|s.</p>
+    <h2>Syntax</h2>
+    <emu-grammar type="definition">
+      ModuleSpecifier:
+         ModuleDomain StringLiteral
+
+      ModuleDomain :
+        `js:`
+    </emu-grammar>
+
+    <h2>Builtin Module List</h2>
+    <p>A Map of provided builtin modules is included in the global environment. That Map contains a <dfn id="builtin-module-record">Builtin Module Record</dfn> for each builtin module availble within the implementation. The fields of Builtin Module Records are specified in <emu-xref href="#table-41"></emu-xref>.</p>
+    <emu-table id="table-41" caption="Builtin Module Record Fields">
+      <table>
+        <tbody>
+        <tr>
+          <th>
+            Field Name
+          </th>
+          <th>
+            Value
+          </th>
+          <th>
+            Meaning
+          </th>
+        </tr>
+        <tr>
+          <td>
+            [[Identifier]]
+          </td>
+          <td>
+            String
+          </td>
+          <td>
+            The name used to refer to this Builtin Library. This must be unique in the Map of builtin library modules.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[SyntheticModuleRecord]]
+          </td>
+          <td>
+            ModuleRecord
+          </td>
+          <td>
+            The module record for builtin library.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[HostDefined]]
+          </td>
+          <td>
+            Any, default value is *undefined*.
+          </td>
+          <td>
+            Field reserved for use by host environments that need to associate additional information with this Library.
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </emu-table>
+
+    <h2>Loaders</h2>
+    <p>A <dfn id="builtin-module-loader">Loader</dfn> provides the means of resolving and loading builtin modules stored in an implementation defined way. There can be multiple loaders, each responsible for resolving and loading builtin modules. Multiple loaders can resolve the modules specified with the same _ModuleSpecifier_. A loader must implement the methods described in <emu-xref href="#table-builtin-module-resolution-methods"></emu-xref>. The base ECMAScript loader is included in the global environment.</p>
+
+    <h2>Global Environment</h2>
+    <p>The following additional fields are provided on the global environment as described in <emu-xref href="#table-42"></emu-xref>.</p>
+
+    <emu-table id="table-42" caption="Additional Global Environment Fields">
+      <table>
+        <tbody>
+        <tr>
+          <th>
+            Field Name
+          </th>
+          <th>
+            Value
+          </th>
+          <th>
+            Meaning
+          </th>
+        </tr>
+        <tr>
+          <td>
+            [[BuiltinModuleMap]]
+          </td>
+          <td>
+            A List of Record { [[Identifier]]: String, [[ModuleRecord]]: Builtin Module Record }
+          </td>
+          <td>
+            Each Identifier is the same identifier of the associated Builtin Module Record.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[Loader]]
+          </td>
+          <td>
+            The ECMAScript language Loader.
+          </td>
+          <td>
+            The Loader that implements the builtin module resolution and loading.
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </emu-table>
+
+    <p>A <dfn id="builtin-module-resolution-record">Builtin Module Resolution Record</dfn> is used to represent information during the loading of a module built in to the host. Resolution and loading of these modules occurs locally.</p>
+    <p>Builtin Module Records are specified in <emu-xref href="#table-builtin-module-record-fields"></emu-xref></p>
+    <emu-table id="table-builtin-module-record-fields" caption="Builtin Module Resolution Record">
+      <table>
+        <tbody>
+          <tr>
+            <th>
+              Field Name
+            </th>
+            <th>
+              Value Type
+            </th>
+            <th>
+              Meaning
+            </th>
+          </tr>
+          <tr>
+            <td>
+              [[Status]]
+            </td>
+            <td>
+              String
+            </td>
+            <td>
+              Initially `"uninitialized"`. Transitions to `"resolving"`, `"resolved"`, `"loading"`, `"loaded"` (in that order) as the module progresses throughout the loading process.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[ResolvingLoaders]]
+            </td>
+            <td>
+              List of Loaders
+            </td>
+            <td>
+              The list of all Loaders that can resolve and load this module. The list is sorted from highest priority to lowest.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </emu-table>
+
+    <p>Builtin Module Resolution Records are used with the methods specified in <emu-xref href="#table-builtin-module-resolution-methods"></emu-xref></p>
+    <emu-table id="table-builtin-module-resolution-methods" caption="Builtin Module Resolution Methods">
+      <table>
+        <tbody>
+          <tr>
+            <th>
+              Method
+            </th>
+            <th>
+              Purpose
+            </th>
+          </tr>
+          <tr>
+            <td>
+              ResolveModuleIdentifier()
+            </td>
+            <td>
+              Determine if an imported can resolve a module.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              LoadModuleIdentifier()
+            </td>
+            <td>
+              Load a module from the current importer.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </emu-table>
+
+    <emu-clause id="sec-resolve-module-identifier">
+      <h1>ResolveModuleIdentifier ( _ModuleIdentifier_, _ReferencingModule_ )</h1>
+
+      <p>The ResolveModuleIdentifier concrete method implements the module resolution part of the Builtin Module import process.</p>
+      <p>Each Loader needs to provide this method to participate in the Builtin Module resolution and loading process. The abstract method described here is what is required for the ECMAScript language implementation. Hosts that provide additional Loaders must provide a ResolveModuleIdentifier method each Loader.</p>
+      <p>If the Loader is able to successfully resolve the module identified by _ModuleIdentifier_, it sets this ResolveModuleResolutionRecord's [[Status]] to `"resolved"` and adds the current _Loader_ to the front of the [[ResolvingLoaders]] list.</p>
+
+      <p>This abstract method performs the following steps:</p>
+
+      <emu-alg>
+        1. Let _resolution_ be this Builtin Module Resolution Record.
+        1. Assert: _resolution_.[[Status]] is `"resolving "` or `"resolved"`.
+        1. If _ModuleIdentifier_ does not begin with `"js:"`, then
+           1. Return.
+        1. Let _localModuleIdentifier_ be a substring of _ModuleIdentifier_ from the index after `"js:"`.
+        1. Let _globalEnvironment_ be the global environment of _ReferencingModule_.[[Environment]].
+        1. If _globalEnvironment_.[[BuiltinModuleMap]] contains an entry _e_ such that _e_.[[Identifier]] is _localModuleIdentifier_, then
+          1. Set _resolution_.[[Status]] to `"resolved"`.
+        1. Let _loader_ be _globalEnvironment_.[[Loader]].
+        1. Push _loader_ on the front of _resolution_.[[ResolvingLoaders]].
+        1. Return.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-load-module-identifier">
+      <h1>LoadModuleIdentifier ( _ModuleIdentifier_, _ReferencingModule_ )</h1>
+
+      <p>The LoadModuleIdentifier concrete method implements the module loading part of the Builtin Module import process.</p>
+      <p>Each Loader needs to provide this method to participate in the Builtin Module resolution and loading process. The abstract method described here is what is required for the ECMAScript language implementation. Hosts that provide additional Loaders must provide a ResolveModuleIdentifier method each Loader.</p>
+      <p>If the Loader is able to successfully load the _module_, it ResolveModuleIdentifier set module's [[Status]] to `"resolved"` and adds the current _Loader_ to the front of the [[ResolvingLoaders]] list.</p>
+
+      <p>This abstract method performs the following steps:</p>
+
+      <emu-alg>
+        1. Let _resolution_ be this Builtin Module Resolution Record.
+        1. Assert: _resolution_.[[Status]] is `"loading"`.
+        1. Assert: _resolution_.[[ResolvingLoaders]] has at least one element.
+        1. Let _loader_ be the first element of _resolution_.[[ResolvingLoaders]].
+        1. If _loader_ &ne; _globalEnvironment_.[[Loader]], then
+          1. Return *undefined*.
+        1. Assert: _ModuleIdentifier_ begins with `"js:"`.
+        1. Let _localModuleIdentifier_ be a substring of _ModuleIdentifier_ from the index after `"js:"`.
+        1. Let _globalEnvironment_ be the global environment of _ReferencingModule.[[Environment]].
+        1. Let _moduleMap_ be _globalEnvironment_.[[BuiltinModuleMap]].
+        1. Assert: _moduleMap_ contains an entry _e_ such that _e_.[[Identifer]] is _localModuleIdentifier_.
+        1. Let _moduleRecord_ be _e_.[[ModuleRecord]].
+        1. Perform _moduleRecord_.Instantiate().
+        1. Return _moduleRecord_.Evaluate().
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-import">
+      <h1>Importing</h1>
+      <p>Importing a Builtin Module involves resolving where the module can be loaded from and then actually loading the module. One or more Loaders can participate in the importing process.</p>
+
+      <p>A List of loaders in available in an implementation defined way. The first loader in that list must be the ECMAScript loader. Subsequent loaders in that list appear in decending resolution order. Loading priority order starts from the back of the list.</p>
+      <emu-clause id="sec-import-builtin-module">
+        <h1>ImportBuiltinModule ( _ModuleIdentifier_, _ReferencingModule_ )</h1>
+        <p>ImportBuiltinModule is the abstract operation that returns the concrete Module Record instance that corresponds to the |ModuleSpecifier| String, _specifier_, occurring within the context of the module represented by the Module Record _referencingModule_.</p>
+
+        <p>This abstract operation performs the following steps.</p>
+        <emu-alg>
+          1. Let _resolution_ be Builtin Module Record { [[Status]]: `"uninitialized"`, [[ResolvingLoaders]]: `"[ ]"` }.
+          1. Let _loaders_ be the host-defined List of Loaders.
+          1. For each element _loader_ in _loaders_, in List order, do
+            1. Perform _loader_.ResolveModuleIdentifier( _ModuleIdentifier_, _ReferencingModule_ ).
+          1. For each element _loader_ in _loaders_, in reverse List order, do
+            1. Let _loadResult_ be _loader_.LoadModuleIdentifier( _ModuleIdentifier_, _ReferencingModule_ ).
+            1. If _loadResult &ne; _undefined_, then
+              1. Return _loadResult_.
+          1. Return *undefined*.
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+</ins>
+
+<emu-clause id="sec-global-object">
+  <h1>The Global Object</h1>
+  <p>...</p>
+  <emu-clause id="sec-other-properties-of-the-global-object">
+    <h1>Other Properties of the Global Object</h1>
+
+    <emu-clause id="sec-atomics">
+      <h1>Atomics</h1>
+      <p>See <emu-xref href="#sec-atomics-object"></emu-xref>.</p>
+    </emu-clause>
+
+    <emu-clause id="sec-json">
+      <h1>JSON</h1>
+      <p>See <emu-xref href="#sec-json-object"></emu-xref>.</p>
+    </emu-clause>
+
+    <emu-clause id="sec-math">
+      <h1>Math</h1>
+      <p>See <emu-xref href="#sec-math-object"></emu-xref>.</p>
+    </emu-clause>
+
+    <emu-clause id="sec-reflect">
+      <h1>Reflect</h1>
+      <p>See <emu-xref href="#sec-reflect-object"></emu-xref>.</p>
+    </emu-clause>
+
+    <ins class="block">
+    <emu-clause id="sec-builtinModules">
+      <h1>BuiltinModule</h1>
+      <p>See <emu-xref href="#sec-builtin_module-object"></emu-xref>.</p>
+    </emu-clause>
+    </ins>
+  </emu-clause>
+</emu-clause>
+
+<ins class="block">
+<emu-clause id="sec-builtin_module-object">
+  <h1>BuiltinModule Object</h1>
+    <h1>The BuiltinModule Object</h1>
+    <p>The BuiltinModule object:</p>
+    <ul>
+      <li>is the initial value of the *"BuiltinModule"* property of the global object.</li>
+      <li>is an ordinary object.</li>
+      <li>has a [[Prototype]] internal slot whose value is %Object.prototype%.</li>
+      <li>is not a function object.</li>
+      <li>does not have a [[Construct]] internal method; it cannot be used as a constructor with the `new` operator.</li>
+      <li>does not have a [[Call]] internal method; it cannot be invoked as a function.</li>
+    </ul>
+
+    <emu-clause id="sec-builtin-module.export">
+      <h1>BuiltinModule.export ( _moduleSpecifier_, _exports_ )</h1>
+      <p>When the `export` function is called with arguments _moduleSpecifier_, and _exports_, the following steps are taken:</p>
+      <emu-alg>
+        1. Let _moduleExists_ be HostHasBuiltinModule( _scriptContext_.ScriptOrModule, _moduleSpecifier_ ).
+        1. Let _exportNames_ be _exports_.[[OwnPropertyKeys]].
+        1. If _moduleExists_, then
+          1. Let _module_ be HostResolveBuiltinModule( _scriptContext_.ScriptOrModule, _moduleSpecifier_ ).
+          1. Set _module_.[[ExportNames]] to _exportNames_.
+        1. Else,
+          1. Let _module_ be CreateSyntheticModule( _exportNames_, builtin evaluation steps, the current Realm Record, *undefined*).
+        1. Call HostCreateBuiltinModule( _scriptContext_.ScriptOrModule, _moduleSpecifier_, _module_ ).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-builtin-module.freezeModule">
+      <h1>BuiltinModule.freezeModule ( _moduleSpecifier_ )</h1>
+      <p>When the `freezeModule` function is called with arguments _moduleSpecifier_, the following steps are taken:</p>
+      <emu-note>Freezing probably needs to be done in a script or execution context table instead of for the whole host.</emu-note>
+      <emu-alg>
+        1. Let _module_ be HostResolveBuiltinModule( _scriptContext_.ScriptOrModule, _moduleSpecifier_ ).
+        1. Assert: _module_ is a _SyntheticModuleRecord_.
+        1. Perform ? _module_.Freeze().
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-builtin-module.freezeAllModules">
+      <h1>BuiltinModule.freezeAllModules ( )</h1>
+      <p>When the `freezeAllModules` function is called, the following steps are taken:</p>
+      <emu-note>Freezing probably needs to be done in a script or execution context table instead of for the whole host.</emu-note>
+      <emu-alg>
+        1. Freeze all modules for _scriptContext_.ScriptOrModule.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-builtin-module.hasModule">
+      <h1>BuiltinModule.hasModule ( _moduleSpecifier_ )</h1>
+      <p>When the `hasModule` function is called with arguments _moduleSpecifier_ the following steps are taken:</p>
+      <emu-alg>
+        1. Let _moduleExists_ be HostHasBuiltinModule( _scriptContext_.ScriptOrModule, _moduleSpecifier_).
+        1. Return _moduleExists_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-builtin-module.import">
+      <h1>BuiltinModule.import ( _moduleSpecifier_ )</h1>
+      <p>When the `export` function is called with arguments _moduleSpecifier_, the following steps are taken:</p>
+      <emu-alg>
+        1. Let _module_ be HostResolveBuiltinModule( _scriptContext_.ScriptOrModule, _moduleSpecifier_).
+        1. Assert: _module_ is a _SyntheticModuleRecord_.
+        1. Perform ? _module_.Evaluate().
+        1. Let _namespace_ be GetModuleNamespace( _module_ ).
+        1. Return _namespace_.
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+  </ins>
+
+<emu-annex id="sec-host-layering-points">
+  <h1>Host Layering Points</h1>
+  <emu-annex id="sec-host-hooks-summary">
+    <h1>Host Hooks</h1>
+    <p><b>HostCallJobCallback(...)</b></p>
+    <p><b>HostEnqueueFinalizationRegistryCleanupJob(...)</b></p>
+    <p><b>HostEnqueuePromiseJob(...)</b></p>
+    <p><b>HostEnsureCanCompileStrings(...)</b></p>
+    <p><b>HostFinalizeImportMeta(...)</b></p>
+    <p><b>HostGetImportMetaProperties(...)</b></p>
+    <p><b>HostHasSourceTextAvailable(...)</b></p>
+    <p><b>HostImportModuleDynamically(...)</b></p>
+    <p><b>HostMakeJobCallback(...)</b></p>
+    <p><b>HostPromiseRejectionTracker(...)</b></p>
+    <p><b><ins>HostHasBuiltinModule(...)</ins></b></p>
+    <p><b><ins>HostCreateBuiltinModule(...)</ins></b></p>
+    <p><b><ins>HostResolveBuiltinModule(...)</ins></b></p>
+    <p><b>HostResolveImportedModule(...)</b></p>
+    <p><b>InitializeHostDefinedRealm(...)</b></p>
+  </emu-annex>
+</body>
+</html>

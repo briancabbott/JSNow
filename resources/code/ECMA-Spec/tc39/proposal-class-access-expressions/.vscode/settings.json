@@ -1,0 +1,11 @@
+{
+    "[markdown]": {
+        "files.trimTrailingWhitespace": false
+    },
+    "files.associations": {
+        "*.html": "ecmarkup",
+        "*.emu": "ecmarkup"
+    },
+    "[html]": { "editor.tabSize": 2 },
+    "[ecmarkup]": { "editor.tabSize": 2 }
+}

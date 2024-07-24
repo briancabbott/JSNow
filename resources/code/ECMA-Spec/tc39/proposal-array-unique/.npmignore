@@ -1,0 +1,5 @@
+.editorconfig
+*.spec.*
+.husky/
+.vscode/
+.github/

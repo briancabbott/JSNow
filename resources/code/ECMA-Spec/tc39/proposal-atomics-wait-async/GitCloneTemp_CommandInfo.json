@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-atomics-wait-async undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-atomics-wait-async",
+    "repo": "https://github.com/tc39/proposal-atomics-wait-async",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-atomics-wait-async",
+    "startTime": "2024-07-18T18:15:28.838Z",
+    "endTime": "2024-07-18T18:15:29.815Z",
+    "childProcessPid": 19662,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-atomics-wait-async--19662",
+    "executionErrors": []
+}

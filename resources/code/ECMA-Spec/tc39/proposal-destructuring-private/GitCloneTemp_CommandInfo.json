@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-destructuring-private undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-destructuring-private",
+    "repo": "https://github.com/tc39/proposal-destructuring-private",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-destructuring-private",
+    "startTime": "2024-07-18T18:16:10.106Z",
+    "endTime": "2024-07-18T18:16:10.957Z",
+    "childProcessPid": 20388,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-destructuring-private--20388",
+    "executionErrors": []
+}

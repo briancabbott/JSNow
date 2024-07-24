@@ -1,0 +1,4 @@
+[submodule "temporal"]
+	path = temporal
+	url = https://github.com/tc39/proposal-temporal.git
+	branch = canonical-tz-polyfill

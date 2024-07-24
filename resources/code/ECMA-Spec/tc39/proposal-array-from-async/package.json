@@ -1,0 +1,32 @@
+{
+  "name": "proposal-array-from-async",
+  "private": true,
+  "description": "A TC39 proposal and specification for an Array.fromAsync method.",
+  "author": "J. S. Choi <jschoi@jschoi.org> (https://jschoi.org/)",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/proposal-array-async-from.git"
+  },
+  "keywords": [
+    "proposal",
+    "tc39",
+    "array",
+    "async",
+    "iterator",
+    "iterator",
+    "stream",
+    "Array.fromAsync",
+    "Array.asyncFrom"
+  ],
+  "scripts": {
+    "prebuild": "mkdir -p dist",
+    "build": "ecmarkup --load-biblio @tc39/ecma262-biblio --verbose spec.html dist/index.html --assets-dir dist/",
+    "watch": "npm run build -- --watch"
+  },
+  "devDependencies": {
+    "@tc39/ecma262-biblio": "2.1.2462",
+    "ecmarkup": "^18.1.0"
+  },
+  "homepage": "https://github.com/tc39/proposal-array-async-from"
+}

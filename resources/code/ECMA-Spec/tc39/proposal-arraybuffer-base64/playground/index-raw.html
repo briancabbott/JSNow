@@ -1,0 +1,144 @@
+<!doctype html>
+<head>
+<meta charset="utf-8">
+<title>Base64 in JavaScript proposal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./water-light.css">
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="stylesheet" type="text/css" href="./prism.css">
+<script type="module" src="./polyfill-install.mjs"></script>
+<script>
+// logic for making codeblocks copyable
+// svg from https://feathericons.com/
+'use strict';
+let copySVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+
+if (navigator.clipboard) {
+  addEventListener('DOMContentLoaded', () => {
+    for (let pre of document.querySelectorAll('pre[class*="language-"]')) {
+      let button = document.createElement('button');
+
+      button.innerHTML = copySVG;
+      button.title = 'Copy'
+      pre.appendChild(button);
+
+      button.addEventListener('click', async () => {
+        let code = pre.querySelector('code');
+        try {
+          await navigator.clipboard.writeText(code.innerText);
+          button.innerText = '✓';
+          button.style.color = 'green';
+        } catch (e) {
+          console.error(e);
+          button.innerText = 'Failed to copy';
+          button.style.color = 'red';
+        }
+
+        setTimeout(() => {
+          button.innerHTML = copySVG;
+          button.style.color = '';
+          button.blur();
+        }, 1000);
+      });
+    }
+  });
+}
+</script>
+<body>
+
+<h1>Proposed Support for Base64 in JavaScript</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>This page documents a stage 3 proposal for native base64 and hex encoding and decoding for binary data in JavaScript, and includes a <strong>non-production</strong> polyfill you can experiment with in the browser's console.</p>
+<p>The proposal would provide methods for encoding and decoding Uint8Arrays as base64 and hex strings.</p>
+<p>Feedback on <a href="https://github.com/tc39/proposal-arraybuffer-base64">the proposal's repository</a> is appreciated.</p>
+<p>Specification text for the proposal is available <a href="https://tc39.es/proposal-arraybuffer-base64/spec/">here</a>.</p>
+
+<h2 id="API">API</h2>
+<h3>Basic usage</h3>
+<p>Encoding a Uint8Array to a base64 string:</p>
+<pre class="language-js"><code class="language-js">
+let arr = new Uint8Array([72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100]);
+console.log(arr.toBase64());
+// 'SGVsbG8gV29ybGQ='
+</code></pre>
+
+<p>Decoding a base64 string to a Uint8Array:</p>
+<pre class="language-js"><code class="language-js">
+let string = 'SGVsbG8gV29ybGQ=';
+console.log(Uint8Array.fromBase64(string));
+// Uint8Array([72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100])
+</code></pre>
+
+<p>Encoding a Uint8Array to a hex string:</p>
+<pre class="language-js"><code class="language-js">
+let arr = new Uint8Array([72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100]);
+console.log(arr.toHex());
+// '48656c6c6f20576f726c64'
+</code></pre>
+
+<p>Decoding a hex string to a Uint8Array:</p>
+<pre class="language-js"><code class="language-js">
+let string = '48656c6c6f20576f726c64';
+console.log(Uint8Array.fromHex(string));
+// Uint8Array([72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100])
+</code></pre>
+
+<h3>Options</h3>
+<p>The base64 methods take an optional options bag which allows specifying the alphabet as either <code>"base64"</code> (the default) or <code>"base64url"</code> (<a href="https://datatracker.ietf.org/doc/html/rfc4648#section-5">the URL-safe variant</a>).</p>
+<p>The base64 decoder also allows specifying the behavior for the final chunk with <code>lastChunkHandling</code>. Recall that base64 decoding operates on chunks of 4 characters at a time, but the input may have some characters which don't fit evenly into such a chunk of 4 characters. This option determines how the final chunk of characters should be handled. The three options are <code>"loose"</code> (the default), which treats the chunk as if it had any necessary <code>=</code> padding (but throws if this is not possible, i.e. there is exactly one extra character); <code>"strict"</code>, which enforces that the chunk has exactly 4 characters (counting <code>=</code> padding) and that <a href="https://datatracker.ietf.org/doc/html/rfc4648#section-3.5">overflow bits</a> are 0; and <code>"stop-before-partial"</code>, which stops decoding before the final chunk unless the final chunk has exactly 4 characters.</p>
+<p>The base64 encoder allows omitting padding by specifying <code>omitPadding: true</code>. The default is to include padding.</p>
+<p>The hex methods do not have any options.</p>
+
+<pre class="language-js"><code class="language-js">
+let array = new Uint8Array([251, 255, 191]);
+console.log(array.toBase64({ alphabet: 'base64' }));
+// '+/+/'
+console.log(array.toBase64({ alphabet: 'base64url' }));
+// '-_-_'
+
+console.log(Uint8Array.fromBase64('SGVsbG8g\nV29ybG R'));
+// works, despite whitespace, missing padding, and non-zero overflow bits
+
+try {
+  Uint8Array.fromBase64('SGVsbG8gV29ybGR=', { lastChunkHandling: 'strict' });
+} catch {
+  console.log('with lastChunkHandling: "strict", overflow bits are rejected');
+}
+try {
+  Uint8Array.fromBase64('SGVsbG8gV29ybGQ', { lastChunkHandling: 'strict' });
+} catch {
+  console.log('with lastChunkHandling: "strict", overflow bits are rejected');
+}
+
+console.log((new Uint8Array([72])).toBase64()); // 'SA=='
+console.log((new Uint8Array([72])).toBase64({ omitPadding: true })); // 'SA'
+</code></pre>
+
+<h3>Writing to an existing Uint8Array</h3>
+<p>The <code>Uint8Array.prototype.setFromBase64</code> method allows writing to an existing Uint8Array. Like the <a href="https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder/encodeInto">TextEncoder <code>encodeInto</code> method</a>, it returns a <code>{ read, written }</code> pair.</p>
+
+<p>This method takes an optional final options bag with the same options as above.</p>
+
+<pre class="language-js"><code class="language-js">
+let target = new Uint8Array(7);
+let { read, written } = target.setFromBase64('Zm9vYmFy');
+console.log({ target, read, written });
+// { target: Uint8Array([102, 111, 111, 98, 97, 114, 0]), read: 8, written: 6 }
+</code></pre>
+
+<p><code>Uint8Array.prototype.setFromHex</code> is the same except for hex.</p>
+
+<pre class="language-js"><code class="language-js">
+let target = new Uint8Array(6);
+let { read, written } = target.setFromHex('deadbeef');
+console.log({ target, read, written });
+// { target: Uint8Array([222, 173, 190, 239, 0, 0]), read: 8, written: 4 }
+</code></pre>
+
+<h3>Streaming</h3>
+<p>There is no support for streaming. However, <a href="https://github.com/tc39/proposal-arraybuffer-base64/blob/main/stream.mjs">it can be implemented in userland</a>.</p>
+
+<footer>
+  <p>Thanks for reading! If you got this far, you should try out the proposal in your browser's developer tools on this page, and submit feedback on <a href="https://github.com/tc39/proposal-arraybuffer-base64">GitHub</a>.</p>
+</footer>

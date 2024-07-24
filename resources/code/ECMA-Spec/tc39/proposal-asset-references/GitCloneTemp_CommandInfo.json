@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-asset-references undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-asset-references",
+    "repo": "https://github.com/tc39/proposal-asset-references",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-asset-references",
+    "startTime": "2024-07-18T18:15:19.742Z",
+    "endTime": "2024-07-18T18:15:20.631Z",
+    "childProcessPid": 19464,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-asset-references--19464",
+    "executionErrors": []
+}

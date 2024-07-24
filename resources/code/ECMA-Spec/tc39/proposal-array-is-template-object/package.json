@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "name": "proposal-array-is-template-object",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build-loose -- --watch",
+    "build": "npm run build-loose -- --strict",
+    "build-loose": "node -e 'fs.mkdirSync(\"build\", { recursive: true })' && ecmarkup --load-biblio @tc39/ecma262-biblio --verbose spec.emu build/index.html --lint-spec",
+    "test": "mocha",
+    "precommit": "npm run build && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/proposal-array-is-template-object.git"
+  },
+  "author": "Mike Samuel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tc39/proposal-array-is-template-object/issues"
+  },
+  "homepage": "https://github.com/tc39/proposal-array-is-template-object#readme",
+  "devDependencies": {
+    "@tc39/ecma262-biblio": "^2.1.2730",
+    "chai": "^4.2.0",
+    "ecmarkup": "^18.3.1",
+    "is-template-object": "^1.0.0",
+    "mocha": "^6.1.4"
+  }
+}

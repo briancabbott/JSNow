@@ -1,0 +1,135 @@
+<!doctype html>
+<meta charset="utf8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="spec" href="es2015" />
+<pre class="metadata">
+title: ECMAScript &#39;class&#39;-property access expressions
+stage: 1
+contributors: Ron Buckton, Ecma International
+</pre>
+
+<emu-intro id="sec-intro">
+  <h1>Introduction</h1>
+  <emu-import href="sec-introduction.html"></emu-import>
+</emu-intro>
+
+<emu-clause id="sec-executable-code-and-execution-contexts">
+  <h1>Executable Code and Execution Contexts</h1>
+  <emu-clause id="sec-environment-records">
+    <h1>Environment Records</h1>
+    <emu-import href="sec-the-environment-record-type-hierarchy-patch.html"></emu-import>
+    <emu-clause id="sec-environment-record-operations">
+      <h1>Environment Record Operations</h1>
+      <emu-import href="sec-newfunctionenvironment-patch.html"></emu-import>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-execution-contexts">
+    <h1>Execution Contexts</h1>
+    <emu-import href="sec-getclassenvironment-patch.html"></emu-import>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-ordinary-and-exotic-objects-behaviours">
+  <h1>Ordinary and Exotic Object Behaviors</h1>
+  <emu-import href="sec-ecmascript-function-objects-patch.html"></emu-import>
+</emu-clause>
+
+<emu-clause id="sec-ecmascript-language-expressions">
+  <h1>ECMAScript Language: Expressions</h1>
+  <emu-clause id="sec-primary-expression">
+    <h1>Primary Expression</h1>
+    <emu-clause id="sec-object-initializer">
+      <h1>Object Initializer</h1>
+      <emu-import href="sec-object-initializer-runtime-semantics-propertydefinitionevaluation-patch.html"></emu-import>
+    </emu-clause>
+  </emu-clause>
+  <emu-import href="sec-left-hand-side-expressions-patch.html"></emu-import>
+</emu-clause>
+
+<emu-clause id="sec-ecmascript-language-functions-and-classes">
+  <h1>ECMAScript Language: Functions and Classes</h1>
+  <emu-clause id="sec-function-definitions">
+    <h1>Function Definitions</h1>
+    <emu-import href="sec-function-definitions-static-semantics-early-errors-patch.html"></emu-import>
+  </emu-clause>
+  <emu-clause id="sec-arrow-function-definitions">
+    <h1>Arrow Function Definitions</h1>
+    <emu-import href="sec-arrow-function-definitions-static-semantics-contains-patch.html"></emu-import>
+    <emu-import href="sec-arrow-function-definitions-runtime-semantics-namedevaluation-patch.html"></emu-import>
+  </emu-clause>
+  <emu-clause id="sec-method-definitions">
+    <h1>Method Definitions</h1>
+    <emu-import href="sec-runtime-semantics-definemethod-patch.html"></emu-import>
+    <emu-import href="sec-method-definitions-runtime-semantics-propertydefinitionevaluation-patch.html"></emu-import>
+  </emu-clause>
+  <emu-clause id="sec-generator-function-definitions">
+    <h1>Generator Function Definitions</h1>
+    <emu-import href="sec-generator-function-definitions-static-semantics-early-errors-patch.html"></emu-import>
+    <emu-import href="sec-generator-function-definitions-runtime-semantics-propertydefinitionevaluation-patch.html"></emu-import>
+  </emu-clause>
+  <emu-clause id="sec-asyncgenerator-function-definitions">
+    <h1>Async Generator Function Definitions</h1>
+    <emu-import href="sec-async-generator-function-definitions-static-semantics-early-errors-patch.html"></emu-import>
+    <emu-import href="sec-asyncgenerator-definitions-propertydefinitionevaluation-patch.html"></emu-import>
+  </emu-clause>
+  <emu-clause id="sec-class-definitions">
+    <h1>Class Definitions</h1>
+    <emu-import href="sec-runtime-semantics-classdefinitionevaluation-patch.html"></emu-import>
+  </emu-clause>
+  <emu-clause id="sec-async-function-definitions">
+    <h1>Async Function Definitions</h1>
+    <emu-import href="sec-async-function-definitions-static-semantics-early-errors-patch.html"></emu-import>
+    <emu-import href="sec-async-function-definitions-PropertyDefinitionEvaluation-patch.html"></emu-import>
+  </emu-clause>
+  <emu-clause id="sec-async-arrow-function-definitions">
+    <h1>Async Arrow Function Definitions</h1>
+    <emu-import href="sec-async-arrow-function-definitions-static-semantics-Contains-patch.html"></emu-import>
+  </emu-clause>
+  <emu-clause id="sec-tail-position-calls">
+    <h1>Tail Position Calls</h1>
+    <emu-clause id="sec-static-semantics-hascallintailposition">
+      <h1>Static Semantics: HasCallInTailPosition</h1>
+      <emu-import href="sec-expression-rules-patch.html"></emu-import>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-ecmascript-language-scripts-and-modules">
+  <h1>ECMAScript Language: Scripts and Modules</h1>
+  <emu-clause id="sec-scripts">
+    <h1>Scripts</h1>
+    <emu-import href="sec-scripts-static-semantics-early-errors-patch.html"></emu-import>
+  </emu-clause>
+  <emu-clause id="sec-modules">
+    <h1>modules</h1>
+    <emu-clause id="sec-module-semantics">
+      <h1>Module Semantics</h1>
+      <emu-import href="sec-module-semantics-static-semantics-early-errors-patch.html"></emu-import>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-global-object">
+  <h1>The Global Object</h1>
+  <emu-clause id="sec-function-properties-of-the-global-object">
+    <h1>Function Properties of the Global Object</h1>
+    <emu-clause id="sec-eval-x">
+      <h1>eval ( _x_ )</h1>
+      <emu-import href="sec-performeval-patch.html"></emu-import>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-fundamental-objects">
+  <h1>Fundamental Objects</h1>
+  <emu-clause id="sec-function-objects">
+    <h1>Function Objects</h1>
+    <emu-clause id="sec-function-constructor">
+      <h1>The Function Constructor</h1>
+      <emu-clause id="sec-function-p1-p2-pn-body">
+        <h1>Function ( _p1_, _p2_, ..., _pn_, _body_ )</h1>
+        <emu-import href="sec-createdynamicfunction-patch.html"></emu-import>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>

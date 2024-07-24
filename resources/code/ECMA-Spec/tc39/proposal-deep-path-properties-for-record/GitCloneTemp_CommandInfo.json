@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-deep-path-properties-for-record undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-deep-path-properties-for-record",
+    "repo": "https://github.com/tc39/proposal-deep-path-properties-for-record",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-deep-path-properties-for-record",
+    "startTime": "2024-07-18T18:16:07.511Z",
+    "endTime": "2024-07-18T18:16:08.257Z",
+    "childProcessPid": 20322,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-deep-path-properties-for-record--20322",
+    "executionErrors": []
+}

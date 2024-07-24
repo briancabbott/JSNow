@@ -1,0 +1,30 @@
+<!doctype html>
+<meta charset="utf8">
+<pre class=metadata>
+title: Time Zone Canonicalization proposal
+stage: 2
+contributors: Justin Grant, Richard Gibson
+markEffects: true
+</pre>
+<emu-biblio href="spec/biblio.json"></emu-biblio>
+<emu-biblio href="spec/temporal-biblio.json"></emu-biblio>
+
+<emu-intro id=sec-canonical-tz-intro>
+  <h1>Time Zone Canonicalization proposal</h1>
+  <p>This proposal aims to:</p>
+  <ul>
+    <li>Improve consistency across ECMAScript engines with regard to time zone identifiers, so that programs will behave more similarly across engines</li>
+    <li>Make ECMAScript programs more resilient to changes in time zone identifiers, like 2022's change of <code>Europe/Kiev</code> to <code>Europe/Kyiv</code></li>
+  </ul>
+
+  <p>This specification consists of two parts:</p>
+  <ul>
+    <li>Amendments to ECMA-262, stacked on top of the Temporal proposal</li>
+    <li>Amendments to ECMA-402, also stacked on top of the Temporal proposal.</li>
+  </ul>
+
+  <p>To provide feedback on this proposal, please visit the proposal repository at <a href="https://github.com/tc39/proposal-canonical-tz">https://github.com/tc39/proposal-canonical-tz</a>.</p>
+</emu-intro>
+
+<emu-import href="spec/timezone.html"></emu-import>
+<emu-import href="spec/intl.html"></emu-import>

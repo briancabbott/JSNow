@@ -1,0 +1,805 @@
+<!doctype html>
+<meta charset="utf8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<pre class=metadata>
+title: Decorators
+stage: 2
+contributors: Yehuda Katz, Brian Terlson, Ecma International
+</pre>
+<style>
+emu-example figure {
+  align-items: initial;
+  width: 100%;
+}
+
+emu-note {
+  display: block;
+  border-left-color: #474747;
+}
+
+emu-note span.note {
+  display: inline-block;
+  color: #fff;
+  background-color: #474747;
+  width: initial;
+  padding-right: 50px;
+}
+
+emu-note div.note-contents {
+  padding-left: 5px;
+}
+
+emu-note[type=editor] {
+  border-left-color: #900;
+}
+emu-note[type=editor] span.note {
+  background-color: #900;
+}
+
+emu-example {
+  border-left: 5px solid #006387;
+  margin: 1em 0;
+}
+
+emu-example figure figcaption:first-child {
+  display: inline-block;
+  color: #fff;
+  background-color: #006387;
+  margin: 0;
+  padding: 0 50px 0 5px;
+  font-weight: normal;
+  text-transform: uppercase;
+  margin-left: -5px;
+}
+
+emu-example figure figcaption:nth-child(2) {
+  margin: 0;
+  padding: 0;
+  padding-left: 5px;
+  margin-left: -5px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+emu-example p:nth-of-type(1) {
+  margin-top: 0;
+}
+
+emu-example figure {
+  padding-left: 5px;
+  display: block;
+  margin: 0;
+}
+
+emu-example pre {
+  margin: 0;
+}
+</style>
+
+<emu-intro id=sec-intro>
+  <h1>Introduction</h1>
+  <p>Decorators offer a convenient declarative syntax to modify the shape of class declarations. This capability can be used for myriad purposes including modifying the descriptor of the declared member (@nonconfigurable/@enumerable), adding metadata (as used by Angular), and more.</p>
+
+  <emu-intro id=sec-intro-syntax>
+    <h1>Syntax</h1>
+
+    <p>As of this proposal, decorators can be attached to either classes or class members. An example of such a class might be:</p>
+
+    <emu-example id="example-class-decorators">
+      <pre><code class=javascript>
+        @frozen class Foo {
+          @configurable(false) @enumerable(true) method() {}
+        }
+      </code></pre>
+    </emu-example>
+
+    <p>Prior to the `class` keyword and prior to method definitions are a new |DecoratorList| production - essentially, a list of |Decorator| productions. The |Decorator| production is `@` followed by a sequence of dotted identifiers (no `[]` access is allowed due to grammar difficulties) and an argument list. Thus, `@foo.bar()` is valid, while `@foo().bar()` (and `@foo[bar]`) are syntax errors.</p>
+    <emu-note type=editor>
+      <p>The syntax here can be pretty much anything, but this proposal takes a maximally conservative approach. Square brackets can be made unambiguous with a clever cover grammar but the syntax is confusing and error-prone.</p>
+    </emu-note>
+    <p>Elements of the |DecoratorList| are evaluated in-order but their resulting decorator functions are evaluated in a bottom-up fashion. The value returned by a decorator becomes the input of the next decorator.</p>
+  </emu-intro>
+  
+  <emu-intro id=sec-intro-decorator-functions>
+    <h1>Example Decorator Functions</h1>
+    <p>There are a number of examples of real-world usage based on previous drafts of this proposal.</p>
+
+    <emu-example id="example-core-decorators">
+      <p>The `core-decorators` library includes a number of standalone decorators that are intended to
+      work in vanilla JavaScript code.</p>
+      <p>An @deprecate decorator:</p>
+      <pre><code class=javascript>
+        import { deprecate } from 'core-decorators';
+
+        class Person {
+          @deprecate
+          facepalm() {}
+
+          @deprecate('We stopped facepalming')
+          facepalmHard() {}
+
+          @deprecate('We stopped facepalming', { url: 'http://knowyourmeme.com/memes/facepalm' })
+          facepalmHarder() {}
+        }
+
+        let person = new Person();
+
+        person.facepalm();
+        // DEPRECATION Person#facepalm: This function will be removed in future versions.
+
+        person.facepalmHard();
+        // DEPRECATION Person#facepalmHard: We stopped facepalming
+
+        person.facepalmHarder();
+        // DEPRECATION Person#facepalmHarder: We stopped facepalming
+        //
+        //     See http://knowyourmeme.com/memes/facepalm for more details.
+        //
+      </code></pre>
+      <p>A throttling decorator:</p>
+      <pre><code class=javascript>
+        import { throttle } from 'core-decorators';
+
+        class Editor {
+
+          content = '';
+
+          @throttle(500, { leading: false })
+          updateContent(content) {
+            this.content = content;
+          }
+        }
+      </code></pre>
+
+      <p>A mixin class decorator:</p>
+
+      <pre><code class=javascript>
+        import { mixin } from 'core-decorators';
+
+        const SingerMixin = {
+          sing(sound) {
+            alert(sound);
+          }
+        };
+
+        const FlyMixin = {
+          // All types of property descriptors are supported
+          get speed() {},
+          fly() {},
+          land() {}
+        };
+
+        @mixin(SingerMixin, FlyMixin)
+        class Bird {
+          singMatingCall() {
+            this.sing('tweet tweet');
+          }
+        }
+
+        var bird = new Bird();
+        bird.singMatingCall();
+        // alerts "tweet tweet"
+      </code></pre>
+
+      <p>A decorator using `console.time` to time a function:</p>
+
+      <pre><code class=javascript>
+        class Bird {
+          @time('sing')
+          sing() {
+          }
+        }
+
+        var bird = new Bird();
+        bird.sing(); // console.time label will be 'sing-0'
+        bird.sing(); // console.time label will be 'sing-1'
+      </code></pre>
+    </emu-example>
+  </emu-intro>
+  <emu-intro id=sec-intro-frameworks>
+    <h1>Frameworks</h1>
+
+    <p>Several frameworks have also adopted decorators in various forms.</p>
+
+    <emu-example id=example-aurelia-computedFrom>
+      <figcaption><a href="http://aurelia.io/">Aurelia</a> @computedFrom decorator</figcaption>
+      <pre><code class=javascript>
+        var x = 1;
+
+        import { computedFrom } from 'aurelia-framework';
+
+        export class Welcome{
+          firstName = 'John';
+          lastName = 'Doe';
+
+          @computedFrom('firstName', 'lastName')
+          get fullName(){
+            return `${this.firstName} ${this.lastName}`;
+          }
+        }
+      </code></pre>
+    </emu-example>
+
+
+    <emu-example id=example-aurelia-customElement>
+      <figcaption><a href="http://aurelia.io/">Aurelia</a> @customElement, @useShadowDOM, and @bindable decorators</figcaption>
+      <pre><code class=javascript>
+        import { customElement, useShadowDOM, bindable } from 'aurelia-framework';
+
+        @customElement('nav-bar')
+        export class NavBar {}
+
+        @useShadowDOM
+        @customElement('my-expander')
+        export class Expander {
+          @bindable isExpanded = false;
+          @bindable header;
+        }
+      </code></pre>
+    </emu-example>
+
+    <emu-example id=example-ember-computed>
+      <figcaption><a href="http://emberjs.com/">Ember</a> @computed decorator</figcaption>
+      <pre><code class=javascript>
+        import Ember from 'ember';
+        import computed from 'ember-computed-decorators';
+
+        export default class extends Ember.Component {
+          @computed('first', 'last')
+          name(first, last) {
+            return `${first} ${last}`;
+          }
+        };
+      </code></pre>
+    </emu-example>
+
+    <emu-example id=example-ember-readOnly>
+      <figcaption><a href="http://emberjs.com/">Ember</a> @readOnly decorator</figcaption>
+      <pre><code class=javascript>
+        import Ember from 'ember';
+        import computed, { readOnly } from 'ember-computed-decorators';
+
+        export default class extends Ember.Component {
+          @readOnly
+          @computed('first', 'last')
+          name(first, last) {
+            return `${first} ${last}`;
+          }
+        };
+      </code></pre>
+    </emu-example>
+
+    <emu-example id=example-ember-data>
+      <figcaption><a href="https://github.com/emberjs/data">Ember Data</a> entity relationship decorators</figcaption>
+      <pre><code class=javascript>
+        import DS from 'ember-data';
+        import {
+          attr,
+          hasMany
+        } from "ember-computed-decorators/ember-data";
+
+        export default class extends DS.Model {
+          @attr firstName,
+          @hasMany users
+        };
+      </code></pre>
+    </emu-example>
+
+    <emu-example id=example-ember-alias>
+      <figcaption><a href="http://emberjs.com/">Ember</a> @alias decorator</figcaption>
+      <pre><code class=javascript>
+        import Ember from 'ember';
+        import { alias } from 'ember-computed-decorators';
+        export default class extends Ember.Component {
+          person: {
+            first: 'Joe'
+          }
+
+          @alias('person.first') firstName
+        };
+      </code></pre>
+    </emu-example>
+
+    <emu-example id=example-ember-intersect>
+      <figcaption><a href="http://emberjs.com/">Ember</a> @intersect decorator</figcaption>
+      <pre><code class=javascript>
+        import Ember from 'ember';
+        import { intersect } from 'ember-computed-decorators';
+
+        export default class extends Ember.Component {
+          likes = [ 'tacos', 'puppies', 'pizza' ];
+          foods = [ 'tacos', 'pizza' ];
+
+          @intersect('likes', 'foods') favoriteFoods; // ['tacos', 'pizza']
+        };
+      </code></pre>
+    </emu-example>
+
+    <emu-example id=example-ember-readOnly>
+      <figcaption><a href="http://angularjs.org/">Angular</a> &amp; <a href="http://typescriptlang.com">TypeScript</a></figcaption>
+      <pre><code class=typescript>
+        @Component({
+          selector: 'talk-cmp',
+          directives: [FormattedRating, WatchButton, RateButton],
+          templateUrl: 'talk_cmp.html'
+        })
+        class TalkCmp {
+          @Input() talk: Talk;
+          @Output() rate: EventEmitter;
+          // ...
+        }
+      </code></pre>
+    </emu-example>
+  </emu-intro>
+</emu-intro>
+
+<emu-clause id=sec-syntax>
+  <h1>Syntax</h1>
+
+  <emu-clause id=sec-new-syntax>
+    <h1>New Productions</h1>
+
+    <emu-grammar>
+      DecoratorList[Yield] :
+        DecoratorList[?Yield]? Decorator[?Yield]
+
+      Decorator[Yield] :
+        `@` DecoratorMemberExpression[?Yield]
+        `@` DecoratorCallExpression[?Yield]
+
+      DecoratorMemberExpression[Yield] :
+        IdentifierReference[?Yield]
+        DecoratorMemberExpression[?Yield] `.` IdentifierName
+
+      DecoratorCallExpression[Yield] :
+        DecoratorMemberExpression Arguments[?Yield]
+    </emu-grammar>
+  </emu-clause>
+
+  <emu-clause id=sec-updated-syntax>
+    <h1>Updated Productions</h1>
+
+    <p><emu-grammar>PropertyDefinition : MethodDefinition</emu-grammar> gets an optional |DecoratorList|.</p>
+    <emu-grammar>
+      PropertyDefinition[Yield] :
+        IdentifierReference[?Yield]
+        CoverInitializedName[?Yield]
+        PropertyName[?Yield] `:` AssignmentExpression[+In, ?Yield]
+        DecoratorList[?Yield]? MethodDefinition[?Yield]
+    </emu-grammar>
+
+    <p><emu-grammar>ClassDeclaration : `class` BindingIdentifier ClassTail</emu-grammar> and <emu-grammar>ClassDeclaration : [+Default] `class` ClassTail</emu-grammar> get an optional |DecoratorList|.</p>
+    <emu-grammar>
+      ClassDeclaration[Yield, Default] :
+        DecoratorList[?Yield]? `class` BindingIdentifier[?Yield] ClassTail[?Yield]
+        [+Default] DecoratorList[?Yield]? `class` ClassTail[?Yield]
+    </emu-grammar>
+
+    <p><emu-grammar>ClassExpression : `class` BindingIdentifier? ClassTail</emu-grammar> gets an optional |DecoratorList|.</p>
+    <emu-grammar>
+      ClassExpression[Yield] :
+        DecoratorList [?Yield]? `class` BindingIdentifier[?Yield]? ClassTail[?Yield]
+    </emu-grammar>
+
+    <p><emu-grammar>ClassElement : MethodDefinition</emu-grammar> and <emu-grammar>ClassElement : `static` MethodDefinition</emu-grammar> gets an optional |DecoratorList|.</p>
+    <emu-grammar>
+      ClassElement[Yield] :
+        DecoratorList[?Yield]? MethodDefinition[?Yield]
+        DecoratorList[?Yield]? `static` MethodDefinition[?Yield]
+    </emu-grammar>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id=sec-semantics>
+  <h1>Semantics</h1>
+  <emu-clause id=sec-decorator-functions>
+    <h1>Decorator Functions</h1>
+    <p>A <dfn>decorator function</dfn> is a function that takes and returns either a member descriptor or a class descriptor. The body of a decorator function modifies and returns the descriptor it receives to change the semantics of the decorated entity.</p>
+    <emu-clause id=sec-decorator-functions-member-descriptor>
+      <h1>Member Descriptors</h1>
+      <p>A <dfn>member descriptor</dfn> describes a member of a class or object literal and has the following shape:</p>
+      <pre><code class=typescript>
+        interface MemberDesciptor {
+          kind: "property"
+          key: string,
+          isStatic: boolean,
+          descriptor: PropertyDescriptor,
+          extras?: MemberDescriptor[]
+          finisher?: (klass): void;
+        }
+      </code></pre>
+    </emu-clause>
+    <emu-clause id=sec-decorator-functions-member-descriptor>
+      <h1>Class Descriptors</h1>
+      <p>A <dfn>class descriptor</dfn> describes a class and has the following shape:</p>
+      <pre><code class=typescript>
+        interface ClassDesciptor {
+          kind: "class",
+          constructor: Function,
+          heritage: Object | null,
+          elements: MemberDescriptor[]
+        }
+      </code></pre>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id=sec-updated-semantics>
+    <h1>Updated Operations</h1>
+
+    <emu-clause id=sec-runtime-semantics-definemethod>
+      <h1>Runtime Semantics: DefineMethod</h1>
+      <p>With <del>parameters _object_ and</del> optional parameter _functionPrototype_.</p>
+      <emu-grammar>MethodDefinition : PropertyName `(` StrictFormalParameters `)` `{` FunctionBody `}`</emu-grammar>
+      <emu-alg>
+        1. Let _propKey_ be the result of evaluating |PropertyName|.
+        1. ReturnIfAbrupt(_propKey_).
+        1. If the function code for this |MethodDefinition| is strict mode code, let _strict_ be *true*. Otherwise let _strict_ be *false*.
+        1. Let _scope_ be the running execution context's LexicalEnvironment.
+        1. If _functionPrototype_ was passed as a parameter, let _kind_ be ~Normal~; otherwise let _kind_ be ~Method~.
+        1. Let _closure_ be FunctionCreate(_kind_, |StrictFormalParameters|, |FunctionBody|, _scope_, _strict_). If _functionPrototype_ was passed as a parameter, then pass its value as the _prototype_ optional argument of FunctionCreate.
+        1. <del>Perform MakeMethod(_closure_, _object_).</del>
+        1. <del>Return the Record{[[Key]]: _propKey_, [[Closure]]: _closure_}.</del>
+        1. <ins>Let _desc_ be the PropertyDescriptor{[[Value]]: _closure_, [[Writable]]: *true*, [[Enumerable]]: _enumerable_, [[Configurable]]: *true*}.</ins>
+        1. <ins>Return the Record{[[Key]]: _propKey_, [[Descriptor]]: _desc_}.</ins>
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id=sec-runtime-semantics-classdefinitionevaluation>
+      <h1>Runtime Semantics: ClassDefinitionEvaluation</h1>
+      <p>With parameter _className_.</p>
+      <emu-grammar>ClassTail : ClassHeritage? `{` ClassBody? `}`</emu-grammar>
+      <emu-alg>
+        1. Let _lex_ be the LexicalEnvironment of the running execution context.
+        1. Let _classScope_ be NewDeclarativeEnvironment(_lex_).
+        1. Let _classScopeEnvRec_ be _classScope_'s EnvironmentRecord.
+        1. If _className_ is not *undefined*, then
+          1. Perform _classScopeEnvRec_.CreateImmutableBinding(_className_, *true*).
+        1. If |ClassHeritage_opt| is not present, then
+          1. Let _protoParent_ be the intrinsic object %ObjectPrototype%.
+          1. Let _constructorParent_ be the intrinsic object %FunctionPrototype%.
+        1. Else,
+          1. Set the running execution context's LexicalEnvironment to _classScope_.
+          1. Let _superclass_ be the result of evaluating |ClassHeritage|.
+          1. Set the running execution context's LexicalEnvironment to _lex_.
+          1. ReturnIfAbrupt(_superclass_).
+          1. If _superclass_ is *null*, then
+            1. Let _protoParent_ be *null*.
+            1. Let _constructorParent_ be the intrinsic object %FunctionPrototype%.
+          1. Else if IsConstructor(_superclass_) is *false*, throw a *TypeError* exception.
+          1. Else,
+            1. Let _protoParent_ be ? Get(_superclass_, `"prototype"`).
+            1. If Type(_protoParent_) is neither Object nor Null, throw a *TypeError* exception.
+            1. Let _constructorParent_ be _superclass_.
+        1. Let _proto_ be ObjectCreate(_protoParent_).
+        1. If |ClassBody_opt| is not present, let _constructor_ be ~empty~.
+        1. Else, let _constructor_ be ConstructorMethod of |ClassBody|.
+        1. If _constructor_ is ~empty~, then
+          1. If |ClassHeritage_opt| is present and _protoParent_ is not *null*, then
+            1. Let _constructor_ be the result of parsing the source text
+              <pre><code class=javascript>constructor(... args){ super (...args);}</code></pre>
+              using the syntactic grammar with the goal symbol |MethodDefinition[~Yield]|.
+          1. Else,
+            1. Let _constructor_ be the result of parsing the source text
+              <pre><code class=javascript>constructor( ){ }</code></pre>
+              using the syntactic grammar with the goal symbol |MethodDefinition[~Yield]|.
+        1. Set the running execution context's LexicalEnvironment to _classScope_.
+        1. <del>Let _constructorInfo_ be the result of performing DefineMethod for _constructor_ with arguments _proto_ and _constructorParent_ as the optional _functionPrototype_ argument.</del>
+        1. <del>Assert: _constructorInfo_ is not an abrupt completion.</del>
+        1. <del>Let _F_ be _constructorInfo_.[[Closure]].</del>
+        1. <del>If |ClassHeritage_opt| is present and _protoParent_ is not *null*, then set _F_.[[ConstructorKind]] to `"derived"`.</del>
+        1. <del>Perform MakeConstructor(_F_, *false*, _proto_).</del>
+        1. <del>Perform MakeClassConstructor(_F_).</del>
+        1. <del>Perform CreateMethodProperty(_proto_, `"constructor"`, _F_).</del>
+        1. If |ClassBody_opt| is not present, let _methods_ be a new empty List.
+        1. Else, let _methods_ be NonConstructorMethodDefinitions of |ClassBody|.
+        1. For each |ClassElement| _m_ in order from _methods_
+          1. <del>If IsStatic of _m_ is *false*, then</del>
+            1. <del>Let _status_ be the result of performing PropertyDefinitionEvaluation for _m_ with arguments _proto_ and *false*.</del>
+          1. <del>Else,</del>
+            1. <del>Let _status_ be the result of performing PropertyDefinitionEvaluation for _m_ with arguments _F_ and *false*.</del>
+          1. <del>If _status_ is an abrupt completion, then</del>
+          1. <del>Set the running execution context's LexicalEnvironment to _lex_.</del>
+          1. <del>Return Completion(_status_).</del>
+          1. <ins>Let _static_ be IsStatic of _m_.</ins>
+          1. <ins>If _m_'s |DecoratorList| is present, then let _decorators_ be the result of performing DecoratorListEvaluation of |DecoratorList|.</ins>
+          1. <ins>Else, let _decorators_ be a new empty List.</ins>
+          1. <ins>Let _finishers_ be a new empty List.</ins>
+          1. <ins>ReturnIfAbrupt(_decorators_).</ins>
+          1. <ins>Let _el_ be the result of performing PropertyDefinitionEvaluation for _m_ with arguments _proto_, *false*.</ins>
+          1. <ins>If _el_ is an abrupt completion, then</ins>
+            1. <ins>Set the running execution context's LexicalEnvironment to _lex_.</ins>
+            1. <ins>Return Completion(_el_).</ins>
+          1. <ins>Else, let _descriptor_ be _descriptor_.[[value]].</ins>
+          1. <ins>Let _element_ be the Record{[[Kind]]: `"property"`, [[Static]]: _static_, [[Key]]: _descriptor_.[[Key]], [[Descriptor]]: _descriptor_.[[Descriptor]], [[Decorators]]: _decorators_}.</ins>
+          1. <ins>Append _element_ to the end of _elements_.</ins>
+        1. <ins>Let _coalesced_ be the new List created by combining getters and setters with the same [[Key]]. If both a getter and setter with the same [[Key]] have a non-empty [[Decorators]], throw a new Error.</ins>
+        1. <ins>Let _elementDescriptors_ be a new empty List.</ins>
+        1. <ins>For each _element_ in order from _coalesced_</ins>
+          1. <ins>Let _decorated_ be ? DecorateElement(_element_).</ins>
+          1. <ins>Append _decorated_.[[Descriptor]] to the end of _elementDescriptors_.</ins>
+          1. <ins>Append all elements of _decorated_.[[Finishers]] to the end of _finishers_.</ins>
+          1. <ins>For each _descriptor_ in order from _decorated_.[[Extras]].</ins>
+            1. <ins>Append _descriptor_ to the end of _elementDescriptors_.</ins>
+        1. <ins>Let _constructorInfo_ be the result of performing DefineMethod for _constructor_ with _constructorParent_ as the optional _functionPrototype_ argument.</ins>
+        1. <ins>Assert: _constructorInfo_ is not an abrupt completion.</ins>
+        1. <ins>Let _originalF_ be _constructorInfo_.[[Closure]].</ins>
+        1. <ins>Let _F_ be MakeUninitializedConstructor(_originalF_).</ins>
+        1. <ins>Let _result_ be ? DecorateClass(_F_, _constructorParent_, _elementDescriptors_).</ins>
+        1. <ins>Append all elements of _result_.[[Finishers]] to the end of _finishers_.</ins>
+        1. <ins>Let _constructor_ be _result_.[[Constructor]].</ins>
+        1. <ins>Let _elements_ be _result_.[[Elements]].</ins>
+        1. <ins>If |ClassHeritage?| is present and _protoParent_ is not *null*, then set _constructor_'s [[ConstructorKind]] internal slot to `"derived"`.</ins>
+        1. <ins>Perform MakeConstructor(_constructor_, *false*, _proto_).</ins>
+        1. <ins>Perform MakeClassConstructor(_constructor_).</ins>
+        1. <ins>Perform CreateMethodProperty(_proto_, `"constructor"`, _constructor_).</ins>
+        1. <ins>For each _descriptor_ in order from _elements_, do</ins>
+          1. <ins>Assert: _descriptor_.[[Kind]] is `"property"`</ins>
+          1. <ins>If _descriptor_.[[Static]] is *false*, then</ins>
+            1. <ins>Let _status_ be DefinePropertyOrThrow(_proto_, _descriptor_.[[Key]], _descriptor_.[[Descriptor]])</ins>
+          1. <ins>Else,</ins>
+          1. <ins>Let _status_ be DefinePropertyOrThrow(_constructor_, _descriptor_.[[Key]], _descriptor_.[[Descriptor]])</ins>
+          1. <ins>If _status_ is an abrupt completion, then</ins>
+            1. <ins>Set the running execution context's LexicalEnvironment to _lex_.</ins>
+            1. <ins>Return Completion(_status_).</ins>
+        1. <ins>Perform MakeFunctionInitialized(_constructor_).</ins>
+        1. <ins>Perform MakeClassElementsInitialized(_elementDescriptors_).</ins>
+        1. Set the running execution context's LexicalEnvironment to _lex_.
+        1. If _className_ is not *undefined*, then
+          1. Perform _classScopeEnvRec_.InitializeBinding(_className_, <del>_F_</del><ins>_constructor_</ins>).
+        1. <ins>For each _finisher_ in order from _finishers_, do
+          1. <ins>Perform ? Call(_finisher_, *undefined*, « _constructor »).</ins>
+        1. Return <del>_F_</del><ins>_constructor_</ins>.
+      </emu-alg>
+      <emu-note type=editor>
+        <p>We need to make a decision about what validations we need on the _extras_ list, and when to apply it.</p>
+        <p>At minimum, if one decorator marks a property as non-configurable, another decorator will not be allowed to modify it.</p>
+        <p>There are several options:</p>
+        <ul>
+          <li>Imperatively apply the extras, and let them naturally merge (or fail in the configurability case).</li>
+          <li>Validate the extras as they are produced.</li>
+          <li>Validate the entire list of extras right before they are applied.</li>
+        </ul>
+        <p>We would prefer to avoid the first option, because it is useful for users of decorators to know if they have caused a name conflict.</p>
+        <p>Note: The second and third option are observably different in terms of timing.</p>
+        <p>In terms of validations, we would prefer to disallow naming conflicts caused by extras, which would otherwise become confusing silent errors.</p>
+        <p>We would also prefer to disallow, as a validation rule, a property made non-configurable by one decorator to be modified by a future one
+        (rather than causing it to fail at application time).</p>
+        <p>It seems important to allow decorators on a single element to be reordered flexibly, so that for example a <code>@nonconfigurable</code> decorator could be applied before or after an <code>@enumerable</code> decorator. On the other hand, decorators on separate elements that end up affecting class properties of the same name are almost always going to be bugs (analogous to name collisions arising from unhygienic macros). For both of these reasons, it seems important for a single element's decorators to be combined permissively, whereas the extras produced by distinct elements should be validated not to have conflicts.</p>
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id=sec-method-definitions-runtime-semantics-propertydefinitionevaluation>
+      <h1>Runtime Semantics: PropertyDefinitionEvaluation</h1>
+      <p>With parameters _object_ and _enumerable_.</p>
+      <emu-note>
+        The modifications to PropertyDefinitionEvaluation delays actually building the object by returning a record instead of doing the DefineProperty at this point. We also make any closures uninitialized.
+      </emu-note>
+      <emu-see-also-para op="PropertyDefinitionEvaluation"></emu-see-also-para>
+      <emu-grammar>MethodDefinition : PropertyName `(` StrictFormalParameters `)` `{` FunctionBody `}`</emu-grammar>
+      <emu-alg>
+        1. Let _methodDef_ be DefineMethod of |MethodDefinition| with argument _object_.
+        1. ReturnIfAbrupt(_methodDef_).
+        1. Perform SetFunctionName(_methodDef_.[[Closure]], _methodDef_.[[Key]]).
+        1. <del>Let _desc_ be the PropertyDescriptor{[[Value]]: _methodDef_.[[Closure]], [[Writable]]: *true*, [[Enumerable]]: _enumerable_, [[Configurable]]: *true*}.</del>
+        1. <del>Return ? DefinePropertyOrThrow(_object_, _methodDef_.[[Key]], _desc_).</del>
+        1. <ins>Let _closure_ be MakeFunctionUninitialized(_methodDef_.[[Closure]]).</ins>
+        1. <ins>Let _desc_ be the PropertyDescriptor{[[Value]]: _closure_, [[Writable]]: *true*, [[Enumerable]]: _enumerable_, [[Configurable]]: *true*}.</ins>
+        1. <ins>Return the Record{[[Key]]: _methodDef_.[[Key]], [[Desc]]: _desc_, [[Decorators]]: _decorators_}.</ins>
+      </emu-alg>
+      <emu-grammar>MethodDefinition : `get` PropertyName `(` `)` `{` FunctionBody `}`</emu-grammar>
+      <emu-alg>
+        1. Let _propKey_ be the result of evaluating |PropertyName|.
+        1. ReturnIfAbrupt(_propKey_).
+        1. If the function code for this |MethodDefinition| is strict mode code, let _strict_ be *true*. Otherwise let _strict_ be *false*.
+        1. Let _scope_ be the running execution context's LexicalEnvironment.
+        1. Let _formalParameterList_ be the production <emu-grammar>FormalParameters : [empty]</emu-grammar>.
+        1. Let _closure_ be FunctionCreate(~Method~, _formalParameterList_, |FunctionBody|, _scope_, _strict_).
+        1. <del>Perform MakeMethod(_closure_, _object_).</del>
+        1. Perform SetFunctionName(_closure_, _propKey_, `"get"`).
+        1. <ins>Let _closure_ be MakeFunctionUninitialized(_closure_).</ins>
+        1. Let _desc_ be the PropertyDescriptor{[[Get]]: _closure_, [[Enumerable]]: _enumerable_, [[Configurable]]: *true*}.
+        1. <del>Return ? DefinePropertyOrThrow(_object_, _propKey_, _desc_).</del>
+        1. <ins>Return the Record{[[Key]]: _propKey_, [[Desc]]: _desc_}.</ins>
+      </emu-alg>
+      <emu-grammar>MethodDefinition : `set` PropertyName `(` PropertySetParameterList `)` `{` FunctionBody `}`</emu-grammar>
+      <emu-alg>
+        1. Let _propKey_ be the result of evaluating |PropertyName|.
+        1. ReturnIfAbrupt(_propKey_).
+        1. If the function code for this |MethodDefinition| is strict mode code, let _strict_ be *true*. Otherwise let _strict_ be *false*.
+        1. Let _scope_ be the running execution context's LexicalEnvironment.
+        1. Let _closure_ be FunctionCreate(~Method~, |PropertySetParameterList|, |FunctionBody|, _scope_, _strict_).
+        1. <del>Perform MakeMethod(_closure_, _object_).</del>
+        1. Perform SetFunctionName(_closure_, _propKey_, `"set"`).
+        1. <ins>Let _closure_ be MakeFunctionUninitialized(_closure_).</ins>
+        1. Let _desc_ be the PropertyDescriptor{[[Set]]: _closure_, [[Enumerable]]: _enumerable_, [[Configurable]]: *true*}.
+        1. <del>Return ? DefinePropertyOrThrow(_object_, _propKey_, _desc_).</del>
+        1. <ins>Return the Record{[[Key]]: _propKey_, [[Desc]]: _desc_}.</ins>
+      </emu-alg>
+      <emu-grammar>GeneratorMethod : `*` PropertyName `(` StrictFormalParameters `)` `{` GeneratorBody `}`</emu-grammar>
+      <emu-alg>
+        1. Let _propKey_ be the result of evaluating |PropertyName|.
+        1. ReturnIfAbrupt(_propKey_).
+        1. If the function code for this |GeneratorMethod| is strict mode code, let _strict_ be *true*. Otherwise let _strict_ be *false*.
+        1. Let _scope_ be the running execution context's LexicalEnvironment.
+        1. Let _closure_ be GeneratorFunctionCreate(~Method~, |StrictFormalParameters|, |GeneratorBody|, _scope_, _strict_).
+        1. <del>Perform MakeMethod(_closure_, _object_).</del>
+        1. Let _prototype_ be ObjectCreate(%GeneratorPrototype%).
+        1. Perform DefinePropertyOrThrow(_closure_, `"prototype"`, PropertyDescriptor{[[Value]]: _prototype_, [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *false*}).
+        1. Perform SetFunctionName(_closure_, _propKey_).
+        1. <ins>Let _closure_ be MakeFunctionUninitialized(_closure_).</ins>
+        1. Let _desc_ be the PropertyDescriptor{[[Value]]: _closure_, [[Writable]]: *true*, [[Enumerable]]: _enumerable_, [[Configurable]]: *true*}.
+        1. <del>Return ? DefinePropertyOrThrow(_object_, _propKey_, _desc_).</del>
+        1. <ins>Return the Record{[[Key]]: _propKey_, [[Desc]]: _desc_}.</ins>
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id=sec-new-semantics>
+    <h1>New Operations</h1>
+    <emu-clause id=sec-decorator-runtime-semantics-decoratorevaluation>
+      <h1>Runtime Semantics: DecoratorEvaluation</h1>
+      <emu-grammar>Decorator : `@` DecoratorMemberExpression[?Yield]</emu-grammar>
+      <emu-alg>
+        1. Let _ref be the result of evaluating |DecoratorMemberExpression|.
+        1. Let _value be ? GetValue(_ref_).
+        1. Return _value_.
+      </emu-alg>
+      <emu-grammar>Decorator : `@` DecoratorCallExpression[?Yield]</emu-grammar>
+      <emu-alg>
+        1. Let _ref be the result of evaluating |DecoratorCallExpression|.
+        1. Let _value be ? GetValue(_ref_).
+        1. Return _value_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id=sec-method-definitions-runtime-semantics-decoratorlistevaluation>
+      <h1>Runtime Semantics: DecoratorListEvaluation</h1>
+      <emu-grammar>DecoratorList : DecoratorList[?Yield]? Decorator[?Yield]</emu-grammar>
+      <emu-alg>
+        1. If |DecoratorList| is present, then let _leftValue_ be ? DecoratorListEvaluation(|DecoratorList|).
+        1. Else, let _leftValue_ be a new empty List.
+        1. Let _rightValue_ be ? DecoratorEvaluation(|Decorator|).
+        1. Append _rightValue_ to the end of _leftValue_.
+        1. Return _leftValue_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id=sec-runtime-semantics-makefunctionuninitialized>
+      <h1>Runtime Semantics: MakeFunctionUninitialized</h1>
+      <p>With parameter _function_.</p>
+      <emu-note type=editor>
+        <p>The semantics of functions leaked to JavaScript during decoration was contentious in Munich. The exact semantics will be driven by implementation considerations.</p>
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id=sec-runtime-semantics-makefunctioninitialized>
+      <h1>Runtime Semantics: MakeFunctionInitialized</h1>
+      <p>With parameter _function_.</p>
+      <emu-note type=editor>
+        <p>The semantics of functions leaked to JavaScript during decoration was contentious in Munich. The exact semantics will be driven by implementation considerations.</p>
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id=sec-runtime-semantics-makefunctioninitialized>
+      <h1>Runtime Semantics: IsUninitializedFunction</h1>
+      <p>With parameter _function_.</p>
+      <emu-note type=editor>
+        <p>The semantics of functions leaked to JavaScript during decoration was contentious in Munich. The exact semantics will be driven by implementation considerations.</p>
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id=sec-runtime-semantics-makeclasselementsinitialized>
+      <h1>Runtime Semantics: MakeClassElementsInitialized</h1>
+      <p>With parameter _elements_.</p>
+      <emu-alg>
+        1. For each _element_ in order from _elements_
+          1. Let _desc_ be _element_.[[Descriptor]].
+          1. If _desc_ has a [[Set]] field, MakeFunctionInitialized(_desc_.[[Set]]).
+          1. If _desc_ has a [[Get]] field, MakeFunctionInitialized(_desc_.[[Get]]).
+          1. If _desc_ has a [[Value]] field, and IsUninitializedFunction(_desc_.[[Value]]) is *true*, MakeFunctionInitialized(_desc_.[[Value]]).
+      </emu-alg type=editor>
+      <emu-note>
+        <p>The semantics of functions leaked to JavaScript during decoration was contentious in Munich. The exact semantics will be driven by implementation considerations.</p>
+      </emu-note>
+    </emu-clause>
+    <emu-clause id=sec-decorate-element aoid=DecorateElement>
+      <h1>DecorateElement</h1>
+      <p>With parameter _element_.</p>
+      <emu-alg>
+        1. Assert: _element_.[[Kind]] is `"property"`.
+        1. Let _extras_ be a new empty List.
+        1. Let _finishers_ be a new empty List.
+        1. Let _previousDescriptor_ be ? FromElementDescriptor(_element_).
+        1. For each _decorator_ in element_.[[Decorators]], in reverse list order do
+          1. Let _result_ be ? Call(_decorator_, *undefined*, « _previousDescriptor_ »).
+          1. Let _currentDescriptor_ be ? Get(_result_, *"descriptor"*).
+          1. Let _current_ be ? ToElementDescriptor(_result_).
+          1. If _current_.[[Finisher]] is not *undefined*, then
+            1. Append _current_.[[Finisher]] to the end of _finishers_.
+            1. Set _current_.[[Finisher]] to *undefined*.
+            1. Note: Finishers are not passed forward to the next decorator.
+          1. Let _previousDescriptor_ be ? FromElementDescriptor(_current_).
+          1. Let _extrasObject_ be ? Get(_result_, `"extras"`).
+          1. If _extrasObject_ is not *undefined*, then:
+            1. Let _iterator_ be ? GetIterator(_extrasObject_).
+            1. Repeat
+              1. Let _next_ be ? IteratorStep(_iterator_).
+              1. If _next_ is *false*, then break.
+              1. Let _nextValue_ be ? IteratorValue(_next_).
+              1. Append _nextValue_ to the end of _extras_.
+        1. Let _extras_ be the result of merging any _extras_ with the same [[Key]] and [[Static]].
+        1. Return the Record {[[Descriptor]]: _previousDescriptor_, [[Extras]]: _extras_, [[Finishers]]: _finishers_}.
+      </emu-alg>
+      <emu-note>
+        <p>Future versions of the spec will create element descriptors with other [[Kind]]s.</p>
+      </emu-note>
+      <emu-note type=editor>
+        <p>There is a decision-point about what validation rules should be applied to the merging that happens right before merging.</p>
+      </emu-note>
+    </emu-clause>
+    <emu-clause id=sec-decorate-class>
+      <h1>DecorateClass</h1>
+      <p>With parameters _decorators_, _constructor_, _heritage_ and _elementDescriptors_.</p>
+      <emu-alg>
+        1. Let _elements_ be a new empty List.
+        1. Let _finishers_ be a new empty List.
+        1. Let _previousConstructor_ be _constructor_.
+        1. Let _previousDescriptors_ be _elementDescriptors_.
+        1. For each _decorator_ in _decorators_, in reverse list order do
+          1. Let _result_ be ? Call(_decorator_, *undefined*, « _previousConstructor_, _heritage_, _previousDescriptors_ »).
+          1. Let _previousConstructor_ be ? Get(_result_, `"constructor"`).
+          1. Let _finisher_ be ? Get(_result_, *"finisher"*).
+          1. If _finisher_ is not *undefined*, then append _finisher_ to the end of _finishers_.
+          1. Let _elementsObject_ be ? Get(_result_, `"elements"`).
+          1. If _elementsObject_ is not *undefined*, then
+            1. Let _iterator_ be ? GetIterator(_extrasObject_).
+            1. Repeat
+              1. Let _next_ be ? IteratorStep(_iterator_).
+              1. If _next_ is *false*, then break.
+              1. Let _nextValue_ be ? IteratorValue(_next_).
+              1. Append _nextValue_ to the end of _elements_.
+        1. Let _elements_ be the result of merging any _elements_ with the same [[Key]] and [[Static]].
+        1. Return the Record {[[Constructor]]: _previousConstructor_, [[Elements]]: _elements_, [[Finishers]]: _finishers_}.
+      </emu-alg>
+      <emu-note type=editor>
+        <p>There is a decision-point about what validation rules should be applied to the merging.</p>
+        <p>We also need to decide whether to produce an error if the returned constructor from a decorator has the wrong prototype. We think it
+        should be an error.</p>
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id=sec-from-element-descriptor>
+      <h1>FromElementDescriptor</h1>
+      <p>With parameter _element_.</p>
+      <emu-alg>
+        1. Let _obj_ be ! ObjectCreate(%ObjectPrototype%).
+        1. Perform ! CreateDataPropertyOrThrow(_obj_, `"kind"`, _element_.[[Kind]]).
+        1. Perform ! CreateDataPropertyOrThrow(_obj_, `"isStatic"`, _element_.[[Static]]).
+        1. Perform ! CreateDataPropertyOrThrow(_obj_, `"key"`, _element_.[[Key]]).
+        1. Perform ! CreateDataPropertyOrThrow(_obj_, `"descriptor"`, ! FromPropertyDescriptor(_element_.[[Descriptor]])).
+        1. If _element_.[[Finisher]] is not *undefined*, then
+          1. Perform ! CreateDataPropertyOrThrow(_obj_, *"finisher"*, _element_.[[Finisher]]).
+        1. Return _obj_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id=sec-to-element-descriptor>
+      <h1>ToElementDescriptor</h1>
+      <p>With parameter _descriptor_.</p>
+      <emu-alg>
+        1. Let _kind_ be ? Get(_descriptor_, `"kind"`).
+        1. If _kind_ is not equal to the string value `"property"`, throw a TypeError exception.
+        1. Let _static_ be ToBoolean(? Get(_descriptor_, `"isStatic"`)).
+        1. Let _key_ be ? ToString(? Get(_descriptor_, `"key"`)).
+        1. Let _descriptor_ be ? ToPropertyDescriptor(? Get(_descriptor_, `"descriptor"`)).
+        1. Let _hasFinisher_ be ? HasProperty(_descriptor_, 'finisher').
+        1. If _hasFinisher_ is *true*, let _finisher_ be ? Get(_descriptor_, *"key"*).
+        1. Else, let _finisher_ be *undefined*.
+        1. Return the Record {[[Kind]]: _kind_, [[Static]]: _static_, [[Key]]: _key_, [[Descriptor]]: _descriptor_, [[Finisher]]: _finisher_}.
+      </emu-alg>
+      <emu-note type=editor>
+        <p>Todo: Should probably add validations for having kind, static, and key fields.</p>
+      </emu-note>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>

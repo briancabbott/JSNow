@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-class-method-parameter-decorators undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-class-method-parameter-decorators",
+    "repo": "https://github.com/tc39/proposal-class-method-parameter-decorators",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-class-method-parameter-decorators",
+    "startTime": "2024-07-18T18:15:51.973Z",
+    "endTime": "2024-07-18T18:15:52.741Z",
+    "childProcessPid": 20014,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-class-method-parameter-decorators--20014",
+    "executionErrors": []
+}
