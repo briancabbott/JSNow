@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-regexp-unicode-property-escapes undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-regexp-unicode-property-escapes",
+    "repo": "https://github.com/tc39/proposal-regexp-unicode-property-escapes",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-regexp-unicode-property-escapes",
+    "startTime": "2024-07-18T18:17:57.957Z",
+    "endTime": "2024-07-18T18:17:58.843Z",
+    "childProcessPid": 23297,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-regexp-unicode-property-escapes--23297",
+    "executionErrors": []
+}

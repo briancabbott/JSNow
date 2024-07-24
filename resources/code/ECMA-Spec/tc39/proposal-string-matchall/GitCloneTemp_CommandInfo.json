@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-string-matchall undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-string-matchall",
+    "repo": "https://github.com/tc39/proposal-string-matchall",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-string-matchall",
+    "startTime": "2024-07-18T18:18:24.697Z",
+    "endTime": "2024-07-18T18:18:25.627Z",
+    "childProcessPid": 23893,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-string-matchall--23893",
+    "executionErrors": []
+}

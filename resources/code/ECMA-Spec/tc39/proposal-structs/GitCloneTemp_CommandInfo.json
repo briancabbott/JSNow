@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-structs undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-structs",
+    "repo": "https://github.com/tc39/proposal-structs",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-structs",
+    "startTime": "2024-07-18T18:18:28.084Z",
+    "endTime": "2024-07-18T18:18:28.937Z",
+    "childProcessPid": 23981,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-structs--23981",
+    "executionErrors": []
+}

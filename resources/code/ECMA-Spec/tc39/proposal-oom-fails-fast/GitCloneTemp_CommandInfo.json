@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-oom-fails-fast undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-oom-fails-fast",
+    "repo": "https://github.com/tc39/proposal-oom-fails-fast",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-oom-fails-fast",
+    "startTime": "2024-07-18T18:17:28.102Z",
+    "endTime": "2024-07-18T18:17:28.951Z",
+    "childProcessPid": 22592,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-oom-fails-fast--22592",
+    "executionErrors": []
+}

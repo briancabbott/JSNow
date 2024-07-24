@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "proposal-upsert",
+  "description": "ECMAScript Proposal, specs, and reference implementation for Map.prototype.upsert",
+  "scripts": {
+    "build": "ecmarkup spec.emu index.html"
+  },
+  "homepage": "https://github.com/tc39/template-for-proposals#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/template-for-proposals.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "ecmarkup": "^3.11.5"
+  }
+}

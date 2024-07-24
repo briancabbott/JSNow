@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-well-formed-stringify undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-well-formed-stringify",
+    "repo": "https://github.com/tc39/proposal-well-formed-stringify",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-well-formed-stringify",
+    "startTime": "2024-07-18T18:19:00.222Z",
+    "endTime": "2024-07-18T18:19:01.033Z",
+    "childProcessPid": 24402,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-well-formed-stringify--24402",
+    "executionErrors": []
+}

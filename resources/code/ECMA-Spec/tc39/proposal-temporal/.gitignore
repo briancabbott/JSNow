@@ -1,0 +1,12 @@
+node_modules/
+polyfill/index.js
+polyfill/index.js.map
+polyfill/script.js
+polyfill/script.js.map
+polyfill/*.tgz
+polyfill/venv
+polyfill/coverage
+polyfill/script-instrumented.js
+out/
+.vscode/
+.eslintcache

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-source-phase-imports undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-source-phase-imports",
+    "repo": "https://github.com/tc39/proposal-source-phase-imports",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-source-phase-imports",
+    "startTime": "2024-07-18T18:18:17.934Z",
+    "endTime": "2024-07-18T18:18:18.937Z",
+    "childProcessPid": 23717,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-source-phase-imports--23717",
+    "executionErrors": []
+}

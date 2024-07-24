@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-object-rest-spread undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-object-rest-spread",
+    "repo": "https://github.com/tc39/proposal-object-rest-spread",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-object-rest-spread",
+    "startTime": "2024-07-18T18:17:25.511Z",
+    "endTime": "2024-07-18T18:17:26.294Z",
+    "childProcessPid": 22526,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-object-rest-spread--22526",
+    "executionErrors": []
+}

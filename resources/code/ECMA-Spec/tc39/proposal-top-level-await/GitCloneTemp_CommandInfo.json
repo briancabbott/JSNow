@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-top-level-await undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-top-level-await",
+    "repo": "https://github.com/tc39/proposal-top-level-await",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-top-level-await",
+    "startTime": "2024-07-18T18:18:48.899Z",
+    "endTime": "2024-07-18T18:18:49.958Z",
+    "childProcessPid": 24158,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-top-level-await--24158",
+    "executionErrors": []
+}

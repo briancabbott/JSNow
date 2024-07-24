@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-nullish-coalescing undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-nullish-coalescing",
+    "repo": "https://github.com/tc39/proposal-nullish-coalescing",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-nullish-coalescing",
+    "startTime": "2024-07-18T18:17:18.487Z",
+    "endTime": "2024-07-18T18:17:19.250Z",
+    "childProcessPid": 22370,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-nullish-coalescing--22370",
+    "executionErrors": []
+}

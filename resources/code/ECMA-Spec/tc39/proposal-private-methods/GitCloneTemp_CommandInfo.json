@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-private-methods undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-private-methods",
+    "repo": "https://github.com/tc39/proposal-private-methods",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-private-methods",
+    "startTime": "2024-07-18T18:17:39.897Z",
+    "endTime": "2024-07-18T18:17:40.798Z",
+    "childProcessPid": 22856,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-private-methods--22856",
+    "executionErrors": []
+}

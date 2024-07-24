@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-string-prototype-codepoints undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-string-prototype-codepoints",
+    "repo": "https://github.com/tc39/proposal-string-prototype-codepoints",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-string-prototype-codepoints",
+    "startTime": "2024-07-18T18:18:26.460Z",
+    "endTime": "2024-07-18T18:18:27.267Z",
+    "childProcessPid": 23937,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-string-prototype-codepoints--23937",
+    "executionErrors": []
+}

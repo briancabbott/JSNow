@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-partial-application undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-partial-application",
+    "repo": "https://github.com/tc39/proposal-partial-application",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-partial-application",
+    "startTime": "2024-07-18T18:17:32.273Z",
+    "endTime": "2024-07-18T18:17:34.263Z",
+    "childProcessPid": 22702,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-partial-application--22702",
+    "executionErrors": []
+}

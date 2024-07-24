@@ -1,0 +1,2208 @@
+<!doctype html>
+<meta charset="utf8">
+
+<emu-clause id="sec-temporal-duration-objects">
+  <h1>Temporal.Duration Objects</h1>
+
+  <p>
+    A Temporal.Duration object describes the difference in elapsed time between
+    two other Temporal objects of the same type: Instant, PlainDate,
+    PlainDateTime, PlainTime, PlainYearMonth, or ZonedDateTime. Objects of this
+    type are only created via the <i>.since()</i> and <i>.until()</i> methods of
+    these objects.
+  </p>
+
+  <emu-clause id="sec-temporal-duration-constructor">
+    <h1>The Temporal.Duration Constructor</h1>
+    <p>The Temporal.Duration constructor:</p>
+    <ul>
+      <li>
+        creates and initializes a new Temporal.Duration object when called as a constructor.
+      </li>
+      <li>
+        is not intended to be called as a function and will throw an exception when called in that manner.
+      </li>
+      <li>
+        may be used as the value of an `extends` clause of a class definition.
+        Subclass constructors that intend to inherit the specified Temporal.Duration behaviour must
+        include a super call to the %Temporal.Duration% constructor to create and initialize subclass
+        instances with the necessary internal slots.
+      </li>
+    </ul>
+
+    <emu-clause id="sec-temporal.duration">
+      <h1>Temporal.Duration ( [ _years_ [ , _months_ [ , _weeks_ [ , _days_ [ , _hours_ [ , _minutes_ [ , _seconds_ [ , _milliseconds_ [ , _microseconds_ [ , _nanoseconds_ ] ] ] ] ] ] ] ] ] ] )</h1>
+      <p>
+        The `Temporal.Duration` function performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. If NewTarget is *undefined*, then
+          1. Throw a *TypeError* exception.
+        1. If _years_ is *undefined*, let _y_ be 0; else let _y_ be ? ToIntegerIfIntegral(_years_).
+        1. If _months_ is *undefined*, let _mo_ be 0; else let _mo_ be ? ToIntegerIfIntegral(_months_).
+        1. If _weeks_ is *undefined*, let _w_ be 0; else let _w_ be ? ToIntegerIfIntegral(_weeks_).
+        1. If _days_ is *undefined*, let _d_ be 0; else let _d_ be ? ToIntegerIfIntegral(_days_).
+        1. If _hours_ is *undefined*, let _h_ be 0; else let _h_ be ? ToIntegerIfIntegral(_hours_).
+        1. If _minutes_ is *undefined*, let _m_ be 0; else let _m_ be ? ToIntegerIfIntegral(_minutes_).
+        1. If _seconds_ is *undefined*, let _s_ be 0; else let _s_ be ? ToIntegerIfIntegral(_seconds_).
+        1. If _milliseconds_ is *undefined*, let _ms_ be 0; else let _ms_ be ? ToIntegerIfIntegral(_milliseconds_).
+        1. If _microseconds_ is *undefined*, let _mis_ be 0; else let _mis_ be ? ToIntegerIfIntegral(_microseconds_).
+        1. If _nanoseconds_ is *undefined*, let _ns_ be 0; else let _ns_ be ? ToIntegerIfIntegral(_nanoseconds_).
+        1. Return ? CreateTemporalDuration(_y_, _mo_, _w_, _d_, _h_, _m_, _s_, _ms_, _mis_, _ns_, NewTarget).
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-the-temporal-duration-constructor">
+    <h1>Properties of the Temporal.Duration Constructor</h1>
+    <p>
+      The value of the [[Prototype]] internal slot of the Temporal.Duration
+      constructor is the intrinsic object %Function.prototype%.
+    </p>
+    <p>The Temporal.Duration constructor has the following properties:</p>
+
+    <emu-clause id="sec-temporal.duration.prototype">
+      <h1>Temporal.Duration.prototype</h1>
+      <p>
+        The initial value of `Temporal.Duration.prototype` is
+        %Temporal.Duration.prototype%.
+      </p>
+      <p>
+        This property has the attributes { [[Writable]]: *false*, [[Enumerable]]:
+        *false*, [[Configurable]]: *false* }.
+      </p>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.from">
+      <h1>Temporal.Duration.from ( _item_ )</h1>
+      <p>
+        The `Temporal.Duration.from` function performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. If _item_ is an Object and _item_ has an [[InitializedTemporalDuration]] internal slot, then
+          1. Return ! CreateTemporalDuration(_item_.[[Years]], _item_.[[Months]], _item_.[[Weeks]], _item_.[[Days]], _item_.[[Hours]], _item_.[[Minutes]], _item_.[[Seconds]], _item_.[[Milliseconds]], _item_.[[Microseconds]], _item_.[[Nanoseconds]]).
+        1. Return ? ToTemporalDuration(_item_).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.compare">
+      <h1>Temporal.Duration.compare ( _one_, _two_ [ , _options_ ] )</h1>
+      <p>
+        The `Temporal.Duration.compare` function performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. Set _one_ to ? ToTemporalDuration(_one_).
+        1. Set _two_ to ? ToTemporalDuration(_two_).
+        1. Set _options_ to ? GetOptionsObject(_options_).
+        1. If _one_.[[Years]] = _two_.[[Years]], and _one_.[[Months]] = _two_.[[Months]], and _one_.[[Weeks]] = _two_.[[Weeks]], and _one_.[[Days]] = _two_.[[Days]], and _one_.[[Hours]] = _two_.[[Hours]], and _one_.[[Minutes]] = _two_.[[Minutes]], and _one_.[[Seconds]] = _two_.[[Seconds]], and _one_.[[Millieconds]] = _two_.[[Millieconds]], and _one_.[[Microseconds]] = _two_.[[Microseconds]], and _one_.[[Nanoseconds]] = _two_.[[Nanoseconds]], then
+          1. Return *+0*<sub>𝔽</sub>.
+        1. Let _relativeToRecord_ be ? GetTemporalRelativeToOption(_options_).
+        1. Let _zonedRelativeTo_ be _relativeToRecord_.[[ZonedRelativeTo]].
+        1. Let _plainRelativeTo_ be _relativeToRecord_.[[PlainRelativeTo]].
+        1. Let _timeZoneRec_ be _relativeToRecord_.[[TimeZoneRec]].
+        1. Let _calendarUnitsPresent_ be *false*.
+        1. If _one_.[[Years]] &ne; 0, or _two_.[[Years]] &ne; 0, or _one_.[[Months]] &ne; 0, or _two_.[[Months]] &ne; 0, or _one_.[[Weeks]] &ne; 0, or _two_.[[Weeks]] &ne; 0, set _calendarUnitsPresent_ to *true*.
+        1. Let _calendarRec_ be ? CreateCalendarMethodsRecordFromRelativeTo(_plainRelativeTo_, _zonedRelativeTo_, « ~date-add~ »).
+        1. If _zonedRelativeTo_ is not *undefined*, and either _calendarUnitsPresent_ is *true*, or _one_.[[Days]] &ne; 0, or _two_.[[Days]] &ne; 0, then
+          1. Let _instant_ be ! CreateTemporalInstant(_zonedRelativeTo_.[[Nanoseconds]]).
+          1. Let _precalculatedPlainDateTime_ be ? GetPlainDateTimeFor(_timeZoneRec_, _instant_, _calendarRec_.[[Receiver]]).
+          1. Let _norm1_ be NormalizeTimeDuration(_one_.[[Hours]], _one_.[[Minutes]], _one_.[[Seconds]], _one_.[[Milliseconds]], _one_.[[Microseconds]], _one_.[[Nanoseconds]]).
+          1. Let _norm2_ be NormalizeTimeDuration(_two_.[[Hours]], _two_.[[Minutes]], _two_.[[Seconds]], _two_.[[Milliseconds]], _two_.[[Microseconds]], _two_.[[Nanoseconds]]).
+          1. Let _after1_ be ? AddZonedDateTime(_zonedRelativeTo_.[[Nanoseconds]], _timeZoneRec_, _calendarRec_, _one_.[[Years]], _one_.[[Months]], _one_.[[Weeks]], _one_.[[Days]], _norm1_, _precalculatedPlainDateTime_).
+          1. Let _after2_ be ? AddZonedDateTime(_zonedRelativeTo_.[[Nanoseconds]], _timeZoneRec_, _calendarRec_, _two_.[[Years]], _two_.[[Months]], _two_.[[Weeks]], _two_.[[Days]], _norm2_, _precalculatedPlainDateTime_).
+          1. If _after1_ &gt; _after2_, return *1*<sub>𝔽</sub>.
+          1. If _after1_ &lt; _after2_, return *-1*<sub>𝔽</sub>.
+          1. Return *+0*<sub>𝔽</sub>.
+        1. If _calendarUnitsPresent_ is *true*, then
+          1. If _plainRelativeTo_ is *undefined*, throw a *RangeError* exception.
+          1. Let _days1_ be ? UnbalanceDateDurationRelative(_one_.[[Years]], _one_.[[Months]], _one_.[[Weeks]], _one_.[[Days]], _plainRelativeTo_, _calendarRec_).
+          1. Let _days2_ be ? UnbalanceDateDurationRelative(_two_.[[Years]], _two_.[[Months]], _two_.[[Weeks]], _two_.[[Days]], _plainRelativeTo_, _calendarRec_).
+        1. Else,
+          1. Let _days1_ be _one_.[[Days]].
+          1. Let _days2_ be _two_.[[Days]].
+        1. Let _norm1_ be NormalizeTimeDuration(_one_.[[Hours]], _one_.[[Minutes]], _one_.[[Seconds]], _one_.[[Milliseconds]], _one_.[[Microseconds]], _one_.[[Nanoseconds]]).
+        1. Set _norm1_ to ? Add24HourDaysToNormalizedTimeDuration(_norm1_, _days1_).
+        1. Let _norm2_ be NormalizeTimeDuration(_two_.[[Hours]], _two_.[[Minutes]], _two_.[[Seconds]], _two_.[[Milliseconds]], _two_.[[Microseconds]], _two_.[[Nanoseconds]]).
+        1. Set _norm2_ to ? Add24HourDaysToNormalizedTimeDuration(_norm2_, _days2_).
+        1. Return 𝔽(CompareNormalizedTimeDuration(_norm1_, _norm2_)).
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-the-temporal-duration-prototype-object">
+    <h1>Properties of the Temporal.Duration Prototype Object</h1>
+
+    <p>The Temporal.Duration prototype object</p>
+    <ul>
+      <li>is itself an ordinary object.</li>
+      <li>is not a Temporal.Duration instance and doesn't have an [[InitializedTemporalDuration]] internal slot.</li>
+      <li>has a [[Prototype]] internal slot whose value is %Object.prototype%.</li>
+    </ul>
+
+    <emu-clause id="sec-temporal.duration.prototype.constructor">
+      <h1>Temporal.Duration.prototype.constructor</h1>
+      <p>The initial value of `Temporal.Duration.prototype.constructor` is %Temporal.Duration%.</p>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.prototype-@@tostringtag">
+      <h1>Temporal.Duration.prototype[ @@toStringTag ]</h1>
+      <p>The initial value of the @@toStringTag property is the String value *"Temporal.Duration"*.</p>
+      <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }.</p>
+    </emu-clause>
+
+    <emu-clause id="sec-get-temporal.duration.prototype.years">
+      <h1>get Temporal.Duration.prototype.years</h1>
+      <p>
+        `Temporal.Duration.prototype.years` is an accessor property whose set accessor function is *undefined*.
+        Its get accessor function performs the following steps:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return 𝔽(_duration_.[[Years]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-get-temporal.duration.prototype.months">
+      <h1>get Temporal.Duration.prototype.months</h1>
+      <p>
+        `Temporal.Duration.prototype.months` is an accessor property whose set accessor function is *undefined*.
+        Its get accessor function performs the following steps:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return 𝔽(_duration_.[[Months]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-get-temporal.duration.prototype.weeks">
+      <h1>get Temporal.Duration.prototype.weeks</h1>
+      <p>
+        `Temporal.Duration.prototype.weeks` is an accessor property whose set accessor function is *undefined*.
+        Its get accessor function performs the following steps:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return 𝔽(_duration_.[[Weeks]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-get-temporal.duration.prototype.days">
+      <h1>get Temporal.Duration.prototype.days</h1>
+      <p>
+        `Temporal.Duration.prototype.days` is an accessor property whose set accessor function is *undefined*.
+        Its get accessor function performs the following steps:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return 𝔽(_duration_.[[Days]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-get-temporal.duration.prototype.hours">
+      <h1>get Temporal.Duration.prototype.hours</h1>
+      <p>
+        `Temporal.Duration.prototype.hours` is an accessor property whose set accessor function is *undefined*.
+        Its get accessor function performs the following steps:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return 𝔽(_duration_.[[Hours]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-get-temporal.duration.prototype.minutes">
+      <h1>get Temporal.Duration.prototype.minutes</h1>
+      <p>
+        `Temporal.Duration.prototype.minutes` is an accessor property whose set accessor function is *undefined*.
+        Its get accessor function performs the following steps:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return 𝔽(_duration_.[[Minutes]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-get-temporal.duration.prototype.seconds">
+      <h1>get Temporal.Duration.prototype.seconds</h1>
+      <p>
+        `Temporal.Duration.prototype.seconds` is an accessor property whose set accessor function is *undefined*.
+        Its get accessor function performs the following steps:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return 𝔽(_duration_.[[Seconds]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-get-temporal.duration.prototype.milliseconds">
+      <h1>get Temporal.Duration.prototype.milliseconds</h1>
+      <p>
+        `Temporal.Duration.prototype.milliseconds` is an accessor property whose set accessor function is *undefined*.
+        Its get accessor function performs the following steps:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return 𝔽(_duration_.[[Milliseconds]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-get-temporal.duration.prototype.microseconds">
+      <h1>get Temporal.Duration.prototype.microseconds</h1>
+      <p>
+        `Temporal.Duration.prototype.microseconds` is an accessor property whose set accessor function is *undefined*.
+        Its get accessor function performs the following steps:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return 𝔽(_duration_.[[Microseconds]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-get-temporal.duration.prototype.nanoseconds">
+      <h1>get Temporal.Duration.prototype.nanoseconds</h1>
+      <p>
+        `Temporal.Duration.prototype.nanoseconds` is an accessor property whose set accessor function is *undefined*.
+        Its get accessor function performs the following steps:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return 𝔽(_duration_.[[Nanoseconds]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-get-temporal.duration.prototype.sign">
+      <h1>get Temporal.Duration.prototype.sign</h1>
+      <p>
+        `Temporal.Duration.prototype.sign` is an accessor property whose set accessor function is *undefined*.
+        Its get accessor function performs the following steps:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return 𝔽(DurationSign(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]], _duration_.[[Hours]], _duration_.[[Minutes]], _duration_.[[Seconds]], _duration_.[[Milliseconds]], _duration_.[[Microseconds]], _duration_.[[Nanoseconds]])).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-get-temporal.duration.prototype.blank">
+      <h1>get Temporal.Duration.prototype.blank</h1>
+      <p>
+        `Temporal.Duration.prototype.blank` is an accessor property whose set accessor function is *undefined*.
+        Its get accessor function performs the following steps:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Let _sign_ be DurationSign(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]], _duration_.[[Hours]], _duration_.[[Minutes]], _duration_.[[Seconds]], _duration_.[[Milliseconds]], _duration_.[[Microseconds]], _duration_.[[Nanoseconds]]).
+        1. If _sign_ = 0, return *true*.
+        1. Return *false*.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.prototype.with">
+      <h1>Temporal.Duration.prototype.with ( _temporalDurationLike_ )</h1>
+      <p>
+        The `Temporal.Duration.prototype.with` method performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Let _temporalDurationLike_ be ? ToTemporalPartialDurationRecord(_temporalDurationLike_).
+        1. If _temporalDurationLike_.[[Years]] is not *undefined*, then
+          1. Let _years_ be _temporalDurationLike_.[[Years]].
+        1. Else,
+          1. Let _years_ be _duration_.[[Years]].
+        1. If _temporalDurationLike_.[[Months]] is not *undefined*, then
+          1. Let _months_ be _temporalDurationLike_.[[Months]].
+        1. Else,
+          1. Let _months_ be _duration_.[[Months]].
+        1. If _temporalDurationLike_.[[Weeks]] is not *undefined*, then
+          1. Let _weeks_ be _temporalDurationLike_.[[Weeks]].
+        1. Else,
+          1. Let _weeks_ be _duration_.[[Weeks]].
+        1. If _temporalDurationLike_.[[Days]] is not *undefined*, then
+          1. Let _days_ be _temporalDurationLike_.[[Days]].
+        1. Else,
+          1. Let _days_ be _duration_.[[Days]].
+        1. If _temporalDurationLike_.[[Hours]] is not *undefined*, then
+          1. Let _hours_ be _temporalDurationLike_.[[Hours]].
+        1. Else,
+          1. Let _hours_ be _duration_.[[Hours]].
+        1. If _temporalDurationLike_.[[Minutes]] is not *undefined*, then
+          1. Let _minutes_ be _temporalDurationLike_.[[Minutes]].
+        1. Else,
+          1. Let _minutes_ be _duration_.[[Minutes]].
+        1. If _temporalDurationLike_.[[Seconds]] is not *undefined*, then
+          1. Let _seconds_ be _temporalDurationLike_.[[Seconds]].
+        1. Else,
+          1. Let _seconds_ be _duration_.[[Seconds]].
+        1. If _temporalDurationLike_.[[Milliseconds]] is not *undefined*, then
+          1. Let _milliseconds_ be _temporalDurationLike_.[[Milliseconds]].
+        1. Else,
+          1. Let _milliseconds_ be _duration_.[[Milliseconds]].
+        1. If _temporalDurationLike_.[[Microseconds]] is not *undefined*, then
+          1. Let _microseconds_ be _temporalDurationLike_.[[Microseconds]].
+        1. Else,
+          1. Let _microseconds_ be _duration_.[[Microseconds]].
+        1. If _temporalDurationLike_.[[Nanoseconds]] is not *undefined*, then
+          1. Let _nanoseconds_ be _temporalDurationLike_.[[Nanoseconds]].
+        1. Else,
+          1. Let _nanoseconds_ be _duration_.[[Nanoseconds]].
+        1. Return ? CreateTemporalDuration(_years_, _months_, _weeks_, _days_, _hours_, _minutes_, _seconds_, _milliseconds_, _microseconds_, _nanoseconds_).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.prototype.negated">
+      <h1>Temporal.Duration.prototype.negated ( )</h1>
+      <p>
+        The `Temporal.Duration.prototype.negated` method performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return CreateNegatedTemporalDuration(_duration_).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.prototype.abs">
+      <h1>Temporal.Duration.prototype.abs ( )</h1>
+      <p>
+        The `Temporal.Duration.prototype.abs` method performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return ! CreateTemporalDuration(abs(_duration_.[[Years]]), abs(_duration_.[[Months]]), abs(_duration_.[[Weeks]]), abs(_duration_.[[Days]]), abs(_duration_.[[Hours]]), abs(_duration_.[[Minutes]]), abs(_duration_.[[Seconds]]), abs(_duration_.[[Milliseconds]]), abs(_duration_.[[Microseconds]]), abs(_duration_.[[Nanoseconds]])).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.prototype.add">
+      <h1>Temporal.Duration.prototype.add ( _other_ )</h1>
+      <p>
+        The `Temporal.Duration.prototype.add` method performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return ? AddDurations(~add~, _duration_, _other_).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.prototype.subtract">
+      <h1>Temporal.Duration.prototype.subtract ( _other_ )</h1>
+      <p>
+        The `Temporal.Duration.prototype.subtract` method performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Return ? AddDurations(~subtract~, _duration_, _other_).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.prototype.round">
+      <h1>Temporal.Duration.prototype.round ( _roundTo_ )</h1>
+      <p>
+        The `Temporal.Duration.prototype.round` method performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. If _roundTo_ is *undefined*, then
+          1. Throw a *TypeError* exception.
+        1. If _roundTo_ is a String, then
+          1. Let _paramString_ be _roundTo_.
+          1. Set _roundTo_ to OrdinaryObjectCreate(*null*).
+          1. Perform ! CreateDataPropertyOrThrow(_roundTo_, *"smallestUnit"*, _paramString_).
+        1. Else,
+          1. Set _roundTo_ to ? GetOptionsObject(_roundTo_).
+        1. Let _smallestUnitPresent_ be *true*.
+        1. Let _largestUnitPresent_ be *true*.
+        1. NOTE: The following steps read options and perform independent validation in alphabetical order (ToRelativeTemporalObject reads *"relativeTo"*, ToTemporalRoundingIncrement reads *"roundingIncrement"* and ToTemporalRoundingMode reads *"roundingMode"*).
+        1. Let _largestUnit_ be ? GetTemporalUnitValuedOption(_roundTo_, *"largestUnit"*, ~datetime~, *undefined*, « *"auto"* »).
+        1. Let _relativeToRecord_ be ? GetTemporalRelativeToOption(_roundTo_).
+        1. Let _zonedRelativeTo_ be _relativeToRecord_.[[ZonedRelativeTo]].
+        1. Let _plainRelativeTo_ be _relativeToRecord_.[[PlainRelativeTo]].
+        1. Let _timeZoneRec_ be _relativeToRecord_.[[TimeZoneRec]].
+        1. Let _roundingIncrement_ be ? GetRoundingIncrementOption(_roundTo_).
+        1. Let _roundingMode_ be ? GetRoundingModeOption(_roundTo_, *"halfExpand"*).
+        1. Let _smallestUnit_ be ? GetTemporalUnitValuedOption(_roundTo_, *"smallestUnit"*, ~datetime~, *undefined*).
+        1. If _smallestUnit_ is *undefined*, then
+          1. Set _smallestUnitPresent_ to *false*.
+          1. Set _smallestUnit_ to *"nanosecond"*.
+        1. Let _existingLargestUnit_ be DefaultTemporalLargestUnit(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]], _duration_.[[Hours]], _duration_.[[Minutes]], _duration_.[[Seconds]], _duration_.[[Milliseconds]], _duration_.[[Microseconds]]).
+        1. Let _defaultLargestUnit_ be LargerOfTwoTemporalUnits(_existingLargestUnit_, _smallestUnit_).
+        1. If _largestUnit_ is *undefined*, then
+          1. Set _largestUnitPresent_ to *false*.
+          1. Set _largestUnit_ to _defaultLargestUnit_.
+        1. Else if _largestUnit_ is *"auto"*, then
+          1. Set _largestUnit_ to _defaultLargestUnit_.
+        1. If _smallestUnitPresent_ is *false* and _largestUnitPresent_ is *false*, then
+          1. Throw a *RangeError* exception.
+        1. If LargerOfTwoTemporalUnits(_largestUnit_, _smallestUnit_) is not _largestUnit_, throw a *RangeError* exception.
+        1. Let _maximum_ be MaximumTemporalDurationRoundingIncrement(_smallestUnit_).
+        1. If _maximum_ is not *undefined*, perform ? ValidateTemporalRoundingIncrement(_roundingIncrement_, _maximum_, *false*).
+        1. Let _hoursToDaysConversionMayOccur_ be *false*.
+        1. If _duration_.[[Days]] &ne; 0 and _zonedRelativeTo_ is not *undefined*, set _hoursToDaysConversionMayOccur_ to *true*.
+        1. Else if abs(_duration_.[[Hours]]) &ge; 24, set _hoursToDaysConversionMayOccur_ to *true*.
+        1. If _smallestUnit_ is *"nanosecond"* and _roundingIncrement_ = 1, let _roundingGranularityIsNoop_ be *true*; else let _roundingGranularityIsNoop_ be *false*.
+        1. If _duration_.[[Years]] = 0 and _duration_.[[Months]] = 0 and _duration_.[[Weeks]] = 0, let _calendarUnitsPresent_ be *false*; else let _calendarUnitsPresent_ be *true*.
+        1. If _roundingGranularityIsNoop_ is *true*, and _largestUnit_ is _existingLargestUnit_, and _calendarUnitsPresent_ is *false*, and _hoursToDaysConversionMayOccur_ is *false*, and abs(_duration_.[[Minutes]]) &lt; 60, and abs(_duration_.[[Seconds]]) &lt; 60, and abs(_duration_.[[Milliseconds]]) &lt; 1000, and abs(_duration_.[[Microseconds]]) &lt; 1000, and abs(_duration_.[[Nanoseconds]]) &lt; 1000, then
+          1. NOTE: The above conditions mean that the operation will have no effect: the smallest unit and rounding increment will leave the total duration unchanged, and it can be determined without calling a calendar or time zone method that no balancing will take place.
+          1. Return ! CreateTemporalDuration(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]], _duration_.[[Hours]], _duration_.[[Minutes]], _duration_.[[Seconds]], _duration_.[[Milliseconds]], _duration_.[[Microseconds]], _duration_.[[Nanoseconds]]).
+        1. Let _precalculatedPlainDateTime_ be *undefined*.
+        1. If IsCalendarUnit(_largestUnit_) is *true*, or _largestUnit_ is *"day"*, or _calendarUnitsPresent_ is *true*, or _duration_.[[Days]] &ne; 0, let _plainDateTimeOrRelativeToWillBeUsed_ be *true*; else let _plainDateTimeOrRelativeToWillBeUsed_ be *false*.
+        1. If _zonedRelativeTo_ is not *undefined* and _plainDateTimeOrRelativeToWillBeUsed_ is *true*, then
+          1. NOTE: The above conditions mean that the corresponding `Temporal.PlainDateTime` or `Temporal.PlainDate` for _zonedRelativeTo_ will be used in one of the operations below.
+          1. Let _instant_ be ! CreateTemporalInstant(_zonedRelativeTo_.[[Nanoseconds]]).
+          1. Set _precalculatedPlainDateTime_ to ? GetPlainDateTimeFor(_timeZoneRec_, _instant_, _zonedRelativeTo_.[[Calendar]]).
+          1. Set _plainRelativeTo_ to ! CreateTemporalDate(_precalculatedPlainDateTime_.[[ISOYear]], _precalculatedPlainDateTime_.[[ISOMonth]], _precalculatedPlainDateTime_.[[ISODay]], _zonedRelativeTo_.[[Calendar]]).
+        1. Let _calendarRec_ be ? CreateCalendarMethodsRecordFromRelativeTo(_plainRelativeTo_, _zonedRelativeTo_, « ~date-add~, ~date-until~ »).
+        1. Let _norm_ be NormalizeTimeDuration(_duration_.[[Hours]], _duration_.[[Minutes]], _duration_.[[Seconds]], _duration_.[[Milliseconds]], _duration_.[[Microseconds]], _duration_.[[Nanoseconds]]).
+        1. Let _emptyOptions_ be OrdinaryObjectCreate(*null*).
+        1. If _zonedRelativeTo_ is not *undefined*, then
+          1. Let _relativeEpochNs_ be _zonedRelativeTo_.[[Nanoseconds]].
+          1. Let _relativeInstant_ be ! CreateTemporalInstant(_relativeEpochNs_).
+          1. Let _targetEpochNs_ be ? AddZonedDateTime(_relativeInstant_, _timeZoneRec_, _calendarRec_, _duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]], _norm_, _precalculatedPlainDateTime_).
+          1. Let _roundRecord_ be ? DifferenceZonedDateTimeWithRounding(_relativeEpochNs_, _targetEpochNs_, _calendarRec_, _timeZoneRec_, _precalculatedPlainDateTime_, _emptyOptions_, _largestUnit_, _roundingIncrement_, _smallestUnit_, _roundingMode_).
+          1. Let _roundResult_ be _roundRecord_.[[DurationRecord]].
+        1. Else if _plainRelativeTo_ is not *undefined*, then
+          1. Let _targetTime_ be AddTime(0, 0, 0, 0, 0, 0, _norm_).
+          1. Let _dateDuration_ be ? CreateTemporalDuration(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]] + _targetTime_.[[Days]], 0, 0, 0, 0, 0, 0).
+          1. Let _targetDate_ be ? AddDate(_calendarRec_, _plainRelativeTo_, _dateDuration_).
+          1. Let _roundRecord_ be ? DifferencePlainDateTimeWithRounding(_plainRelativeTo_.[[ISOYear]], _plainRelativeTo_.[[ISOMonth]], _plainRelativeTo_.[[ISODay]], 0, 0, 0, 0, 0, 0, _targetDate_.[[ISOYear]], _targetDate_.[[ISOMonth]], _targetDate_.[[ISODay]], _targetTime_.[[Hours]], _targetTime_.[[Minutes]], _targetTime_.[[Seconds]], _targetTime_.[[Milliseconds]], _targetTime_.[[Microseconds]], _targetTime_.[[Nanoseconds]], _calendarRec_, _largestUnit_, _roundingIncrement_, _smallestUnit_, _roundingMode_, _emptyOptions_).
+          1. Let _roundResult_ be _roundRecord_.[[DurationRecord]].
+        1. Else,
+          1. If _calendarUnitsPresent_ is *true*, or IsCalendarUnit(_largestUnit_) is *true*, throw a *RangeError* exception.
+          1. Assert: IsCalendarUnit(_smallestUnit_) is *false*.
+          1. Let _roundRecord_ be ? RoundTimeDuration(_duration_.[[Days]], _norm_, _roundingIncrement_, _smallestUnit_, _roundingMode_).
+          1. Let _normWithDays_ be ? Add24HourDaysToNormalizedTimeDuration(_roundRecord_.[[NormalizedDuration]].[[NormalizedTime]], _roundRecord_.[[NormalizedDuration]].[[Days]]).
+          1. Let _balanceResult_ be ? BalanceTimeDuration(_normWithDays_, _largestUnit_).
+          1. Let _roundResult_ be CreateDurationRecord(0, 0, 0, _balanceResult_.[[Days]], _balanceResult_.[[Hours]], _balanceResult_.[[Minutes]], _balanceResult_.[[Seconds]], _balanceResult_.[[Milliseconds]], _balanceResult_.[[Microseconds]], _balanceResult_.[[Nanoseconds]]).
+        1. Return ? CreateTemporalDuration(_roundResult_.[[Years]], _roundResult_.[[Months]], _roundResult_.[[Weeks]], _roundResult_.[[Days]], _roundResult_.[[Hours]], _roundResult_.[[Minutes]], _roundResult_.[[Seconds]], _roundResult_.[[Milliseconds]], _roundResult_.[[Microseconds]], _roundResult_.[[Nanoseconds]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.prototype.total">
+      <h1>Temporal.Duration.prototype.total ( _totalOf_ )</h1>
+      <p>
+        The `Temporal.Duration.prototype.total` method performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. If _totalOf_ is *undefined*, throw a *TypeError* exception.
+        1. If _totalOf_ is a String, then
+          1. Let _paramString_ be _totalOf_.
+          1. Set _totalOf_ to OrdinaryObjectCreate(*null*).
+          1. Perform ! CreateDataPropertyOrThrow(_totalOf_, *"unit"*, _paramString_).
+        1. Else,
+          1. Set _totalOf_ to ? GetOptionsObject(_totalOf_).
+        1. NOTE: The following steps read options and perform independent validation in alphabetical order (ToRelativeTemporalObject reads *"relativeTo"*).
+        1. Let _relativeToRecord_ be ? GetTemporalRelativeToOption(_totalOf_).
+        1. Let _zonedRelativeTo_ be _relativeToRecord_.[[ZonedRelativeTo]].
+        1. Let _plainRelativeTo_ be _relativeToRecord_.[[PlainRelativeTo]].
+        1. Let _timeZoneRec_ be _relativeToRecord_.[[TimeZoneRec]].
+        1. Let _unit_ be ? GetTemporalUnitValuedOption(_totalOf_, *"unit"*, ~datetime~, ~required~).
+        1. Let _precalculatedPlainDateTime_ be *undefined*.
+        1. If IsCalendarUnit(_unit_) is *true*, or _unit_ is *"day"*, or _duration_.[[Years]] &ne; 0, or _duration_.[[Months]] &ne; 0, or _duration_.[[Weeks]] &ne; 0, or _duration_.[[Days]] &ne; 0, let _plainDateTimeOrRelativeToWillBeUsed_ be *true*; else let _plainDateTimeOrRelativeToWillBeUsed_ be *false*.
+        1. If _zonedRelativeTo_ is not *undefined* and _plainDateTimeOrRelativeToWillBeUsed_ is *true*, then
+          1. NOTE: The above conditions mean that the corresponding `Temporal.PlainDateTime` or `Temporal.PlainDate` for _zonedRelativeTo_ will be used in one of the operations below.
+          1. Let _instant_ be ! CreateTemporalInstant(_zonedRelativeTo_.[[Nanoseconds]]).
+          1. Set _precalculatedPlainDateTime_ to ? GetPlainDateTimeFor(_timeZoneRec_, _instant_, _zonedRelativeTo_.[[Calendar]]).
+          1. Set _plainRelativeTo_ to ! CreateTemporalDate(_precalculatedPlainDateTime_.[[ISOYear]], _precalculatedPlainDateTime_.[[ISOMonth]], _precalculatedPlainDateTime_.[[ISODay]], _zonedRelativeTo_.[[Calendar]]).
+        1. Let _calendarRec_ be ? CreateCalendarMethodsRecordFromRelativeTo(_plainRelativeTo_, _zonedRelativeTo_, « ~date-add~, ~date-until~ »).
+        1. Let _norm_ be NormalizeTimeDuration(_duration_.[[Hours]], _duration_.[[Minutes]], _duration_.[[Seconds]], _duration_.[[Milliseconds]], _duration_.[[Microseconds]], _duration_.[[Nanoseconds]]).
+        1. Let _emptyOptions_ be OrdinaryObjectCreate(*null*).
+        1. If _zonedRelativeTo_ is not *undefined*, then
+          1. Let _relativeEpochNs_ be _zonedRelativeTo_.[[Nanoseconds]].
+          1. Let _relativeInstant_ be ! CreateTemporalInstant(_relativeEpochNs_).
+          1. Let _targetEpochNs_ be ? AddZonedDateTime(_relativeInstant_, _timeZoneRec_, _calendarRec_, _duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]], _norm_, _precalculatedPlainDateTime_).
+          1. Let _roundRecord_ be ? DifferenceZonedDateTimeWithRounding(_relativeEpochNs_, _targetEpochNs_, _calendarRec_, _timeZoneRec_, _precalculatedPlainDateTime_, _emptyOptions_, _unit_, 1, _unit_, *"trunc"*).
+        1. Else if _plainRelativeTo_ is not *undefined*, then
+          1. Let _targetTime_ be AddTime(0, 0, 0, 0, 0, 0, _norm_).
+          1. Let _dateDuration_ be ? CreateTemporalDuration(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]] + _targetTime_.[[Days]], 0, 0, 0, 0, 0, 0).
+          1. Let _targetDate_ be ? AddDate(_calendarRec_, _plainRelativeTo_, _dateDuration_).
+          1. Let _roundRecord_ be ? DifferencePlainDateTimeWithRounding(_plainRelativeTo_.[[ISOYear]], _plainRelativeTo_.[[ISOMonth]], _plainRelativeTo_.[[ISODay]], 0, 0, 0, 0, 0, 0, _targetDate_.[[ISOYear]], _targetDate_.[[ISOMonth]], _targetDate_.[[ISODay]], _targetTime_.[[Hours]], _targetTime_.[[Minutes]], _targetTime_.[[Seconds]], _targetTime_.[[Milliseconds]], _targetTime_.[[Microseconds]], _targetTime_.[[Nanoseconds]], _calendarRec_, _unit_, 1, _unit_, *"trunc"*, _emptyOptions_).
+        1. Else,
+          1. If _duration_.[[Years]] &ne; 0, or _duration_.[[Months]] &ne; 0, or _duration_.[[Weeks]] &ne; 0, or IsCalendarUnit(_unit_) is *true*, throw a *RangeError* exception.
+          1. Let _normWithDays_ be ? Add24HourDaysToNormalizedTimeDuration(_norm_, _duration_.[[Days]]).
+          1. Let _roundRecord_ be ? RoundTimeDuration(0, _normWithDays_, 1, _unit_, *"trunc"*).
+        1. Assert: _roundRecord_.[[Total]] is not ~unset~.
+        1. Return 𝔽(_roundRecord_.[[Total]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.prototype.tostring">
+      <h1>Temporal.Duration.prototype.toString ( [ _options_ ] )</h1>
+      <p>
+        The `Temporal.Duration.prototype.toString` method performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Set _options_ to ? GetOptionsObject(_options_).
+        1. NOTE: The following steps read options and perform independent validation in alphabetical order (ToFractionalSecondDigits reads *"fractionalSecondDigits"* and ToTemporalRoundingMode reads *"roundingMode"*).
+        1. Let _digits_ be ? GetTemporalFractionalSecondDigitsOption(_options_).
+        1. Let _roundingMode_ be ? GetRoundingModeOption(_options_, *"trunc"*).
+        1. Let _smallestUnit_ be ? GetTemporalUnitValuedOption(_options_, *"smallestUnit"*, ~time~, *undefined*).
+        1. If _smallestUnit_ is *"hour"* or *"minute"*, throw a *RangeError* exception.
+        1. Let _precision_ be ToSecondsStringPrecisionRecord(_smallestUnit_, _digits_).
+        1. If _precision_.[[Unit]] is not *"nanosecond"* or _precision_.[[Increment]] &ne; 1, then
+          1. Let _norm_ be NormalizeTimeDuration(_duration_.[[Hours]], _duration_.[[Minutes]], _duration_.[[Seconds]], _duration_.[[Milliseconds]], _duration_.[[Microseconds]], _duration_.[[Nanoseconds]]).
+          1. Let _largestUnit_ be DefaultTemporalLargestUnit(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]], _duration_.[[Hours]], _duration_.[[Minutes]], _duration_.[[Seconds]], _duration_.[[Milliseconds]], _duration_.[[Microseconds]]).
+          1. Let _roundRecord_ be ? RoundTimeDuration(0, _norm_, _precision_.[[Increment]], _precision_.[[Unit]], _roundingMode_).
+          1. Set _norm_ to _roundRecord_.[[NormalizedDuration]].[[NormalizedTime]].
+          1. Let _result_ be ! BalanceTimeDuration(_norm_, LargerOfTwoTemporalUnits(_largestUnit_, *"second"*)).
+          1. Set _result_ to CreateDurationRecord(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]] + _result_.[[Days]], _result_.[[Hours]], _result_.[[Minutes]], _result_.[[Seconds]], _result_.[[Milliseconds]], _result_.[[Microseconds]], _result_.[[Nanoseconds]]).
+        1. Else,
+          1. Let _result_ be _duration_.
+        1. Let _normSeconds_ be NormalizeTimeDuration(0, 0, _result_.[[Seconds]], _result_.[[Milliseconds]], _result_.[[Microseconds]], _result_.[[Nanoseconds]]).
+        1. Return TemporalDurationToString(_result_.[[Years]], _result_.[[Months]], _result_.[[Weeks]], _result_.[[Days]], _result_.[[Hours]], _result_.[[Minutes]], _normSeconds_, _precision_.[[Precision]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.prototype.tojson">
+      <h1>Temporal.Duration.prototype.toJSON ( )</h1>
+      <p>
+        The `Temporal.Duration.prototype.toJSON` method performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Let _normSeconds_ be NormalizeTimeDuration(0, 0, _duration_.[[Seconds]], _duration_.[[Milliseconds]], _duration_.[[Microseconds]], _duration_.[[Nanoseconds]]).
+        1. Return TemporalDurationToString(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]], _duration_.[[Hours]], _duration_.[[Minutes]], _normSeconds_, *"auto"*).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.prototype.tolocalestring">
+      <h1>Temporal.Duration.prototype.toLocaleString ( [ _locales_ [ , _options_ ] ] )</h1>
+      <p>
+        An ECMAScript implementation that includes the ECMA-402 Internationalization API must implement the `Temporal.Duration.prototype.toLocaleString` method as specified in the ECMA-402 specification.
+        If an ECMAScript implementation does not include the ECMA-402 API the following specification of the `Temporal.Duration.prototype.toLocaleString` method is used.
+      </p>
+      <p>
+        The `Temporal.Duration.prototype.toLocaleString` method performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. Let _duration_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_duration_, [[InitializedTemporalDuration]]).
+        1. Let _normSeconds_ be NormalizeTimeDuration(0, 0, _duration_.[[Seconds]], _duration_.[[Milliseconds]], _duration_.[[Microseconds]], _duration_.[[Nanoseconds]]).
+        1. Return TemporalDurationToString(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]], _duration_.[[Hours]], _duration_.[[Minutes]], _normSeconds_, *"auto"*).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal.duration.prototype.valueof">
+      <h1>Temporal.Duration.prototype.valueOf ( )</h1>
+      <p>
+        The `Temporal.Duration.prototype.valueOf` method performs the following steps when called:
+      </p>
+      <emu-alg>
+        1. Throw a *TypeError* exception.
+      </emu-alg>
+      <emu-note>
+        <p>
+          This method always throws, because in the absence of `valueOf()`, expressions with arithmetic operators such as `duration1 > duration2` would fall back to being equivalent to `duration1.toString() > duration2.toString()`.
+          Lexicographical comparison of serialized strings might not seem obviously wrong, because the result would sometimes be correct.
+          Implementations are encouraged to phrase the error message to point users to `Temporal.Duration.compare()` and/or `Temporal.Duration.prototype.toString()`.
+        </p>
+      </emu-note>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-temporal-duration-instances">
+    <h1>Properties of Temporal.Duration Instances</h1>
+    <p>
+      Temporal.Duration instances are ordinary objects that inherit properties from the %Temporal.Duration.prototype% intrinsic object.
+      Temporal.Duration instances are initially created with the internal slots described in <emu-xref href="#table-internal-slots-of-temporalduration-instances"></emu-xref>.
+    </p>
+    <p>
+      A <dfn variants="float64-representable integers">float64-representable integer</dfn> is an integer that is exactly representable as a Number value.
+      That is, for a float64-representable integer _x_, it must hold that ℝ(𝔽(_x_)) = _x_.
+    </p>
+    <emu-note>
+      The use of float64-representable integers here is intended so that implementations can store and do arithmetic on Duration fields using 64-bit floating-point values.
+    </emu-note>
+    <emu-table id="table-internal-slots-of-temporalduration-instances" caption="Internal Slots of Temporal.Duration Instances">
+      <table>
+        <tbody>
+          <tr>
+            <th>
+              Internal Slot
+            </th>
+            <th>
+              Description
+            </th>
+          </tr>
+          <tr>
+            <td>
+              [[InitializedTemporalDuration]]
+            </td>
+            <td>
+              The only specified use of this slot is for distinguishing Temporal.Duration instances from other objects.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Years]]
+            </td>
+            <td>
+              A float64-representable integer representing the number of years in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Months]]
+            </td>
+            <td>
+              A float64-representable integer representing the number of months in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Weeks]]
+            </td>
+            <td>
+              A float64-representable integer representing the number of weeks in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Days]]
+            </td>
+            <td>
+              A float64-representable integer representing the number of days in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Hours]]
+            </td>
+            <td>
+              A float64-representable integer representing the number of hours in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Minutes]]
+            </td>
+            <td>
+              A float64-representable integer representing the number of minutes in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Seconds]]
+            </td>
+            <td>
+              A float64-representable integer representing the number of seconds in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Milliseconds]]
+            </td>
+            <td>
+              A float64-representable integer representing the number of milliseconds in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Microseconds]]
+            </td>
+            <td>
+              A float64-representable integer representing the number of microseconds in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Nanoseconds]]
+            </td>
+            <td>
+              A float64-representable integer representing the number of nanoseconds in the duration.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </emu-table>
+  </emu-clause>
+
+  <emu-clause id="sec-temporal-duration-abstract-ops">
+    <h1>Abstract Operations</h1>
+
+    <emu-clause id="sec-temporal-duration-records">
+      <h1>Duration Records</h1>
+      <p>
+        A <dfn variants="Duration Records">Duration Record</dfn> is a Record value used to represent a Temporal.Duration object.
+        Duration Records are produced by the abstract operation CreateDurationRecord, among others.
+      </p>
+      <p>
+        Duration Records have the fields listed in <emu-xref href="#table-temporal-duration-record-fields"></emu-xref>.
+      </p>
+      <emu-table id="table-temporal-duration-record-fields" caption="Duration Record Fields">
+        <table class="real-table">
+          <tr>
+            <th>Field Name</th>
+            <th>Property Name</th>
+            <th>Value</th>
+            <th>Meaning</th>
+          </tr>
+          <tr>
+            <td>[[Years]]</td>
+            <td>*"years"*</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of years in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Months]]</td>
+            <td>*"months"*</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of months in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Weeks]]</td>
+            <td>*"weeks"*</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of weeks in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Days]]</td>
+            <td>*"days"*</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of days in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Hours]]</td>
+            <td>*"hours"*</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of hours in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Minutes]]</td>
+            <td>*"minutes"*</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of minutes in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Seconds]]</td>
+            <td>*"seconds"*</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of seconds in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Milliseconds]]</td>
+            <td>*"milliseconds"*</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of milliseconds in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Microseconds]]</td>
+            <td>*"microseconds"*</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of microseconds in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Nanoseconds]]</td>
+            <td>*"nanoseconds"*</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of nanoseconds in the duration.
+            </td>
+          </tr>
+        </table>
+      </emu-table>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-date-duration-records">
+      <h1>Date Duration Records</h1>
+      <p>
+        A <dfn variants="Date Duration Records">Date Duration Record</dfn> is a Record value used to represent the portion of a Temporal.Duration object that deals with calendar date units.
+        Date Duration Records are produced by the abstract operation CreateDateDurationRecord, among others.
+      </p>
+      <p>
+        Of the fields listed in <emu-xref href="#table-temporal-duration-record-fields"></emu-xref>, Date Duration Records have [[Years]], [[Months]], [[Weeks]], and [[Days]].
+      </p>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-time-duration-records">
+      <h1>Time Duration Records</h1>
+      <p>
+        A <dfn variants="Time Duration Records">Time Duration Record</dfn> is a Record value used to represent the portion of a Temporal.Duration object that deals with exact time units.
+        Time Duration Records are produced by the abstract operation CreateTimeDurationRecord, among others.
+      </p>
+      <p>
+        Of the fields listed in <emu-xref href="#table-temporal-duration-record-fields"></emu-xref>, Time Duration Records have [[Days]], [[Hours]], [[Minutes]], [[Seconds]], [[Milliseconds]], [[Microseconds]], and [[Nanoseconds]].
+      </p>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-partial-duration-records">
+      <h1>Partial Duration Records</h1>
+      <p>
+        A <dfn variants="partial Duration Records">partial Duration Record</dfn> is a Record value used to represent a portion of a Temporal.Duration object, in which it is not required that all the fields be specified.
+      </p>
+      <p>
+        Partial Duration Records have the same fields listed in <emu-xref href="#table-temporal-duration-record-fields"></emu-xref>.
+        Unlike Duration Records, each field of a partial Duration Record may also have the value *undefined* as long as there is at least one field that is not *undefined*.
+      </p>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-normalized-time-duration-records">
+      <h1>Normalized Time Duration Records</h1>
+      <p>
+        A <dfn variants="Normalized Time Duration Records">Normalized Time Duration Record</dfn> is a Record value used to represent the portion of a Temporal.Duration object that deals with time units, but as a combined value.
+        Normalized Time Duration Records are produced by the abstract operation NormalizeTimeDuration, among others.
+      </p>
+      <p>
+        Normalized Time Duration Records have the fields listed in <emu-xref href="#table-temporal-normalized-time-duration-record-fields"></emu-xref>.
+      </p>
+      <emu-table id="table-temporal-normalized-time-duration-record-fields" caption="Normalized Time Duration Record Fields">
+        <table class="real-table">
+          <tr>
+            <th>Field Name</th>
+            <th>Value</th>
+            <th>Meaning</th>
+          </tr>
+          <tr>
+            <td>[[TotalNanoseconds]]</td>
+            <td>
+              an integer in the inclusive interval from -maxTimeDuration to maxTimeDuration, where
+              <emu-eqn id="eqn-maxTimeDuration" aoid="maxTimeDuration">
+                maxTimeDuration = 2<sup>53</sup> &times; 10<sup>9</sup> - 1 = 9,007,199,254,740,991,999,999,999
+              </emu-eqn>
+            </td>
+            <td>
+              The number of nanoseconds in the duration.
+            </td>
+          </tr>
+        </table>
+      </emu-table>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-normalized-duration-records">
+      <h1>Normalized Duration Records</h1>
+      <p>
+        A <dfn variants="Normalized Duration Records">Normalized Duration Record</dfn> is a Record value used to represent the combination of a Date Duration Record with a Normalized Time Duration Record.
+        Such Records are used by operations that deal with both date and time portions of durations, such as RoundTimeDuration.
+      </p>
+      <p>
+        Normalized Duration Records have the fields listed in <emu-xref href="#table-temporal-normalized-duration-record-fields"></emu-xref>.
+      </p>
+      <emu-table id="table-temporal-normalized-duration-record-fields" caption="Normalized Duration Record Fields">
+        <table class="real-table">
+          <tr>
+            <th>Field Name</th>
+            <th>Value</th>
+            <th>Meaning</th>
+          </tr>
+          <tr>
+            <td>[[Years]]</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of years in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Months]]</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of months in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Weeks]]</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of weeks in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Days]]</td>
+            <td>a float64-representable integer</td>
+            <td>
+              The number of days in the duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[NormalizedTime]]</td>
+            <td>a Normalized Time Duration Record</td>
+            <td>
+              The time portion of the duration.
+            </td>
+          </tr>
+        </table>
+      </emu-table>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-createdurationrecord" type="abstract operation">
+      <h1>
+        CreateDurationRecord (
+          _years_: an integer,
+          _months_: an integer,
+          _weeks_: an integer,
+          _days_: an integer,
+          _hours_: an integer,
+          _minutes_: an integer,
+          _seconds_: an integer,
+          _milliseconds_: an integer,
+          _microseconds_: an integer,
+          _nanoseconds_: an integer,
+        ): a Duration Record
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd></dd>
+      </dl>
+      <emu-alg>
+        1. Assert: IsValidDuration(_years_, _months_, _weeks_, _days_, _hours_, _minutes_, _seconds_, _milliseconds_, _microseconds_, _nanoseconds_) is *true*.
+        1. Return Duration Record {
+            [[Years]]: ℝ(𝔽(_years_)),
+            [[Months]]: ℝ(𝔽(_months_)),
+            [[Weeks]]: ℝ(𝔽(_weeks_)),
+            [[Days]]: ℝ(𝔽(_days_)),
+            [[Hours]]: ℝ(𝔽(_hours_)),
+            [[Minutes]]: ℝ(𝔽(_minutes_)),
+            [[Seconds]]: ℝ(𝔽(_seconds_)),
+            [[Milliseconds]]: ℝ(𝔽(_milliseconds_)),
+            [[Microseconds]]: ℝ(𝔽(_microseconds_)),
+            [[Nanoseconds]]: ℝ(𝔽(_nanoseconds_))
+          }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-createdatedurationrecord" type="abstract operation">
+      <h1>
+        CreateDateDurationRecord (
+          _years_: an integer,
+          _months_: an integer,
+          _weeks_: an integer,
+          _days_: an integer,
+        ): either a normal completion containing a Date Duration Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd></dd>
+      </dl>
+      <emu-alg>
+        1. If IsValidDuration(_years_, _months_, _weeks_, _days_, 0, 0, 0, 0, 0, 0) is *false*, throw a *RangeError* exception.
+        1. Return Date Duration Record {
+            [[Years]]: ℝ(𝔽(_years_)),
+            [[Months]]: ℝ(𝔽(_months_)),
+            [[Weeks]]: ℝ(𝔽(_weeks_)),
+            [[Days]]: ℝ(𝔽(_days_))
+          }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-createtimedurationrecord" type="abstract operation">
+      <h1>
+        CreateTimeDurationRecord (
+          _days_: an integer,
+          _hours_: an integer,
+          _minutes_: an integer,
+          _seconds_: an integer,
+          _milliseconds_: an integer,
+          _microseconds_: an integer,
+          _nanoseconds_: an integer,
+        ): a Time Duration Record
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd></dd>
+      </dl>
+      <emu-alg>
+        1. Assert: IsValidDuration(0, 0, 0, _days_, _hours_, _minutes_, _seconds_, _milliseconds_, _microseconds_, _nanoseconds_) is *true*.
+        1. Return Time Duration Record {
+            [[Days]]: ℝ(𝔽(_days_)),
+            [[Hours]]: ℝ(𝔽(_hours_)),
+            [[Minutes]]: ℝ(𝔽(_minutes_)),
+            [[Seconds]]: ℝ(𝔽(_seconds_)),
+            [[Milliseconds]]: ℝ(𝔽(_milliseconds_)),
+            [[Microseconds]]: ℝ(𝔽(_microseconds_)),
+            [[Nanoseconds]]: ℝ(𝔽(_nanoseconds_))
+          }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-createnormalizeddurationrecord" type="abstract operation">
+      <h1>
+        CreateNormalizedDurationRecord (
+          _years_: an integer,
+          _months_: an integer,
+          _weeks_: an integer,
+          _days_: an integer,
+          _norm_: a Normalized Time Duration Record,
+        ): either a normal completion containing a Normalized Duration Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd></dd>
+      </dl>
+      <emu-alg>
+        1. Let _dateDurationRecord_ be ? CreateDateDurationRecord(_years_, _months_, _weeks_, _days_).
+        1. Return ? CombineDateAndNormalizedTimeDuration(_dateDurationRecord_, _norm_).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-combinedateandnormalizedtimeduration" type="abstract operation">
+      <h1>
+        CombineDateAndNormalizedTimeDuration (
+          _dateDurationRecord_: a Date Duration Record,
+          _norm_: a Normalized Time Duration Record,
+        ): either a normal completion containing a Normalized Duration Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd></dd>
+      </dl>
+      <emu-alg>
+        1. Let _dateSign_ be DurationSign(_dateDurationRecord_.[[Years]], _dateDurationRecord_.[[Months]], _dateDurationRecord_.[[Weeks]], _dateDurationRecord_.[[Days]], 0, 0, 0, 0, 0, 0).
+        1. Let _timeSign_ be NormalizedTimeDurationSign(_norm_).
+        1. If _dateSign_ &ne; 0 and _timeSign_ &ne; 0 and _dateSign_ &ne; _timeSign_, throw a *RangeError* exception.
+        1. Return Normalized Duration Record {
+            [[Years]]: _dateDurationRecord_.[[Years]],
+            [[Months]]: _dateDurationRecord_.[[Months]],
+            [[Weeks]]: _dateDurationRecord_.[[Weeks]],
+            [[Days]]: _dateDurationRecord_.[[Days]],
+            [[NormalizedTime]]: _norm_
+          }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-totemporalduration" type="abstract operation">
+      <h1>
+        ToTemporalDuration (
+          _item_: an ECMAScript language value,
+        ): either a normal completion containing a Temporal.Duration or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns its argument _item_ if it is already a Temporal.Duration instance, converts _item_ to a new Temporal.Duration instance if possible and returns that, and throws otherwise.</dd>
+      </dl>
+      <emu-alg>
+        1. If _item_ is an Object and _item_ has an [[InitializedTemporalDuration]] internal slot, then
+          1. Return _item_.
+        1. Let _result_ be ? ToTemporalDurationRecord(_item_).
+        1. Return ! CreateTemporalDuration(_result_.[[Years]], _result_.[[Months]], _result_.[[Weeks]], _result_.[[Days]], _result_.[[Hours]], _result_.[[Minutes]], _result_.[[Seconds]], _result_.[[Milliseconds]], _result_.[[Microseconds]], _result_.[[Nanoseconds]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-totemporaldurationrecord" type="abstract operation">
+      <h1>
+        ToTemporalDurationRecord (
+          _temporalDurationLike_: an ECMAScript language value,
+        ): either a normal completion containing a Duration Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>The returned Record has its fields set according to the properties of _temporalDurationLike_, with absent or undefined properties corresponding to fields containing 0.</dd>
+      </dl>
+      <emu-alg>
+        1. If _temporalDurationLike_ is not an Object, then
+          1. If _temporalDurationLike_ is not a String, throw a *TypeError* exception.
+          1. Return ? ParseTemporalDurationString(_temporalDurationLike_).
+        1. If _temporalDurationLike_ has an [[InitializedTemporalDuration]] internal slot, then
+          1. Return CreateDurationRecord(_temporalDurationLike_.[[Years]], _temporalDurationLike_.[[Months]], _temporalDurationLike_.[[Weeks]], _temporalDurationLike_.[[Days]], _temporalDurationLike_.[[Hours]], _temporalDurationLike_.[[Minutes]], _temporalDurationLike_.[[Seconds]], _temporalDurationLike_.[[Milliseconds]], _temporalDurationLike_.[[Microseconds]], _temporalDurationLike_.[[Nanoseconds]]).
+        1. Let _result_ be a new Duration Record with each field set to 0.
+        1. Let _partial_ be ? ToTemporalPartialDurationRecord(_temporalDurationLike_).
+        1. If _partial_.[[Years]] is not *undefined*, set _result_.[[Years]] to _partial_.[[Years]].
+        1. If _partial_.[[Months]] is not *undefined*, set _result_.[[Months]] to _partial_.[[Months]].
+        1. If _partial_.[[Weeks]] is not *undefined*, set _result_.[[Weeks]] to _partial_.[[Weeks]].
+        1. If _partial_.[[Days]] is not *undefined*, set _result_.[[Days]] to _partial_.[[Days]].
+        1. If _partial_.[[Hours]] is not *undefined*, set _result_.[[Hours]] to _partial_.[[Hours]].
+        1. If _partial_.[[Minutes]] is not *undefined*, set _result_.[[Minutes]] to _partial_.[[Minutes]].
+        1. If _partial_.[[Seconds]] is not *undefined*, set _result_.[[Seconds]] to _partial_.[[Seconds]].
+        1. If _partial_.[[Milliseconds]] is not *undefined*, set _result_.[[Milliseconds]] to _partial_.[[Milliseconds]].
+        1. If _partial_.[[Microseconds]] is not *undefined*, set _result_.[[Microseconds]] to _partial_.[[Microseconds]].
+        1. If _partial_.[[Nanoseconds]] is not *undefined*, set _result_.[[Nanoseconds]] to _partial_.[[Nanoseconds]].
+        1. If IsValidDuration(_result_.[[Years]], _result_.[[Months]], _result_.[[Weeks]], _result_.[[Days]], _result_.[[Hours]], _result_.[[Minutes]], _result_.[[Seconds]], _result_.[[Milliseconds]], _result_.[[Microseconds]], _result_.[[Nanoseconds]]) is *false*, then
+          1. Throw a *RangeError* exception.
+        1. Return _result_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-durationsign" type="abstract operation">
+      <h1>
+        DurationSign (
+          _years_: an integer,
+          _months_: an integer,
+          _weeks_: an integer,
+          _days_: an integer,
+          _hours_: an integer,
+          _minutes_: an integer,
+          _seconds_: an integer,
+          _milliseconds_: an integer,
+          _microseconds_: an integer,
+          _nanoseconds_: an integer,
+        ): -1, 0, or 1
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns 1 if the most significant non-zero element in its arguments is positive, and -1 if the most significant non-zero element is negative. If all of its arguments are zero, it returns 0.</dd>
+      </dl>
+      <emu-alg>
+        1. For each value _v_ of « _years_, _months_, _weeks_, _days_, _hours_, _minutes_, _seconds_, _milliseconds_, _microseconds_, _nanoseconds_ », do
+          1. If _v_ &lt; 0, return -1.
+          1. If _v_ &gt; 0, return 1.
+        1. Return 0.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-isvalidduration" type="abstract operation">
+      <h1>
+        IsValidDuration (
+          _years_: an integer,
+          _months_: an integer,
+          _weeks_: an integer,
+          _days_: an integer,
+          _hours_: an integer,
+          _minutes_: an integer,
+          _seconds_: an integer,
+          _milliseconds_: an integer,
+          _microseconds_: an integer,
+          _nanoseconds_: an integer,
+        ): a Boolean
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns *true* if its arguments form valid input from which to construct a `Temporal.Duration`, and *false* otherwise.</dd>
+      </dl>
+      <emu-alg>
+        1. Let _sign_ be DurationSign(_years_, _months_, _weeks_, _days_, _hours_, _minutes_, _seconds_, _milliseconds_, _microseconds_, _nanoseconds_).
+        1. For each value _v_ of « _years_, _months_, _weeks_, _days_, _hours_, _minutes_, _seconds_, _milliseconds_, _microseconds_, _nanoseconds_ », do
+          1. If 𝔽(_v_) is not finite, return *false*.
+          1. If _v_ &lt; 0 and _sign_ &gt; 0, return *false*.
+          1. If _v_ &gt; 0 and _sign_ &lt; 0, return *false*.
+        1. If abs(_years_) &ge; 2<sup>32</sup>, return *false*.
+        1. If abs(_months_) &ge; 2<sup>32</sup>, return *false*.
+        1. If abs(_weeks_) &ge; 2<sup>32</sup>, return *false*.
+        1. Let _normalizedSeconds_ be _days_ &times; 86,400 + _hours_ &times; 3600 + _minutes_ &times; 60 + _seconds_ + ℝ(𝔽(_milliseconds_)) &times; 10<sup>-3</sup> + ℝ(𝔽(_microseconds_)) &times; 10<sup>-6</sup> + ℝ(𝔽(_nanoseconds_)) &times; 10<sup>-9</sup>.
+        1. NOTE: The above step cannot be implemented directly using floating-point arithmetic. Multiplying by 10<sup>-3</sup>, 10<sup>-6</sup>, and 10<sup>-9</sup> respectively may be imprecise when _milliseconds_, _microseconds_, or _nanoseconds_ is an unsafe integer. This multiplication can be implemented in C++ with an implementation of `std::remquo()` with sufficient bits in the quotient. String manipulation will also give an exact result, since the multiplication is by a power of 10.
+        1. If abs(_normalizedSeconds_) &ge; 2<sup>53</sup>, return *false*.
+        1. Return *true*.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-defaulttemporallargestunit" type="abstract operation">
+      <h1>
+        DefaultTemporalLargestUnit (
+          _years_: an integer,
+          _months_: an integer,
+          _weeks_: an integer,
+          _days_: an integer,
+          _hours_: an integer,
+          _minutes_: an integer,
+          _seconds_: an integer,
+          _milliseconds_: an integer,
+          _microseconds_: an integer,
+        ): a String from the "Singular" column of <emu-xref href="#table-temporal-units"></emu-xref>
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It implements the logic used in the `Temporal.Duration.prototype.round()` method and elsewhere, where the `largestUnit` option, if not given explicitly, is set to the largest non-zero unit in the input Temporal.Duration.</dd>
+      </dl>
+      <emu-alg>
+        1. If _years_ &ne; 0, return *"year"*.
+        1. If _months_ &ne; 0, return *"month"*.
+        1. If _weeks_ &ne; 0, return *"week"*.
+        1. If _days_ &ne; 0, return *"day"*.
+        1. If _hours_ &ne; 0, return *"hour"*.
+        1. If _minutes_ &ne; 0, return *"minute"*.
+        1. If _seconds_ &ne; 0, return *"second"*.
+        1. If _milliseconds_ &ne; 0, return *"millisecond"*.
+        1. If _microseconds_ &ne; 0, return *"microsecond"*.
+        1. Return *"nanosecond"*.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-totemporalpartialdurationrecord" type="abstract operation">
+      <h1>
+        ToTemporalPartialDurationRecord (
+          _temporalDurationLike_: an ECMAScript language value,
+        ): either a normal completion containing a partial Duration Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>The returned Record has its fields set according to the properties of _temporalDurationLike_.</dd>
+      </dl>
+      <emu-alg>
+        1. If _temporalDurationLike_ is not an Object, then
+          1. Throw a *TypeError* exception.
+        1. Let _result_ be a new partial Duration Record with each field set to *undefined*.
+        1. NOTE: The following steps read properties and perform independent validation in alphabetical order.
+        1. Let _days_ be ? Get(_temporalDurationLike_, *"days"*).
+        1. If _days_ is not *undefined*, set _result_.[[Days]] to ? ToIntegerIfIntegral(_days_).
+        1. Let _hours_ be ? Get(_temporalDurationLike_, *"hours"*).
+        1. If _hours_ is not *undefined*, set _result_.[[Hours]] to ? ToIntegerIfIntegral(_hours_).
+        1. Let _microseconds_ be ? Get(_temporalDurationLike_, *"microseconds"*).
+        1. If _microseconds_ is not *undefined*, set _result_.[[Microseconds]] to ? ToIntegerIfIntegral(_microseconds_).
+        1. Let _milliseconds_ be ? Get(_temporalDurationLike_, *"milliseconds"*).
+        1. If _milliseconds_ is not *undefined*, set _result_.[[Milliseconds]] to ? ToIntegerIfIntegral(_milliseconds_).
+        1. Let _minutes_ be ? Get(_temporalDurationLike_, *"minutes"*).
+        1. If _minutes_ is not *undefined*, set _result_.[[Minutes]] to ? ToIntegerIfIntegral(_minutes_).
+        1. Let _months_ be ? Get(_temporalDurationLike_, *"months"*).
+        1. If _months_ is not *undefined*, set _result_.[[Months]] to ? ToIntegerIfIntegral(_months_).
+        1. Let _nanoseconds_ be ? Get(_temporalDurationLike_, *"nanoseconds"*).
+        1. If _nanoseconds_ is not *undefined*, set _result_.[[Nanoseconds]] to ? ToIntegerIfIntegral(_nanoseconds_).
+        1. Let _seconds_ be ? Get(_temporalDurationLike_, *"seconds"*).
+        1. If _seconds_ is not *undefined*, set _result_.[[Seconds]] to ? ToIntegerIfIntegral(_seconds_).
+        1. Let _weeks_ be ? Get(_temporalDurationLike_, *"weeks"*).
+        1. If _weeks_ is not *undefined*, set _result_.[[Weeks]] to ? ToIntegerIfIntegral(_weeks_).
+        1. Let _years_ be ? Get(_temporalDurationLike_, *"years"*).
+        1. If _years_ is not *undefined*, set _result_.[[Years]] to ? ToIntegerIfIntegral(_years_).
+        1. If _years_ is *undefined*, and _months_ is *undefined*, and _weeks_ is *undefined*, and _days_ is *undefined*, and _hours_ is *undefined*, and _minutes_ is *undefined*, and _seconds_ is *undefined*, and _milliseconds_ is *undefined*, and _microseconds_ is *undefined*, and _nanoseconds_ is *undefined*, throw a *TypeError* exception.
+        1. Return _result_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-createtemporalduration" type="abstract operation">
+      <h1>
+        CreateTemporalDuration (
+          _years_: an integer,
+          _months_: an integer,
+          _weeks_: an integer,
+          _days_: an integer,
+          _hours_: an integer,
+          _minutes_: an integer,
+          _seconds_: an integer,
+          _milliseconds_: an integer,
+          _microseconds_: an integer,
+          _nanoseconds_: an integer,
+          optional _newTarget_: a constructor,
+        ): either a normal completion containing a Temporal.Duration or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It creates a Temporal.Duration instance and fills the internal slots with valid values.</dd>
+      </dl>
+      <emu-alg>
+        1. If IsValidDuration(_years_, _months_, _weeks_, _days_, _hours_, _minutes_, _seconds_, _milliseconds_, _microseconds_, _nanoseconds_) is *false*, throw a *RangeError* exception.
+        1. If _newTarget_ is not present, set _newTarget_ to %Temporal.Duration%.
+        1. Let _object_ be ? OrdinaryCreateFromConstructor(_newTarget_, *"%Temporal.Duration.prototype%"*, « [[InitializedTemporalDuration]], [[Years]], [[Months]], [[Weeks]], [[Days]], [[Hours]], [[Minutes]], [[Seconds]], [[Milliseconds]], [[Microseconds]], [[Nanoseconds]] »).
+        1. Set _object_.[[Years]] to ℝ(𝔽(_years_)).
+        1. Set _object_.[[Months]] to ℝ(𝔽(_months_)).
+        1. Set _object_.[[Weeks]] to ℝ(𝔽(_weeks_)).
+        1. Set _object_.[[Days]] to ℝ(𝔽(_days_)).
+        1. Set _object_.[[Hours]] to ℝ(𝔽(_hours_)).
+        1. Set _object_.[[Minutes]] to ℝ(𝔽(_minutes_)).
+        1. Set _object_.[[Seconds]] to ℝ(𝔽(_seconds_)).
+        1. Set _object_.[[Milliseconds]] to ℝ(𝔽(_milliseconds_)).
+        1. Set _object_.[[Microseconds]] to ℝ(𝔽(_microseconds_)).
+        1. Set _object_.[[Nanoseconds]] to ℝ(𝔽(_nanoseconds_)).
+        1. Return _object_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-createnegatedtemporalduration" type="abstract operation">
+      <h1>
+        CreateNegatedTemporalDuration (
+          _duration_: a Temporal.Duration,
+        ): a Temporal.Duration
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns a new Temporal.Duration instance that is the negation of _duration_.</dd>
+      </dl>
+      <emu-alg>
+        1. Return ! CreateTemporalDuration(-_duration_.[[Years]], -_duration_.[[Months]], -_duration_.[[Weeks]], -_duration_.[[Days]], -_duration_.[[Hours]], -_duration_.[[Minutes]], -_duration_.[[Seconds]], -_duration_.[[Milliseconds]], -_duration_.[[Microseconds]], -_duration_.[[Nanoseconds]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-normalizetimeduration" type="abstract operation">
+      <h1>
+        NormalizeTimeDuration (
+          _hours_: an integer,
+          _minutes_: an integer,
+          _seconds_: an integer,
+          _milliseconds_: an integer,
+          _microseconds_: an integer,
+          _nanoseconds_: an integer,
+        ): a Normalized Time Duration Record
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>
+          From the given units, it computes a normalized time duration consisting of whole seconds, and subseconds expressed in nanoseconds.
+          The normalized time duration can be stored losslessly in two 64-bit floating point numbers.
+          Alternatively, _normalizedSeconds_ &times; 10<sup>9</sup> + _subseconds_ can be stored as a 96-bit integer.
+        </dd>
+      </dl>
+      <emu-alg>
+        1. Set _minutes_ to _minutes_ + _hours_ &times; 60.
+        1. Set _seconds_ to _seconds_ + _minutes_ &times; 60.
+        1. Set _milliseconds_ to _milliseconds_ + _seconds_ &times; 1000.
+        1. Set _microseconds_ to _microseconds_ + _milliseconds_ &times; 1000.
+        1. Set _nanoseconds_ to _nanoseconds_ + _microseconds_ &times; 1000.
+        1. Assert: abs(_nanoseconds_) &le; maxTimeDuration.
+        1. Return Normalized Time Duration Record { [[TotalNanoseconds]]: _nanoseconds_ }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-normalizedtimedurationabs" type="abstract operation">
+      <h1>
+        NormalizedTimeDurationAbs (
+          _d_: a Normalized Time Duration Record,
+        ): a Normalized Time Duration Record
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns a new normalized time duration that is the absolute value of _d_.</dd>
+      </dl>
+      <emu-alg>
+        1. Return Normalized Time Duration Record { [[TotalNanoseconds]]: abs(_d_.[[TotalNanoseconds]]) }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-addnormalizedtimeduration" type="abstract operation">
+      <h1>
+        AddNormalizedTimeDuration (
+          _one_: a Normalized Time Duration Record,
+          _two_: a Normalized Time Duration Record,
+        ): either a normal completion containing a Normalized Time Duration Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns a normalized time duration that is the sum of _one_ and _two_, throwing an exception if the result is greater than the maximum normalized time duration.</dd>
+      </dl>
+      <emu-alg>
+        1. Let _result_ be _one_.[[TotalNanoseconds]] + _two_.[[TotalNanoseconds]].
+        1. If abs(_result_) &gt; maxTimeDuration, throw a *RangeError* exception.
+        1. Return Normalized Time Duration Record { [[TotalNanoseconds]]: _result_ }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-add24hourdaystonormalizedtimeduration" type="abstract operation">
+      <h1>
+        Add24HourDaysToNormalizedTimeDuration (
+          _d_: a Normalized Time Duration Record,
+          _days_: an integer,
+        ): either a normal completion containing a Normalized Time Duration Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>
+          It returns a normalized time duration that is the sum of _d_ and the number of 24-hour days indicated by _days_, throwing an exception if the result is greater than the maximum normalized time duration.
+          This operation should not be used when adding days relative to a Temporal.ZonedDateTime, since the days may not be 24 hours long.
+        </dd>
+      </dl>
+      <emu-alg>
+        1. Let _result_ be _d_.[[TotalNanoseconds]] + _days_ &times; nsPerDay.
+        1. If abs(_result_) &gt; maxTimeDuration, throw a *RangeError* exception.
+        1. Return Normalized Time Duration Record { [[TotalNanoseconds]]: _result_ }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-addnormalizedtimedurationtoepochnanoseconds" type="abstract operation">
+      <h1>
+        AddNormalizedTimeDurationToEpochNanoseconds (
+          _d_: a Normalized Time Duration Record,
+          _epochNs_: a BigInt,
+        ): a BigInt
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>
+          It adds a normalized time duration _d_ to an exact time in nanoseconds since the epoch, _epochNs_, and returns a new exact time.
+          The returned exact time is not required to be valid according to IsValidEpochNanoseconds.
+        </dd>
+      </dl>
+      <emu-alg>
+        1. Return _epochNs_ + ℤ(_d_.[[TotalNanoseconds]]).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-comparenormalizedtimeduration" type="abstract operation">
+      <h1>
+        CompareNormalizedTimeDuration (
+          _one_: a Normalized Time Duration Record,
+          _two_: a Normalized Time Duration Record,
+        ): -1, 0, or 1
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It performs a comparison of two Normalized Time Duration Records.</dd>
+      </dl>
+      <emu-alg>
+        1. If _one_.[[TotalNanoseconds]] &gt; _two_.[[TotalNanoseconds]], return 1.
+        1. If _one_.[[TotalNanoseconds]] &lt; _two_.[[TotalNanoseconds]], return -1.
+        1. Return 0.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-dividenormalizedtimeduration" type="abstract operation">
+      <h1>
+        DivideNormalizedTimeDuration (
+          _d_: a Normalized Time Duration Record,
+          _divisor_: an integer,
+        ): a mathematical value
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It divides the total number of nanoseconds in the normalized time duration _d_ by _divisor_.</dd>
+      </dl>
+      <emu-alg>
+        1. Assert: _divisor_ &ne; 0.
+        1. NOTE: The following step cannot be implemented directly using floating-point arithmetic when 𝔽(_d_.[[TotalNanoseconds]]) is not a safe integer. The division can be implemented in C++ with the `__float128` type if the compiler supports it, or with software emulation such as in the <a href="https://bellard.org/softfp/">SoftFP</a> library.
+        1. Return _d_.[[TotalNanoseconds]] / _divisor_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-normalizedtimedurationfromepochnanosecondsdifference" type="abstract operation">
+      <h1>
+        NormalizedTimeDurationFromEpochNanosecondsDifference (
+          _one_: a BigInt,
+          _two_: a BigInt,
+        ): a Normalized Time Duration Record
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It creates a Normalized Time Duration Record with the difference between two exact times in nanoseconds since the epoch, which must not be greater than the maximum normalized time duration.</dd>
+      </dl>
+      <emu-alg>
+        1. Let _result_ be ℝ(_one_) - ℝ(_two_).
+        1. Assert: abs(_result_) &le; maxTimeDuration.
+        1. Return Normalized Time Duration Record { [[TotalNanoseconds]]: _result_ }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-normalizedtimedurationiszero" type="abstract operation">
+      <h1>
+        NormalizedTimeDurationIsZero (
+          _d_: a Normalized Time Duration Record,
+        ): a Boolean
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns *true* if _d_ is a zero duration, *false* otherwise.</dd>
+      </dl>
+      <emu-alg>
+        1. If _d_.[[TotalNanoseconds]] = 0, return *true*.
+        1. Return *false*.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-roundnormalizedtimedurationtoincrement" type="abstract operation">
+      <h1>
+        RoundNormalizedTimeDurationToIncrement (
+          _d_: a Normalized Time Duration Record,
+          _increment_: a positive integer,
+          _roundingMode_: a String from the "Identifier" column of <emu-xref href="#table-temporal-rounding-modes"></emu-xref>,
+        ): either a normal completion containing a Normalized Time Duration Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It rounds the total number of nanoseconds in the normalized time duration _d_ to the nearest multiple of _increment_, up or down according to _roundingMode_.</dd>
+      </dl>
+      <emu-alg>
+        1. Let _rounded_ be RoundNumberToIncrement(_d_.[[TotalNanoseconds]], _increment_, _roundingMode_).
+        1. If abs(_rounded_) &gt; maxTimeDuration, throw a *RangeError* exception.
+        1. Return Normalized Time Duration Record { [[TotalNanoseconds]]: _rounded_ }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-normalizedtimedurationseconds" type="abstract operation">
+      <h1>
+        NormalizedTimeDurationSeconds (
+          _d_: a Normalized Time Duration Record,
+        ): an integer in the interval from -2<sup>53</sup> (exclusive) to 2<sup>53</sup> (exclusive)
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns the integer number of seconds in _d_.</dd>
+      </dl>
+      <emu-alg>
+        1. Return truncate(_d_.[[TotalNanoseconds]] / 10<sup>9</sup>).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-normalizedtimedurationsign" type="abstract operation">
+      <h1>
+        NormalizedTimeDurationSign (
+          _d_: a Normalized Time Duration Record,
+        ): -1, 0, or 1
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns 0 if the duration is zero, or &pm;1 depending on the sign of the duration.</dd>
+      </dl>
+      <emu-alg>
+        1. If _d_.[[TotalNanoseconds]] &lt; 0, return -1.
+        1. If _d_.[[TotalNanoseconds]] &gt; 0, return 1.
+        1. Return 0.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-normalizedtimedurationsubseconds" type="abstract operation">
+      <h1>
+        NormalizedTimeDurationSubseconds (
+          _d_: a Normalized Time Duration Record,
+        ): an integer in the interval from -10<sup>9</sup> (exclusive) to 10<sup>9</sup> (exclusive)
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns the integer number of nanoseconds in the subsecond part of _d_.</dd>
+      </dl>
+      <emu-alg>
+        1. Return remainder(_d_.[[TotalNanoseconds]], 10<sup>9</sup>).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-subtractnormalizedtimeduration" type="abstract operation">
+      <h1>
+        SubtractNormalizedTimeDuration (
+          _one_: a Normalized Time Duration Record,
+          _two_: a Normalized Time Duration Record,
+        ): either a normal completion containing a Normalized Time Duration Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns a normalized time duration that is the difference between _one_ and _two_, throwing an exception if the result is greater than the maximum normalized time duration.</dd>
+      </dl>
+      <emu-alg>
+        1. Let _result_ be _one_.[[TotalNanoseconds]] - _two_.[[TotalNanoseconds]].
+        1. If abs(_result_) &gt; maxTimeDuration, throw a *RangeError* exception.
+        1. Return Normalized Time Duration Record { [[TotalNanoseconds]]: _result_ }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-zerotimeduration" type="abstract operation">
+      <h1>
+        ZeroTimeDuration (
+        ): a Normalized Time Duration Record
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns a normalized time duration of zero length.</dd>
+      </dl>
+      <emu-alg>
+        1. Return Normalized Time Duration Record { [[TotalNanoseconds]]: 0 }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-balancetimeduration" type="abstract operation">
+      <h1>
+        BalanceTimeDuration (
+          _norm_: a Normalized Time Duration Record,
+          _largestUnit_: a String,
+        ): either a normal completion containing a Time Duration Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>
+          It converts a normalized time duration into a time duration with separated units, up to _largestUnit_.
+          The conversion may be lossy if _largestUnit_ is *"milliseconds"*, *"microseconds"*, or *"nanoseconds"*.
+          In that case, the fields of the returned Time Duration Record may be unsafe (but float64-representable) integers.
+          The result of a lossy conversion may be outside the allowed range for Durations, even if the input was not.
+        </dd>
+      </dl>
+      <emu-alg>
+        1. Let _days_, _hours_, _minutes_, _seconds_, _milliseconds_, and _microseconds_ be 0.
+        1. Let _sign_ be NormalizedTimeDurationSign(_norm_).
+        1. Let _nanoseconds_ be NormalizedTimeDurationAbs(_norm_).[[TotalNanoseconds]].
+        1. If _largestUnit_ is *"year"*, *"month"*, *"week"*, or *"day"*, then
+          1. Set _microseconds_ to floor(_nanoseconds_ / 1000).
+          1. Set _nanoseconds_ to _nanoseconds_ modulo 1000.
+          1. Set _milliseconds_ to floor(_microseconds_ / 1000).
+          1. Set _microseconds_ to _microseconds_ modulo 1000.
+          1. Set _seconds_ to floor(_milliseconds_ / 1000).
+          1. Set _milliseconds_ to _milliseconds_ modulo 1000.
+          1. Set _minutes_ to floor(_seconds_ / 60).
+          1. Set _seconds_ to _seconds_ modulo 60.
+          1. Set _hours_ to floor(_minutes_ / 60).
+          1. Set _minutes_ to _minutes_ modulo 60.
+          1. Set _days_ to floor(_hours_ / 24).
+          1. Set _hours_ to _hours_ modulo 24.
+        1. Else if _largestUnit_ is *"hour"*, then
+          1. Set _microseconds_ to floor(_nanoseconds_ / 1000).
+          1. Set _nanoseconds_ to _nanoseconds_ modulo 1000.
+          1. Set _milliseconds_ to floor(_microseconds_ / 1000).
+          1. Set _microseconds_ to _microseconds_ modulo 1000.
+          1. Set _seconds_ to floor(_milliseconds_ / 1000).
+          1. Set _milliseconds_ to _milliseconds_ modulo 1000.
+          1. Set _minutes_ to floor(_seconds_ / 60).
+          1. Set _seconds_ to _seconds_ modulo 60.
+          1. Set _hours_ to floor(_minutes_ / 60).
+          1. Set _minutes_ to _minutes_ modulo 60.
+        1. Else if _largestUnit_ is *"minute"*, then
+          1. Set _microseconds_ to floor(_nanoseconds_ / 1000).
+          1. Set _nanoseconds_ to _nanoseconds_ modulo 1000.
+          1. Set _milliseconds_ to floor(_microseconds_ / 1000).
+          1. Set _microseconds_ to _microseconds_ modulo 1000.
+          1. Set _seconds_ to floor(_milliseconds_ / 1000).
+          1. Set _milliseconds_ to _milliseconds_ modulo 1000.
+          1. Set _minutes_ to floor(_seconds_ / 60).
+          1. Set _seconds_ to _seconds_ modulo 60.
+        1. Else if _largestUnit_ is *"second"*, then
+          1. Set _microseconds_ to floor(_nanoseconds_ / 1000).
+          1. Set _nanoseconds_ to _nanoseconds_ modulo 1000.
+          1. Set _milliseconds_ to floor(_microseconds_ / 1000).
+          1. Set _microseconds_ to _microseconds_ modulo 1000.
+          1. Set _seconds_ to floor(_milliseconds_ / 1000).
+          1. Set _milliseconds_ to _milliseconds_ modulo 1000.
+        1. Else if _largestUnit_ is *"millisecond"*, then
+          1. Set _microseconds_ to floor(_nanoseconds_ / 1000).
+          1. Set _nanoseconds_ to _nanoseconds_ modulo 1000.
+          1. Set _milliseconds_ to floor(_microseconds_ / 1000).
+          1. Set _microseconds_ to _microseconds_ modulo 1000.
+        1. Else if _largestUnit_ is *"microsecond"*, then
+          1. Set _microseconds_ to floor(_nanoseconds_ / 1000).
+          1. Set _nanoseconds_ to _nanoseconds_ modulo 1000.
+        1. Else,
+          1. Assert: _largestUnit_ is *"nanosecond"*.
+        1. NOTE: When _largestUnit_ is *"millisecond"*, *"microsecond"*, or *"nanosecond"*, _milliseconds_, _microseconds_, or _nanoseconds_ may be an unsafe integer. In this case, care must be taken when implementing the calculation using floating point arithmetic. It can be implemented in C++ using `std::fma()`. String manipulation will also give an exact result, since the multiplication is by a power of 10.
+        1. If IsValidDuration(0, 0, 0, _days_, _hours_, _minutes_, _seconds_, _milliseconds_, _microseconds_, _nanoseconds_) is *false*, throw a *RangeError* exception.
+        1. Return CreateTimeDurationRecord(_days_ &times; _sign_, _hours_ &times; _sign_, _minutes_ &times; _sign_, _seconds_ &times; _sign_, _milliseconds_ &times; _sign_, _microseconds_ &times; _sign_, _nanoseconds_ &times; _sign_).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-unbalancedatedurationrelative" type="abstract operation">
+      <h1>
+        UnbalanceDateDurationRelative (
+          _years_: an integer,
+          _months_: an integer,
+          _weeks_: an integer,
+          _days_: an integer,
+          _plainRelativeTo_: a Temporal.PlainDate,
+          _calendarRec_: a Calendar Methods Record,
+        ): either a normal completion containing an integer or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It converts the calendar units of a duration into a number of days, and returns the result.</dd>
+      </dl>
+      <emu-alg>
+        1. If _years_ = 0 and _months_ = 0 and _weeks_ = 0, return _days_.
+        1. Assert: CalendarMethodsRecordHasLookedUp(_calendarRec_, ~date-add~) is *true*.
+        1. Let _yearsMonthsWeeksDuration_ be ! CreateTemporalDuration(_years_, _months_, _weeks_, 0, 0, 0, 0, 0, 0, 0).
+        1. Let _later_ be ? CalendarDateAdd(_calendarRec_, _plainRelativeTo_, _yearsMonthsWeeksDuration_).
+        1. Let _yearsMonthsWeeksInDays_ be DaysUntil(_plainRelativeTo_, _later_).
+        1. Return _days_ + _yearsMonthsWeeksInDays_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-daysuntil" type="abstract operation">
+      <h1>
+        DaysUntil (
+          _earlier_: a Temporal.PlainDate,
+          _later_: a Temporal.PlainDate,
+        ): an integer
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>The returned value is the number of days elapsed between the calendar dates of two Temporal.PlainDate instances _earlier_ and _later_.
+        If _earlier_ is later than _later_, then the result is negative.</dd>
+      </dl>
+      <emu-alg>
+        1. Let _epochDays1_ be ISODateToEpochDays(_earlier_.[[ISOYear]], _earlier_.[[ISOMonth]] - 1, _earlier_.[[ISODay]]).
+        1. Let _epochDays2_ be ISODateToEpochDays(_later_.[[ISOYear]], _later_.[[ISOMonth]] - 1, _later_.[[ISODay]]).
+        1. Return _epochDays2_ - _epochDays1_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-roundtimeduration" type="abstract operation">
+      <h1>
+        RoundTimeDuration (
+          _days_: an integer,
+          _norm_: a Normalized Time Duration Record,
+          _increment_: a positive integer,
+          _unit_: a String from the "Singular" column of <emu-xref href="#table-temporal-units"></emu-xref>,
+          _roundingMode_: a String from the "Identifier" column of <emu-xref href="#table-temporal-rounding-modes"></emu-xref>,
+        ): either a normal completion containing a Record with fields [[NormalizedDuration]] (a Normalized Duration Record) and [[Total]] (a mathematical value), or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>
+          It rounds a duration (denoted by _days_ and _norm_) according to the rounding parameters _unit_, _increment_, and _roundingMode_, and returns a Record with the Normalized Duration Record result in its [[NormalizedDuration]] field.
+          It also returns the total of the smallest unit before the rounding operation in its [[Total]] field, for use in `Temporal.Duration.prototype.total`.
+        </dd>
+      </dl>
+      <emu-alg>
+        1. Assert: IsCalendarUnit(_unit_) is *false*.
+        1. If _unit_ is *"day"*, then
+          1. Let _fractionalDays_ be _days_ + DivideNormalizedTimeDuration(_norm_, nsPerDay).
+          1. Set _days_ to RoundNumberToIncrement(_fractionalDays_, _increment_, _roundingMode_).
+          1. Let _total_ be _fractionalDays_.
+          1. Set _norm_ to ZeroTimeDuration().
+        1. Else,
+          1. Assert: The value in the "Category" column of the row of <emu-xref href="#table-temporal-units"></emu-xref> whose "Singular" column contains _unit_, is ~time~.
+          1. Let _divisor_ be the value in the "Length in Nanoseconds" column of the row of <emu-xref href="#table-temporal-units"></emu-xref> whose "Singular" column contains _unit_.
+          1. Let _total_ be DivideNormalizedTimeDuration(_norm_, _divisor_).
+          1. Set _norm_ to ? RoundNormalizedTimeDurationToIncrement(_norm_, _divisor_ &times; _increment_, _roundingMode_).
+        1. Return the Record {
+          [[NormalizedDuration]]: ? CreateNormalizedDurationRecord(0, 0, 0, _days_, _norm_),
+          [[Total]]: _total_
+          }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-duration-nudge-result-records">
+      <h1>Duration Nudge Result Records</h1>
+      <p>
+        A <dfn variants="Duration Nudge Result Records">Duration Nudge Result Record</dfn> is a Record value used to represent the result of rounding a duration up or down to an increment relative to a date-time, as in NudgeToCalendarUnit, NudgeToZonedTime, or NudgeToDayOrTime.
+      </p>
+      <p>
+        Duration Nudge Result Records have the fields listed in <emu-xref href="#table-temporal-duration-nudge-result-record-fields"></emu-xref>.
+      </p>
+      <emu-table id="table-temporal-duration-nudge-result-record-fields" caption="Duration Nudge Result Record Fields">
+        <table class="real-table">
+          <tr>
+            <th>Field Name</th>
+            <th>Value</th>
+            <th>Meaning</th>
+          </tr>
+          <tr>
+            <td>[[Duration]]</td>
+            <td>a Normalized Duration Record</td>
+            <td>
+              The resulting duration.
+            </td>
+          </tr>
+          <tr>
+            <td>[[Total]]</td>
+            <td>a mathematical value or ~unset~</td>
+            <td>
+              The possibly fractional total of the smallest unit before the rounding operation, for use in `Temporal.Duration.prototype.total`, or ~unset~ if not relevant.
+            </td>
+          </tr>
+          <tr>
+            <td>[[NudgedEpochNs]]</td>
+            <td>a BigInt</td>
+            <td>
+              The epoch time corresponding to the rounded duration, relative to the starting point.
+            </td>
+          </tr>
+          <tr>
+            <td>[[DidExpandCalendarUnit]]</td>
+            <td>a Boolean</td>
+            <td>
+              Whether the rounding operation caused the duration to expand to the next day or larger unit.
+            </td>
+          </tr>
+        </table>
+      </emu-table>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-nudgetocalendarunit" type="abstract operation">
+      <h1>
+        NudgeToCalendarUnit (
+          _sign_: -1 or 1,
+          _duration_: a Normalized Duration Record,
+          _destEpochNs_: a BigInt,
+          _dateTime_: an ISO Date-Time Record,
+          _calendarRec_: a Calendar Method Record,
+          _timeZoneRec_: a Time Zone Method Record or ~unset~,
+          _increment_: a positive integer,
+          _unit_: a String from the "Singular" column of <emu-xref href="#table-temporal-units"></emu-xref>,
+          _roundingMode_: a String from the "Identifier" column of <emu-xref href="#table-temporal-rounding-modes"></emu-xref>,
+        ): either a normal completion containing a Duration Nudge Result Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>
+          It implements rounding a duration to an increment of a calendar unit, relative to a starting point, by calculating the upper and lower bounds of the starting point added to the duration in epoch nanoseconds, and rounding according to which one is closer to _destEpochNs_.
+        </dd>
+      </dl>
+      <emu-alg>
+        1. If _unit_ is *"year"*, then
+          1. Let _years_ be RoundNumberToIncrement(_duration_.[[Years]], _increment_, *"trunc"*).
+          1. Let _r1_ be _years_.
+          1. Let _r2_ be _years_ + _increment_ &times; _sign_.
+          1. Let _startDuration_ be ? CreateDateDurationRecord(_r1_, 0, 0, 0).
+          1. Let _endDuration_ be ? CreateDateDurationRecord(_r2_, 0, 0, 0).
+        1. Else if _unit_ is *"month"*, then
+          1. Let _months_ be RoundNumberToIncrement(_duration_.[[Months]], _increment_, *"trunc"*).
+          1. Let _r1_ be _months_.
+          1. Let _r2_ be _months_ + _increment_ &times; _sign_.
+          1. Let _startDuration_ be ? CreateDateDurationRecord(_duration_.[[Years]], _r1_, 0, 0).
+          1. Let _endDuration_ be ? CreateDateDurationRecord(_duration_.[[Years]], _r2_, 0, 0).
+        1. Else if _unit_ is *"week"*, then
+          1. Let _isoResult1_ be BalanceISODate(_dateTime_.[[Year]] + _duration_.[[Years]], _dateTime_.[[Month]] + _duration_.[[Months]], _dateTime_.[[Day]]).
+          1. Let _isoResult2_ be BalanceISODate(_dateTime_.[[Year]] + _duration_.[[Years]], _dateTime_.[[Month]] + _duration_.[[Months]], _dateTime_.[[Day]] + _duration_.[[Days]]).
+          1. Let _weeksStart_ be ! CreateTemporalDate(_isoResult1_.[[Year]], _isoResult1_.[[Month]], _isoResult1_.[[Day]], _calendarRec_.[[Receiver]]).
+          1. Let _weeksEnd_ be ! CreateTemporalDate(_isoResult2_.[[Year]], _isoResult2_.[[Month]], _isoResult2_.[[Day]], _calendarRec_.[[Receiver]]).
+          1. Let _untilOptions_ be OrdinaryObjectCreate(*null*).
+          1. Perform ! CreateDataPropertyOrThrow(_untilOptions_, *"largestUnit"*, *"week"*).
+          1. Let _untilResult_ be ? DifferenceDate(_calendarRec_, _weeksStart_, _weeksEnd_, _untilOptions_).
+          1. Let _weeks_ be RoundNumberToIncrement(_duration_.[[Weeks]] + _untilResult_.[[Weeks]], _increment_, *"trunc"*).
+          1. Let _r1_ be _weeks_.
+          1. Let _r2_ be _weeks_ + _increment_ &times; _sign_.
+          1. Let _startDuration_ be ? CreateDateDurationRecord(_duration_.[[Years]], _duration_.[[Months]], _r1_, 0).
+          1. Let _endDuration_ be ? CreateDateDurationRecord(_duration_.[[Years]], _duration_.[[Months]], _r2_, 0).
+        1. Else,
+          1. Assert: _unit_ is *"day"*.
+          1. Let _days_ be RoundNumberToIncrement(_duration_.[[Days]], _increment_, *"trunc"*).
+          1. Let _r1_ be _days_.
+          1. Let _r2_ be _days_ + _increment_ &times; _sign_.
+          1. Let _startDuration_ be ? CreateDateDurationRecord(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _r1_).
+          1. Let _endDuration_ be ? CreateDateDurationRecord(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _r2_).
+        1. Assert: If _sign_ is 1, _r1_ &ge; 0 and _r1_ &lt; _r2_.
+        1. Assert: If _sign_ is -1, _r1_ &le; 0 and _r1_ &gt; _r2_.
+        1. Let _startDate_ be ! CreateTemporalDate(_dateTime_.[[Year]], _dateTime_.[[Month]], _dateTime_.[[Day]], _calendarRec_.[[Receiver]]).
+        1. Let _start_ be ? AddDate(_calendarRec_, _startDate_, ! CreateTemporalDuration(_startDuration_.[[Years]], _startDuration_.[[Months]], _startDuration_.[[Weeks]], _startDuration_.[[Days]], 0, 0, 0, 0, 0, 0)).
+        1. Let _endDate_ be ! CreateTemporalDate(_dateTime_.[[Year]], _dateTime_.[[Month]], _dateTime_.[[Day]], _calendarRec_.[[Receiver]]).
+        1. Let _end_ be ? AddDate(_calendarRec_, _endDate_, ! CreateTemporalDuration(_endDuration_.[[Years]], _endDuration_.[[Months]], _endDuration_.[[Weeks]], _endDuration_.[[Days]], 0, 0, 0, 0, 0, 0)).
+        1. If _timeZoneRec_ is ~unset~, then
+          1. Let _startEpochNs_ be GetUTCEpochNanoseconds(_start_.[[ISOYear]], _start_.[[ISOMonth]], _start_.[[ISODay]], _dateTime_.[[Hour]], _dateTime_.[[Minute]], _dateTime_.[[Second]], _dateTime_.[[Millisecond]], _dateTime_.[[Microsecond]], _dateTime_.[[Nanosecond]]).
+          1. Let _endEpochNs_ be GetUTCEpochNanoseconds(_end_.[[ISOYear]], _end_.[[ISOMonth]], _end_.[[ISODay]], _dateTime_.[[Hour]], _dateTime_.[[Minute]], _dateTime_.[[Second]], _dateTime_.[[Millisecond]], _dateTime_.[[Microsecond]], _dateTime_.[[Nanosecond]]).
+        1. Else,
+          1. Let _startDateTime_ be ! CreateTemporalDateTime(_start_.[[ISOYear]], _start_.[[ISOMonth]], _start_.[[ISODay]], _dateTime_.[[Hour]], _dateTime_.[[Minute]], _dateTime_.[[Second]], _dateTime_.[[Millisecond]], _dateTime_.[[Microsecond]], _dateTime_.[[Nanosecond]], _calendarRec_.[[Receiver]]).
+          1. Let _startInstant_ be ? GetInstantFor(_timeZoneRec_, _startDateTime_, *"compatible"*).
+          1. Let _startEpochNs_ be _startInstant_.[[Nanoseconds]].
+          1. Let _endDateTime_ be ! CreateTemporalDateTime(_end_.[[ISOYear]], _end_.[[ISOMonth]], _end_.[[ISODay]], _dateTime_.[[Hour]], _dateTime_.[[Minute]], _dateTime_.[[Second]], _dateTime_.[[Millisecond]], _dateTime_.[[Microsecond]], _dateTime_.[[Nanosecond]], _calendarRec_.[[Receiver]]).
+          1. Let _endInstant_ be ? GetInstantFor(_timeZoneRec_, _endDateTime_, *"compatible"*).
+          1. Let _endEpochNs_ be _endInstant_.[[Nanoseconds]].
+        1. If _sign_ is 1, then
+          1. If _startEpochNs_ &gt; _destEpochNs_ or _destEpochNs_ &ge; _endEpochNs_, throw a *RangeError* exception.
+          1. Assert: _startEpochNs_ &le; _destEpochNs_ &lt; _endEpochNs_.
+        1. Else,
+          1. If _endEpochNs_ &ge; _destEpochNs_ or _destEpochNs_ &gt; _startEpochNs_, throw a *RangeError* exception.
+          1. Assert: _endEpochNs_ &lt; _destEpochNs_ &le; _startEpochNs_.
+        1. Assert: _startEpochNs_ &ne; _endEpochNs_.
+        1. Let _progress_ be (_destEpochNs_ - _startEpochNs_) / (_endEpochNs_ - _startEpochNs_).
+        1. Let _total_ be _r1_ + _progress_ &times; _increment_ &times; _sign_.
+        1. NOTE: The above two steps cannot be implemented directly using floating-point arithmetic. This division can be implemented as if constructing Normalized Time Duration Records for the denominator and numerator of _total_ and performing one division operation with a floating-point result.
+        1. Assert: 0 &le; _progress_ &lt; 1.
+        1. If _sign_ &lt; 0, let _isNegative_ be ~negative~; else let _isNegative_ be ~positive~.
+        1. Let _unsignedRoundingMode_ be GetUnsignedRoundingMode(_roundingMode_, _isNegative_).
+        1. Assert: abs(_r1_) &le; abs(_total_) &lt; abs(_r2_).
+        1. Let _roundedUnit_ be ApplyUnsignedRoundingMode(abs(_total_), abs(_r1_), abs(_r2_), _unsignedRoundingMode_).
+        1. If _roundedUnit_ is abs(_r2_), then
+          1. Let _didExpandCalendarUnit_ be *true*.
+          1. Let _resultDuration_ be _endDuration_.
+          1. Let _nudgedEpochNs_ be _endEpochNs_.
+        1. Else,
+          1. Let _didExpandCalendarUnit_ be *false*.
+          1. Let _resultDuration_ be _startDuration_.
+          1. Let _nudgedEpochNs_ be _startEpochNs_.
+        1. Set _resultDuration_ to ! CombineDateAndNormalizedTimeDuration(_resultDuration_, ZeroTimeDuration()).
+        1. Return Duration Nudge Result Record { [[Duration]]: _resultDuration_, [[Total]]: _total_, [[NudgedEpochNs]]: _nudgedEpochNs_, [[DidExpandCalendarUnit]]: _didExpandCalendarUnit_ }.
+      </emu-alg>
+
+      <emu-note type="editor">
+        _startDate_ and _endDate_ are distinct objects because they're potentially passed to user-code when _calendarRec_.[[Receiver]] is a user-defined calendar.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-nudgetozonedtime" type="abstract operation">
+      <h1>
+        NudgeToZonedTime (
+          _sign_: -1 or 1,
+          _duration_: a Normalized Duration Record,
+          _dateTime_: an ISO Date-Time Record,
+          _calendarRec_: a Calendar Method Record,
+          _timeZoneRec_: a Time Zone Method Record,
+          _increment_: a positive integer,
+          _unit_: a String from the "Singular" column of <emu-xref href="#table-temporal-units"></emu-xref>,
+          _roundingMode_: a String from the "Identifier" column of <emu-xref href="#table-temporal-rounding-modes"></emu-xref>,
+        ): either a normal completion containing a Duration Nudge Result Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>
+          It implements rounding a duration to an increment of a time unit, relative to a `Temporal.ZonedDateTime` starting point, accounting for the case where the rounding causes the time to exceed the total time within a day, which may be influenced by UTC offset changes in the time zone.
+        </dd>
+      </dl>
+      <emu-alg>
+        1. Assert: The value in the "Category" column of the row of <emu-xref href="#table-temporal-units"></emu-xref> whose "Singular" column contains _unit_, is ~time~.
+        1. Let _date_ be ! CreateTemporalDate(_dateTime_.[[Year]], _dateTime_.[[Month]], _dateTime_.[[Day]], _calendarRec_.[[Receiver]]).
+        1. Let _start_ be ? AddDate(_calendarRec_, _date_, ! CreateTemporalDuration(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]], 0, 0, 0, 0, 0, 0)).
+        1. Let _startDateTime_ be ! CreateTemporalDateTime(_start_.[[ISOYear]], _start_.[[ISOMonth]], _start_.[[ISODay]], _dateTime_.[[Hour]], _dateTime_.[[Minute]], _dateTime_.[[Second]], _dateTime_.[[Millisecond]], _dateTime_.[[Microsecond]], _dateTime_.[[Nanosecond]], _calendarRec_.[[Receiver]]).
+        1. Let _endDate_ be BalanceISODate(_start_.[[ISOYear]], _start_.[[ISOMonth]], _start_.[[ISODay]] + _sign_).
+        1. Let _endDateTime_ be ? CreateTemporalDateTime(_endDate_.[[Year]], _endDate_.[[Month]], _endDate_.[[Day]], _dateTime_.[[Hour]], _dateTime_.[[Minute]], _dateTime_.[[Second]], _dateTime_.[[Millisecond]], _dateTime_.[[Microsecond]], _dateTime_.[[Nanosecond]], _calendarRec_.[[Receiver]]).
+        1. Let _startInstant_ be ? GetInstantFor(_timeZoneRec_, _startDateTime_, *"compatible"*).
+        1. Let _startEpochNs_ be _startInstant_.[[Nanoseconds]].
+        1. Let _endInstant_ be ? GetInstantFor(_timeZoneRec_, _endDateTime_, *"compatible"*).
+        1. Let _endEpochNs_ be _endInstant_.[[Nanoseconds]].
+        1. Let _daySpan_ be NormalizedTimeDurationFromEpochNanosecondsDifference(_endEpochNs_, _startEpochNs_).
+        1. Assert: NormalizedTimeDurationSign(_daySpan_) = _sign_.
+        1. Let _unitLength_ be the value in the "Length in Nanoseconds" column of the row of <emu-xref href="#table-temporal-units"></emu-xref> whose "Singular" column contains _unit_.
+        1. Let _roundedNorm_ be ? RoundNormalizedTimeDurationToIncrement(_duration_.[[NormalizedTime]], _increment_ &times; _unitLength_, _roundingMode_).
+        1. Let _beyondDaySpan_ be ? SubtractNormalizedTimeDuration(_roundedNorm_, _daySpan_).
+        1. If NormalizedTimeDurationSign(_beyondDaySpan_) &ne; -_sign_, then
+          1. Let _didRoundBeyondDay_ be *true*.
+          1. Let _dayDelta_ be _sign_.
+          1. Set _roundedNorm_ to ? RoundNormalizedTimeDurationToIncrement(_beyondDaySpan_, _increment_ &times; _unitLength_, _roundingMode_).
+          1. Let _nudgedEpochNs_ be AddNormalizedTimeDurationToEpochNanoseconds(_roundedNorm_, _endEpochNs_).
+        1. Else,
+          1. Let _didRoundBeyondDay_ be *false*.
+          1. Let _dayDelta_ be 0.
+          1. Let _nudgedEpochNs_ be AddNormalizedTimeDurationToEpochNanoseconds(_roundedNorm_, _startEpochNs_).
+        1. Let _resultDuration_ be ? CreateNormalizedDurationRecord(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]] + _dayDelta_, _roundedNorm_).
+        1. Return Duration Nudge Result Record { [[Duration]]: _resultDuration_, [[Total]]: ~unset~, [[NudgedEpochNs]]: _nudgedEpochNs_, [[DidExpandCalendarUnit]]: _didRoundBeyondDay_ }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-nudgetodayortime" type="abstract operation">
+      <h1>
+        NudgeToDayOrTime (
+          _duration_: a Normalized Duration Record,
+          _destEpochNs_: a BigInt,
+          _largestUnit_: a String from the "Singular" column of <emu-xref href="#table-temporal-units"></emu-xref>,
+          _increment_: a positive integer,
+          _smallestUnit_: a String from the "Singular" column of <emu-xref href="#table-temporal-units"></emu-xref>,
+          _roundingMode_: a String from the "Identifier" column of <emu-xref href="#table-temporal-rounding-modes"></emu-xref>,
+        ): either a normal completion containing a Duration Nudge Result Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>
+          It implements rounding a duration to an increment of a time unit, in cases unaffected by the calendar or time zone.
+        </dd>
+      </dl>
+      <emu-alg>
+        1. Assert: The value in the "Category" column of the row of <emu-xref href="#table-temporal-units"></emu-xref> whose "Singular" column contains _smallestUnit_, is ~time~.
+        1. Let _norm_ be ! Add24HourDaysToNormalizedTimeDuration(_duration_.[[NormalizedTime]], _duration_.[[Days]]).
+        1. Let _unitLength_ be the value in the "Length in Nanoseconds" column of the row of <emu-xref href="#table-temporal-units"></emu-xref> whose "Singular" column contains _smallestUnit_.
+        1. Let _total_ be DivideNormalizedTimeDuration(_norm_, _unitLength_).
+        1. Let _roundedNorm_ be ? RoundNormalizedTimeDurationToIncrement(_norm_, _unitLength_ &times; _increment_, _roundingMode_).
+        1. Let _diffNorm_ be ! SubtractNormalizedTimeDuration(_roundedNorm_, _norm_).
+        1. Let _wholeDays_ be truncate(DivideNormalizedTimeDuration(_norm_, nsPerDay)).
+        1. Let _roundedFractionalDays_ be DivideNormalizedTimeDuration(_roundedNorm_, nsPerDay).
+        1. Let _roundedWholeDays_ be truncate(_roundedFractionalDays_).
+        1. Let _dayDelta_ be _roundedWholeDays_ - _wholeDays_.
+        1. If _dayDelta_ &lt; 0, let _dayDeltaSign_ be -1; else if _dayDelta_ &gt; 0, let _dayDeltaSign_ be 1; else let _dayDeltaSign_ be 0.
+        1. If _dayDeltaSign_ = NormalizedTimeDurationSign(_norm_), let _didExpandDays_ be *true*; else let _didExpandDays_ be *false*.
+        1. Let _nudgedEpochNs_ be AddNormalizedTimeDurationToEpochNanoseconds(_diffNorm_, _destEpochNs_).
+        1. Let _days_ be 0.
+        1. Let _remainder_ be _roundedNorm_.
+        1. If LargerOfTwoTemporalUnits(_largestUnit_, *"day"*) is _largestUnit_, then
+          1. Set _days_ to _roundedWholeDays_.
+          1. Set _remainder_ to remainder(_roundedFractionalDays_, 1) &times; nsPerDay.
+        1. Let _resultDuration_ be ? CreateNormalizedDurationRecord(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _days_, _remainder_).
+        1. Return Duration Nudge Result Record { [[Duration]]: _resultDuration_, [[Total]]: _total_, [[NudgedEpochNs]]: _nudgedEpochNs_, [[DidExpandCalendarUnit]]: _didExpandDays_ }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-bubblerelativeduration" type="abstract operation">
+      <h1>
+        BubbleRelativeDuration (
+          _sign_: -1 or 1,
+          _duration_: a Normalized Duration Record,
+          _nudgedEpochNs_: a BigInt,
+          _dateTime_: an ISO Date-Time Record,
+          _calendarRec_: a Calendar Method Record,
+          _timeZoneRec_: a Time Zone Method Record or ~unset~,
+          _largestUnit_: a String from the "Singular" column of <emu-xref href="#table-temporal-units"></emu-xref>,
+          _smallestUnit_: a String from the "Singular" column of <emu-xref href="#table-temporal-units"></emu-xref>,
+        ): either a normal completion containing a Normalized Duration Record or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>
+          Given a duration that has potentially been made bottom-heavy by rounding in NudgeToCalendarUnit, NudgeToZonedTime, or NudgeToDayOrTime, it bubbles up smaller units to larger units.
+        </dd>
+      </dl>
+      <emu-alg>
+        1. Assert: The value in the "Category" column of the row of <emu-xref href="#table-temporal-units"></emu-xref> whose "Singular" column contains _largestUnit_, is ~date~.
+        1. Assert: The value in the "Category" column of the row of <emu-xref href="#table-temporal-units"></emu-xref> whose "Singular" column contains _smallestUnit_, is ~date~.
+        1. If _smallestUnit_ is *"year"*, return _duration_.
+        1. Let _largestUnitIndex_ be the ordinal index of the row of <emu-xref href="#table-temporal-units"></emu-xref> whose "Singular" column contains _largestUnit_.
+        1. Let _smallestUnitIndex_ be the ordinal index of the row of <emu-xref href="#table-temporal-units"></emu-xref> whose "Singular" column contains _smallestUnit_.
+        1. Let _unitIndex_ be _smallestUnitIndex_ - 1.
+        1. Let _done_ be *false*.
+        1. Repeat, while _unitIndex_ &leq; _largestUnitIndex_ and _done_ is *false*,
+          1. Let _unit_ be the value in the "Singular" column of <emu-xref href="#table-temporal-units"></emu-xref> in the row whose ordinal index is _unitIndex_.
+          1. If _unit_ is not *"week"*, or _largestUnit_ is *"week"*, then
+            1. If _unit_ is *"year"*, then
+              1. Let _years_ be _duration_.[[Years]] + _sign_.
+              1. Let _endDuration_ be ? CreateDateDurationRecord(_years_, 0, 0, 0).
+            1. Else if _unit_ is *"month"*, then
+              1. Let _months_ be _duration_.[[Months]] + _sign_.
+              1. Let _endDuration_ be ? CreateDateDurationRecord(_duration_.[[Years]], _months_, 0, 0).
+            1. Else if _unit_ is *"week"*, then
+              1. Let _weeks_ be _duration_.[[Weeks]] + _sign_.
+              1. Let _endDuration_ be ? CreateDateDurationRecord(_duration_.[[Years]], _duration_.[[Months]], _weeks_, 0).
+            1. Else,
+              1. Assert: _unit_ is *"day"*.
+              1. Let _days_ be _duration_.[[Days]] + _sign_.
+              1. Let _endDuration_ be ? CreateDateDurationRecord(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _days_).
+            1. Let _date_ be ! CreateTemporalDate(_dateTime_.[[Year]], _dateTime_.[[Month]], _dateTime_.[[Day]], _calendarRec_.[[Receiver]]).
+            1. Let _end_ be ? AddDate(_calendarRec_, _date_, ! CreateTemporalDuration(_endDuration_.[[Years]], _endDuration_.[[Months]], _endDuration_.[[Weeks]], _endDuration_.[[Days]], 0, 0, 0, 0, 0, 0)).
+            1. If _timeZoneRec_ is ~unset~, then
+              1. Let _endEpochNs_ be GetUTCEpochNanoseconds(_end_.[[ISOYear]], _end_.[[ISOMonth]], _end_.[[ISODay]], _dateTime_.[[Hour]], _dateTime_.[[Minute]], _dateTime_.[[Second]], _dateTime_.[[Millisecond]], _dateTime_.[[Microsecond]], _dateTime_.[[Nanosecond]]).
+            1. Else,
+              1. Let _endDateTime_ be ! CreateTemporalDateTime(_end_.[[ISOYear]], _end_.[[ISOMonth]], _end_.[[ISODay]], _dateTime_.[[Hour]], _dateTime_.[[Minute]], _dateTime_.[[Second]], _dateTime_.[[Millisecond]], _dateTime_.[[Microsecond]], _dateTime_.[[Nanosecond]], _calendarRec_.[[Receiver]]).
+              1. Let _endInstant_ be ? GetInstantFor(_timeZoneRec_, _endDateTime_, *"compatible"*).
+              1. Let _endEpochNs_ be _endInstant_.[[Nanoseconds]].
+            1. Let _beyondEnd_ be _nudgedEpochNs_ - _endEpochNs_.
+            1. If _beyondEnd_ &lt; 0, let _beyondEndSign_ be -1; else if _beyondEnd_ &gt; 0, let _beyondEndSign_ be 1; else let _beyondEndSign_ be 0.
+            1. If _beyondEndSign_ &ne; -_sign_, then
+              1. Set _duration_ to ! CombineDateAndNormalizedTimeDuration(_endDuration_, ZeroTimeDuration()).
+            1. Else,
+              1. Set _done_ to *true*.
+          1. Set _unitIndex_ to _unitIndex_ - 1.
+        1. Return _duration_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-roundrelativeduration" type="abstract operation">
+      <h1>
+        RoundRelativeDuration (
+          _duration_: a Normalized Duration Record,
+          _destEpochNs_: a BigInt,
+          _dateTime_: an ISO Date-Time Record,
+          _calendarRec_: a Calendar Method Record,
+          _timeZoneRec_: a Time Zone Method Record or ~unset~,
+          _largestUnit_: a String from the "Singular" column of <emu-xref href="#table-temporal-units"></emu-xref>,
+          _increment_: a positive integer,
+          _smallestUnit_: a String from the "Singular" column of <emu-xref href="#table-temporal-units"></emu-xref>,
+          _roundingMode_: a String from the "Identifier" column of <emu-xref href="#table-temporal-rounding-modes"></emu-xref>,
+        ): either a normal completion containing a Record with fields [[Duration]] (a Duration Record) and [[Total]] (a mathematical value or ~unset~), or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>
+          It rounds a duration _duration_ relative to _dateTime_ according to the rounding parameters _smallestUnit_, _increment_, and _roundingMode_, bubbles overflows up to the next highest unit until _largestUnit_, and returns a Record with the balanced result in its [[Duration]] field.
+          It also returns the total of the smallest unit before the rounding operation in its [[Total]] field, for use in `Temporal.Duration.prototype.total`.
+        </dd>
+      </dl>
+      <emu-alg>
+        1. Let _irregularLengthUnit_ be *false*.
+        1. If IsCalendarUnit(_smallestUnit_) is *true*, set _irregularLengthUnit_ to *true*.
+        1. If _timeZoneRec_ is not ~unset~ and _smallestUnit_ is *"day"*, set _irregularLengthUnit_ to *true*.
+        1. If DurationSign(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]], NormalizedTimeDurationSign(_duration_.[[NormalizedTime]]), 0, 0, 0, 0, 0) &lt; 0, let _sign_ be -1; else let _sign_ be 1.
+        1. If _irregularLengthUnit_ is *true*, then
+          1. Let _nudgeResult_ be ? NudgeToCalendarUnit(_sign_, _duration_, _destEpochNs_, _dateTime_, _calendarRec_, _timeZoneRec_, _increment_, _smallestUnit_, _roundingMode_).
+        1. Else if _timeZoneRec_ is not ~unset~, then
+          1. Let _nudgeResult_ be ? NudgeToZonedTime(_sign_, _duration_, _dateTime_, _calendarRec_, _timeZoneRec_, _increment_, _smallestUnit_, _roundingMode_).
+        1. Else,
+          1. Let _nudgeResult_ be ? NudgeToDayOrTime(_duration_, _destEpochNs_, _largestUnit_, _increment_, _smallestUnit_, _roundingMode_).
+        1. Set _duration_ to _nudgeResult_.[[Duration]].
+        1. If _nudgeResult_.[[DidExpandCalendarUnit]] is *true* and _smallestUnit_ is not *"week"*, then
+          1. Let _startUnit_ be LargerOfTwoTemporalUnits(_smallestUnit_, *"day"*).
+          1. Set _duration_ to ? BubbleRelativeDuration(_sign_, _duration_, _nudgeResult_.[[NudgedEpochNs]], _dateTime_, _calendarRec_, _timeZoneRec_, _largestUnit_, _startUnit_).
+        1. If IsCalendarUnit(_largestUnit_) is *true* or _largestUnit_ is *"day"*, then
+          1. Set _largestUnit_ to *"hour"*.
+        1. Let _balanceResult_ be ? BalanceTimeDuration(_duration_.[[NormalizedTime]], _largestUnit_).
+        1. Return the Record {
+          [[Duration]]: CreateDurationRecord(_duration_.[[Years]], _duration_.[[Months]], _duration_.[[Weeks]], _duration_.[[Days]], _balanceResult_.[[Hours]], _balanceResult_.[[Minutes]], _balanceResult_.[[Seconds]], _balanceResult_.[[Milliseconds]], _balanceResult_.[[Microseconds]], _balanceResult_.[[Nanoseconds]]),
+          [[Total]]: _nudgeResult_.[[Total]]
+          }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-temporaldurationtostring" type="abstract operation">
+      <h1>
+        TemporalDurationToString (
+          _years_: an integer,
+          _months_: an integer,
+          _weeks_: an integer,
+          _days_: an integer,
+          _hours_: an integer,
+          _minutes_: an integer,
+          _normSeconds_: a Normalized Time Duration Record,
+          _precision_: an integer between 0 and 9 inclusive, or *"auto"*,
+        ): a String
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It returns a String which is the ISO 8601 representation of the duration denoted by _years_ through _nanoseconds_, with the number of decimal places in the seconds value controlled by _precision_.</dd>
+      </dl>
+      <emu-alg>
+        1. Let _sign_ be DurationSign(_years_, _months_, _weeks_, _days_, _hours_, _minutes_, NormalizedTimeDurationSeconds(_normSeconds_), 0, 0, NormalizedTimeDurationSubseconds(_normSeconds_)).
+        1. Let _datePart_ be *""*.
+        1. If _years_ is not 0, then
+          1. Set _datePart_ to the string concatenation of abs(_years_) formatted as a decimal number and the code unit 0x0059 (LATIN CAPITAL LETTER Y).
+        1. If _months_ is not 0, then
+          1. Set _datePart_ to the string concatenation of _datePart_, abs(_months_) formatted as a decimal number, and the code unit 0x004D (LATIN CAPITAL LETTER M).
+        1. If _weeks_ is not 0, then
+          1. Set _datePart_ to the string concatenation of _datePart_, abs(_weeks_) formatted as a decimal number, and the code unit 0x0057 (LATIN CAPITAL LETTER W).
+        1. If _days_ is not 0, then
+          1. Set _datePart_ to the string concatenation of _datePart_, abs(_days_) formatted as a decimal number, and the code unit 0x0044 (LATIN CAPITAL LETTER D).
+        1. Let _timePart_ be *""*.
+        1. If _hours_ is not 0, then
+          1. Set _timePart_ to the string concatenation of abs(_hours_) formatted as a decimal number and the code unit 0x0048 (LATIN CAPITAL LETTER H).
+        1. If _minutes_ is not 0, then
+          1. Set _timePart_ to the string concatenation of _timePart_, abs(_minutes_) formatted as a decimal number, and the code unit 0x004D (LATIN CAPITAL LETTER M).
+        1. Let _zeroMinutesAndHigher_ be *false*.
+        1. If _years_ = 0, and _months_ = 0, and _weeks_ = 0, and _days_ = 0, and _hours_ = 0, and _minutes_ = 0, set _zeroMinutesAndHigher_ to *true*.
+        1. If NormalizedTimeDurationIsZero(_normSeconds_) is *false*, or _zeroMinutesAndHigher_ is *true*, or _precision_ is not *"auto"*, then
+          1. Let _secondsPart_ be abs(NormalizedTimeDurationSeconds(_normSeconds_)) formatted as a decimal number.
+          1. Let _subSecondsPart_ be FormatFractionalSeconds(abs(NormalizedTimeDurationSubseconds(_normSeconds_)), _precision_).
+          1. Set _timePart_ to the string concatenation of _timePart_, _secondsPart_, _subSecondsPart_, and the code unit 0x0053 (LATIN CAPITAL LETTER S).
+        1. Let _signPart_ be the code unit 0x002D (HYPHEN-MINUS) if _sign_ &lt; 0, and otherwise the empty String.
+        1. Let _result_ be the string concatenation of _signPart_, the code unit 0x0050 (LATIN CAPITAL LETTER P) and _datePart_.
+        1. If _timePart_ is not *""*, then
+          1. Set _result_ to the string concatenation of _result_, the code unit 0x0054 (LATIN CAPITAL LETTER T), and _timePart_.
+        1. Return _result_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-temporal-adddurations" type="abstract operation">
+      <h1>
+        AddDurations (
+          _operation_: ~add~ or ~subtract~,
+          _duration_: a Temporal.Duration,
+          _other_: an ECMAScript language value,
+        ): either a normal completion containing a Temporal.Duration or a throw completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>
+          It adds or subtracts the components of a second duration _other_ to or from those of a first duration _duration_, resulting in a longer or shorter duration, unless calendar calculations would be required, in which case it throws an exception.
+          It balances the result, ensuring that no mixed signs remain.
+        </dd>
+      </dl>
+      <emu-alg>
+        1. If _operation_ is ~subtract~, let _sign_ be -1. Otherwise, let _sign_ be 1.
+        1. Set _other_ to ? ToTemporalDurationRecord(_other_).
+        1. Let _y1_ be _duration_.[[Years]].
+        1. Let _mon1_ be _duration_.[[Months]].
+        1. Let _w1_ be _duration_.[[Weeks]].
+        1. Let _d1_ be _duration_.[[Days]].
+        1. Let _h1_ be _duration_.[[Hours]].
+        1. Let _min1_ be _duration_.[[Minutes]].
+        1. Let _s1_ be _duration_.[[Seconds]].
+        1. Let _ms1_ be _duration_.[[Milliseconds]].
+        1. Let _mus1_ be _duration_.[[Microseconds]].
+        1. Let _ns1_ be _duration_.[[Nanoseconds]].
+        1. Let _y2_ be _sign_ &times; _other_.[[Years]].
+        1. Let _mon2_ be _sign_ &times; _other_.[[Months]].
+        1. Let _w2_ be _sign_ &times; _other_.[[Weeks]].
+        1. Let _d2_ be _sign_ &times; _other_.[[Days]].
+        1. Let _h2_ be _sign_ &times; _other_.[[Hours]].
+        1. Let _min2_ be _sign_ &times; _other_.[[Minutes]].
+        1. Let _s2_ be _sign_ &times; _other_.[[Seconds]].
+        1. Let _ms2_ be _sign_ &times; _other_.[[Milliseconds]].
+        1. Let _mus2_ be _sign_ &times; _other_.[[Microseconds]].
+        1. Let _ns2_ be _sign_ &times; _other_.[[Nanoseconds]].
+        1. Let _largestUnit1_ be DefaultTemporalLargestUnit(_y1_, _mon1_, _w1_, _d1_, _h1_, _min1_, _s1_, _ms1_, _mus1_).
+        1. Let _largestUnit2_ be DefaultTemporalLargestUnit(_y2_, _mon2_, _w2_, _d2_, _h2_, _min2_, _s2_, _ms2_, _mus2_).
+        1. Let _largestUnit_ be LargerOfTwoTemporalUnits(_largestUnit1_, _largestUnit2_).
+        1. Let _norm1_ be NormalizeTimeDuration(_h1_, _min1_, _s1_, _ms1_, _mus1_, _ns1_).
+        1. Let _norm2_ be NormalizeTimeDuration(_h2_, _min2_, _s2_, _ms2_, _mus2_, _ns2_).
+        1. If IsCalendarUnit(_largestUnit_), throw a *RangeError* exception.
+        1. Let _normResult_ be ? AddNormalizedTimeDuration(_norm1_, _norm2_).
+        1. Set _normResult_ to ? Add24HourDaysToNormalizedTimeDuration(_normResult_, _d1_ + _d2_).
+        1. Let _result_ be ? BalanceTimeDuration(_normResult_, _largestUnit_).
+        1. Return ! CreateTemporalDuration(0, 0, 0, _result_.[[Days]], _result_.[[Hours]], _result_.[[Minutes]], _result_.[[Seconds]], _result_.[[Milliseconds]], _result_.[[Microseconds]], _result_.[[Nanoseconds]]).
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>

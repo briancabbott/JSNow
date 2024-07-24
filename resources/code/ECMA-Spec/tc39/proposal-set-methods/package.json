@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "name": "proposal-set-methods",
+  "description": "New Set methods proposal for JavaScript (build setup only)",
+  "license": "Fair",
+  "scripts": {
+    "build": "npm run build-loose -- --strict",
+    "build-loose": "node -e 'fs.mkdirSync(\"build\", { recursive: true })' && ecmarkup --load-biblio @tc39/ecma262-biblio --verbose spec/index.html build/index.html --js-out build/ecmarkup.js --css-out build/ecmarkup.css --lint-spec",
+    "format": "emu-format --write 'spec/*.html'"
+  },
+  "devDependencies": {
+    "@tc39/ecma262-biblio": "2.1.2599",
+    "ecmarkup": "^17.0.2"
+  },
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ginden/set-methods.git"
+  },
+  "keywords": [],
+  "author": "Michał Wadas <michalwadas@gmail.com>, Sathya Gunasekaran <gsathya@chromium.org>",
+  "bugs": {
+    "url": "https://github.com/tc39/proposal-set-methods/issues"
+  },
+  "homepage": "https://github.com/tc39/proposal-set-methods#readme"
+}

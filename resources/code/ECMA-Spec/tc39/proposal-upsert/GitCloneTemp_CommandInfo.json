@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-upsert undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-upsert",
+    "repo": "https://github.com/tc39/proposal-upsert",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-upsert",
+    "startTime": "2024-07-18T18:18:55.306Z",
+    "endTime": "2024-07-18T18:18:56.138Z",
+    "childProcessPid": 24292,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-upsert--24292",
+    "executionErrors": []
+}

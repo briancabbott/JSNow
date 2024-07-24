@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-symbol-predicates undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-symbol-predicates",
+    "repo": "https://github.com/tc39/proposal-symbol-predicates",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-symbol-predicates",
+    "startTime": "2024-07-18T18:18:28.937Z",
+    "endTime": "2024-07-18T18:18:29.767Z",
+    "childProcessPid": 24003,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-symbol-predicates--24003",
+    "executionErrors": []
+}

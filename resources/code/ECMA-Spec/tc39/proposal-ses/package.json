@@ -1,0 +1,37 @@
+{
+    "name": "ecma-proposal-ses",
+    "private": true,
+    "version": "0.0.0",
+    "description": "ECMAScript Proposal for SES (Secure EcmaScript)",
+    "scripts": {
+        "build": "ecmarkup spec/index.emu index.html",
+        "watch": "ecmarkup --watch spec/index.emu index.html"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tc39/proposal-ses.git"
+    },
+    "main": "shim/src/main.js",
+    "keywords": [
+        "realms",
+        "frozen",
+        "ES8",
+        "ES2017",
+        "ECMAScript",
+        "ESNext",
+        "spec",
+        "proposal"
+    ],
+    "author": {
+        "name": "Mark S. Miller"
+    },
+    "license": "Apache 2.0",
+    "bugs": {
+        "url": "https://github.com/tc39/proposal-ses/issues"
+    },
+    "homepage": "https://github.com/tc39/proposal-ses#readme",
+    "dependencies": {},
+    "devDependencies": {
+        "ecmarkup": "latest"
+    }
+}

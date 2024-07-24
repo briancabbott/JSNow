@@ -1,0 +1,15 @@
+{
+  "name": "es-observable",
+  "private": true,
+  "scripts": {
+    "test": "babel-node run-tests.js",
+    "prepare": "babel -d commonjs/src/ src/ && babel -d commonjs/test/ test/ && babel -d commonjs/ run-tests.js"
+  },
+  "main": "commonjs/src/Observable.js",
+  "version": "0.3.0",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "moon-unit": "^0.2.2"
+  }
+}

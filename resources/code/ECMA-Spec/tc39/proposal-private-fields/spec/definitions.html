@@ -1,0 +1,269 @@
+<h2>Syntax</h2>
+<emu-grammar>
+  PrivateName ::
+    `#` IdentifierName
+
+  ClassElement[Yield] :
+    MethodDefinition[?Yield]
+    `static` MethodDefinition[?Yield]
+    PrivateFieldDefinition[?Yield]
+    `;`
+
+  PrivateFieldDefinition[Yield] :
+    PrivateName Initializer[In, ?Yield]? `;`
+</emu-grammar>
+
+<emu-issue>
+  It is proposed that private field declarations may begin with an additional `private` or `pri` keyword; see <a href="https://github.com/tc39/proposal-private-fields/issues/53">the GitHub thread</a>. Another proposed addition is an abbreviated comma syntax, of the form `pri x, y`.
+</emu-issue>
+
+<emu-clause id="sec-private-names-static-semantics-stringvalue">
+  <h1>Static Semantics: PrivateStringValue</h1>
+  <emu-see-also-para op="PrivateStringValue"></emu-see-also-para>
+  <emu-grammar>
+    PrivateName ::
+      `#` IdentifierName
+  </emu-grammar>
+  <emu-alg>
+    1. Return the String value consisting of the sequence of code units corresponding to |PrivateName|. In determining the sequence any occurrences of `\\` |UnicodeEscapeSequence| are first replaced with the code point represented by the |UnicodeEscapeSequence| and then the code points of the entire |PrivateName| are converted to code units by UTF16Encoding (<emu-xref href="#sec-utf16encoding"></emu-xref>) each code point.
+  </emu-alg>
+</emu-clause>
+
+<emu-clause id="sec-duplicate-early-error">
+  <h1>Static Semantics: Early Errors</h1>
+  <emu-grammar>
+    ClassBody : ClassElementList
+  </emu-grammar>
+  <ul>
+    <li>It is a Syntax Error if PrivateBoundNames of |ClassBody| contains any duplicate entries.</li>
+  </ul>
+</emu-clause>
+
+<emu-clause id="sec-private-bound-names" aoid="PrivateBoundNames">
+  <h1>Static Semantics: PrivateBoundNames</h1>
+
+  <emu-grammar>
+    PrivateFieldDefinition : PrivateName Initializer? `;`
+  </emu-grammar>
+  <emu-alg>
+    1. Return a new List containing the PrivateStringValue of |PrivateName|.
+  </emu-alg>
+
+  <emu-grammar>
+    ClassElement : MethodDefinition
+
+    ClassElement : `static` MethodDefinition
+
+    ClassElement : `;`
+  </emu-grammar>
+  <emu-alg>
+    1. Return a new empty List.
+  </emu-alg>
+
+  <emu-grammar>
+    ClassElement : PrivateFieldDefinition
+  </emu-grammar>
+  <emu-alg>
+    1. Return PrivateBoundNames of |PrivateFieldDefinition|.
+  </emu-alg>
+
+  <emu-grammar>
+    ClassElementList : ClassElement
+  </emu-grammar>
+  <emu-alg>
+    1. Return PrivateBoundNames of |ClassElement|.
+  </emu-alg>
+
+  <emu-grammar>
+    ClassElementList : ClassElementList ClassElement
+  </emu-grammar>
+  <emu-alg>
+    1. Let _names_ be PrivateBoundNames of |ClassElementList|.
+    1. Append to _names_ the elements of PrivateBoundNames of |ClassElement|.
+    1. Return _names_.
+  </emu-alg>
+
+  <emu-grammar>
+    ClassBody : ClassElementList
+  </emu-grammar>
+  <emu-alg>
+    1. Return PrivateBoundNames of |ClassElementList|.
+  </emu-alg>
+</emu-clause>
+
+<emu-clause id="sec-private-field-definition-static-semantics-isstatic">
+  <h1>Static Semantics: IsStatic</h1>
+  <emu-grammar>ClassElement : PrivateFieldDefinition</emu-grammar>
+  <emu-alg>
+    1. Return *false*.
+  </emu-alg>
+</emu-clause>
+
+<emu-clause id="sec-private-field-definition-static-semantics-propname">
+  <h1>Static Semantics: PropName</h1>
+  <emu-grammar>ClassElement : PrivateFieldDefinition</emu-grammar>
+  <emu-alg>
+    1. Return ~empty~.
+  </emu-alg>
+</emu-clause>
+
+<emu-clause id="sec-private-field-definition-static-semantics-nonconstructormethoddefinitions">
+  <h1>Static Semantics: NonConstructorMethodDefinitions</h1>
+  <emu-grammar>ClassElementList : ClassElement</emu-grammar>
+  <emu-alg>
+    1. If |ClassElement| is the production <emu-grammar>ClassElement : `;`</emu-grammar> , return a new empty List.
+    1. <ins>If |ClassElement| is the production <emu-grammar>ClassElement : PrivateFieldDefinition</emu-grammar> , return a new empty List</ins>.
+    1. If IsStatic of |ClassElement| is *false* and PropName of |ClassElement| is `"constructor"`, return a new empty List.
+    1. Return a List containing |ClassElement|.
+  </emu-alg>
+</emu-clause>
+
+<emu-clause id="sec-private-field-definitions">
+  <h1>Static Semantics: PrivateFieldDefinitions</h1>
+  <emu-grammar>ClassElementList : ClassElement</emu-grammar>
+  <emu-alg>
+    1. If |ClassElement| is the production <emu-grammar>ClassElement : PrivateFieldDefinition</emu-grammar> , return a List containing |ClassElement|.
+    1. Else, return a new empty List.
+  </emu-alg>
+  <emu-grammar>ClassElementList : ClassElementList ClassElement</emu-grammar>
+  <emu-alg>
+    1. Let _list_ be PrivateFieldDefinitions of |ClassElementList|.
+    1. If |ClassElement| is the production <emu-grammar>ClassElement : PrivateFieldDefinition</emu-grammar> , append |ClassElement| to the end of _list_.
+    1. Return _list_.
+  </emu-alg>
+</emu-clause>
+
+<emu-clause id="sec-instance-slot-definition">
+  <h1>Runtime Semantics: PrivateFieldDefinitionEvaluation</h1>
+  <p>With parameter _homeObject_.</p>
+  <emu-grammar>PrivateFieldDefinition : PrivateName Initializer[In, ?Yield]? `;`</emu-grammar>
+  <emu-alg>
+    1. Let _bindingName_ be PrivateStringValue of |PrivateName|.
+    1. Let _field_ be NewPrivateField();
+    1. Let _scope_ be the running execution context's PrivateFieldEnvironment.
+    1. Let _scopeEnvRec_ be _scope_'s EnvironmentRecord.
+    1. Perform ! _scopeEnvRec_.InitializeBinding(_bindingName_, _field_).
+    1. NOTE: Since _bindingName_ is not a valid |Identifier|, _field_ is not visible to user code.
+    1. If |Initializer_opt| is present,
+      1. Let _lex_ be the Lexical Environment of the running execution context.
+      1. Let _initializer_ be FunctionCreate(~Method~, ~empty~, |Initializer_opt|, _lex_, *true*).
+      1. Perform MakeMethod(_initializer_, _homeObject_);
+    1. Else, let _initializer_ be ~empty~.
+    1. Return Record{[[PrivateFieldDefinitionIdentifier]]: _field_, [[PrivateFieldDefinitionInitializer]]: _initializer_}.
+  </emu-alg>
+  <emu-motivation>The scope that the initializer is evaluated in is equivalent to a method which is called with no arguments.</emu-motivation>
+</emu-clause>
+
+<emu-clause id="runtime-semantics-class-public-field-definition-evaluation">
+  <h1>Runtime Semantics: EvaluateBody</h1>
+
+  <p>With parameter _functionObject_.</p>
+
+  <emu-grammar>
+    Initializer[In, Yield] :
+      `=` AssignmentExpression[?In, ?Yield]
+  </emu-grammar>
+  <emu-alg>
+    1. Return the result of evaluating |AssignmentExpression|.
+  </emu-alg>
+</emu-clause>
+
+<!-- TODO:
+
+- Replace NonConstructorMethodDefinitions with NonConstructorClassElements
+- How do we switch based on type?  Should we introduce a new polymorphic operation?
+  (ClassElementDefinitionEvaluation) Or just use PropertyDefinitionEvaluation?
+
+Types:
+
+- private field definition
+- private static field definition
+- public field definition
+- public static field definition
+- method definition
+- static method definition
+
+--->
+
+<emu-clause id="sec-runtime-semantics-classdefinitionevaluation">
+  <h1>Runtime Semantics: ClassDefinitionEvaluation</h1>
+  <p>With parameter _className_.</p>
+  <emu-grammar>ClassTail : ClassHeritage? `{` ClassBody? `}`</emu-grammar>
+  <emu-alg>
+    1. Let _lex_ be the LexicalEnvironment of the running execution context.
+    1. Let _classScope_ be NewDeclarativeEnvironment(_lex_).
+    1. Let _classScopeEnvRec_ be _classScope_'s EnvironmentRecord.
+    1. If _className_ is not *undefined*, then
+      1. Perform _classScopeEnvRec_.CreateImmutableBinding(_className_, *true*).
+    1. <ins>Let _outerPrivateEnvironment_ be the PrivateFieldEnvironment of the running execution context.</ins>
+    1. <ins>Let _classPrivateEnvironment_ be NewDeclarativeEnvironment(_outerPrivateEnvironment_).</ins>
+    1. <ins>Let _classPrivateEnvRec_ be _classPrivateEnvironment_'s EnvironmentRecord.</ins>
+    1. <ins>If |ClassBody_opt| is present, then</ins>
+      1. <ins>For each element _dn_ of the PrivateBoundNames of |ClassBody_opt|,</ins>
+        1. <ins>Perform _classPrivateEnvRec_.CreateImmutableBinding(_dn_, *true*).</ins>
+    1. If |ClassHeritage_opt| is not present, then
+      1. Let _protoParent_ be the intrinsic object %ObjectPrototype%.
+      1. Let _constructorParent_ be the intrinsic object %FunctionPrototype%.
+    1. Else,
+      1. Set the running execution context's LexicalEnvironment to _classScope_.
+      1. <ins>Set the running execution context's PrivateFieldEnvironment to _classPrivateEnvironment_.</ins>
+      1. Let _superclass_ be the result of evaluating |ClassHeritage|.
+      1. <ins>Set the running execution context's PrivateFieldEnvironment to _outerPrivateEnvironment_.</ins>
+      1. Set the running execution context's LexicalEnvironment to _lex_.
+      1. ReturnIfAbrupt(_superclass_).
+      1. If _superclass_ is *null*, then
+        1. Let _protoParent_ be *null*.
+        1. Let _constructorParent_ be the intrinsic object %FunctionPrototype%.
+      1. Else if IsConstructor(_superclass_) is *false*, throw a *TypeError* exception.
+      1. Else,
+        1. Let _protoParent_ be ? Get(_superclass_, `"prototype"`).
+        1. If Type(_protoParent_) is neither Object nor Null, throw a *TypeError* exception.
+        1. Let _constructorParent_ be _superclass_.
+    1. Let _proto_ be ObjectCreate(_protoParent_).
+    1. If |ClassBody_opt| is not present, let _constructor_ be ~empty~.
+    1. Else, let _constructor_ be ConstructorMethod of |ClassBody|.
+    1. If _constructor_ is ~empty~, then
+      1. If |ClassHeritage_opt| is present, then
+        1. Let _constructor_ be the result of parsing the source text
+          <pre><code class="javascript">constructor(... args){ super (...args);}</code></pre>
+          using the syntactic grammar with the goal symbol |MethodDefinition|.
+      1. Else,
+        1. Let _constructor_ be the result of parsing the source text
+          <pre><code class="javascript">constructor( ){ }</code></pre>
+          using the syntactic grammar with the goal symbol |MethodDefinition|.
+    1. Set the running execution context's LexicalEnvironment to _classScope_.
+    1. <ins>Set the running execution context's PrivateFieldEnvironment to _classPrivateEnvironment_.</ins>
+    1. Let _constructorInfo_ be the result of performing DefineMethod for _constructor_ with arguments _proto_ and _constructorParent_ as the optional _functionPrototype_ argument.
+    1. Assert: _constructorInfo_ is not an abrupt completion.
+    1. Let _F_ be _constructorInfo_.[[closure]].
+    1. If |ClassHeritage_opt| is present, set _F_'s [[ConstructorKind]] internal slot to `"derived"`.
+    1. Perform MakeConstructor(_F_, *false*, _proto_).
+    1. Perform MakeClassConstructor(_F_).
+    1. Perform CreateMethodProperty(_proto_, `"constructor"`, _F_).
+    1. If |ClassBody_opt| is not present, let _methods_ be a new empty List.
+    1. Else, let _methods_ be NonConstructorMethodDefinitions of |ClassBody|.
+    1. For each |ClassElement| _m_ in order from _methods_,
+      1. If IsStatic of _m_ is *false*, then
+        1. Let _status_ be the result of performing PropertyDefinitionEvaluation for _m_ with arguments _proto_ and *false*.
+      1. Else,
+        1. Let _status_ be the result of performing PropertyDefinitionEvaluation for _m_ with arguments _F_ and *false*.
+      1. If _status_ is an abrupt completion, then
+        1. <ins>Set the running execution context's PrivateFieldEnvironment to _outerPrivateEnvironment_.</ins>
+        1. Set the running execution context's LexicalEnvironment to _lex_.
+        1. Return Completion(_status_).
+    1. <ins>If |ClassBody_opt| is not present, let _fieldDefinitions_ be a new empty List.</ins>
+    1. <ins>Else, let _fieldDefinitions_ be PrivateFieldDefinitions of |ClassBody|.</ins>
+    1. <ins>Let _privateFields_ be a new empty List.</ins>
+    1. <ins>For each |ClassElement| _f_ in order from _fieldDefinitions_,</ins>
+      1. <ins>Let _fieldRecord_ be the result of performing PrivateFieldDefinitionEvaluation for _f_ with argument _proto_.</ins>
+      1. <ins>Append _fieldRecord_ to _privateFields_.</ins>
+    <!-- Is this too late to add a private slot to the class? It could instead be added as an empty list on every function in FunctionAllocate. -->
+    1. Set the value of _F_'s [[PrivateFieldDefinitions]] internal slot to _privateFields_.</ins>
+    1. <ins>Set the running execution context's PrivateFieldEnvironment to _outerPrivateEnvironment_.</ins>
+    1. Set the running execution context's LexicalEnvironment to _lex_.
+    1. If _className_ is not *undefined*, then
+      1. Perform _classScopeEnvRec_.InitializeBinding(_className_, _F_).
+    1. Return _F_.
+  </emu-alg>
+  <emu-motivation>Each time a class declaration executes, distinct internal Private Field Identifiers are created. This means, that they cannot directly access each other's private state if a method of one is called with the other as a receiver.</emu-motivation>
+</emu-clause>

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-regexp-atomic-operators undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-regexp-atomic-operators",
+    "repo": "https://github.com/tc39/proposal-regexp-atomic-operators",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-regexp-atomic-operators",
+    "startTime": "2024-07-18T18:17:49.682Z",
+    "endTime": "2024-07-18T18:17:50.638Z",
+    "childProcessPid": 23099,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-regexp-atomic-operators--23099",
+    "executionErrors": []
+}

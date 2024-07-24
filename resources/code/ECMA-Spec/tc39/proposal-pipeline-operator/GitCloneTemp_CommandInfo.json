@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-pipeline-operator undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-pipeline-operator",
+    "repo": "https://github.com/tc39/proposal-pipeline-operator",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-pipeline-operator",
+    "startTime": "2024-07-18T18:17:35.615Z",
+    "endTime": "2024-07-18T18:17:36.646Z",
+    "childProcessPid": 22746,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-pipeline-operator--22746",
+    "executionErrors": []
+}

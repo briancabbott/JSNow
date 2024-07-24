@@ -1,0 +1,46 @@
+{
+	"name": "ecma-proposal-promise-finally",
+	"version": "0.0.0",
+	"description": "ECMAScript spec proposal for Promise#finally",
+	"scripts": {
+		"build": "ecmarkup spec.emu --js=spec.js --css=spec.css | js-beautify -f - --type=html -w 0 -n -t | sed -e 's/&nbsp;/ /g' -e 's/[[:space:]]*$//' > index.html",
+		"prepublish": "in-install || (npm run build && not-in-publish || (echo >&2 'no publishing' && exit 255))",
+		"test": "npm run tests-only",
+		"tests-only": "npm run test:aplus && npm run test:finally",
+		"test:aplus": "promises-aplus-tests test/adapter",
+		"test:finally": "mocha test/test",
+		"test:finally:native": "node --harmony-promise-finally $(which _mocha) test/test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tc39/proposal-promise-finally.git"
+	},
+	"keywords": [
+		"promise",
+		"finally",
+		"then",
+		"thenable",
+		"promises",
+		"async",
+		"ECMAScript",
+		"ESNext",
+		"spec",
+		"proposal"
+	],
+	"author": "Jordan Harband <ljharb@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/tc39/proposal-promise-finally/issues"
+	},
+	"homepage": "https://github.com/tc39/proposal-promise-finally#readme",
+	"dependencies": {
+		"especially": "^2.0.1"
+	},
+	"devDependencies": {
+		"ecmarkup": "^3.12.0",
+		"in-publish": "^2.0.0",
+		"js-beautify": "^1.7.5",
+		"mocha": "^3.5.3",
+		"promises-aplus-tests": "^2.1.2"
+	}
+}

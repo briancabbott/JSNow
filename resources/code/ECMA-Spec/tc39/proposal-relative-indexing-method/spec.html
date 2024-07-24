@@ -1,0 +1,100 @@
+<!doctype html>
+<meta charset="utf8">
+<script src="ecmarkup.js"></script>
+<link rel="stylesheet" href="ecmarkup.css">
+<title>Relative Indexing Method</title>
+<pre class=metadata>
+  title: Relative Indexing Method
+  status: proposal
+  stage: 4
+  location: https://github.com/tabatkins/proposal-relative-indexing-method
+  copyright: false
+  contributors: Tab Atkins, Shu-yu Guo
+</pre>
+<emu-intro id="intro">
+  <h1>Relative Indexing Method</h1>
+  <p>We provide a new method, `at()`, that is on the prototype of the built-in indexable objects: Array, String, and TypedArrays objects. The method supports relative indexing from the end when passed a negative index.</p>
+</emu-intro>
+
+<emu-clause id="sec-array-prototype-additions">
+  <h1>Additions to Properties of the Array Prototype Object</h1>
+
+  <emu-clause id="sec-array.prototype.at">
+    <h1>Array.prototype.at ( _index_ )</h1>
+    <emu-alg>
+      1. Let _O_ be ? ToObject(*this* value).
+      1. Let _len_ be ? LengthOfArrayLike(_O_).
+      1. Let _relativeIndex_ be ? ToInteger(_index_).
+      1. If _relativeIndex_ &ge; 0, then
+        1. Let _k_ be _relativeIndex_.
+      1. Else,
+        1. Let _k_ be _len_ + _relativeIndex_.
+      1. If _k_ &lt; 0 or _k_ &ge; _len_, then return *undefined*.
+      1. Return ? Get(_O_, ! ToString(_k_)).
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-array.prototype-modifications">
+  <h1>Modifications to Properties of the Array Prototype Object</h1>
+
+  <emu-clause id="sec-array.prototype-@@unscopables-modification">
+    <h1>Array.prototype [ @@unscopables ]</h1>
+    <p>The initial value of the @@unscopables data property is an object created by the following steps:</p>
+    <emu-alg>
+      1. Let _unscopableList_ be ! OrdinaryObjectCreate(*null*).
+      1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"at"*, *true*).</ins>
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"copyWithin"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"entries"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"fill"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"find"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"findIndex"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"flat"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"flatMap"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"includes"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"keys"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"values"*, *true*).
+      1. Return _unscopableList_.
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-string-prototype-additions">
+  <h1>Additions to Properties of the String Prototype Object</h1>
+
+  <emu-clause id="sec-string.prototype.at">
+    <h1>String.prototype.at ( _index_ )</h1>
+    <emu-alg>
+      1. Let _O_ be ? RequireObjectCoercible(*this* value).
+      1. Let _S_ be ? ToString(_O_).
+      1. Let _len_ be the length of _S_.
+      1. Let _relativeIndex_ be ? ToInteger(_index_).
+      1. If _relativeIndex_ &ge; 0, then
+        1. Let _k_ be _relativeIndex_.
+      1. Else,
+        1. Let _k_ be _len_ + _relativeIndex_.
+      1. If _k_ &lt; 0 or _k_ &ge; _len_, then return *undefined*.
+      1. Return the String value consisting of only the code unit at position _k_ in _S_.
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-%typedarray.prototype%-additions">
+  <h1>Additions to Properties of the %TypedArray.prototype% Object</h1>
+
+  <emu-clause id="sec-%typedarray%.prototype.at">
+    <h1>%TypedArray%.prototype.at ( _index_ )</h1>
+    <emu-alg>
+      1. Let _O_ be the *this* value.
+      1. Perform ? ValidateTypedArray(_O_).
+      1. Let _len_ be _O_.[[ArrayLength]].
+      1. Let _relativeIndex_ be ? ToInteger(_index_).
+      1. If _relativeIndex_ &ge; 0, then
+        1. Let _k_ be _relativeIndex_.
+      1. Else,
+        1. Let _k_ be _len_ + _relativeIndex_.
+      1. If _k_ &lt; 0 or _k_ &ge; _len_, then return *undefined*.
+      1. Return ? Get(_O_, ! ToString(_k_)).
+    </emu-alg>
+  </emu-clause>
+</emu-clause>

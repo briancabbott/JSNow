@@ -1,0 +1,294 @@
+<h2>Syntax</h2>
+<emu-grammar>
+  MemberExpression[Yield] :
+    MemberExpression[?Yield] `.` PrivateName
+
+  PrimaryExpression[Yield] :
+    PrivateName
+</emu-grammar>
+
+<emu-motivation>
+  This proposal allows both abbreviated references to private state (`#x`) which have an implicit `this` as the receiver, as well as explicit receivers (`obj.#x`). The implicit receiver form is intended for better ergonomics for the common case, and the explicit receiver form allows the full generality of "class-private" (as opposed to "instance-private").
+</emu-motivation>
+
+<emu-clause id="sec-private-references-runtime-semantics-evaluation">
+  <h1>Runtime Semantics: Evaluation</h1>
+  <emu-grammar>MemberExpression : MemberExpression `.` PrivateName</emu-grammar>
+  <emu-alg>
+    1. Let _baseReference_ be the result of evaluating |MemberExpression|.
+    1. Let _baseValue_ be ? GetValue(_baseReference_).
+    1. Let _bv_ be ? RequireObjectCoercible(_baseValue_).
+    1. Let _fieldNameString_ be the PrivateStringValue of |PrivateName|.
+    1. Return MakePrivateReference(_bv_, _fieldNameString_).
+  </emu-alg>
+
+  <emu-grammar>PrimaryExpression : PrivateName</emu-grammar>
+  <emu-alg>
+    1. Let _baseValue_ be ? ResolveThisBinding().
+    1. Let _bv_ be ? RequireObjectCoercible(_baseValue_).
+    1. Let _fieldNameString_ be the PrivateStringValue of |PrivateName|.
+    1. Return MakePrivateReference(_bv_, _fieldNameString_).
+  </emu-alg>
+</emu-clause>
+
+<emu-clause id="sec-delete-operator">
+  <h1>The `delete` Operator</h1>
+
+  <!-- es6num="12.5.4.1" -->
+  <emu-clause id="sec-delete-operator-static-semantics-early-errors">
+    <h1>Static Semantics: Early Errors</h1>
+    <emu-note>
+      <p>These static rules have been modified to produce an early error if the `delete` operator is applied to a private reference.</p>
+    </emu-note>
+    <emu-grammar>UnaryExpression : `delete` UnaryExpression</emu-grammar>
+    <ul>
+      <li>
+        It is a Syntax Error if the |UnaryExpression| is contained in strict mode code and the derived |UnaryExpression| is <emu-grammar>PrimaryExpression : IdentifierReference</emu-grammar> or <emu-grammar>MemberExpression : MemberExpression `.` PrivateName</emu-grammar>.
+      </li>
+      <li>
+        <p>It is a Syntax Error if the derived |UnaryExpression| is
+          <br>
+          <emu-grammar>PrimaryExpression : CoverParenthesizedExpressionAndArrowParameterList</emu-grammar>
+          <br>
+          and |CoverParenthesizedExpressionAndArrowParameterList| ultimately derives a phrase that, if used in place of |UnaryExpression|, would produce a Syntax Error according to these rules. This rule is recursively applied.</p>
+      </li>
+    </ul>
+    <emu-note>
+      <p>The last rule means that expressions such as `delete (((foo)))` produce early errors because of recursive application of the first rule.</p>
+    </emu-note>
+    <emu-motivation>Private fields may not be deleted</emu-motivation>
+  </emu-clause>
+
+  <emu-clause id="sec-delete-operator-runtime-semantics-evaluation">
+    <h1>Runtime Semantics: Evaluation</h1>
+    <emu-grammar>UnaryExpression : `delete` UnaryExpression</emu-grammar>
+    <emu-alg>
+      1. Let _ref_ be the result of evaluating |UnaryExpression|.
+      1. ReturnIfAbrupt(_ref_).
+      1. If Type(_ref_) is not Reference, return *true*.
+      1. If IsUnresolvableReference(_ref_) is *true*, then
+        1. Assert: IsStrictReference(_ref_) is *false*.
+        1. Return *true*.
+      1. If IsPropertyReference(_ref_) is *true*, then
+        1. <ins>Assert: IsPrivateReference(_ref_) is *false*.</ins>
+        1. If IsSuperReference(_ref_), throw a *ReferenceError* exception.
+        1. Let _baseObj_ be ! ToObject(GetBase(_ref_)).
+        1. Let _deleteStatus_ be ? _baseObj_.[[Delete]](GetReferencedName(_ref_)).
+        1. If _deleteStatus_ is *false* and IsStrictReference(_ref_) is *true*, throw a *TypeError* exception.
+        1. Return _deleteStatus_.
+      1. Else _ref_ is a Reference to an Environment Record binding,
+        1. Let _bindings_ be GetBase(_ref_).
+        1. Return ? _bindings_.DeleteBinding(GetReferencedName(_ref_)).
+    </emu-alg>
+    <emu-note>
+      <p>When a `delete` operator occurs within strict mode code, a *SyntaxError* exception is thrown if its |UnaryExpression| is a direct reference to a variable, function argument, or function name. In addition, if a `delete` operator occurs within strict mode code and the property to be deleted has the attribute { [[Configurable]]: *false* }, a *TypeError* exception is thrown.</p>
+    </emu-note>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-reference-specification-type">
+  <h1>The Reference Specification Type</h1>
+  <emu-note>
+    <p>The Reference type is used to explain the behaviour of such operators as `delete`, `typeof`, the assignment operators, the `super` keyword and other language features. For example, the left-hand operand of an assignment is expected to produce a reference.</p>
+  </emu-note>
+  <p>A <dfn>Reference</dfn> is a resolved name or property binding. A Reference consists of <ins>four</ins> components, the <em>base</em> value, the <em>referenced name</em>, the Boolean valued <em>strict reference</em> flag, <ins>and the Boolean valued <em>private reference</em> flag</ins>. The <em>base</em> value is either *undefined*, an Object, a Boolean, a String, a Symbol, a Number, or an Environment Record (<emu-xref href="#sec-environment-records"></emu-xref>). A _base_ value of *undefined* indicates that the Reference could not be resolved to a binding. The <em>referenced name</em> is a String value or a Symbol value.</p>
+  <p>A Super Reference is a Reference that is used to represent a name binding that was expressed using the super keyword. A Super Reference has an additional _thisValue_ component and its _base_ value will never be an Environment Record.</p>
+  <p>The following abstract operations are used in this specification to access the components of references:</p>
+  <ul>
+    <li>
+      GetBase(V). Returns the _base_ value component of the reference V.
+    </li>
+    <li>
+      GetReferencedName(V). Returns the <i>referenced name</i> component of the reference V.
+    </li>
+    <li>
+      IsStrictReference(V). Returns the <i>strict reference</i> flag component of the reference V.
+    </li>
+    <li>
+      HasPrimitiveBase(V). Returns *true* if Type(_base_) is Boolean, String, Symbol, or Number.
+    </li>
+    <li>
+      IsPropertyReference(V). Returns *true* if either the _base_ value is an object or HasPrimitiveBase(V) is *true*; otherwise returns *false*.
+    </li>
+    <li>
+      IsUnresolvableReference(V). Returns *true* if the _base_ value is *undefined* and *false* otherwise.
+    </li>
+    <li>
+      IsSuperReference(V). Returns *true* if this reference has a _thisValue_ component.
+    </li>
+    <li>
+      <ins>IsPrivateReference(V). Returns the <i>private reference</i> flag component of the reference V.</ins>
+    </li>
+  </ul>
+  <p>The following abstract operations are used in this specification to operate on references:</p>
+
+  <!-- es6num="6.2.3.1" -->
+  <emu-clause id="sec-getvalue" aoid="GetValue">
+    <h1>GetValue ( _V_ )</h1>
+    <emu-alg>
+      1. ReturnIfAbrupt(_V_).
+      1. If Type(_V_) is not Reference, return _V_.
+      1. Let _base_ be GetBase(_V_).
+      1. If IsUnresolvableReference(_V_), throw a *ReferenceError* exception.
+      1. If IsPropertyReference(_V_), then
+        1. If HasPrimitiveBase(_V_), then
+          1. Assert: In this case, _base_ will never be *null* or *undefined*.
+          1. Let _base_ be ToObject(_base_).
+        1. <ins>If IsPrivateReference(_V_), then</ins>
+          1. <ins>Let _env_ be the running execution context's PrivateFieldEnvironment.</ins>
+          1. <ins>Let _field_ be ? ResolveBinding(GetReferencedName(_V_), _env_).</ins>
+          1. <ins>Assert: _field_ is a Private Field Identifier.</ins>
+          1. <ins>Return ? PrivateFieldGet(_field_, _base_).</ins>
+        1. Return ? _base_.[[Get]](GetReferencedName(_V_), GetThisValue(_V_)).
+      1. Else _base_ must be an Environment Record,
+        1. Return ? _base_.GetBindingValue(GetReferencedName(_V_), IsStrictReference(_V_)) (see <emu-xref href="#sec-environment-records"></emu-xref>).
+    </emu-alg>
+    <emu-note>
+      <p>The object that may be created in step 5.a.ii is not accessible outside of the above abstract operation and the ordinary object [[Get]] internal method. An implementation might choose to avoid the actual creation of the object.</p>
+    </emu-note>
+  </emu-clause>
+
+  <!-- es6num="6.2.3.2" -->
+  <emu-clause id="sec-putvalue" aoid="PutValue">
+    <h1>PutValue ( _V_, _W_ )</h1>
+    <emu-alg>
+      1. ReturnIfAbrupt(_V_).
+      1. ReturnIfAbrupt(_W_).
+      1. If Type(_V_) is not Reference, throw a *ReferenceError* exception.
+      1. Let _base_ be GetBase(_V_).
+      1. If IsUnresolvableReference(_V_), then
+        1. If IsStrictReference(_V_) is *true*, then
+          1. Throw a *ReferenceError* exception.
+        1. Let _globalObj_ be GetGlobalObject().
+        1. Return ? Set(_globalObj_, GetReferencedName(_V_), _W_, *false*).
+      1. Else if IsPropertyReference(_V_), then
+        1. If HasPrimitiveBase(_V_) is *true*, then
+          1. Assert: In this case, _base_ will never be *null* or *undefined*.
+          1. Set _base_ to ToObject(_base_).
+        1. <ins>If IsPrivateReference(_V_), then</ins>
+          1. <ins>Let _env_ be the running execution context's PrivateFieldEnvironment.</ins>
+          1. <ins>Let _field_ be ? ResolveBinding(GetReferencedName(_V_), _env_).</ins>
+          1. <ins>Assert: _field_ is a Private Field Identifier.</ins>
+          1. <ins>Perform ? PrivateFieldSet(_field_, _base_, _W_).</ins>
+        1. Else,
+          1. Let _succeeded_ be ? _base_.[[Set]](GetReferencedName(_V_), _W_, GetThisValue(_V_)).
+          1. If _succeeded_ is *false* and IsStrictReference(_V_) is *true*, throw a *TypeError* exception.
+        1. Return.
+      1. Else _base_ must be an Environment Record.
+        1. Return ? _base_.SetMutableBinding(GetReferencedName(_V_), _W_, IsStrictReference(_V_)) (see <emu-xref href="#sec-environment-records"></emu-xref>).
+    </emu-alg>
+    <emu-note>
+      <p>The object that may be created in step 6.a.ii is not accessible outside of the above algorithm and the ordinary object [[Set]] internal method. An implementation might choose to avoid the actual creation of that object.</p>
+    </emu-note>
+  </emu-clause>
+
+  <!--
+  1. Replace all occurances of "Return a value of type Reference..." with calls to MakeReference
+  2. Rename MakeSuperPropertyReference to MakeSuperReference for consistency.
+
+  <emu-clause id="sec-makereference" aoid="MakeReference">
+    <h1>MakeReference ( _baseValue_, _referencedName_, _strict_ )</h1>
+    <emu-alg>
+      1. Return a value of type Reference whose base value is _baseValue_, whose referenced name is _referencedName_, whose strict reference flag is _strict_, and whose private reference component is *false*.
+    </emu-alg>
+  </emu-clause>
+  -->
+
+  <emu-clause id="sec-makeprivatereference" aoid="MakePrivateReference">
+    <h1>MakePrivateReference ( _baseValue_, _fieldName_ )</h1>
+    <emu-alg>
+      1. Return a value of type Reference whose base value is _baseValue_, whose referenced name is _fieldName_, whose strict reference flag is *true*, and whose private reference component is *true*.
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-execution-contexts">
+  <h1>Execution Contexts</h1>
+    <emu-table id="table-23" caption="Additional State Components for ECMAScript Code Execution Contexts">
+      <table>
+        <tbody>
+        <tr>
+          <th>
+            Component
+          </th>
+          <th>
+            Purpose
+          </th>
+        </tr>
+        <tr>
+          <td>
+            LexicalEnvironment
+          </td>
+          <td>
+            Identifies the Lexical Environment used to resolve identifier references made by code within this execution context.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            VariableEnvironment
+          </td>
+          <td>
+            Identifies the Lexical Environment whose EnvironmentRecord holds bindings created by |VariableStatement|s within this execution context.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <ins>PrivateFieldEnvironment</ins>
+          </td>
+          <td>
+            <ins>Identifies the Lexical Environment whose EnvironmentRecord holds internal private field identifiers created by |PrivateFieldDefinition|s.</ins>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </emu-table>
+  <emu-note>The PrivateFieldEnvironment Lexical Context is always a chain of Declaration Contexts. Each name begins with `"#"`.</emu-note>
+
+  <emu-motivation>Private fields identifiers could be specified by lumping it all into the LexicalEnvironment. However, this would create false conflicts with object environment records that would need to be resolved. Further, it seems logically cleaner to separate out the distinct namespace into a distinct object.</emu-motivation>
+
+  When a new execution context is created for an ECMAScript code execution context, the PrivateFieldIdentifiers value is inherited from the running execution context, or if none exists, a new Declaration Context with a *null* parent.
+  <emu-todo>Elaborate the preceding paragraph with spec text inserted in each relevant place</emu-todo>
+</emu-clause>
+
+<emu-clause id="sec-only-defined-private-names">
+  <h1>Early errors for referring to undefined private names</h1>
+  <emu-clause id="sec-all-private-names-valid" aoid="AllPrivateNamesValid">
+    <h1>Static Semantics: AllPrivateNamesValid</h1>
+    AllPrivateNamesValid is an abstract operation which takes _names_ as an argument.
+    <emu-grammar>MemberExpression[Yield] : MemberExpression[?Yield] `.` PrivateName</emu-grammar>
+    <emu-grammar> PrimaryExpression[Yield] : PrivateName</emu-grammar>
+    <emu-alg>
+      1. If PrivateStringValue of |PrivateName| is in _names_, return *true*.
+      1. Return *false*.
+    </emu-alg>
+
+    <emu-grammar> ClassBody[Yield, Await] : ClassElementList[?Yield, ?Await] </emu-grammar>
+    <emu-alg>
+      1. Let _newNames_ be the concatenation of _names_ with PrivateBoundNames of |ClassBody|.
+      1. Return AllPrivateNamesValid of |ClassElementList| with the argument _newNames_.
+    </emu-alg>
+
+    For all other grammatical productions, recurse on subexpressions/substatements, passing in the _names_ of the caller. If all pieces return *true*, then return *true*. If any returns *false*, return *false.
+  <emu-todo>Elaborate the preceding paragraph with spec text inserted in each relevant place</emu-todo>
+  </emu-clause>
+
+  <emu-clause id="sec-check-private-names">
+    <h1>Static Semantics: Early Errors</h1>
+    <emu-grammar>Script : ScriptBody?</emu-grammar>
+    <emu-alg>
+      1. Let _names_ be an empty List.
+      1. If |Script| is parsed directly from PerformEval,
+        1. Let _env_ be the running execution context's PrivateFieldEnvironment.
+        1. Repeat while _env_ is not *null*,
+          1. For each binding named _N_ in _env_,
+            1. If _names_ does not contain _N_, append _N_ to _names_.
+          1. Let _env_ be _env_'s outer environment reference.
+      1. If AllPrivateNamesValid of |ScriptBody| with the argument _names_ is *false*, throw a SyntaxError.
+    </emu-alg>
+    <emu-grammar>Module : ModuleBody?</emu-grammar>
+    <ul>
+      <li>It is a Syntax Error if AllPrivateNamesValid of <emu-nt>ModuleBody</emu-nt> with ane empty List as an argument is *false*.</li>
+    </ul>
+  </emu-clause>
+  <emu-motivation>References to PrivateNames which are not lexically present cause an early error. PrivateNames with or without an explicit receiver are treated identically, see <a href="https://github.com/tc39/proposal-private-fields/issues/23">bug thread</a> where a stricter policy was proposed and rejected.</emu-motivation>
+</emu-clause>

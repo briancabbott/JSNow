@@ -1,0 +1,35 @@
+{
+  "name": "ecma-proposal-shadowrealm",
+  "version": "1.0.0",
+  "description": "ECMAScript spec proposal for ShadowRealm API",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "TC39 Open Source Contributors"
+  },
+  "keywords": [
+    "realms",
+    "ES8",
+    "ES2017",
+    "ECMAScript",
+    "ESNext",
+    "spec",
+    "proposal"
+  ],
+  "homepage": "https://github.com/tc39/proposal-shadowrealm#readme",
+  "bugs": {
+    "url": "https://github.com/tc39/proposal-shadowrealm/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/proposal-shadowrealm.git"
+  },
+  "scripts": {
+    "prebuild": "mkdir -p dist",
+    "build": "ecmarkup --lint-spec --strict --verbose --load-biblio @tc39/ecma262-biblio spec.html dist/index.html",
+    "watch": "npm run build -- --watch"
+  },
+  "devDependencies": {
+    "@tc39/ecma262-biblio": "=2.1.2719",
+    "ecmarkup": "^18.0.0"
+  }
+}

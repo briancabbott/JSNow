@@ -1,0 +1,25 @@
+{
+  "name": "proposal-setmap-offrom",
+  "private": true,
+  "version": "0.0.0",
+  "description": "TC39 Proposal for Set and Map .of and .from methods",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf out",
+    "build": "npm run clean && mkdir -p out && ecmarkup src/spec.html --js=out/spec.js --css=out/spec.css out/index.html"
+  },
+  "author": "Leo Balter",
+  "license": "BSD",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/proposal-setmap-offrom.git"
+  },
+  "keywords": [
+    "ecmascript",
+    "tc39",
+    "test262"
+  ],
+  "devDependencies": {
+    "ecmarkup": "^3.16.0"
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-string-dedent undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-string-dedent",
+    "repo": "https://github.com/tc39/proposal-string-dedent",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-string-dedent",
+    "startTime": "2024-07-18T18:18:22.840Z",
+    "endTime": "2024-07-18T18:18:23.913Z",
+    "childProcessPid": 23849,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-string-dedent--23849",
+    "executionErrors": []
+}

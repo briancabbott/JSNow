@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-string-left-right-trim undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-string-left-right-trim",
+    "repo": "https://github.com/tc39/proposal-string-left-right-trim",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-string-left-right-trim",
+    "startTime": "2024-07-18T18:18:23.913Z",
+    "endTime": "2024-07-18T18:18:24.696Z",
+    "childProcessPid": 23871,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-string-left-right-trim--23871",
+    "executionErrors": []
+}

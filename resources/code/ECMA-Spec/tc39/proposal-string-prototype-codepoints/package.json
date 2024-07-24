@@ -1,0 +1,17 @@
+{
+  "name": "string-prototype-codepoints",
+  "version": "1.0.0",
+  "private": true,
+  "description": "String.prototype.codePoints proposal",
+  "main": "index.js",
+  "scripts": {
+    "precommit": "ecmarkup spec.html index.html && git add index.html"
+  },
+  "keywords": [],
+  "author": "Ingvar Stepanyan <me@rreverser.com> (https://rreverser.com/)",
+  "license": "MIT",
+  "devDependencies": {
+    "ecmarkup": "^3.13.0",
+    "husky": "^0.14.3"
+  }
+}

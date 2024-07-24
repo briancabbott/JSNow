@@ -1,0 +1,21 @@
+{
+  "name": "ecmascript-string-left-right-trim",
+  "repository": {
+      "type": "git",
+      "url": "git+https://github.com/sebmarkbage/ecmascript-string-left-right-trim"
+  },
+  "keywords": [
+      "ecmascript",
+      "string",
+      "test262",
+      "string.prototype.trimLeft",
+      "string.prototype.trimRight",
+      "string.prototype.trimStart",
+      "string.prototype.trimEnd"
+  ],
+  "author": "Tom Schuster",
+  "license": "MIT",
+  "devDependencies": {
+    "ecmarkup": "^3.2.6"
+  }
+}

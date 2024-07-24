@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-object-from-entries undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-object-from-entries",
+    "repo": "https://github.com/tc39/proposal-object-from-entries",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-object-from-entries",
+    "startTime": "2024-07-18T18:17:20.824Z",
+    "endTime": "2024-07-18T18:17:21.617Z",
+    "childProcessPid": 22437,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-object-from-entries--22437",
+    "executionErrors": []
+}

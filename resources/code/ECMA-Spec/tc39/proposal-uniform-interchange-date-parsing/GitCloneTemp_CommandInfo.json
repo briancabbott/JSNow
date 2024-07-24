@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-uniform-interchange-date-parsing undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-uniform-interchange-date-parsing",
+    "repo": "https://github.com/tc39/proposal-uniform-interchange-date-parsing",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-uniform-interchange-date-parsing",
+    "startTime": "2024-07-18T18:18:54.390Z",
+    "endTime": "2024-07-18T18:18:55.306Z",
+    "childProcessPid": 24270,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-uniform-interchange-date-parsing--24270",
+    "executionErrors": []
+}

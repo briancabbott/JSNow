@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-operator-overloading undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-operator-overloading",
+    "repo": "https://github.com/tc39/proposal-operator-overloading",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-operator-overloading",
+    "startTime": "2024-07-18T18:17:28.980Z",
+    "endTime": "2024-07-18T18:17:29.876Z",
+    "childProcessPid": 22614,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-operator-overloading--22614",
+    "executionErrors": []
+}

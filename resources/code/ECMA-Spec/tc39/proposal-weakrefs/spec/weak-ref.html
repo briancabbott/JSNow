@@ -1,0 +1,176 @@
+<emu-clause id="sec-weak-ref-objects">
+  <h1> WeakRef Objects </h1>
+  <p>
+    A WeakRef is an object that is used to refer to a target object
+    without preserving it from garbage collection. WeakRefs can
+    dereference to allow access to the target object, if the target
+    object hasn't been reclaimed by garbage collection.
+  </p>
+
+  <emu-clause id="sec-weak-ref-constructor">
+    <h1>The WeakRef Constructor</h1>
+    <p>The WeakRef constructor:</p>
+    <ul>
+      <li>is the intrinsic object %WeakRef%.</li>
+      <li>
+        is the initial value of the `WeakRef` property of the global
+        object.
+      </li>
+      <li>
+        creates and initializes a new WeakRef object when called as a
+        constructor.
+      </li>
+      <li>
+        is not intended to be called as a function and will throw an
+        exception when called in that manner.
+      </li>
+      <li>
+        is designed to be subclassable. It may be used as the value
+        in an `extends` clause of a class definition. Subclass
+        constructors that intend to inherit the specified `WeakRef`
+        behaviour must include a `super` call to the `WeakRef` constructor
+        to create and initialize the subclass instance with the internal
+        state necessary to support the `WeakRef.prototype` built-in
+        methods.
+      </li>
+    </ul>
+
+    <emu-clause id="sec-weak-ref-target">
+      <h1> WeakRef ( _target_ ) </h1>
+      <p>
+        When the `WeakRef` function is called with argument _target_,
+        the following steps are taken:
+      </p>
+      <emu-alg>
+        1. If NewTarget is *undefined*, throw a *TypeError* exception.
+        1. If Type(_target_) is not Object, throw a *TypeError* exception.
+        1. Let _weakRef_ be ? OrdinaryCreateFromConstructor(NewTarget,
+        `"%WeakRefPrototype%"`, &laquo; [[WeakRefTarget]] &raquo;).
+        1. Perfom ! AddToKeptObjects(_target_).
+        1. Set _weakRef_.[[WeakRefTarget]] to _target_.
+        1. Return _weakRef_.
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-the-weak-ref-constructor">
+    <h1>Properties of the WeakRef Constructor</h1>
+    <p>The WeakRef constructor:</p>
+    <ul>
+      <li>
+        has a [[Prototype]] internal slot whose value is the intrinsic
+        object %FunctionPrototype%.
+      </li>
+      <li>has the following properties:</li>
+    </ul>
+
+    <emu-clause id="sec-weak-ref.prototype">
+      <h1>WeakRef.prototype</h1>
+      <p>
+        The initial value of `WeakRef.prototype` is the intrinsic
+        %WeakRefPrototype% object.
+      </p>
+      <p>
+        This property has the attributes { [[Writable]]: *false*,
+        [[Enumerable]]: *false*, [[Configurable]]: *false* }.
+      </p>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-the-weak-ref-prototype-object">
+    <h1>Properties of the WeakRef Prototype Object</h1>
+    <p>The WeakRef prototype object:</p>
+    <ul>
+      <li>is the intrinsic object <dfn>%WeakRefPrototype%</dfn>.</li>
+      <li>
+        has a [[Prototype]] internal slot whose value is the intrinsic
+        object %ObjectPrototype%.
+      </li>
+      <li>is an ordinary object.</li>
+      <li>does not have a [[WeakRefTarget]] internal slot.</li>
+    </ul>
+
+    <emu-clause id="sec-weak-ref.prototype.constructor" normative-optional>
+      <h1>WeakRef.prototype.constructor</h1>
+
+      <p>The initial value of `WeakRef.prototype.constructor` is the intrinsic object %WeakRef%.</p>
+
+      <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }.</p>
+
+      <emu-note type="editor">
+        This section is to be treated identically to the "Annex B" of ECMA-262, but to be written in-line with the main specification.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-weak-ref.prototype.deref">
+      <h1>WeakRef.prototype.deref ( )</h1>
+      <p>The following steps are taken:</p>
+      <emu-alg>
+        1. Let _weakRef_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_weakRef_, [[WeakRefTarget]]).
+        1. Let _target_ be the value of _weakRef_.[[WeakRefTarget]].
+        1. If _target_ is not ~empty~,
+          1. Perform ! AddToKeptObjects(_target_).
+          1. Return _target_.
+        1. Return *undefined*.
+      </emu-alg>
+
+      <emu-note>
+        If the WeakRef returns a _target_ Object that is not
+        *undefined*, then this _target_ object should not be garbage
+        collected in that turn. The AddToKeptObjects operation makes sure
+        read consistency is maintained.
+
+        <pre>
+          target = { foo: function() {} };
+          let weakRef = new WeakRef(target);
+
+          ... later ...
+
+          if (weakRef.deref()) {
+            weakRef.deref().foo();
+          }
+        </pre>
+
+        In the above example, if the first deref evaluates to true
+        then the second deref can not fail.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-weak-ref.prototype-@@tostringtag">
+      <h1>WeakRef.prototype [ @@toStringTag ]</h1>
+      <p>The initial value of the @@toStringTag property is the String value `"WeakRef"`.</p>
+      <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }.</p>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-weak-ref-instances">
+    <h1>Properties of WeakRef Instances</h1>
+    <p>
+      WeakRef instances are ordinary objects that inherit properties from
+      the WeakRef prototype. WeakRef instances also have a [[WeakRefTarget]]
+      internal slot.
+    </p>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-collection-modifications">
+  <h1>Modifications to collection type definitions</h1>
+  <emu-note type=editor>
+    <p>
+      WeakMap and WeakSet keys are not kept alive just because a WeakRef points
+      to them. This proposal rephrases the definition of WeakMaps and WeakSets
+      to explain their observable effects on garbage collection, rather than
+      specifying operationally that non-live keys or members are deleted.
+    </p>
+  </emu-note>
+
+  <emu-clause id="sec-weakmap">
+    <h1>WeakMap Objects</h1>
+    <p>WeakMap objects are collections of key/value pairs where the keys are objects and values may be arbitrary ECMAScript language values. A WeakMap may be queried to see if it contains a key/value pair with a specific key, but no mechanism is provided for enumerating the objects it holds as keys. <ins>In certain conditions, objects which are not live are removed as WeakMap keys, as described in <emu-xref href="#sec-weakref-execution"></emu-xref>.</ins> <del>If an object that is being used as the key of a WeakMap key/value pair is only reachable by following a chain of references that start within that WeakMap, then that key/value pair is inaccessible and is automatically removed from the WeakMap. WeakMap implementations must detect and remove such key/value pairs and any associated resources.</del></p>
+  </emu-clause>
+
+  <emu-clause id="sec-weakset">
+    <h1>WeakSet Objects</h1>
+    <p>WeakSet objects are collections of objects. A distinct object may only occur once as an element of a WeakSet's collection. A WeakSet may be queried to see if it contains a specific object, but no mechanism is provided for enumerating the objects it holds. <ins>In certain conditions, objects which are not live are removed as WeakSet elements, as described in <emu-xref href="#sec-weakref-execution"></emu-xref>.</ins> <del>If an object that is contained by a WeakSet is only reachable by following a chain of references that start within that WeakSet, then that object is inaccessible and is automatically removed from the WeakSet. WeakSet implementations must detect and remove such objects and any associated resources.</del></p>
+  </emu-clause>
+</emu-clause>

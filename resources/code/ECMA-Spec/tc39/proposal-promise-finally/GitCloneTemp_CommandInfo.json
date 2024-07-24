@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-promise-finally undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-promise-finally",
+    "repo": "https://github.com/tc39/proposal-promise-finally",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-promise-finally",
+    "startTime": "2024-07-18T18:17:42.406Z",
+    "endTime": "2024-07-18T18:17:43.302Z",
+    "childProcessPid": 22923,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-promise-finally--22923",
+    "executionErrors": []
+}

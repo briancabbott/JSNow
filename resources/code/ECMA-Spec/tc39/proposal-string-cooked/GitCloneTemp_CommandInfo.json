@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-string-cooked undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-string-cooked",
+    "repo": "https://github.com/tc39/proposal-string-cooked",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-string-cooked",
+    "startTime": "2024-07-18T18:18:21.945Z",
+    "endTime": "2024-07-18T18:18:22.839Z",
+    "childProcessPid": 23827,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-string-cooked--23827",
+    "executionErrors": []
+}

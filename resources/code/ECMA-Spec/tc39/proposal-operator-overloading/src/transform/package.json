@@ -1,0 +1,32 @@
+{
+  "name": "@littledan/plugin-transform-operator-overloading",
+  "version": "0.0.1",
+  "description": "Babel plugin for a transform for an operator overloading proposal",
+  "main": "build/plugin.js",
+  "scripts": {
+    "test": "jasmine plugin.spec.js",
+    "build": "babel plugin.js -d build"
+  },
+  "repository": "https://github.com/littledan/proposal-operator-overloading/tree/master/src/transform",
+  "keywords": [
+    "operator-overloading",
+    "tc39",
+    "babel-plugin"
+  ],
+  "author": "Daniel Ehrenberg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/littledan/proposal-operator-overloading/issues"
+  },
+  "homepage": "https://github.com/littledan/proposal-operator-overloading/blob/master/src/transform/README.md",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/preset-env": "^7.2.3",
+    "jasmine": "^3.3.1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/helper-plugin-utils": "^7.0.0",
+    "@littledan/operator-overloading-shim": "0.0.4"
+  }
+}

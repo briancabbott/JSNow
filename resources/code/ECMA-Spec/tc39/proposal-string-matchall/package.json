@@ -1,0 +1,19 @@
+{
+	"name": "string-matchall",
+	"private": true,
+	"version": "0.0.0",
+	"description": "Spec-compliant polyfill for String.prototype.matchAll ESnext proposal.",
+	"scripts": {
+		"build": "ecmarkup spec.emu | js-beautify -f - --type=html -t | sed -e 's/&nbsp;/ /g' -e 's/[[:space:]]*$//' > index.html"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tc39/proposal-string-matchall.git"
+	},
+	"author": "Jordan Harband <ljharb@gmail.com>",
+	"license": "MIT",
+	"devDependencies": {
+		"ecmarkup": "^3.16.0",
+		"js-beautify": "^1.7.5"
+	}
+}

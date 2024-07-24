@@ -1,0 +1,30 @@
+{
+  "name": "@littledan/operator-overloading-shim",
+  "version": "0.0.4",
+  "description": "Shim for runtime support for an operator overloading proposal",
+  "main": "build/shim.js",
+  "scripts": {
+    "test": "jasmine shim.spec.js",
+    "build": "babel shim.js -d build"
+  },
+  "repository": "https://github.com/littledan/proposal-operator-overloading/tree/master/src/shim",
+  "keywords": [
+    "operator-overloading",
+    "tc39"
+  ],
+  "author": "Daniel Ehrenberg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/littledan/proposal-operator-overloading/issues"
+  },
+  "homepage": "https://github.com/littledan/proposal-operator-overloading/blob/master/src/shim/README.md",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.2",
+    "acorn": "^6.0.4",
+    "eslint": "^5.10.0",
+    "eslint-config-google": "^0.11.0",
+    "jasmine": "^3.3.1"
+  }
+}

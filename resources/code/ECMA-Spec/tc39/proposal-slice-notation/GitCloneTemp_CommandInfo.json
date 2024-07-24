@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-slice-notation undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-slice-notation",
+    "repo": "https://github.com/tc39/proposal-slice-notation",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-slice-notation",
+    "startTime": "2024-07-18T18:18:15.023Z",
+    "endTime": "2024-07-18T18:18:15.819Z",
+    "childProcessPid": 23651,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-slice-notation--23651",
+    "executionErrors": []
+}

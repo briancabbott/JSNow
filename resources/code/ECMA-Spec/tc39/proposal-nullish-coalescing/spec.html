@@ -1,0 +1,182 @@
+<!doctype html>
+<meta charset="utf8">
+<pre class=metadata>
+title: Nullish Coalescing Operator
+stage: 4
+contributors: Daniel Ehrenberg, Daniel Rosenwasser
+</pre>
+
+<emu-intro id=sec-intro>
+  <h1>Introduction</h1>
+  <p>This document specifies the nullish coalescing operator `??`. See <a href="https://github.com/tc39/proposal-nullish-coalescing">the explainer</a> for an introduction.</p>
+  <p>The main design decisions made in this specification are:
+    <ol>
+      <li>The right argument of `??` is evaluated only if needed ("short circuiting").</li>
+      <li>`??` has lower precedence than `||`.</li>
+      <li>`??` cannot immediately contain, or be contained within, an `&amp;&amp;` or `||` operation.</li>
+      <li>The right argument is selected if the left argument is `null` or `undefined`.</li>
+    </ol>
+  </p>
+</emu-intro>
+
+<emu-clause id="sec-binary-logical-operators">
+  <h1>Binary Logical Operators</h1>
+  <h2>Syntax</h2>
+  <emu-grammar type="definition">
+    <ins>
+    ShortCircuitExpression[In, Yield, Await] :
+      LogicalORExpression[?In, ?Yield, ?Await]
+      CoalesceExpression[?In, ?Yield, ?Await]
+
+    CoalesceExpression[In, Yield, Await] :
+      CoalesceExpressionHead[?In, ?Yield, ?Await] `??` BitwiseORExpression[?In, ?Yield, ?Await]
+
+    CoalesceExpressionHead[In, Yield, Await] :
+      CoalesceExpression[?In, ?Yield, ?Await]
+      BitwiseORExpression[?In, ?Yield, ?Await]
+    </ins>
+  </emu-grammar>
+
+  <emu-clause id="sec-binary-logical-operators-static-semantics-isfunctiondefinition">
+    <h1>Static Semantics: IsFunctionDefinition</h1>
+    <emu-see-also-para op="IsFunctionDefinition"></emu-see-also-para>
+    <emu-grammar>
+      LogicalANDExpression : LogicalANDExpression `&amp;&amp;` BitwiseORExpression
+
+      LogicalORExpression : LogicalORExpression `||` LogicalANDExpression
+
+      <ins>CoalesceExpression : CoalesceExpressionHead `??` BitwiseORExpression</ins>
+    </emu-grammar>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause oldids="sec-binary-logical-operators-static-semantics-isvalidsimpleassignmenttarget,sec-semantics-static-semantics-assignmenttargettype" id="sec-binary-logical-operators-static-semantics-issimpleassignmenttarget">
+    <h1>Static Semantics: IsSimpleAssignmentTarget</h1>
+    <emu-see-also-para op="IsSimpleAssignmentTarget"></emu-see-also-para>
+    <emu-grammar>
+      LogicalANDExpression : LogicalANDExpression `&amp;&amp;` BitwiseORExpression
+
+      LogicalORExpression : LogicalORExpression `||` LogicalANDExpression
+
+      <ins>CoalesceExpression : CoalesceExpressionHead `??` BitwiseORExpression</ins>
+    </emu-grammar>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-binary-logical-operators-runtime-semantics-evaluation">
+    <h1>Runtime Semantics: Evaluation</h1>
+
+    <emu-grammar><ins>CoalesceExpression : CoalesceExpressionHead `??` BitwiseORExpression</ins></emu-grammar>
+    <emu-alg>
+      1. <ins>Let _lref_ be the result of evaluating |CoalesceExpressionHead|.</ins>
+      1. <ins>Let _lval_ be ? GetValue(_lref_).</ins>
+      1. <ins>If _lval_ is *undefined* or *null*,</ins>
+        1. <ins>Let _rref_ be the result of evaluating |BitwiseORExpression|.</ins>
+        1. <ins>Return ? GetValue(_rref_).</ins>
+      1. <ins>Otherwise, return _lval_.</ins>
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-conditional-operator">
+  <h1>Conditional Operator ( `? :` )</h1>
+  <h2>Syntax</h2>
+  <emu-grammar type="definition">
+      ConditionalExpression[In, Yield, Await] :
+        <del>
+        LogicalORExpression[?In, ?Yield, ?Await]
+        LogicalORExpression[?In, ?Yield, ?Await] `?` AssignmentExpression[+In, ?Yield, ?Await] `:` AssignmentExpression[?In, ?Yield, ?Await]
+        </del>
+        <ins>
+        ShortCircuitExpression[?In, ?Yield, ?Await]
+        ShortCircuitExpression[?In, ?Yield, ?Await] `?` AssignmentExpression[+In, ?Yield, ?Await] `:` AssignmentExpression[+In, ?Yield, ?Await]
+        </ins>
+  </emu-grammar>
+
+  <emu-clause id="sec-conditional-operator-static-semantics-isfunctiondefinition">
+    <h1>Static Semantics: IsFunctionDefinition</h1>
+    <emu-see-also-para op="IsFunctionDefinition"></emu-see-also-para>
+    <emu-grammar>
+      <del>ConditionalExpression : LogicalORExpression `?` AssignmentExpression `:` AssignmentExpression</del>
+      <ins>ConditionalExpression : ShortCircuitExpression `?` AssignmentExpression `:` AssignmentExpression</ins>
+    </emu-grammar>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause oldids="sec-conditional-operator-static-semantics-isvalidsimpleassignmenttarget,sec-semantics-static-semantics-assignmenttargettype" id="sec-conditional-operator-static-semantics-issimpleassignmenttarget">
+    <h1>Static Semantics: IsSimpleAssignmentTarget</h1>
+    <emu-see-also-para op="IsSimpleAssignmentTarget"></emu-see-also-para>
+    <emu-grammar>
+      <del>ConditionalExpression : LogicalORExpression `?` AssignmentExpression `:` AssignmentExpression</del>
+      <ins>ConditionalExpression : ShortCircuitExpression `?` AssignmentExpression `:` AssignmentExpression</ins>
+    </emu-grammar>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-conditional-operator-runtime-semantics-evaluation">
+    <h1>Runtime Semantics: Evaluation</h1>
+    <emu-grammar>
+      <del>ConditionalExpression : LogicalORExpression `?` AssignmentExpression `:` AssignmentExpression</del>
+      <ins>ConditionalExpression : ShortCircuitExpression `?` AssignmentExpression `:` AssignmentExpression</ins>
+    </emu-grammar>
+    <emu-alg>
+      1. <del>Let _lref_ be the result of evaluating |LogicalORExpression|.</del>
+      1. <ins>Let _lref_ be the result of evaluating |ShortCircuitExpression|.</ins>
+      1. Let _lval_ be ToBoolean(? GetValue(_lref_)).
+      1. If _lval_ is *true*, then
+        1. Let _trueRef_ be the result of evaluating the first |AssignmentExpression|.
+        1. Return ? GetValue(_trueRef_).
+      1. Else,
+        1. Let _falseRef_ be the result of evaluating the second |AssignmentExpression|.
+        1. Return ? GetValue(_falseRef_).
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-tail-position-calls">
+  <h1>Tail Position Calls</h1>
+
+  <emu-clause id="sec-static-semantics-hascallintailposition">
+    <h1>Static Semantics: HasCallInTailPosition</h1>
+    <p>With parameter _call_.</p>
+
+    <emu-clause id="sec-expression-rules">
+      <h1>Expression Rules</h1>
+      <emu-grammar>
+        <del>ConditionalExpression : LogicalORExpression `?` AssignmentExpression `:` AssignmentExpression</del>
+        <ins>ConditionalExpression : ShortCircuitExpression `?` AssignmentExpression `:` AssignmentExpression</ins>
+      </emu-grammar>
+      <emu-alg>
+        1. Let _has_ be HasCallInTailPosition of the first |AssignmentExpression| with argument _call_.
+        1. If _has_ is *true*, return *true*.
+        1. Return HasCallInTailPosition of the second |AssignmentExpression| with argument _call_.
+      </emu-alg>
+      <emu-grammar>LogicalANDExpression : LogicalANDExpression `&amp;&amp;` BitwiseORExpression</emu-grammar>
+      <emu-alg>
+        1. Return HasCallInTailPosition of |BitwiseORExpression| with argument _call_.
+      </emu-alg>
+      <emu-grammar>LogicalORExpression : LogicalORExpression `||` LogicalANDExpression</emu-grammar>
+      <emu-alg>
+        1. Return HasCallInTailPosition of |LogicalANDExpression| with argument _call_.
+      </emu-alg>
+      <emu-grammar>
+      <ins>
+        CoalesceExpression : CoalesceExpressionHead `??` BitwiseORExpression
+      </ins>
+      </emu-grammar>
+      <emu-alg>
+      <ins>
+        1. Return HasCallInTailPosition of |BitwiseORExpression| with argument _call_.
+      </ins>
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>

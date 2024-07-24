@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="icon" href="favicon.ico">
+<link href="ecmarkup.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<script src="ecmarkup.js"></script>
+<style>
+ins .hljs.hljs {
+  background-color: inherit;
+}
+</style>
+<script>
+  if (location.hostname.endsWith('.github.io') && location.protocol !== 'https:') {
+    location.protocol = 'https:';
+  }
+</script>
+<pre class=metadata>
+  title: Optional Chaining
+  status: proposal
+  stage: 4
+  location: https://tc39.es/proposal-optional-chaining/
+  copyright: false
+  contributors: Claude Pache, ECMA International
+</pre>
+
+<emu-clause id="sec-scope">
+  <h1>Scope</h1>
+  <p>This is the spec text of the <a href="https://github.com/tc39/proposal-optional-chaining/">Optional Chaining proposal</a> in ECMAScript. </p>
+
+  <p>For the syntax, we use the `?.` token, with a lookahead at the level of the lexical grammar that allows to discriminate between `a?.b` (optional chaining) and `a?.3:0` (conditional operator, whose meaning cannot be changed due to backward compatibility constraints).</p>
+
+  <p>An <a href="https://claudepache.github.io/es-optional-chaining/">early version of this proposal</a> used a Nil reference to express short-circuiting. This one is based on syntax only.</p>
+
+  <p>Normative additions are marked <ins>like this</ins>. In order to avoid distraction, we may omit mere editorial amendments.</p>
+
+  <p>List of significant editorial modifications:</p>
+  <ul>
+    <li><a href="#sec-property-accessors">Property Accessors</a>: Factoring part of the property access operations in the new EvaluateDynamicPropertyAccess and EvaluateStaticPropertyAccess abstract operations.</li>
+  </ul>
+
+  <p>The following features may not be evident at a cursory read:</p>
+  <ul>
+    <li>Optional chaining is forbidden in write contexts such as `a?.b = c`. This is handled by defining properly the IsSimpleAssignmentTarget static semantics rule (<emu-xref href="#sec-static-semantics-static-semantics-issimpleassignmenttarget"></emu-xref>).</li>
+    <li>Optional deletion as in: `delete a ?.b` is supported. There is no change needed in Section <emu-xref href="#sec-delete-operator">The delete Operator</emu-xref>.</li>
+  </ul>
+</emu-clause>
+
+
+<!--
+<emu-clause id="sec-ecmascript-language-lexical-grammar">
+  <h1>ECMAScript Language: Lexical Grammar (<a href="https://tc39.github.io/ecma262/#sec-ecmascript-language-lexical-grammar">11</a>)</h1>
+-->
+
+  <emu-clause id="sec-punctuators">
+    <h1>Punctuators (<a href="https://tc39.github.io/ecma262/#sec-punctuators">11.7</a>)</h1>
+    <h2>Syntax</h2>
+    <emu-grammar>
+      <ins class="block">
+      OptionalChainingPunctuator ::
+        `?.` [lookahead &lt;! DecimalDigit
+      </ins>
+
+      OtherPunctuator :: one of
+        `{` `(` `)` `[` `]`
+        `.` `...` `;` `,`
+        `&lt;` `&gt;` `&lt;=` `&gt;=`
+        `==` `!=` `===` `!==`
+        `+` `-` `*` `%` `**`
+        `++` `--`
+        `&lt;&lt;` `&gt;&gt;` `&gt;&gt;&gt;`
+        `&amp;` `|` `^`
+        `!` `~`
+        `&amp;&amp;` `||`
+        `?` `:`
+        `=` `+=` `-=` `*=` `%=` `**=` `&lt;&lt;=` `&gt;&gt;=` `&gt;&gt;&gt;=` `&amp;=` `|=` `^=`
+        `=&gt;`
+
+      Punctuator ::
+        <ins>OptionalChainingPunctuator</ins>
+        OtherPunctuator
+
+      DivPunctuator ::
+        `/`
+        `/=`
+
+      RightBracePunctuator ::
+        `}`
+    </emu-grammar>
+  </emu-clause>
+<!--
+</emu-clause>
+-->
+
+<!--
+<emu-clause id="sec-ecmascript-language-expressions">
+  <h1>ECMAScript Language: Expressions (<a href="https://tc39.github.io/ecma262/#sec-ecmascript-language-expressions">12</a>)</h1>
+-->
+
+  <emu-clause id="sec-left-hand-side-expressions">
+    <h1>Left-Hand-Side Expressions (<a href="https://tc39.github.io/ecma262/#sec-left-hand-side-expressions">12.3</a>)</h1>
+    <h2>Syntax</h2>
+    <emu-grammar>
+      MemberExpression[Yield, Await] :
+        PrimaryExpression[?Yield, ?Await]
+        MemberExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
+        MemberExpression[?Yield, ?Await] `.` IdentifierName
+        MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
+        SuperProperty[?Yield, ?Await]
+        MetaProperty
+        `new` MemberExpression[?Yield, ?Await] Arguments[?Yield, ?Await]
+
+      SuperProperty[Yield, Await] :
+        `super` `[` Expression[+In, ?Yield, ?Await] `]`
+        `super` `.` IdentifierName
+
+      MetaProperty :
+        NewTarget
+
+      NewTarget :
+        `new` `.` `target`
+
+      NewExpression[Yield, Await] :
+        MemberExpression[?Yield, ?Await]
+        `new` NewExpression[?Yield, ?Await]
+
+      CallExpression[Yield, Await] :
+        CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] #callcover
+        SuperCall[?Yield, ?Await]
+        CallExpression[?Yield, ?Await] Arguments[?Yield, ?Await]
+        CallExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
+        CallExpression[?Yield, ?Await] `.` IdentifierName
+        CallExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
+
+      SuperCall[Yield, Await] :
+        `super` Arguments[?Yield, ?Await]
+
+      Arguments[Yield, Await] :
+        `(` `)`
+        `(` ArgumentList[?Yield, ?Await] `)`
+        `(` ArgumentList[?Yield, ?Await] `,` `)`
+
+      ArgumentList[Yield, Await] :
+        AssignmentExpression[+In, ?Yield, ?Await]
+        `...` AssignmentExpression[+In, ?Yield, ?Await]
+        ArgumentList[?Yield, ?Await] `,` AssignmentExpression[+In, ?Yield, ?Await]
+        ArgumentList[?Yield, ?Await] `,` `...` AssignmentExpression[+In, ?Yield, ?Await]
+
+      <ins class="block">
+      OptionalExpression[Yield, Await] :
+        MemberExpression[?Yield, ?Await] OptionalChain[?Yield, ?Await]
+        CallExpression[?Yield, ?Await] OptionalChain[?Yield, ?Await]
+        OptionalExpression[?Yield, ?Await] OptionalChain[?Yield, ?Await]
+
+      OptionalChain[Yield, Await] :
+        `?.` `[` Expression[+In, ?Yield, ?Await] `]`
+        `?.` IdentifierName
+        `?.` Arguments[?Yield, ?Await]
+        `?.` TemplateLiteral[?Yield, ?Await, +Tagged]
+        OptionalChain[?Yield, ?Await]  `[` Expression[+In, ?Yield, ?Await] `]`
+        OptionalChain[?Yield, ?Await] `.` IdentifierName
+        OptionalChain[?Yield, ?Await] Arguments[?Yield, ?Await]
+        OptionalChain[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
+      </ins>
+
+      LeftHandSideExpression[Yield, Await] :
+        NewExpression[?Yield, ?Await]
+        CallExpression[?Yield, ?Await]
+        <ins>OptionalExpression[?Yield, ?Await]</ins>
+    </emu-grammar>
+    <h2>Supplemental Syntax</h2>
+    <p>When processing an instance of the production <emu-grammar>CallExpression : CoverCallExpressionAndAsyncArrowHead</emu-grammar> the interpretation of |CoverCallExpressionAndAsyncArrowHead| is refined using the following grammar:</p>
+    <emu-grammar type="definition">
+      CallMemberExpression[Yield, Await] :
+        MemberExpression[?Yield, ?Await] Arguments[?Yield, ?Await]
+    </emu-grammar>
+
+    <emu-clause id="sec-static-semantics">
+      <h1>Static Semantics (<a href="https://tc39.github.io/ecma262/#sec-static-semantics">12.3.1</a>)</h1>
+
+      <ins class="block">
+      <emu-clause id="sec-left-hand-side-expressions-static-semantics-early-errors">
+        <h1>Static Semantics: Early Errors</h1>
+        <emu-grammar>
+          OptionalChain[Yield, Await] :
+            `?.` TemplateLiteral[?Yield, ?Await, +Tagged]
+            OptionalChain[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
+        </emu-grammar>
+        <ul>
+          <li>
+            It is a Syntax Error if any code matches this production.
+          </li>
+        </ul>
+        <emu-note>
+          <p>This production exists in order to prevent automatic semicolon insertion rules (<emu-xref href="#sec-automatic-semicolon-insertion"></emu-xref>) to be applied to the following code:</p>
+          <pre><code class="javascript">
+            a?.b
+            `c`
+          </code></pre>
+          <p>so that it would be interpreted as two valid statements. The purpose is to maintain consistency with similar code without optional chaining operator:</p>
+          <pre><code class="javascript">
+            a.b
+            `c`
+          </code></pre>
+          <p>which is a valid statement and where automatic semicolon insertion does not apply.</p>
+        </emu-note>
+      </emu-clause>
+      </ins>
+
+      <emu-clause id="sec-left-hand-side-expressions-static-semantics-coveredcallexpression">
+        <h1>Static Semantics: CoveredCallExpression</h1>
+        <emu-grammar>
+          CallExpression : CoverCallExpressionAndAsyncArrowHead
+        </emu-grammar>
+        <emu-alg>
+          1. Return the |CallMemberExpression| that is covered by |CoverCallExpressionAndAsyncArrowHead|.
+        </emu-alg>
+      </emu-clause>
+
+      <emu-clause id="sec-static-semantics-static-semantics-contains">
+        <h1>Static Semantics: Contains</h1>
+        <p>With parameter _symbol_.</p>
+        <emu-see-also-para op="Contains"></emu-see-also-para>
+        <emu-grammar>MemberExpression : MemberExpression `.` IdentifierName</emu-grammar>
+        <emu-alg>
+          1. If |MemberExpression| Contains _symbol_ is *true*, return *true*.
+          1. If _symbol_ is a |ReservedWord|, return *false*.
+          1. If _symbol_ is an |Identifier| and StringValue of _symbol_ is the same value as the StringValue of |IdentifierName|, return *true*.
+          1. Return *false*.
+        </emu-alg>
+        <emu-grammar>SuperProperty : `super` `.` IdentifierName</emu-grammar>
+        <emu-alg>
+          1. If _symbol_ is the |ReservedWord| `super`, return *true*.
+          1. If _symbol_ is a |ReservedWord|, return *false*.
+          1. If _symbol_ is an |Identifier| and StringValue of _symbol_ is the same value as the StringValue of |IdentifierName|, return *true*.
+          1. Return *false*.
+        </emu-alg>
+        <emu-grammar>CallExpression : CallExpression `.` IdentifierName</emu-grammar>
+        <emu-alg>
+          1. If |CallExpression| Contains _symbol_ is *true*, return *true*.
+          1. If _symbol_ is a |ReservedWord|, return *false*.
+          1. If _symbol_ is an |Identifier| and StringValue of _symbol_ is the same value as the StringValue of |IdentifierName|, return *true*.
+          1. Return *false*.
+        </emu-alg>
+        <ins class="block">
+        <emu-grammar>OptionalChain : `?.` IdentifierName</emu-grammar>
+        <emu-alg>
+          1. If _symbol_ is a |ReservedWord|, return *false*.
+          1. If _symbol_ is an |Identifier| and StringValue of _symbol_ is the same value as the StringValue of |IdentifierName|, return *true*.
+          1. Return *false*.
+        </emu-alg>
+        <emu-grammar>OptionalChain : OptionalChain `.` IdentifierName</emu-grammar>
+        <emu-alg>
+          1. If |OptionalChain| Contains _symbol_ is *true*, return *true*.
+          1. If _symbol_ is a |ReservedWord|, return *false*.
+          1. If _symbol_ is an |Identifier| and StringValue of _symbol_ is the same value as the StringValue of |IdentifierName|, return *true*.
+          1. Return *false*.
+        </emu-alg>
+        </ins>
+      </emu-clause>
+
+      <emu-clause id="sec-static-semantics-static-semantics-isfunctiondefinition">
+        <h1>Static Semantics: IsFunctionDefinition</h1>
+        <emu-see-also-para op="IsFunctionDefinition"></emu-see-also-para>
+        <emu-grammar>
+          MemberExpression :
+            MemberExpression `[` Expression `]`
+            MemberExpression `.` IdentifierName
+            MemberExpression TemplateLiteral
+            SuperProperty
+            MetaProperty
+            `new` MemberExpression Arguments
+
+          NewExpression :
+            `new` NewExpression
+
+          LeftHandSideExpression :
+            CallExpression
+            <ins>OptionalExpression</ins>
+        </emu-grammar>
+        <emu-alg>
+          1. Return *false*.
+        </emu-alg>
+      </emu-clause>
+
+      <emu-clause id="sec-static-semantics-static-semantics-isdestructuring">
+        <h1>Static Semantics: IsDestructuring</h1>
+        <emu-see-also-para op="IsDestructuring"></emu-see-also-para>
+        <emu-grammar>MemberExpression : PrimaryExpression</emu-grammar>
+        <emu-alg>
+          1. If |PrimaryExpression| is either an |ObjectLiteral| or an |ArrayLiteral|, return *true*.
+          1. Return *false*.
+        </emu-alg>
+        <emu-grammar>
+          MemberExpression :
+            MemberExpression `[` Expression `]`
+            MemberExpression `.` IdentifierName
+            MemberExpression TemplateLiteral
+            SuperProperty
+            MetaProperty
+            `new` MemberExpression Arguments
+
+          NewExpression :
+            `new` NewExpression
+
+          LeftHandSideExpression :
+            CallExpression
+            <ins>OptionalExpression</ins>
+        </emu-grammar>
+        <emu-alg>
+          1. Return *false*.
+        </emu-alg>
+      </emu-clause>
+
+      <emu-clause id="sec-static-semantics-static-semantics-isidentifierref">
+        <h1>Static Semantics: IsIdentifierRef</h1>
+        <emu-see-also-para op="IsIdentifierRef"></emu-see-also-para>
+        <emu-grammar>
+          MemberExpression :
+            MemberExpression `[` Expression `]`
+            MemberExpression `.` IdentifierName
+            MemberExpression TemplateLiteral
+            SuperProperty
+            MetaProperty
+            `new` MemberExpression Arguments
+
+          NewExpression :
+            `new` NewExpression
+
+          LeftHandSideExpression :
+            CallExpression
+            <ins>OptionalExpression</ins>
+        </emu-grammar>
+        <emu-alg>
+          1. Return *false*.
+        </emu-alg>
+      </emu-clause>
+
+      <emu-clause oldids="sec-binary-logical-operators-static-semantics-isvalidsimpleassignmenttarget,sec-semantics-static-semantics-assignmenttargettype" id="sec-binary-logical-operators-static-semantics-issimpleassignmenttarget">
+        <h1>Static Semantics: IsSimpleAssignmentTarget</h1>
+        <emu-see-also-para op="IsSimpleAssignmentTarget"></emu-see-also-para>
+        <emu-grammar>
+          CallExpression :
+            CallExpression `[` Expression `]`
+            CallExpression `.` IdentifierName
+
+          MemberExpression :
+            MemberExpression `[` Expression `]`
+            MemberExpression `.` IdentifierName
+            SuperProperty
+        </emu-grammar>
+        <emu-alg>
+          1. Return *true*.
+        </emu-alg>
+        <emu-grammar>
+          CallExpression :
+            CoverCallExpressionAndAsyncArrowHead
+            SuperCall
+            CallExpression Arguments
+            CallExpression TemplateLiteral
+
+          NewExpression :
+            `new` NewExpression
+
+          MemberExpression :
+            MemberExpression TemplateLiteral
+            `new` MemberExpression Arguments
+
+          NewTarget :
+            `new` `.` `target`
+
+        <ins class="block">
+        LeftHandSideExpression :
+          OptionalExpression
+        </ins>
+        </emu-grammar>
+        <emu-alg>
+          1. Return *false*.
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+
+    <emu-clause id="sec-property-accessors">
+      <h1>Property Accessors (<a href="https://tc39.github.io/ecma262/#sec-property-accessors">12.3.2</a>)</h1>
+      <emu-note>
+        <p>Properties are accessed by name, using either the dot notation:</p>
+        <div class="rhs">
+          |MemberExpression| `.` |IdentifierName|
+          <br>
+          |CallExpression| `.` |IdentifierName|
+        </div>
+        <p>or the bracket notation:</p>
+        <div class="rhs">
+          |MemberExpression| `[` |Expression| `]`
+          <br>
+          |CallExpression| `[` |Expression| `]`
+        </div>
+        <p>The dot notation is explained by the following syntactic conversion:</p>
+        <div class="rhs">
+          |MemberExpression| `.` |IdentifierName|
+        </div>
+        <p>is identical in its behaviour to</p>
+        <div class="rhs">
+          |MemberExpression| `[` &lt;<i>identifier-name-string</i>&gt; `]`
+        </div>
+        <p>and similarly</p>
+        <div class="rhs">
+          |CallExpression| `.` |IdentifierName|
+        </div>
+        <p>is identical in its behaviour to</p>
+        <div class="rhs">
+          |CallExpression| `[` &lt;<i>identifier-name-string</i>&gt; `]`
+        </div>
+        <p>where &lt;<i>identifier-name-string</i>&gt; is the result of evaluating StringValue of |IdentifierName|.</p>
+      </emu-note>
+
+      <emu-clause id="sec-property-accessors-runtime-semantics-evaluation">
+        <h1>Runtime Semantics: Evaluation</h1>
+        <emu-grammar>MemberExpression : MemberExpression `[` Expression `]`</emu-grammar>
+        <emu-alg>
+          1. Let _baseReference_ be the result of evaluating |MemberExpression|.
+          1. Let _baseValue_ be ? GetValue(_baseReference_).
+          1. <del>Let _propertyNameReference_ be the result of evaluating |Expression|.</del>
+          1. <del>Let _propertyNameValue_ be ? GetValue(_propertyNameReference_).</del>
+          1. <del>Let _bv_ be ? RequireObjectCoercible(_baseValue_).</del>
+          1. <del>Let _propertyKey_ be ? ToPropertyKey(_propertyNameValue_).</del>
+          1. If the code matched by this |MemberExpression| is strict mode code, let _strict_ be *true*, else let _strict_ be *false*.
+          1. <del>Return a value of type Reference whose base value component is _bv_, whose referenced name component is _propertyKey_, and whose strict reference flag is _strict_.</del>
+          1. <ins>Return ? EvaluateDynamicPropertyAccess(_baseValue_, |Expression|, _strict_).</ins>
+        </emu-alg>
+        <emu-grammar>MemberExpression : MemberExpression `.` IdentifierName</emu-grammar>
+        <emu-alg>
+          1. Let _baseReference_ be the result of evaluating |MemberExpression|.
+          1. Let _baseValue_ be ? GetValue(_baseReference_).
+          1. <del>Let _bv_ be ? RequireObjectCoercible(_baseValue_).</del>
+          1. <del>Let _propertyNameString_ be StringValue of |IdentifierName|.</del>
+          1. If the code matched by this |MemberExpression| is strict mode code, let _strict_ be *true*, else let _strict_ be *false*.
+          1. <del>1. Return a value of type Reference whose base value component is _bv_, whose referenced name component is _propertyNameString_, and whose strict reference flag is _strict_.</del>
+          1. <ins>Return ? EvaluateStaticPropertyAccess(_baseValue_, |IdentifierName|, _strict_).</ins>
+        </emu-alg>
+        <emu-grammar>CallExpression : CallExpression `[` Expression `]`</emu-grammar>
+        <p><del>Is evaluated in exactly the same manner as <emu-grammar>MemberExpression : MemberExpression `[` Expression `]`</emu-grammar> except that the contained |CallExpression| is evaluated in step 1.</del></p>
+        <emu-alg>
+          1. <ins>Let _baseReference_ be the result of evaluating |CallExpression|.</ins>
+          1. <ins>Let _baseValue_ be ? GetValue(_baseReference_).</ins>
+          1. <ins>If the code matched by this |CallExpression| is strict mode code, let _strict_ be *true*, else let _strict_ be *false*.</ins>
+          1. <ins>Return ? EvaluateDynamicPropertyAccess(_baseValue_, |Expression|, _strict_).</ins>
+        </emu-alg>
+
+        <emu-grammar>CallExpression : CallExpression `.` IdentifierName</emu-grammar>
+        <emu-alg>
+          1. Let _baseReference_ be the result of evaluating |CallExpression|.
+          1. Let _baseValue_ be ? GetValue(_baseReference_).
+          1. If the code matched by this |CallExpression| is strict mode code, let _strict_ be *true*, else let _strict_ be *false*.
+          1. Return ? EvaluateStaticPropertyAccess(_baseValue_, |IdentifierName|, _strict_).
+        </emu-alg>
+      </emu-clause>
+
+      <emu-clause id="sec-evaluate-dynamic-property-access" aoid="EvaluateDynamicPropertyAccess">
+        <h1><ins>Runtime Semantics: EvaluateDynamicPropertyAccess(_baseValue_, _expression_, _strict_ )</ins></h1>
+        <p><ins>The abstract operation EvaluateDynamicPropertyAccess takes as arguments a value _baseValue_, a Parse Node _expression_, and a Boolean argument _strict_. It performs the following steps:</ins></p>
+        <emu-alg>
+          1. <ins>Let _propertyNameReference_ be the result of evaluating _expression_.</ins>
+          1. <ins>Let _propertyNameValue_ be ? GetValue(_propertyNameReference_).</ins>
+          1. <ins>Let _bv_ be ? RequireObjectCoercible(_baseValue_).</ins>
+          1. <ins>Let _propertyKey_ be ? ToPropertyKey(_propertyNameValue_).</ins>
+          1. <ins>Return a value of type Reference whose base value component is _bv_, whose referenced name component is _propertyKey_, and whose strict reference flag is _strict_.</ins>
+      </emu-clause>
+      <emu-clause id="sec-evaluate-static-property-access" aoid="EvaluateStaticPropertyAccess">
+        <h1><ins>Runtime Semantics: EvaluateStaticPropertyAccess(_baseValue_, _identifierName_, _strict_ )</ins></h1>
+        <p><ins>The abstract operation EvaluateStaticPropertyAccess takes as arguments a value _baseValue_, a Parse Node _identifierName_, and a Boolean argument _strict_. It performs the following steps:</ins></p>
+        <emu-alg>
+          1. <ins>Let _bv_ be ? RequireObjectCoercible(_baseValue_).</ins>
+          1. <ins>Let _propertyNameString_ be StringValue of _identifierName_.</ins>
+          1. <ins>Return a value of type Reference whose base value component is _bv_, whose referenced name component is _propertyNameString_, and whose strict reference flag is _strict_.</ins>
+      </emu-clause>
+
+    </emu-clause>
+
+    <emu-clause id="sec-function-calls">
+      <h1>Function Calls (<a href="https://tc39.github.io/ecma262/#sec-function-calls">12.3.4</a>)</h1>
+
+      <emu-clause id="sec-function-calls-runtime-semantics-evaluation">
+        <h1>Runtime Semantics: Evaluation</h1>
+        <emu-grammar>CallExpression : CoverCallExpressionAndAsyncArrowHead</emu-grammar>
+        <emu-alg>
+          1. Let _expr_ be CoveredCallExpression of |CoverCallExpressionAndAsyncArrowHead|.
+          1. Let _memberExpr_ be the |MemberExpression| of _expr_.
+          1. Let _arguments_ be the |Arguments| of _expr_.
+          1. Let _ref_ be the result of evaluating _memberExpr_.
+          1. Let _func_ be ? GetValue(_ref_).
+          1. <del>If Type(_ref_) is Reference and IsPropertyReference(_ref_) is *false* and GetReferencedName(_ref_) is `"eval"`, then</del>
+          1. <ins>If Type(_ref_) is Reference, IsPropertyReference(_ref_) is *false*, and GetReferencedName(_ref_) is `"eval"`, then</ins>
+            1. If SameValue(_func_, %eval%) is *true*, then
+              1. Let _argList_ be ? ArgumentListEvaluation of _arguments_.
+              1. If _argList_ has no elements, return *undefined*.
+              1. Let _evalText_ be the first element of _argList_.
+              1. If the source code matching this |CallExpression| is strict mode code, let _strictCaller_ be *true*. Otherwise let _strictCaller_ be *false*.
+              1. Let _evalRealm_ be the current Realm Record.
+              1. Perform ? HostEnsureCanCompileStrings(_evalRealm_, _evalRealm_).
+              1. Return ? PerformEval(_evalText_, _evalRealm_, _strictCaller_, *true*).
+          1. Let _thisCall_ be this |CallExpression|.
+          1. Let _tailCall_ be IsInTailPosition(_thisCall_).
+          1. Return ? EvaluateCall(_func_, _ref_, _arguments_, _tailCall_).
+        </emu-alg>
+        <p>A |CallExpression| evaluation that executes step 6.a.vii is a <dfn>direct eval</dfn>.</p>
+        <emu-grammar>CallExpression : CallExpression Arguments</emu-grammar>
+        <emu-alg>
+          1. Let _ref_ be the result of evaluating |CallExpression|.
+          1. Let _func_ be ? GetValue(_ref_).
+          1. Let _thisCall_ be this |CallExpression|.
+          1. Let _tailCall_ be IsInTailPosition(_thisCall_).
+          1. Return ? EvaluateCall(_func_, _ref_, |Arguments|, _tailCall_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+
+    <ins class="block">
+    <emu-clause id="sec-optional-chains">
+      <h1>Optional Chains</h1>
+      <emu-note>An optional chain is a chain of one or more property accesses and function calls, the first of which begins with the token `?.`.</emu-note>
+      <emu-clause id="sec-optional-chaining-evaluation">
+        <h1>Runtime Semantics: Evaluation</h1>
+        <emu-grammar>
+          OptionalExpression :
+            MemberExpression OptionalChain
+            CallExpression OptionalChain
+            OptionalExpression OptionalChain
+        </emu-grammar>
+        <emu-alg>
+          1. Let _baseExpression_ be the first child of this |OptionalExpression| (i.e., |MemberExpression|, |CallExpression|, or |OptionalExpression|).
+          1. Let _baseReference_ be the result of evaluating _baseExpression_.
+          1. Let _baseValue_ be ? GetValue(_baseReference_).
+          1. If _baseValue_ is *undefined* or *null*, then
+            1. Return *undefined*.
+          1. Let _optionalChain_ be |OptionalChain|.
+          1. Return the result of performing ChainEvaluation of _optionalChain_ with arguments _baseValue_ and _baseReference_.
+        </emu-alg>
+      </emu-clause>
+      <emu-clause id="sec-optional-chaining-chain-evaluation">
+        <h1>Runtime Semantics: ChainEvaluation</h1>
+        <p>With parameters _baseValue_ and _baseReference_.</p>
+        <emu-grammar>OptionalChain : `?.` `[` Expression `]`</emu-grammar>
+        <emu-alg>
+          1. If the code matched by this |OptionalChain| is strict mode code, let _strict_ be *true*, else let _strict_ be *false*.
+          1. Return ? EvaluateDynamicPropertyAccess(_baseValue_, |Expression|, _strict_).
+        </emu-alg>
+        <emu-grammar>OptionalChain : `?.` IdentifierName</emu-grammar>
+        <emu-alg>
+          1. If the code matched by this |OptionalChain| is strict mode code, let _strict_ be *true*, else let _strict_ be *false*.
+          1. Return ? EvaluateStaticPropertyAccess(_baseValue_, |IdentifierName|, _strict_).
+        </emu-alg>
+        <emu-grammar>OptionalChain : `?.` Arguments</emu-grammar>
+        <emu-alg>
+          1. Let _thisChain_ be this |OptionalChain|.
+          1. Let _tailCall_ be IsInTailPosition(_thisChain_).
+          1. Return ? EvaluateCall(_baseValue_, _baseReference_, |Arguments|, _tailCall_).
+        </emu-alg>
+        <emu-grammar>OptionalChain : OptionalChain `[` Expression `]`</emu-grammar>
+        <emu-alg>
+          1. Let _optionalChain_ be |OptionalChain|.
+          1. Let _newReference_ be ? ChainEvaluation of _optionalChain_ with arguments _baseValue_ and _baseReference_.
+          1. Let _newValue_ be ? GetValue(_newReference_).
+          1. If the code matched by this |OptionalChain| is strict mode code, let _strict_ be *true*, else let _strict_ be *false*.
+          1. Return ? EvaluateDynamicPropertyAccess(_newValue_, |Expression|, _strict_).
+        </emu-alg>
+        <emu-grammar>OptionalChain : OptionalChain `.` IdentifierName</emu-grammar>
+        <emu-alg>
+          1. Let _optionalChain_ be |OptionalChain|.
+          1. Let _newReference_ be ? ChainEvaluation of _optionalChain_ with arguments _baseValue_ and _baseReference_.
+          1. Let _newValue_ be ? GetValue(_newReference_).
+          1. If the code matched by this |OptionalChain| is strict mode code, let _strict_ be *true*, else let _strict_ be *false*.
+          1. Return ? EvaluateStaticPropertyAccess(_newValue_, |IdentifierName|, _strict_).
+        </emu-alg>
+        <emu-grammar>OptionalChain : OptionalChain Arguments</emu-grammar>
+        <emu-alg>
+          1. Let _optionalChain_ be |OptionalChain|.
+          1. Let _newReference_ be ? ChainEvaluation of _optionalChain_ with arguments _baseValue_ and _baseReference_.
+          1. Let _newValue_ be ? GetValue(_newReference_).
+          1. Let _thisChain_ be this |OptionalChain|.
+          1. Let _tailCall_ be IsInTailPosition(_thisChain_).
+          1. Return ? EvaluateCall(_newValue_, _newReference_, |Arguments|, _tailCall_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+    </ins>
+<!--
+</emu-clause>
+-->
+
+<!--
+<emu-clause id="sec-ecmascript-language-functions-and-classes">
+  <h1>ECMAScript Language: Functions and Classes (<a href="https://tc39.github.io/ecma262/#sec-ecmascript-language-functions-and-classes">14</a>)</h1>
+-->
+  <emu-clause id="sec-tail-position-calls">
+    <h1>Tail Position Calls (<a href="https://tc39.github.io/ecma262/#sec-tail-position-calls">14.8</a>)</h1>
+    <emu-clause id="sec-static-semantics-hascallintailposition">
+      <h1>Static Semantics: HasCallInTailPosition (<a href="https://tc39.github.io/ecma262/#sec-static-semantics-hascallintailposition">14.8.2</a>)</h1>
+      <p>With parameter _call_.</p>
+      <emu-clause id="sec-expression-rules">
+        <h1>Expression Rules</h1>
+        <ins class="block">
+        <emu-grammar>
+          OptionalExpression :
+            MemberExpression OptionalChain
+            CallExpression OptionalChain
+            OptionalExpression OptionalChain
+        </emu-grammar>
+        <emu-alg>
+          1. Return HasCallInTailPosition of |OptionalChain| with argument _call_.
+        </emu-alg>
+        <emu-grammar>
+          OptionalChain :
+            `?.` `[` Expression `]`
+            `?.` IdentifierName
+            OptionalChain `[` Expression `]`
+            OptionalChain `.` IdentifierName
+        </emu-grammar>
+        <emu-alg>
+          1. Return *false*.
+        </emu-alg>
+        <emu-grammar>
+          OptionalChain :
+            `?.` Arguments
+            OptionalChain Arguments
+        </emu-grammar>
+        <emu-alg>
+          1. If this |OptionalChain| is _call_, return *true*.
+          1. Return *false*.
+        </emu-alg>
+        </ins>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+<!--
+</emu-clause>
+-->

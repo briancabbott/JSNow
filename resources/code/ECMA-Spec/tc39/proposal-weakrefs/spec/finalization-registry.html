@@ -1,0 +1,163 @@
+<emu-clause id="sec-finalization-registry-objects">
+  <h1> FinalizationRegistry Objects </h1>
+  <p>
+    A FinalizationRegistry is an object that manages registration and
+    unregistration of cleanup operations that are performed when
+    target objects are garbage collected.
+  </p>
+
+  <emu-clause id="sec-finalization-registry-constructor">
+    <h1>The FinalizationRegistry Constructor</h1>
+    <p>The FinalizationRegistry constructor:</p>
+    <ul>
+      <li>is the intrinsic object <dfn>%FinalizationRegistry%</dfn>.</li>
+      <li>
+        is the initial value of the `FinalizationRegistry` property of
+        the global object.
+      </li>
+      <li>
+        creates and initializes a new FinalizationRegistry object when
+        called as a constructor.
+      </li>
+      <li>
+        is not intended to be called as a function and will throw an
+        exception when called in that manner.
+      </li>
+      <li>
+        is designed to be subclassable. It may be used as the value in
+        an `extends` clause of a class definition. Subclass
+        constructors that intend to inherit the specified
+        `FinalizationRegistry` behaviour must include a `super` call to
+        the `FinalizationRegistry` constructor to create and initialize
+        the subclass instance with the internal state necessary to
+        support the `FinalizationRegistry.prototype` built-in methods.
+      </li>
+    </ul>
+
+    <emu-clause id="sec-finalization-registry-cleanup-callback">
+      <h1> FinalizationRegistry ( _cleanupCallback_ ) </h1>
+      <p>
+        When the `FinalizationRegistry` function is called with argument _cleanupCallback_,
+        the following steps are taken:
+      </p>
+      <emu-alg>
+        1. If NewTarget is *undefined*, throw a *TypeError* exception.
+        1. If IsCallable(_cleanupCallback_) is *false*, throw a *TypeError* exception.
+        1. Let _finalizationRegistry_ be ? OrdinaryCreateFromConstructor(NewTarget,
+        `"%FinalizationRegistryPrototype%"`, &laquo; [[Realm]], [[CleanupCallback]],
+        [[Cells]] &raquo;).
+        1. Let _fn_ be the active function object.
+        1. Set _finalizationRegistry_.[[Realm]] to _fn_.[[Realm]].
+        1. Set _finalizationRegistry_.[[CleanupCallback]] to _cleanupCallback_.
+        1. Set _finalizationRegistry_.[[Cells]] to be an empty List.
+        1. Return _finalizationRegistry_.
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-the-finalization-registry-constructor">
+    <h1>Properties of the FinalizationRegistry Constructor</h1>
+    <p>The FinalizationRegistry constructor:</p>
+    <ul>
+      <li>
+        has a [[Prototype]] internal slot whose value is the intrinsic
+        object %FunctionPrototype%.
+      </li>
+      <li>has the following properties:</li>
+    </ul>
+
+    <emu-clause id="sec-finalization-registry.prototype">
+      <h1>FinalizationRegistry.prototype</h1>
+      <p>
+        The initial value of `FinalizationRegistry.prototype` is the
+        intrinsic %FinalizationRegistryPrototype% object.
+      </p>
+      <p>
+        This property has the attributes { [[Writable]]: *false*,
+        [[Enumerable]]: *false*, [[Configurable]]: *false* }.
+      </p>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-the-finalization-registry-prototype-object">
+    <h1>Properties of the FinalizationRegistry Prototype Object</h1>
+    <p>The FinalizationRegistry prototype object:</p>
+    <ul>
+      <li>is the intrinsic object <dfn>%FinalizationRegistryPrototype%</dfn>.</li>
+      <li>
+        has a [[Prototype]] internal slot whose value is the intrinsic
+        object %ObjectPrototype%.
+      </li>
+      <li>is an ordinary object.</li>
+      <li>
+        does not have [[Cells]] and [[CleanupCallback]] internal slots.
+      </li>
+    </ul>
+
+    <emu-clause id="sec-finalization-registry.prototype.constructor">
+      <h1>FinalizationRegistry.prototype.constructor</h1>
+      <p>The initial value of
+      `FinalizationRegistry.prototype.constructor` is the intrinsic
+      object %FinalizationRegistry%.</p>
+    </emu-clause>
+
+    <emu-clause id="sec-finalization-registry.prototype.register">
+      <h1>FinalizationRegistry.prototype.register ( _target_ , _heldValue_ [, _unregisterToken_ ]  )</h1>
+      <p>The following steps are taken:</p>
+      <emu-alg>
+        1. Let _finalizationRegistry_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_finalizationRegistry_, [[Cells]]).
+        1. If Type(_target_) is not Object, throw a *TypeError* exception.
+        1. If SameValue(_target_, _heldValue_), throw a *TypeError* exception.
+        1. If Type(_unregisterToken_) is not Object,
+          1. If _unregisterToken_ is not *undefined*, throw a *TypeError* exception.
+          1. Set _unregisterToken_ to ~empty~.
+        1. Let _cell_ be the Record { [[WeakRefTarget]] : _target_, [[HeldValue]]: _heldValue_,
+        [[UnregisterToken]]: _unregisterToken_ }.
+        1. Append _cell_ to _finalizationRegistry_.[[Cells]].
+        1. Return *undefined*.
+      </emu-alg>
+
+      <emu-note>
+        Based on the algorithms and definitions in this specification, across the time when
+        _cell_ is in _finalizationRegistry_.[[Cells]], then _cell_.[[Holdings]] is live;
+        however, _cell_.[[UnregisterToken]] and _cell_.[[Target]] are not necessarily live.
+        For example, registering an object with itself as its unregister token would not
+        keep the object alive forever.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-finalization-registry.prototype.unregister">
+      <h1>FinalizationRegistry.prototype.unregister ( _unregisterToken_ )</h1>
+      <p>The following steps are taken:</p>
+      <emu-alg>
+        1. Let _finalizationRegistry_ be the *this* value.
+        1. Perform ? RequireInternalSlot(_finalizationRegistry_, [[Cells]]).
+        1. If Type(_unregisterToken_) is not Object, throw a *TypeError* exception.
+        1. Let _removed_ be *false*.
+        1. For each Record { [[WeakRefTarget]], [[HeldValue]],
+        [[UnregisterToken]] } _cell_ that is an element of
+        _finalizationRegistry_.[[Cells]], do
+          1. If _cell_.[[UnregisterToken]] is not ~empty~ and
+          SameValue(_cell_.[[UnregisterToken]], _unregisterToken_) is *true*, then
+            1. Remove _cell_ from _finalizationRegistry_.[[Cells]].
+            1. Set _removed_ to *true*.
+        1. Return _removed_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-finalization-registry.prototype-@@tostringtag">
+      <h1>FinalizationRegistry.prototype [ @@toStringTag ]</h1>
+      <p>The initial value of the @@toStringTag property is the String value `"FinalizationRegistry"`.</p>
+      <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }.</p>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-finalization-registry-instances">
+    <h1>Properties of FinalizationRegistry Instances</h1>
+    <p>
+      FinalizationRegistry instances are ordinary objects that inherit
+      properties from the FinalizationRegistry prototype. FinalizationRegistry
+      instances also have [[Cells]] and [[CleanupCallback]] internal slots.
+    </p>
+  </emu-clause>
+</emu-clause>

@@ -1,0 +1,157 @@
+<!doctype html>
+<meta charset="utf8">
+<pre class=metadata>
+title: Static class features
+stage: 3
+contributors: Daniel Ehrenberg, Jeff Morrison, Kevin Smith, Kevin Gibbons
+</pre>
+<style>
+</style>
+
+<emu-intro id=sec-intro>
+  <emu-note>
+    <p>This is a deprecated document. The document with all updated changes for this proposal has been merged and available as an unified document <a href="https://tc39.es/proposal-class-fields/unified.html">here</a>.</p>
+  </emu-note>
+  <h1>Introduction</h1>
+  <p>This document specifies parts of the class features proposals which were split off in the November 2017 TC39 meeting from <a href="https://github.com/tc39/proposal-class-fields">class fields</a> and <a href="https://github.com/tc39/proposal-private-methods">private methods</a> proposals, for further consideration and advancement. In that meeting, static public fields, static private fields and static private methods were split off from the earlier "Stage 3" proposal and demoted to "Stage 2".</p>
+  <p>This proposal defines static public fields, static private fields, and static private methods. For further context and motivation, see <a href="https://github.com/tc39/proposal-static-class-features">the explainer document</a>.</p>
+  <p>This specification is phrased as a diff against the combination of the private methods and class fields proposals.</p>
+</emu-intro>
+
+<emu-clause id=sec-syntax>
+  <h1>Syntax</h1>
+
+  <emu-grammar>
+    ClassElement[Yield, Await] :
+      MethodDefinition[?Yield, ?Await]
+      `static` MethodDefinition[?Yield, ?Await]
+      FieldDefinition[?Yield, ?Await] `;`
+      <ins>`static` FieldDefinition[?Yield, ?Await] `;`</ins>
+      `;`
+  </emu-grammar>
+
+  <emu-clause id="sec-static-semantics-early-errors">
+    <h1>Static Semantics: Early Errors</h1>
+    <emu-grammar>
+      ClassBody : ClassElementList
+    </emu-grammar>
+    <ul>
+      <li>It is a Syntax Error if PrivateBoundNames of |ClassBody| contains any duplicate entries, unless the name is used once for a getter and once for a setter and in no other entries<ins>, and the getter and setter are either both static or both non-static</ins>.</li>
+    </ul>
+
+    <emu-grammar><ins>ClassElement : `static` FieldDefinition `;`</ins></emu-grammar>
+    <ul>
+      <li>
+        <ins>It is a Syntax Error if PropName of |FieldDefinition| is `"prototype"` or `"constructor"`.</ins>
+      </li>
+    </ul>
+
+    <emu-grammar>
+      <del>ClassElement : `static` MethodDefinition</del>
+    </emu-grammar>
+    <ul>
+      <li><del>It is a Syntax Error if PrivateBoundIdentifiers of |MethodDefinition| is non-empty.</del></li>
+    </ul>
+
+    <emu-note type="editor">Removing this early error enables static private methods.</emu-note>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id=sec-algorithms>
+  <h1>Algorithms</h1>
+
+<emu-clause id="sec-method-definitions-runtime-semantics-classelementevaluation" aoid=ClassElementEvaluation>
+  <h1>Runtime Semantics: ClassElementEvaluation</h1>
+  <p>With parameters _homeObject_, _enumerable_ and _placement_.</p>
+  <emu-grammar>ClassElement : `static` FieldDefinition `;`</emu-grammar>
+  <emu-alg>
+    1. Return ClassFieldDefinitionEvaluation of FieldDefinition with parameters `"static"` and _homeObject_.
+  </emu-alg>
+</emu-clause>
+
+  <emu-clause id="runtime-semantics-class-definition-evaluation">
+    <h1>Runtime Semantics: ClassDefinitionEvaluation</h1>
+    <p>With parameter _className_.</p>
+    <emu-grammar>ClassTail : ClassHeritage? `{` ClassBody? `}`</emu-grammar>
+    <emu-alg>
+      1. Let _lex_ be the LexicalEnvironment of the running execution context.
+      1. Let _classScope_ be NewDeclarativeEnvironment(_lex_).
+      1. Let _classScopeEnvRec_ be _classScope_'s EnvironmentRecord.
+      1. If _className_ is not *undefined*, then
+        1. Perform _classScopeEnvRec_.CreateImmutableBinding(_className_, *true*).
+      1. Let _outerPrivateEnvironment_ be the PrivateEnvironment of the running execution context.
+      1. Let _classPrivateEnvironment_ be NewDeclarativeEnvironment(_outerPrivateEnvironment_).
+      1. Let _classPrivateEnvRec_ be _classPrivateEnvironment_'s EnvironmentRecord.
+      1. If |ClassBody_opt| is present, then
+        1. For each element _dn_ of the PrivateBoundIdentifiers of |ClassBody_opt|,
+          1. Perform _classPrivateEnvRec_.CreateImmutableBinding(_dn_, *true*).
+          1. Let _privateName_ be NewPrivateName(_dn_).
+          1. Perform ! _classPrivateEnvRec_.InitializeBinding(_dn_, _dn_).
+      1. If |ClassHeritage_opt| is not present, then
+        1. Let _protoParent_ be the intrinsic object %ObjectPrototype%.
+        1. Let _constructorParent_ be the intrinsic object %FunctionPrototype%.
+      1. Else,
+        1. Set the running execution context's LexicalEnvironment to _classScope_.
+        1. NOTE: The running execution context's PrivateEnvironment is _outerPrivateEnvironment_ when evaluating |ClassHeritage|.
+        1. Let _superclass_ be the result of evaluating |ClassHeritage|.
+        1. Set the running execution context's LexicalEnvironment to _lex_.
+        1. ReturnIfAbrupt(_superclass_).
+        1. If _superclass_ is *null*, then
+          1. Let _protoParent_ be *null*.
+          1. Let _constructorParent_ be the intrinsic object %FunctionPrototype%.
+        1. Else if IsConstructor(_superclass_) is *false*, throw a *TypeError* exception.
+        1. Else,
+          1. Let _protoParent_ be ? Get(_superclass_, `"prototype"`).
+          1. If Type(_protoParent_) is neither Object nor Null, throw a *TypeError* exception.
+          1. Let _constructorParent_ be _superclass_.
+      1. Let _proto_ be ObjectCreate(_protoParent_).
+      1. If |ClassBody_opt| is not present, let _constructor_ be ~empty~.
+      1. Else, let _constructor_ be ConstructorMethod of |ClassBody|.
+      1. If _constructor_ is ~empty~, then
+        1. If |ClassHeritage_opt| is present and _protoParent_ is not *null*, then
+          1. Let _constructor_ be the result of parsing the source text
+            <pre><code class="javascript">constructor(... args){ super (...args);}</code></pre>
+            using the syntactic grammar with the goal symbol |MethodDefinition[~Yield]|.
+        1. Else,
+          1. Let _constructor_ be the result of parsing the source text
+            <pre><code class="javascript">constructor( ){ }</code></pre>
+            using the syntactic grammar with the goal symbol |MethodDefinition[~Yield]|.
+      1. Set the running execution context's LexicalEnvironment to _classScope_.
+      1. Set the running execution context's PrivateEnvironment to _classPrivateEnvironment_.
+      1. Let _constructorInfo_ be the result of performing DefineMethod for _constructor_ with arguments _proto_ and _constructorParent_ as the optional _functionPrototype_ argument.
+      1. Assert: _constructorInfo_ is not an abrupt completion.
+      1. Let _F_ be _constructorInfo_.[[Closure]].
+      1. If |ClassHeritage_opt| is present and _protoParent_ is not *null*, then set _F_.[[ConstructorKind]] to `"derived"`.
+      1. Perform MakeConstructor(_F_, *false*, _proto_).
+      1. Perform MakeClassConstructor(_F_).
+      1. Perform CreateMethodProperty(_proto_, `"constructor"`, _F_).
+      1. If |ClassBody_opt| is not present, let _methods_ be a new empty List.
+      1. Else, let _elements_ be NonConstructorMethodDefinitions of |ClassBody|.
+      1. Let _instanceFields_ be a new empty List.
+      1. <ins>Let _staticFields_ be a new empty List.</ins>
+      1. For each |ClassElement| _e_ in order from _elements_,
+        1. If IsStatic of _e_ is *false*, then
+          1. Let _field_ be the result of performing ClassElementEvaluation for _e_ with arguments _proto_ and *false*.
+        1. Else,
+          1. Let _field_ be the result of performing PropertyDefinitionEvaluation for _m_ClassElementEvaluation for _e_ with arguments _F_ and *false*.
+        1. If _field_ is an abrupt completion, then
+          1. Set the running execution context's LexicalEnvironment to _lex_.
+          1. Set the running execution context's PrivateEnvironment to _outerPrivateEnvironment_.
+          1. Return Completion(_field_).
+        1. If _field_ is not ~empty~,
+          1. <ins>If IsStatic of _e_ is *false*,</ins> append _field_ to _instanceFields_.
+          1. <ins>Otherwise, append _field_ to _staticFields_.</ins>
+      1. Set the running execution context's LexicalEnvironment to _lex_.
+      1. If _className_ is not *undefined*, then
+        1. Perform _classScopeEnvRec_.InitializeBinding(_className_, _F_).
+      1. Set _F_.[[Fields]] to _instanceFields_.
+      1. If PrivateBoundIdentifiers of |ClassBody| contains a Private Name _P_ such that _P_'s [[Kind]] field is either `"method"` or `"accessor"` <ins>and _P_'s [[Brand]] field is _proto_</ins>,
+        1. Set _F_.[[PrivateBrand]] to _proto_.
+      1. <ins>If PrivateBoundIdentifiers of |ClassBody| contains a Private Name _P_ such that _P_'s [[Kind]] field is either `"method"` or `"accessor"` and _P_'s [[Brand]] is _F_</ins>,
+        1. <ins>PrivateBrandAdd(_F_, _F_).</ins>
+      1. <ins>For each item _fieldRecord_ in order from _staticFields_,</ins>
+        1. <ins>Perform ? DefineField(_F_, _fieldRecord_).</ins>
+      1. Set the running execution context's PrivateEnvironment to _outerPrivateEnvironment_.
+      1. Return _F_.
+    </emu-alg>
+  </emu-clause>

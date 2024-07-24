@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-static-class-features undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-static-class-features",
+    "repo": "https://github.com/tc39/proposal-static-class-features",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-static-class-features",
+    "startTime": "2024-07-18T18:18:20.327Z",
+    "endTime": "2024-07-18T18:18:21.217Z",
+    "childProcessPid": 23783,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-static-class-features--23783",
+    "executionErrors": []
+}

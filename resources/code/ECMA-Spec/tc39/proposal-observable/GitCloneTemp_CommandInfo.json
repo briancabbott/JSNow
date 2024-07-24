@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-observable undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-observable",
+    "repo": "https://github.com/tc39/proposal-observable",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-observable",
+    "startTime": "2024-07-18T18:17:27.064Z",
+    "endTime": "2024-07-18T18:17:28.102Z",
+    "childProcessPid": 22570,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-observable--22570",
+    "executionErrors": []
+}

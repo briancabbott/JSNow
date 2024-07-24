@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-string-pad-start-end undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-string-pad-start-end",
+    "repo": "https://github.com/tc39/proposal-string-pad-start-end",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-string-pad-start-end",
+    "startTime": "2024-07-18T18:18:25.628Z",
+    "endTime": "2024-07-18T18:18:26.459Z",
+    "childProcessPid": 23915,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-string-pad-start-end--23915",
+    "executionErrors": []
+}

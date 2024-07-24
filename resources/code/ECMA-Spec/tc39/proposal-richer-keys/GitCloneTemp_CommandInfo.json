@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-richer-keys undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-richer-keys",
+    "repo": "https://github.com/tc39/proposal-richer-keys",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-richer-keys",
+    "startTime": "2024-07-18T18:18:06.634Z",
+    "endTime": "2024-07-18T18:18:07.424Z",
+    "childProcessPid": 23474,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-richer-keys--23474",
+    "executionErrors": []
+}

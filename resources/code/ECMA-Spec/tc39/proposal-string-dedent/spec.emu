@@ -1,0 +1,557 @@
+<!doctype html>
+<meta charset="utf8">
+<link rel="stylesheet" href="./spec.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<script src="./spec.js"></script>
+<pre class="metadata">
+title: String Dedent
+status: proposal
+stage: 2
+contributors: Justin Ridgewell
+location: https://tc39.es/proposal-string-dedent/
+markEffects: true
+</pre>
+
+<emu-clause id="sec-scope">
+  <h1>Scope</h1>
+  <p>
+    This is the spec text of the <a href="https://github.com/tc39/proposal-string-dedent/">String Dedent proposal</a> in ECMAScript.
+    String dedenting removes leading indentation from each line of a multiline string.
+  </p>
+</emu-clause>
+
+<emu-clause id="proposal-properties-of-the-string-constructor">
+  <h1>Properties of the String Constructor <emu-xref href="#sec-properties-of-the-string-constructor"></emu-xref></h1>
+
+  <ins class="block">
+
+  <emu-clause id="sec-string.dedent">
+    <h1>String.dedent ( _templateOrFn_, ..._substitutions_ )</h1>
+    <emu-note>
+      <p>The `String.dedent` function may be called with either a template array and a variable number of substitutions, or it may be called with a function which itself takes a template array and a variable number of substitutions.</p>
+      <p>When called with a template and a variable number of substitutions, a string is returned which has common leading indentation removed from all lines with non-whitespace.</p>
+      <p>When called with a function, a closure is returned which wraps the function. When the closure is called with a template and variable number of substitutions, the common leading indentation of the template is removed and the result of calling the function with this new dedented template and substitutions is returned.</p>
+      <p>Common leading indentation is defined as the longest sequence of whitespace characters that match exactly on every line that contains non-whitespace. Empty lines and lines which contain only whitespace do not affect common leading indentation.</p>
+      <p>When removing the common leading indentation, lines which contain only whitespace will have all whitespace removed.</p>
+    </emu-note>
+    <emu-alg>
+      1. If _templateOrFn_ is not an object, then
+        1. NOTE: This check is to allow future extensions with different input types.
+        1. Throw a *TypeError* exception.
+      1. If IsCallable(_templateOrFn_) is *true*, then
+        1. Let _tag_ be _templateOrFn_.
+        1. Let _closure_ be a new Abstract Closure with parameters (_template_, ..._substitutions_) that captures _tag_ and performs the following steps when called:
+          1. If _template_ is not an object, then
+            1. Throw a *TypeError* exception.
+          1. Let _R_ be the *this* value.
+          1. Let _dedented_ be ? DedentTemplateStringsArray(_template_).
+          1. Let _args_ be the list-concatenation of &laquo; _dedented_ &raquo; and _substitutions_.
+          1. Return ? Call(_tag_, _R_, _args_).
+        1. Return CreateBuiltinFunction(_closure_, 1, *""*, &laquo; &raquo;).
+      1. Let _template_ be _templateOrFn_.
+      1. Let _dedented_ be ? DedentTemplateStringsArray(_template_).
+      1. Return ? CookTemplateStringsArray(_dedented_, _substitutions_, ~cooked~).
+    </emu-alg>
+    <emu-note>
+      <p>The `dedent` function is intended for use as a tag function of a Tagged Template (<emu-xref href="#sec-tagged-templates"></emu-xref>). When called as such, the first argument will be a well formed template object and the rest parameter will contain the substitution values.</p>
+    </emu-note>
+  </emu-clause>
+
+  <emu-clause id="sec-dedent-template-strings-array" type="abstract operation">
+    <h1>
+      DedentTemplateStringsArray (
+        _template_: an Object,
+      ): either a normal completion containing an Array or a throw completion
+    </h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. Let _realm_ be the current Realm Record.
+      1. Let _dedentMap_ be _realm_.[[DedentMap]].
+      1. Let _rawInput_ be ? Get(_template_, *"raw"*).
+      1. For each element _e_ of the _dedentMap_, do
+        1. If _e_.[[Raw]] is not ~empty~ and SameValue(_e_.[[Raw]], _rawInput_) is *true*, return _e_.[[Dedented]].
+      1. Assert: _dedentMap_ does not currently contain an entry for _rawInput_.
+      1. Let _raw_ be ? DedentStringsArray(_rawInput_).
+      1. Let _cookedArr_ be CreateArrayFromList(CookStrings(_raw_)).
+      1. Let _rawArr_ be CreateArrayFromList(_raw_).
+      1. Perform ! DefinePropertyOrThrow(_cookedArr_, *"raw"*, PropertyDescriptor { [[Value]]: _rawArr_, [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *false* }).
+      1. Perform ! SetIntegrityLevel(_rawArr_, ~frozen~).
+      1. Perform ! SetIntegrityLevel(_cookedArr_, ~frozen~).
+      1. Append the Record { [[Raw]]: _rawInput_, [[Dedented]]: _cookedArr_ } to _dedentMap_.
+      1. Return _cookedArr_.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-dedent-strings-array" type="abstract operation">
+    <h1>
+      DedentStringsArray (
+        _template_: an ECMAScript language value,
+      ): either a normal completion containing a List of Strings, or a throw completion
+    </h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. Let _t_ be ? ToObject(_template_).
+      1. Let _len_ be ? LengthOfArrayLike(_t_).
+      1. If _len_ = 0, then
+        1. NOTE: Well-formed template strings arrays always contain at least 1 string.
+        1. Throw a *TypeError* exception.
+      1. Let _blocks_ be ? SplitTemplateIntoBlockLines(_t_, _len_).
+      1. Perform ? EmptyWhiteSpaceLines(_blocks_).
+      1. Perform ? RemoveOpeningAndClosingLines(_blocks_, _len_).
+      1. Let _common_ be DetermineCommonLeadingIndentation(_blocks_).
+      1. Let _count_ be the length of _common_.
+      1. Let _dedented_ be a new empty List.
+      1. For each element _lines_ of _blocks_, do
+        1. Assert: _lines_ is not empty, because SplitTemplateIntoBlockLines guarantees there is at least 1 line per block.
+        1. Let _out_ be *""*.
+        1. Let _index_ be 0.
+        1. For each Record { [[String]], [[Newline]], [[LineEndsWithSubstitution]] } _line_ of _lines_, do
+          1. NOTE: The first line of each block does not need to be trimmed. It's either the opening line, or it's the continuation of a line after a substitution.
+          1. If _index_ = 0 or _line_.[[String]] is the empty String, let _c_ be 0; else let _c_ be _count_.
+          1. Let _strLen_ be the length of _line_.[[String]].
+          1. Let _trimmed_ be the substring of _line_.[[String]] from _c_ to _strLen_.
+          1. Set _out_ to the string-concatenation of _out_, _trimmed_, and _line_.[[Newline]].
+          1. Set _index_ to _index_ + 1.
+        1. Append _out_ to _dedented_.
+      1. Return _dedented_.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-cook-strings-array" type="abstract operation">
+    <h1>
+      CookStrings (
+        _raw_: a List of Strings,
+      ): a List of either String or *undefined*
+    </h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. Let _cooked_ be a new empty List.
+      1. For each element _str_ of _raw_, do
+        1. Let _parsed_ be ParseText(StringToCodePoints(_str_), |CookStringsCharactersWithBackslash|).
+        1. Assert: _parsed_ is a Parse Node.
+        1. NOTE: Even though String.dedent can be manually invoked with a value, the |CookStringsCharactersWithBackslash| nonterminal matches every string, so the above parse is guaranteed to succeed.
+        1. Let _val_ be the TV of _parsed_ as defined in <emu-xref href="#sec-template-literal-lexical-components"></emu-xref>.
+        1. NOTE: _val_ can actually be *undefined* if the raw string contains an invalid escape sequence.
+        1. Append _val_ to _cooked_.
+      1. Return _cooked_.
+    </emu-alg>
+
+    <emu-clause id="sec-cook-strings-grammar">
+      <h1>The CookStrings Grammar</h1>
+      <p>The following grammar is used by CookStrings. It is identical to |TemplateCharacters| except that it allows *"${"*" and *"`"* to appear without being preceded by a backslash, allows a backslash as the final character, and accepts the empty sequence. Every sequence of code points is matched by this grammar.</p>
+
+      <emu-grammar type="definition">
+        CookStringsCharactersWithBackslash ::
+          CookStringsCharacters? `\`?
+
+        CookStringsCharacters ::
+          CookStringsCharacter CookStringsCharacters?
+
+        CookStringsCharacter ::
+          `$` [lookahead = `{`]
+          ```
+          TemplateCharacter
+      </emu-grammar>
+
+      <emu-clause id="sec-static-semantics-tv-ins" type="sdo">
+        <h1>Static Semantics: TV</h1>
+        <emu-note type="editor">The following lines are added to the definition of TV.</emu-note>
+        <ul>
+          <li>
+            The TV of <emu-grammar>CookStringsCharactersWithBackslash :: [empty]</emu-grammar> is the empty String.
+          </li>
+          <li>
+            The TV of <emu-grammar>CookStringsCharactersWithBackslash :: `\`</emu-grammar> is *undefined*.
+          </li>
+          <li>
+            The TV of <emu-grammar>CookStringsCharactersWithBackslash :: CookStringsCharacters `\`</emu-grammar> is *undefined*.
+          </li>
+          <li>
+            The TV of <emu-grammar>CookStringsCharacters :: CookStringsCharacter CookStringsCharacters</emu-grammar> is *undefined* if either the TV of |CookStringsCharacter| is *undefined* or the TV of |CookStringsCharacters| is *undefined*. Otherwise, it is the string-concatenation of the TV of |CookStringsCharacter| and the TV of |CookStringsCharacters|.
+          </li>
+          <li>
+            The TV of <emu-grammar>CookStringsCharacter :: `$` [lookahead = `{`]</emu-grammar> is *"$"*.
+          </li>
+          <li>
+            The TV of <emu-grammar>CookStringsCharacter :: ```</emu-grammar> is *"`"*.
+          </li>
+          </ul>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-split-template-into-block-lines" type="abstract operation">
+    <h1>
+      SplitTemplateIntoBlockLines (
+        _template_: an ECMAScript language value,
+        _len_: a non-negative integer,
+      ): either a normal completion containing a List of Lists of Records with fields [[String]] (a String), [[Newline]] (a String), and [[LineEndsWithSubstitution]] (a Boolean), or a throw completion
+    </h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. Let _blocks_ be a new empty List.
+      1. Let _index_ be 0.
+      1. Repeat, while _index_ &lt; _len_,
+        1. Let _str_ be ? Get(_template_, ! ToString(𝔽(_index_))).
+        1. If Type(_str_) is String, then
+          1. Let _lines_ be a new empty List.
+          1. Let _strLen_ be the length of _str_.
+          1. Let _start_ be 0.
+          1. Let _i_ be 0.
+          1. Repeat, while _i_ &lt; _strLen_,
+            1. Let _c_ be the substring of _str_ from _i_ to _i_ + 1.
+            1. Let _n_ be 1.
+            1. If _c_ is *"\r"* and _i_ + 1 &lt; _strLen_, then
+              1. Let _next_ be the substring of _str_ from _i_ + 1 to _i_ + 2.
+              1. If _next_ is *"\n"*, set _n_ to 2.
+            1. If _c_ is matched by |LineTerminator|, then
+              1. Let _substr_ be the substring of _str_ from _start_ to _i_.
+              1. Let _newline_ be the substring of _str_ from _i_ to _i_ + _n_.
+              1. Append the Record { [[String]]: _substr_, [[Newline]]: _newline_, [[LineEndsWithSubstitution]]: *false* } to _lines_.
+              1. Set _start_ to _i_ + _n_.
+            1. Set _i_ to _i_ + _n_.
+          1. Let _tail_ be the substring of _str_ from _start_ to _strLen_.
+          1. If _index_ + 1 &lt; _len_, let _lineEndsWithSubstitution_ be *true*; else let _lineEndsWithSubstitution_ be *false*.
+          1. Append the Record { [[String]]: _tail_, [[Newline]]: *""*, [[LineEndsWithSubstitution]]: _lineEndsWithSubstitution_ } to _lines_.
+          1. Append _lines_ to _blocks_.
+        1. Else,
+          1. Throw a *TypeError* exception.
+        1. Set _index_ to _index_ + 1.
+      1. Return _blocks_.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-empty-white-space-lines" type="abstract operation">
+    <h1>
+      EmptyWhiteSpaceLines (
+        _blocks_: a List of Lists of Records with fields [[String]] (a String), [[Newline]] (a String), and [[LineEndsWithSubstitution]] (a Boolean),
+      )
+    </h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. For each element _lines_ of _blocks_, do
+        1. Let _lineCount_ be the length of _lines_.
+        1. NOTE: We start _i_ at 1 because the first line of every block is either (a) the opening line which must be empty or (b) the continuation of a line directly after a template substitution. Neither can be the start of a content line.
+        1. Let _i_ be 1.
+        1. Repeat, while _i_ &lt; _lineCount_,
+          1. Let _line_ be _lines_[_i_].
+          1. If _line_.[[LineEndsWithSubstitution]] is *false* and IsAllWhiteSpace(_line_.[[String]]) is *true*, then
+            1. NOTE: Lines which contain only whitespace are emptied in the output. Their trailing newline is not removed, so the line is maintained.
+            1. Set _line_.[[String]] to *""*.
+          1. Set _i_ to _i_ + 1.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-remove-opening-and-closing-lines" type="abstract operation">
+    <h1>
+      RemoveOpeningAndClosingLines (
+        _blocks_: a List of Lists of Records with fields [[String]] (a String), [[Newline]] (a String), and [[LineEndsWithSubstitution]] (a Boolean),
+        _len_: a non-negative integer,
+      )
+    </h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. Assert: _blocks_ contains at least 1 element, because we know the length of the template strings array is at least 1.
+      1. Let _firstBlock_ be _blocks_[0].
+      1. Assert: _firstBlock_ is not empty, because SplitTemplateIntoBlockLines guarantees there is at least 1 line per block.
+      1. Let _lineCount_ be the length of _firstBlock_.
+      1. If _lineCount_ = 1, then
+        1. NOTE: The opening line is required to contain a trailing newline, and checking that there are at least 2 elements in _lines_ ensures it. If it does not, either the opening line and the closing line are the same line, or the opening line contains a substitution.
+        1. Throw a *TypeError* exception.
+      1. Let _openingLine_ be _firstBlock_[0].
+      1. If _openingLine_.[[String]] is not empty, then
+        1. NOTE: The opening line must not contain code units besides the trailing newline.
+        1. Throw a *TypeError* exception.
+      1. NOTE: Setting _openingLine_.[[Newline]] removes the opening line from the output.
+      1. Set _openingLine_.[[Newline]] to *""*.
+      1. Let _lastBlock_ be _blocks_[_len_ - 1].
+      1. Assert: _lastBlock_ is not empty, because SplitTemplateIntoBlockLines guarantees there is at least 1 line per block.
+      1. Set _lineCount_ to the length of _lastBlock_.
+      1. If _lineCount_ = 1, then
+        1. NOTE: The closing line is required to be preceded by a newline, and checking that there are at least 2 elements in _lines_ ensures it. If it does not, either the opening line and the closing line are the same line, or the closing line contains a substitution.
+        1. Throw a *TypeError* exception.
+      1. Let _closingLine_ be _lastBlock_[_lineCount_ - 1].
+      1. If _closingLine_.[[String]] is not the empty String, then
+        1. NOTE: The closing line may only contain whitespace. We've already performed EmptyWhiteSpaceLines, so if the line is not empty now, it contained some non-whitespace character.
+        1. Throw a *TypeError* exception.
+      1. Let _preceding_ be _lastBlock_[_lineCount_ - 2].
+      1. NOTE: Setting _closingLine_.[[String]] and _preceding_.[[Newline]] removes the closing line from the output.
+      1. Set _closingLine_.[[String]] to *""*.
+      1. Set _preceding_.[[Newline]] to *""*.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-determine-common-leading-indentation" type="abstract operation">
+    <h1>
+      DetermineCommonLeadingIndentation (
+        _blocks_: a List of Lists of Records with fields [[String]] (a String), [[Newline]] (a String), and [[LineEndsWithSubstitution]] (a Boolean),
+      ): a String
+    </h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. Let _common_ be ~empty~.
+      1. For each element _lines_ of _blocks_, do
+        1. Let _lineCount_ be the length of _lines_.
+        1. NOTE: We start _i_ at 1 because because the first line of every block is either (a) the opening line which must be empty or (b) the continuation of a line directly after a template substitution. Neither can be the start of a content line.
+        1. Let _i_ be 1.
+        1. Repeat, while _i_ &lt; _lineCount_,
+          1. Let _line_ be _lines_[_i_].
+          1. NOTE: Lines which contain substitutions are considered when finding the common indentation. Lines which contain only whitespace have already been emptied.
+          1. If _line_.[[LineEndsWithSubstitution]] is *true* or _line_.[[String]] is not the empty String, then
+            1. Let _leading_ be LeadingWhiteSpaceSubstring(_line_.[[String]]).
+            1. If _common_ is ~empty~, then
+              1. Set _common_ to _leading_.
+            1. Else,
+              1. Set _common_ to LongestMatchingLeadingSubstring(_common_, _leading_).
+          1. Set _i_ to _i_ + 1.
+      1. Assert: _common_ is not ~empty~, because SplitTemplateIntoBlockLines guarantees there is at least 1 line per block, and we know the length of the template strings array is at least 1.
+      1. Return _common_.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-leading-white-space-substring" type="abstract operation">
+    <h1>
+      LeadingWhiteSpaceSubstring (
+        _str_: a String,
+      ): a String
+    </h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. Let _len_ be the length of _str_.
+      1. Let _i_ be 0.
+      1. Repeat, while _i_ &lt; _len_,
+        1. Let _c_ be the substring of _str_ from _i_ to _i_ + 1.
+        1. If _c_ does not match |WhiteSpace|, then
+          1. Return the substring of _str_ from 0 to _i_.
+        1. Set _i_ to _i_ + 1.
+      1. Return _str_.
+    </emu-alg>
+    <p>When determining whether a Unicode code point is in Unicode general category &ldquo;Space_Separator&rdquo; (&ldquo;Zs&rdquo;), code unit sequences are interpreted as UTF-16 encoded code point sequences as specified in <emu-xref href="#sec-ecmascript-language-types-string-type"></emu-xref>.</p>
+  </emu-clause>
+
+  <emu-clause id="sec-is-all-white-space" type="abstract operation">
+    <h1>
+      IsAllWhiteSpace (
+        _str_: a String,
+      ): a Boolean
+    </h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. Let _trimmed_ be ! TrimString(_str_, ~start~).
+      1. If _trimmed_ is the empty String, return *true*.
+      1. Return *false*.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-longest-matching-leading-substring" type="abstract operation">
+    <h1>
+      LongestMatchingLeadingSubstring (
+        _a_: a String,
+        _b_: a String,
+      ): a String
+    </h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. Let _aLen_ be the length of _a_.
+      1. Let _bLen_ be the length of _b_.
+      1. Let _len_ be min(_aLen_, _bLen_).
+      1. Let _i_ be 0.
+      1. Repeat, while _i_ &lt; _len_,
+        1. Let _aChar_ be the substring of _a_ from _i_ to _i_ + 1.
+        1. Let _bChar_ be the substring of _b_ from _i_ to _i_ + 1.
+        1. If _aChar_ is not _bChar_, then
+          1. Return the substring of _a_ from 0 to _i_.
+        1. Set _i_ to _i_ + 1.
+      1. Return the substring of _a_ from 0 to _len_.
+    </emu-alg>
+  </emu-clause>
+
+  </ins>
+
+  <emu-clause id="sec-cook-template-strings-array" type="abstract operation">
+    <h1>
+      CookTemplateStringsArray (
+        _template_: an ECMAScript language value,
+        _substitutions_: a List of ECMAScript language values,
+        _prep_: ~cooked~ or ~raw~,
+      ): either a normal completion containing a String or a throw completion
+    </h1>
+    <dl class="header">
+    </dl>
+    <emu-note>
+      <p>This abstract operation merges the behaviour of `String.raw` with the <a href="https://github.com/tc39/proposal-string-cooked">String.cooked proposal</a>.</p>
+    </emu-note>
+    <emu-alg>
+      1. Let _substitutionCount_ be the number of elements in _substitutions_.
+      1. Let _cooked_ be ? ToObject(_template_).
+      1. If _prep_ is ~cooked~, let _literals_ be _cooked_; else let _literals_ be ? ToObject(? Get(_cooked_, *"raw"*)).
+      1. Let _literalCount_ be ? LengthOfArrayLike(_literals_).
+      1. If _literalCount_ ≤ 0, return the empty String.
+      1. Let _R_ be the empty String.
+      1. Let _nextIndex_ be 0.
+      1. Repeat,
+        1. Let _nextLiteralVal_ be ? Get(_literals_, ! ToString(𝔽(_nextIndex_))).
+        1. Let _nextLiteral_ be ? ToString(_nextLiteralVal_).
+        1. Set _R_ to the string-concatenation of _R_ and _nextLiteral_.
+        1. If _nextIndex_ + 1 = _literalCount_, return _R_.
+        1. If _nextIndex_ &lt; _substitutionCount_, then
+          1. Let _nextSubVal_ be _substitutions_[_nextIndex_].
+          1. Let _nextSub_ be ? ToString(_nextSubVal_).
+          1. Set _R_ to the string-concatenation of _R_ and _nextSub_.
+        1. Set _nextIndex_ to _nextIndex_ + 1.
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-code-realms">
+  <h1>Realms</h1>
+  <p>Before it is evaluated, all ECMAScript code must be associated with a <dfn id="realm" variants="realms">realm</dfn>. Conceptually, a realm consists of a set of intrinsic objects, an ECMAScript global environment, all of the ECMAScript code that is loaded within the scope of that global environment, and other associated state and resources.</p>
+  <p>A realm is represented in this specification as a <dfn id="realm-record" variants="Realm Records">Realm Record</dfn> with the fields specified in <emu-xref href="#table-realm-record-fields"></emu-xref>:</p>
+  <emu-table id="table-realm-record-fields" caption="Realm Record Fields" oldids="table-21">
+    <table>
+      <tr>
+        <th>
+          Field Name
+        </th>
+        <th>
+          Value
+        </th>
+        <th>
+          Meaning
+        </th>
+      </tr>
+      <tr>
+        <td>
+          [[Intrinsics]]
+        </td>
+        <td>
+          a Record whose field names are intrinsic keys and whose values are objects
+        </td>
+        <td>
+          The intrinsic values used by code associated with this realm
+        </td>
+      </tr>
+      <tr>
+        <td>
+          [[GlobalObject]]
+        </td>
+        <td>
+          an Object or *undefined*
+        </td>
+        <td>
+          The global object for this realm
+        </td>
+      </tr>
+      <tr>
+        <td>
+          [[GlobalEnv]]
+        </td>
+        <td>
+          a Global Environment Record
+        </td>
+        <td>
+          The global environment for this realm
+        </td>
+      </tr>
+      <tr>
+        <td>
+          [[TemplateMap]]
+        </td>
+        <td>
+          a List of Record { [[Site]]: Parse Node, [[Array]]: Object }
+        </td>
+        <td>
+          <p>Template objects are canonicalized separately for each realm using its Realm Record's [[TemplateMap]]. Each [[Site]] value is a Parse Node that is a |TemplateLiteral|. The associated [[Array]] value is the corresponding template object that is passed to a tag function.</p>
+          <emu-note>Once a Parse Node becomes unreachable, the corresponding [[Array]] is also unreachable, and it would be unobservable if an implementation removed the pair from the [[TemplateMap]] list.</emu-note>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          [[HostDefined]]
+        </td>
+        <td>
+          anything (default value is *undefined*)
+        </td>
+        <td>
+          Field reserved for use by hosts that need to associate additional information with a Realm Record.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <ins>[[DedentMap]]</ins>
+        </td>
+        <td>
+          <ins>a List of Record { [[Raw]]: Object, [[Dedented]]: Object }</ins>
+        </td>
+        <td>
+          <ins>
+            The [[DedentMap]] ensures template tag functions wrapped with `String.dedent` see consistent object identity for a given input template. The [[Raw]] key weakly holds the value of a template object's raw property. The associated [[Dedented]] value is the result of performing dedenting on that raw value.
+          </ins>
+        </td>
+      </tr>
+    </table>
+  </emu-table>
+
+  <emu-clause id="sec-createrealm" type="abstract operation">
+    <h1>CreateRealm ( ): a Realm Record</h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. Let _realmRec_ be a new Realm Record.
+      1. Perform CreateIntrinsics(_realmRec_).
+      1. Set _realmRec_.[[GlobalObject]] to *undefined*.
+      1. Set _realmRec_.[[GlobalEnv]] to *undefined*.
+      1. Set _realmRec_.[[TemplateMap]] to a new empty List.
+      1. <ins>Set _realmRec_.[[DedentMap]] to a new empty List.</ins>
+      1. Return _realmRec_.
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="proposal-weakref-execution">
+  <h1>Execution <emu-xref href="#sec-weakref-execution"></emu-xref></h1>
+
+  <p>At any time, if a set of objects _S_ is not live, an ECMAScript implementation may perform the following steps atomically:</p>
+
+  <emu-alg>
+    1. For each element _obj_ of _S_, do
+      1. For each WeakRef _ref_ such that _ref_.[[WeakRefTarget]] is _obj_, do
+        1. Set _ref_.[[WeakRefTarget]] to ~empty~.
+      1. For each FinalizationRegistry _fg_ such that _fg_.[[Cells]] contains a Record _cell_ such that _cell_.[[WeakRefTarget]] is _obj_, do
+        1. Set _cell_.[[WeakRefTarget]] to ~empty~.
+        1. Optionally, perform HostEnqueueFinalizationRegistryCleanupJob(_fg_).
+      1. For each WeakMap _map_ such that _map_.[[WeakMapData]] contains a Record _r_ such that _r_.[[Key]] is _obj_, do
+        1. Set _r_.[[Key]] to ~empty~.
+        1. Set _r_.[[Value]] to ~empty~.
+      1. For each WeakSet _set_ such that _set_.[[WeakSetData]] contains _obj_, do
+        1. Replace the element of _set_.[[WeakSetData]] whose value is _obj_ with an element whose value is ~empty~.
+      1. <ins>Let _realm_ be the current Realm Record.</ins>
+      1. <ins>If _realm_.[[DedentMap]] contains a Record _r_ such that _r_.[[Raw]] is _obj_, then</ins>
+        1. <ins>Set _r_.[[Raw]] to ~empty~.</ins>
+        1. <ins>Set _r_.[[Dedented]] to ~empty~.</ins>
+  </emu-alg>
+
+  <emu-note>
+    <p>Together with the definition of liveness, this clause prescribes legal optimizations that an implementation may apply regarding WeakRefs.</p>
+
+    <p>It is possible to access an object without observing its identity. Optimizations such as dead variable elimination and scalar replacement on properties of non-escaping objects whose identity is not observed are allowed. These optimizations are thus allowed to observably empty WeakRefs that point to such objects.</p>
+
+    <p>On the other hand, if an object's identity is observable, and that object is in the [[WeakRefTarget]] internal slot of a WeakRef, optimizations such as rematerialization that observably empty the WeakRef are prohibited.</p>
+
+    <p>Because calling HostEnqueueFinalizationRegistryCleanupJob is optional, registered objects in a FinalizationRegistry do not necessarily hold that FinalizationRegistry live. Implementations may omit FinalizationRegistry callbacks for any reason, e.g., if the FinalizationRegistry itself becomes dead, or if the application is shutting down.</p>
+  </emu-note>
+  <emu-note>
+    <p>Implementations are not obligated to empty WeakRefs for maximal sets of non-live objects.</p>
+    <p>If an implementation chooses a non-live set _S_ in which to empty WeakRefs, it must empty WeakRefs for all objects in _S_ simultaneously. In other words, an implementation must not empty a WeakRef pointing to an object _obj_ without emptying out other WeakRefs that, if not emptied, could result in an execution that observes the Object value of _obj_.</p>
+  </emu-note>
+</emu-clause>

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-regexp-named-groups undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-regexp-named-groups",
+    "repo": "https://github.com/tc39/proposal-regexp-named-groups",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-regexp-named-groups",
+    "startTime": "2024-07-18T18:17:56.155Z",
+    "endTime": "2024-07-18T18:17:57.080Z",
+    "childProcessPid": 23253,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-regexp-named-groups--23253",
+    "executionErrors": []
+}

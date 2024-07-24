@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-optional-chaining undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-optional-chaining",
+    "repo": "https://github.com/tc39/proposal-optional-chaining",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-optional-chaining",
+    "startTime": "2024-07-18T18:17:30.553Z",
+    "endTime": "2024-07-18T18:17:31.447Z",
+    "childProcessPid": 22658,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-optional-chaining--22658",
+    "executionErrors": []
+}

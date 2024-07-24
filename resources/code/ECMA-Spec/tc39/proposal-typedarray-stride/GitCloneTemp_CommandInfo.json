@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-typedarray-stride undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-typedarray-stride",
+    "repo": "https://github.com/tc39/proposal-typedarray-stride",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-typedarray-stride",
+    "startTime": "2024-07-18T18:18:52.208Z",
+    "endTime": "2024-07-18T18:18:53.258Z",
+    "childProcessPid": 24226,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-typedarray-stride--24226",
+    "executionErrors": []
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<meta charset="utf8" />
+
+<emu-clause number="12" id="sec-ecmascript-language-lexical-grammar">
+  <h1>ECMAScript Language: Lexical Grammar</h1>
+  <emu-clause number="7" id="sec-punctuators">
+    <h1>Punctuators</h1>
+    <emu-grammar type="definition">
+      Punctuator ::
+        OptionalChainingPunctuator
+        OtherPunctuator
+
+      OptionalChainingPunctuator ::
+        `?.` [lookahead &lt;! DecimalDigit]
+
+      OtherPunctuator :: one of
+        `{` `(` `)` `[` `]`
+        <ins>`#{` `#[`</ins>
+        `.` `...` `;` `,`
+        `&lt;` `&gt;` `&lt;=` `&gt;=`
+        `==` `!=` `===` `!==`
+        `+` `-` `*` `%` `**`
+        `++` `--`
+        `&lt;&lt;` `&gt;&gt;` `&gt;&gt;&gt;`
+        `&amp;` `|` `^`
+        `!` `~`
+        `&amp;&amp;` `||` `??`
+        `?` `:`
+        `=` `+=` `-=` `*=` `%=` `**=` `&lt;&lt;=` `&gt;&gt;=` `&gt;&gt;&gt;=` `&amp;=` `|=` `^=`
+        `=&gt;`
+
+      DivPunctuator ::
+        `/`
+        `/=`
+
+      RightBracePunctuator ::
+        `}`
+    </emu-grammar>
+  </emu-clause>
+</emu-clause>

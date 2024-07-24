@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-smart-unit-preferences undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-smart-unit-preferences",
+    "repo": "https://github.com/tc39/proposal-smart-unit-preferences",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-smart-unit-preferences",
+    "startTime": "2024-07-18T18:18:17.139Z",
+    "endTime": "2024-07-18T18:18:17.934Z",
+    "childProcessPid": 23695,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-smart-unit-preferences--23695",
+    "executionErrors": []
+}

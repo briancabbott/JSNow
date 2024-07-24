@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-stable-formatting undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-stable-formatting",
+    "repo": "https://github.com/tc39/proposal-stable-formatting",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-stable-formatting",
+    "startTime": "2024-07-18T18:18:18.938Z",
+    "endTime": "2024-07-18T18:18:19.615Z",
+    "childProcessPid": 23739,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-stable-formatting--23739",
+    "executionErrors": []
+}

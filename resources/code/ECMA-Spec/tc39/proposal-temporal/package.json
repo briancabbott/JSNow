@@ -1,0 +1,64 @@
+{
+  "private": true,
+  "name": "proposal-temporal",
+  "version": "1.0.0",
+  "description": "Provides standard objects and functions for working with dates and times.",
+  "engines": {
+    "node": ">=12.16.0"
+  },
+  "main": "polyfill/lib/index.mjs",
+  "devDependencies": {
+    "@tc39/ecma262-biblio": "=2.1.2735",
+    "@tc39/ecma402-biblio": "=2.1.1097",
+    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/parser": "^6.18.1",
+    "ecmarkup": "^18.1.2",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "mkdirp": "^3.0.1",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3"
+  },
+  "scripts": {
+    "test": "cd polyfill && npm install && npm test && npm run test-cookbook && npm run test262",
+    "codecov:test262": "cd polyfill && npm install && npm run codecov:test262",
+    "test-cookbook": "cd polyfill && npm install && npm run test-cookbook",
+    "test-demitasse": "cd polyfill && npm install && npm run test",
+    "test262": "cd polyfill && npm install && npm run test262",
+    "lint": "eslint . --ext js,mjs,.d.ts --max-warnings 0 --cache",
+    "postlint": "npm run tscheck",
+    "tscheck": "tsc polyfill/index.d.ts --noEmit --strict --lib ESNext",
+    "build:polyfill": "cd polyfill && npm install && npm run build",
+    "build:docs": "cd docs && npm install && npm run build",
+    "prebuild:spec": "mkdirp out",
+    "build:spec": "ecmarkup --lint-spec --strict --load-biblio @tc39/ecma262-biblio --load-biblio @tc39/ecma402-biblio spec.html out/index.html",
+    "prebuild": "mkdirp out/docs/assets",
+    "pretty": "eslint . --ext js,mjs,.d.ts --fix",
+    "build": "npm run build:polyfill && npm run build:docs && npm run build:spec",
+    "update": "./update_deps.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/proposal-temporal.git"
+  },
+  "author": "Ujjwal Sharma <usharma@igalia.com>",
+  "license": "BSD-3-Clause",
+  "prettier": {
+    "printWidth": 120,
+    "trailingComma": "none",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "overrides": [
+      {
+        "files": "polyfill/test262/**",
+        "options": {
+          "singleQuote": false
+        }
+      }
+    ]
+  }
+}

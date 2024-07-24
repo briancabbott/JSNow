@@ -1,0 +1,41 @@
+{
+  "name": "proposal-record-tuple",
+  "private": "true",
+  "version": "0.1.0",
+  "description": "Record and Tuple value types for JS",
+  "scripts": {
+    "prebuild:spec": "mkdirp out",
+    "prewatch:spec": "mkdirp out",
+    "build:spec": "ecmarkup --lint-spec --verbose --strict --load-biblio @tc39/ecma262-biblio spec.html out/index.html",
+    "build:cookbook": "node ./scripts/build-static-page.mjs cookbook",
+    "build:tutorial": "node ./scripts/build-static-page.mjs tutorial",
+    "build": "concurrently npm:build:spec npm:build:cookbook npm:build:tutorial",
+    "watch:spec": "ecmarkup --watch --lint-spec --verbose --load-biblio @tc39/ecma262-biblio spec.html out/index.html",
+    "watch:browser": "browser-sync start --server --ss=\"out\" --directory --files=\"out/*.html\"",
+    "watch:cookbook": "node ./scripts/watch-static-page.mjs cookbook",
+    "watch:tutorial": "node ./scripts/watch-static-page.mjs tutorial",
+    "watch": "concurrently npm:watch:spec npm:watch:cookbook npm:watch:tutorial npm:watch:browser"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/proposal-record-tuple.git"
+  },
+  "author": "Robin Ricard <rricard2@bloomberg.net>",
+  "license": "https://tc39.github.io/ecma262/#sec-copyright-and-software-license",
+  "bugs": {
+    "url": "https://github.com/tc39/proposal-record-tuple/issues"
+  },
+  "homepage": "https://github.com/tc39/proposal-record-tuple#readme",
+  "dependencies": {
+    "@tc39/ecma262-biblio": "^2.1.2366",
+    "browser-sync": "^2.27.10",
+    "concurrently": "^5.2.0",
+    "ecmarkup": "^14.1.0",
+    "fs-extra": "^9.0.1",
+    "marked": "^4.0.18",
+    "mkdirp": "^0.5.1"
+  },
+  "overrides": {
+    "nwsapi": "2.2.0"
+  }
+}

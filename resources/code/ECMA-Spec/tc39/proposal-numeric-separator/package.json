@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "scripts": {
+    "test": ":",
+    "build": "mkdir -p docs; ecmarkup --verbose spec.html docs/index.html --css docs/ecmarkup.css --js docs/ecmarkup.js"
+  },
+  "devDependencies": {
+    "@alrra/travis-scripts": "^3.0.1",
+    "ecmarkup": "^3.25.3"
+  }
+}

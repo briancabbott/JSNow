@@ -1,0 +1,88 @@
+{
+  "name": "proposal-temporal",
+  "version": "0.9.0",
+  "description": "Experimental polyfill for the TC39 Temporal proposal",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "browser": "dist/index.umd.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "node --loader ./test/resolve.source.mjs ./test/all.mjs",
+    "test-cookbook": "npm run build && TEST=all npm run test-cookbook-one",
+    "test-cookbook-one": "node --loader ./test/resolve.cookbook.mjs ../docs/cookbook/$TEST.mjs",
+    "test262": "npm run build262 && node runtest262.mjs",
+    "codecov:test262": "./ci_codecov_test262.sh",
+    "build": "rollup -c rollup.config.js --bundleConfigAsCjs",
+    "build262": "TEST262=1 rollup -c rollup.config.js --bundleConfigAsCjs",
+    "prepublishOnly": "npm run build",
+    "playground": "node -r ./lib/init.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/proposal-temporal.git",
+    "directory": "polyfill"
+  },
+  "keywords": [
+    "Calendar",
+    "Date",
+    "DateTime",
+    "Duration",
+    "Instant",
+    "MonthDay",
+    "Polyfill",
+    "TC39",
+    "Temporal",
+    "Time",
+    "Timestamp",
+    "TimeZone",
+    "YearMonth"
+  ],
+  "author": "Philipp Dunkel <pip@pipobscure.com>",
+  "contributors": [
+    "Daniel Ehrenberg",
+    "Jason Williams",
+    "Justin Grant",
+    "Maggie Johnson-Pint",
+    "Matt Johnson-Pint",
+    "Ms2ger",
+    "Philip Chimento",
+    "Philipp Dunkel",
+    "Sasha Pierson",
+    "Shane F. Carr",
+    "Ujjwal Sharma"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tc39/proposal-temporal/issues"
+  },
+  "homepage": "https://tc39.es/proposal-temporal/docs/index.html",
+  "files": [
+    "index.d.ts",
+    "dist",
+    "lib"
+  ],
+  "dependencies": {
+    "big-integer": "^1.6.51",
+    "call-bind": "^1.0.2",
+    "es-abstract": "^1.21.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.1",
+    "@babel/preset-env": "^7.22.4",
+    "@js-temporal/temporal-test262-runner": "js-temporal/temporal-test262-runner#main",
+    "@pipobscure/demitasse": "^1.0.10",
+    "@pipobscure/demitasse-pretty": "^1.0.10",
+    "@pipobscure/demitasse-run": "^1.0.10",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-replace": "^5.0.2",
+    "c8": "^7.14.0",
+    "codecov": "^3.8.2",
+    "rollup": "^3.23.1",
+    "rollup-plugin-node-polyfills": "^0.2.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

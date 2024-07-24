@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-optional-catch-binding undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-optional-catch-binding",
+    "repo": "https://github.com/tc39/proposal-optional-catch-binding",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-optional-catch-binding",
+    "startTime": "2024-07-18T18:17:29.877Z",
+    "endTime": "2024-07-18T18:17:30.552Z",
+    "childProcessPid": 22636,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-optional-catch-binding--22636",
+    "executionErrors": []
+}

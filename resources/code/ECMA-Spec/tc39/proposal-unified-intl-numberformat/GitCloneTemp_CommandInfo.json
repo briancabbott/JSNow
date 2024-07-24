@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-unified-intl-numberformat undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-unified-intl-numberformat",
+    "repo": "https://github.com/tc39/proposal-unified-intl-numberformat",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-unified-intl-numberformat",
+    "startTime": "2024-07-18T18:18:53.259Z",
+    "endTime": "2024-07-18T18:18:54.389Z",
+    "childProcessPid": 24248,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-unified-intl-numberformat--24248",
+    "executionErrors": []
+}

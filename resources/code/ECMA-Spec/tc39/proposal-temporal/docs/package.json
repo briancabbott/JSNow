@@ -1,0 +1,30 @@
+{
+  "name": "tc39-temporal-playground",
+  "version": "1.0.0",
+  "description": "Temporal Proposal Playground",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "node buildDocs.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/proposal-temporal.git"
+  },
+  "keywords": [
+    "Temporal",
+    "TC39",
+    "Playground"
+  ],
+  "author": "Philipp Dunkel <pip@pipobscure.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tc39/proposal-temporal/issues"
+  },
+  "homepage": "https://github.com/tc39/proposal-temporal#readme",
+  "devDependencies": {
+    "marked": "^5.0.4",
+    "mkdirp": "^3.0.1",
+    "prismjs": "^1.29.0"
+  }
+}

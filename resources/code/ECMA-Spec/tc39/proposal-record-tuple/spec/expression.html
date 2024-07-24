@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<meta charset="utf8" />
+
+<emu-clause id="sec-ecmascript-language-expressions">
+  <h1>ECMAScript Language: Expressions</h1>
+  <emu-clause number="2" id="sec-primary-expression">
+    <h1>Primary Expression</h1>
+    <h2>Syntax</h2>
+    <emu-grammar type="definition">
+      PrimaryExpression[Yield, Await] :
+        `this`
+        IdentifierReference[?Yield, ?Await]
+        Literal
+        ArrayLiteral[?Yield, ?Await]
+        ObjectLiteral[?Yield, ?Await]
+        <ins>
+        RecordLiteral[?Yield, ?Await]
+        TupleLiteral[?Yield, ?Await]
+        </ins>
+        FunctionExpression
+        ClassExpression[?Yield, ?Await]
+        GeneratorExpression
+        AsyncFunctionExpression
+        AsyncGeneratorExpression
+        RegularExpressionLiteral
+        TemplateLiteral[?Yield, ?Await, ~Tagged]
+        CoverParenthesizedExpressionAndArrowParameterList[?Yield, ?Await] #parencover
+    </emu-grammar>
+    <emu-clause number="10" id="sec-record-initializer">
+      <h1>Record Initializer</h1>
+      <h2>Syntax</h2>
+      <emu-grammar type="definition">
+        RecordLiteral[Yield, Await] :
+          `#{` `}`
+          `#{` RecordPropertyDefinitionList[?Yield, ?Await] `}`
+          `#{` RecordPropertyDefinitionList[?Yield, ?Await] `,` `}`
+
+        RecordPropertyDefinitionList[Yield, Await] :
+          RecordPropertyDefinition[?Yield, ?Await]
+          RecordPropertyDefinitionList[?Yield, ?Await] `,` RecordPropertyDefinition[?Yield, ?Await]
+
+        RecordPropertyDefinition[Yield, Await] :
+          IdentifierReference[?Yield, ?Await]
+          PropertyName[?Yield, ?Await] `:` AssignmentExpression[+In, ?Yield, ?Await]
+          `...` AssignmentExpression[+In, ?Yield, ?Await]
+      </emu-grammar>
+
+      <emu-clause id="sec-record-initializer-static-semantics-early-errors">
+        <h1>Static Semantics: Early Errors</h1>
+        <emu-grammar>
+          RecordPropertyDefinition :
+            PropertyName `:` AssignmentExpression
+        </emu-grammar>
+        <ul>
+          <li>
+            It is a Syntax Error if PropName of |PropertyName| is *"__proto__"*.
+          </li>
+        </ul>
+      </emu-clause>
+
+      <emu-clause id="sec-record-initializer-runtime-semantics-evaluation" type="sdo">
+        <h1>Runtime Semantics: Evaluation</h1>
+        <emu-grammar>RecordLiteral : `#{` `}`</emu-grammar>
+        <emu-alg>
+          1. Return a new Record value whose [[Fields]] value is an empty List.
+        </emu-alg>
+        <emu-grammar>
+          RecordLiteral :
+            `#{` RecordPropertyDefinitionList `}`
+            `#{` RecordPropertyDefinitionList `,` `}`
+        </emu-grammar>
+        <emu-alg>
+          1. Let _entries_ be an empty List.
+          1. Perform ? RecordPropertyDefinitionEvaluation of |RecordPropertyDefinitionList| with argument _entries_.
+          1. Let _uniqueEntries_ be DeduplicateRecordEntries(_entries_).
+          1. Return CreateRecord(_uniqueEntries_).
+        </emu-alg>
+      </emu-clause>
+
+      <emu-clause id="sec-record-initializer-runtime-semantics-recordpropertydefinitionevaluation" type="sdo">
+        <h1>Runtime Semantics: RecordPropertyDefinitionEvaluation</h1>
+        <p>With parameter _entries_.</p>
+        <emu-grammar>RecordPropertyDefinitionList : RecordPropertyDefinitionList `,` RecordPropertyDefinition</emu-grammar>
+        <emu-alg>
+          1. Perform ? RecordPropertyDefinition of |RecordPropertyDefinitionList| with argument _entries_.
+          1. Return the result of performing RecordPropertyDefinitionEvaluation of |RecordPropertyDefinition| with argument _entries_.
+        </emu-alg>
+        <emu-grammar>RecordPropertyDefinition : `...` AssignmentExpression</emu-grammar>
+        <emu-alg>
+          1. Let _exprValue_ be the result of evaluating |AssignmentExpression|.
+          1. Let _source_ be ? GetValue(_exprValue_).
+          1. If _source_ is *undefined* or *null*, return _entries_.
+          1. Let _from_ be ! ToObject(_source_).
+          1. Let _keys_ be ? _from_.[[OwnPropertyKeys]]().
+          1. For each element _nextKey_ of _keys_ in List order, do
+            1. Let _desc_ be ? _from_.[[GetOwnProperty]](_nextKey_).
+            1. If _desc_ is not *undefined* and _desc_.[[Enumerable]] is *true*, then
+              1. Let _value_ be ? Get(_from_, _nextKey_).
+              1. Perform ? AddPropertyIntoRecordEntriesList(_entries_, _nextKey_, _value_).
+          1. Return _entries_.
+        </emu-alg>
+        <emu-grammar>RecordPropertyDefinition : IdentifierReference</emu-grammar>
+        <emu-alg>
+          1. Let _propName_ be StringValue of |IdentifierReference|.
+          1. Let _exprValue_ be the result of evaluating |IdentifierReference|.
+          1. Let _propValue_ be ? GetValue(_exprValue_).
+          1. Return ? AddPropertyIntoRecordEntriesList(_entries_, _propName_, _propValue_).
+        </emu-alg>
+        <emu-grammar>RecordPropertyDefinition : PropertyName `:` AssignmentExpression</emu-grammar>
+        <emu-alg>
+          1. Let _propKey_ be the result of evaluating |PropertyName|.
+          1. ReturnIfAbrupt(_propKey_).
+          1. If IsAnonymousFunctionDefinition(|AssignmentExpression|) is *true*, then
+            1. Let _propValue_ be ? NamedEvaluation of |AssignmentExpression| with argument _propKey_.
+          1. Else,
+            1. Let _exprValueRef_ be the result of evaluating |AssignmentExpression|.
+            1. Let _propValue_ be ? GetValue(_exprValueRef_).
+          1. Return ? AddPropertyIntoRecordEntriesList(_entries_, _propKey_, _propValue_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+    <emu-clause number="11" id="sec-tuple-initializer">
+      <h1>Tuple Initializer</h1>
+      <h2>Syntax</h2>
+      <emu-grammar type="definition">
+        TupleLiteral[Yield, Await] :
+          `#[` `]`
+          `#[` TupleElementList[?Yield, ?Await] `]`
+          `#[` TupleElementList[?Yield, ?Await] `,` `]`
+
+        TupleElementList[Yield, Await] :
+          AssignmentExpression[+In, ?Yield, ?Await]
+          SpreadElement[?Yield, ?Await]
+          TupleElementList[?Yield, ?Await] `,` AssignmentExpression[+In, ?Yield, ?Await]
+          TupleElementList[?Yield, ?Await] `,` SpreadElement[?Yield, ?Await]
+
+      </emu-grammar>
+
+      <emu-clause id="sec-tuple-accumulation-runtime-semantics-evaluation" type="sdo">
+        <h1>Runtime Semantics: TupleSequenceAccumulation</h1>
+        <p>With parameter _sequence_.</p>
+        <emu-grammar>TupleElementList : AssignmentExpression</emu-grammar>
+        <emu-alg>
+          1. Let _initResult_ be the result of evaluating |AssignmentExpression|.
+          1. Let _initValue_ be ? GetValue(_initResult_).
+          1. Return ? AddValueToTupleSequenceList(_sequence_, _value_).
+        </emu-alg>
+        <emu-grammar>TupleElementList : SpreadElement</emu-grammar>
+        <emu-alg>
+          1. Return the Result of performing TupleSequenceAccumulation for |SpreadElement| with argument _sequence_.
+        </emu-alg>
+        <emu-grammar>TupleElementList : TupleElementList `,` AssignmentExpression</emu-grammar>
+        <emu-alg>
+          1. Perform TupleSequenceAccumulation for |TupleElementList| with argument _sequence_.
+          1. Let _initResult_ be the result of evaluating |AssignmentExpression|.
+          1. Let _initValue_ be ? GetValue(_initResult_).
+          1. Return ? AddValueToTupleSequenceList(_sequence_, _value_).
+        </emu-alg>
+        <emu-grammar>TupleElementList : TupleElementList `,` SpreadElement</emu-grammar>
+        <emu-alg>
+          1. Perform TupleSequenceAccumulation for |TupleElementList| with argument _sequence_.
+          1. Return the Result of performing TupleSequenceAccumulation for |SpreadElement| with argument _sequence_.
+        </emu-alg>
+        <emu-grammar>SpreadElement : `...` AssignmentExpression</emu-grammar>
+        <emu-alg>
+          1. Let _spreadRef_ be the result of evaluating |AssignmentExpression|.
+          1. Let _spreadObj_ be ? GetValue(_spreadRef_).
+          1. Let _iteratorRecord_ be ? GetIterator(_spreadObj_).
+          1. Repeat,
+            1. Let _next_ be ? IteratorStep(_iteratorRecord_).
+            1. If _next_ is *false*, return _sequence_.
+            1. Let _nextValue_ be ? IteratorValue(_next_).
+            1. Let _completion_ be Completion(AddValueToTupleSequenceList(_sequence_, _nextValue_)).
+            1. If _completion_ is an abrupt completion, then
+              1. Return ? IteratorClose(_iteratorRecord_, _completion_).
+        </emu-alg>
+      </emu-clause>
+
+      <emu-clause id="sec-tuple-initializer-runtime-semantics-evaluation" type="sdo">
+        <h1>Runtime Semantics: Evaluation</h1>
+        <emu-grammar>TupleLiteral : `#[` `]`</emu-grammar>
+        <emu-alg>
+          1. Let _sequence_ be an empty List.
+          1. Let _tup_ be a Tuple value whose [[Sequence]] value is _sequence_.
+          1. Return _tup_.
+        </emu-alg>
+        <emu-grammar>
+          TupleLiteral :
+            `#[` TupleElementList `]`
+            `#[` TupleElementList `,` `]`
+        </emu-grammar>
+        <emu-alg>
+          1. Let _sequence_ be an empty List.
+          1. Perform ? TupleSequenceAccumulation for |TupleElementList| with argument _sequence_.
+          1. For each element _value_ in _sequence_, do
+            1. Assert: Type(_value_) is not Object.
+          1. Let _tup_ be a Tuple value whose [[Sequence]] value is _sequence_.
+          1. Return _tup_.
+        </emu-alg>
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause number="5" id="sec-unary-operators">
+    <h1>Unary Operators</h1>
+
+    <emu-clause number="3" id="sec-typeof-operator">
+      <h1>The `typeof` Operator</h1>
+
+      <emu-clause id="sec-typeof-operator-runtime-semantics-evaluation" type="sdo">
+        <h1>Runtime Semantics: Evaluation</h1>
+        <emu-grammar>UnaryExpression : `typeof` UnaryExpression</emu-grammar>
+        <emu-alg>
+          1. Let _val_ be the result of evaluating |UnaryExpression|.
+          1. If Type(_val_) is Reference, then
+            1. If IsUnresolvableReference(_val_) is *true*, return *"undefined"*.
+          1. Set _val_ to ? GetValue(_val_).
+          1. Return a String according to <emu-xref href="#table-35"></emu-xref>.
+        </emu-alg>
+        <emu-table id="table-35" caption="typeof Operator Results">
+          <table>
+            <tbody>
+            <tr>
+              <th>
+                Type of _val_
+              </th>
+              <th>
+                Result
+              </th>
+            </tr>
+            <tr>
+              <td>
+                Undefined
+              </td>
+              <td>
+                *"undefined"*
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Null
+              </td>
+              <td>
+                *"object"*
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Boolean
+              </td>
+              <td>
+                *"boolean"*
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Number
+              </td>
+              <td>
+                *"number"*
+              </td>
+            </tr>
+            <tr>
+              <td>
+                String
+              </td>
+              <td>
+                *"string"*
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Symbol
+              </td>
+              <td>
+                *"symbol"*
+              </td>
+            </tr>
+            <tr>
+              <td>
+                BigInt
+              </td>
+              <td>
+                *"bigint"*
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <ins>Record</ins>
+              </td>
+              <td>
+                <ins>*"record"*</ins>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <ins>Tuple</ins>
+              </td>
+              <td>
+                <ins>*"tuple"*</ins>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Object (does not implement [[Call]])
+              </td>
+              <td>
+                *"object"*
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Object (implements [[Call]])
+              </td>
+              <td>
+                *"function"*
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </emu-table>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause number="10" id="sec-relational-operators">
+    <h1>Relational Operators</h1>
+    <emu-clause id="sec-relational-operators-runtime-semantics-evaluation">
+      <h1>Runtime Semantics: Evaluation</h1>
+
+      <emu-grammar>RelationalExpression : RelationalExpression `in` ShiftExpression</emu-grammar>
+      <emu-alg>
+        1. Let _lref_ be ? Evaluation of |RelationalExpression|.
+        1. Let _lval_ be ? GetValue(_lref_).
+        1. Let _rref_ be ? Evaluation of |ShiftExpression|.
+        1. Let _rval_ be ? GetValue(_rref_).
+        1. <ins>If Type(_rval_) is Record, set _rval_ to ! ToObject(_rval_).</ins>
+        1. <ins>If Type(_rval_) is Tuple, set _rval_ to ! ToObject(_rval_).</ins>
+        1. If Type(_rval_) is not Object, throw a *TypeError* exception.
+        1. Return ? HasProperty(_rval_, ? ToPropertyKey(_lval_)).
+      </emu-alg>
+      <emu-grammar>RelationalExpression : PrivateIdentifier `in` ShiftExpression</emu-grammar>
+      <emu-alg>
+        1. Let _privateIdentifier_ be the StringValue of |PrivateIdentifier|.
+        1. Let _rref_ be ? Evaluation of |ShiftExpression|.
+        1. Let _rval_ be ? GetValue(_rref_).
+        1. <ins>If Type(_rval_) is Record, return *false*.</ins>
+        1. <ins>If Type(_rval_) is Tuple, return *false*.</ins>
+        1. If Type(_rval_) is not Object, throw a *TypeError* exception.
+        1. Let _privateEnv_ be the running execution context's PrivateEnvironment.
+        1. Let _privateName_ be ResolvePrivateIdentifier(_privateEnv_, _privateIdentifier_).
+        1. If PrivateElementFind(_rval_, _privateName_) is not ~empty~, return *true*.
+        1. Return *false*.
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
