@@ -1,0 +1,217 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>org.eclipse.xtext</groupId>
+		<artifactId>org.eclipse.xtext.maven.parent</artifactId>
+		<version>2.36.0-SNAPSHOT</version>
+		<relativePath>../org.eclipse.xtext.maven.parent</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>xtext-maven-plugin</artifactId>
+	<packaging>maven-plugin</packaging>
+	<name>Xtext Maven Plugin</name>
+	<url>http://www.eclipse.org/Xtext/</url>
+
+	<properties>
+		<!-- The local Maven repository for our IT tests -->
+		<localMavenRepositoryPath>${project.basedir}/target/.m2test</localMavenRepositoryPath>
+		<!-- The directory where our IT projects will be copied to run their POMs -->
+		<maven.test.tmpdir>${project.basedir}/target/local-test-dir</maven.test.tmpdir>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-core</artifactId>
+			<version>${maven.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-embedder</artifactId>
+			<version>${maven.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<version>${maven.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-artifact</artifactId>
+			<version>${maven.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugin-tools</groupId>
+			<artifactId>maven-plugin-annotations</artifactId>
+			<version>${maven.version}</version>
+			<scope>provided</scope>
+		</dependency>    
+		<dependency>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext.builder.standalone</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext.ecore</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext.xtext.generator</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext.smap</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.reload4j</groupId>
+			<artifactId>reload4j</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>jmxtools</artifactId>
+					<groupId>com.sun.jdmk</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jmxri</artifactId>
+					<groupId>com.sun.jmx</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jms</artifactId>
+					<groupId>javax.jms</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mail</artifactId>
+					<groupId>javax.mail</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.shared</groupId>
+			<artifactId>maven-verifier</artifactId>
+			<version>1.8.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext.xbase</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Needed by some of our IT projects:
+			In the Maven invoker plugin below, we force the installation of test artifacts
+			so that we are self-contained in ITs concerning our artifacts. -->
+		<dependency>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext.purexbase</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext.testlanguages</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<resources>
+						<resource>
+							<directory>src/test/resources</directory>
+							<filtering>true</filtering>
+						</resource>
+					</resources>
+					<useDefaultDelimiters>false</useDefaultDelimiters>
+					<!-- The default delimiter ${*} must NOT be used, otherwise,
+						properties like ${project.basedir} in our IT projects will be
+						replaced with absolute paths pointing to the original sources,
+						breaking the tests -->
+					<delimiters>
+						<delimiter>@</delimiter>
+					</delimiters>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-plugin-plugin</artifactId>
+				<configuration>
+					<goalPrefix>xtext</goalPrefix>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-invoker-plugin</artifactId>
+				<version>3.5.0</version>
+				<configuration>
+					<extraArtifacts>
+						<!-- our BOM is not a dependency (it's just imported), thus, we must
+							install it explicitly in the local maven repository -->
+						<extraArtifact>org.eclipse.xtext:xtext-dev-bom:${project.version}:pom</extraArtifact>
+						<!-- Force the installation of other artifacts needed by the IT projects,
+							so that we are self-contained in ITs concerning our artifacts.
+							IMPORTANT: we need the JARs so what follows must also be a (test scope)
+							dependency in this POM, see above. -->
+						<extraArtifact>org.eclipse.xtext:org.eclipse.xtext.xbase:${project.version}:jar</extraArtifact>
+						<extraArtifact>org.eclipse.xtext:org.eclipse.xtext.purexbase:${project.version}:jar</extraArtifact>
+						<extraArtifact>org.eclipse.xtext:org.eclipse.xtext.testlanguages:${project.version}:jar</extraArtifact>
+					</extraArtifacts>
+					<localRepositoryPath>${localMavenRepositoryPath}</localRepositoryPath>
+				</configuration>
+				<executions>
+					<execution>
+						<id>install dependencies in local test repo</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>install</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<excludes>
+								<exclude>**/*Test.java</exclude>
+							</excludes>
+							<includes>
+								<include>**/*IT.java</include>
+							</includes>
+							<systemPropertyVariables>
+								<testMavenRepo>${localMavenRepositoryPath}</testMavenRepo>
+								<maven.test.tmpdir>${maven.test.tmpdir}</maven.test.tmpdir>
+							</systemPropertyVariables>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
