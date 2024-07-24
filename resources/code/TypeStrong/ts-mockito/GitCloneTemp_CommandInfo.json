@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/ts-mockito undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/ts-mockito",
+    "repo": "https://github.com/TypeStrong/ts-mockito",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/ts-mockito",
+    "startTime": "2024-07-20T17:33:23.271Z",
+    "endTime": "2024-07-20T17:33:24.946Z",
+    "childProcessPid": 3321,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--ts-mockito--3321",
+    "executionErrors": []
+}

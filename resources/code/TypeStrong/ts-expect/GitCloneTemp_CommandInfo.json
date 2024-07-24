@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/ts-expect undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/ts-expect",
+    "repo": "https://github.com/TypeStrong/ts-expect",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/ts-expect",
+    "startTime": "2024-07-20T17:33:15.629Z",
+    "endTime": "2024-07-20T17:33:16.916Z",
+    "childProcessPid": 3277,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--ts-expect--3277",
+    "executionErrors": []
+}

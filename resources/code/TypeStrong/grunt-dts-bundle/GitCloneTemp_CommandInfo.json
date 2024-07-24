@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/grunt-dts-bundle undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/grunt-dts-bundle",
+    "repo": "https://github.com/TypeStrong/grunt-dts-bundle",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/grunt-dts-bundle",
+    "startTime": "2024-07-20T17:32:20.128Z",
+    "endTime": "2024-07-20T17:32:21.963Z",
+    "childProcessPid": 3144,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--grunt-dts-bundle--3144",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/dts-bundle undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/dts-bundle",
+    "repo": "https://github.com/TypeStrong/dts-bundle",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/dts-bundle",
+    "startTime": "2024-07-20T17:32:10.604Z",
+    "endTime": "2024-07-20T17:32:12.880Z",
+    "childProcessPid": 3077,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--dts-bundle--3077",
+    "executionErrors": []
+}

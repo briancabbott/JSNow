@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/fork-ts-checker-webpack-plugin undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/fork-ts-checker-webpack-plugin",
+    "repo": "https://github.com/TypeStrong/fork-ts-checker-webpack-plugin",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/fork-ts-checker-webpack-plugin",
+    "startTime": "2024-07-20T17:32:12.892Z",
+    "endTime": "2024-07-20T17:32:18.293Z",
+    "childProcessPid": 3099,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--fork-ts-checker-webpack-plugin--3099",
+    "executionErrors": []
+}

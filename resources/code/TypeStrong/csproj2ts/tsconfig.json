@@ -1,0 +1,34 @@
+{
+    "version": "1.6.2",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": true,
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "removeComments": true,
+        "noLib": false,
+        "lib": ["es5"]
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "!./node_modules/**/*.ts"
+    ],
+    "files": [
+        "./csproj2ts.d.ts",
+        "./csproj2ts.ts",
+        "./tests/tests.d.ts",
+        "./tests/tests.ts",
+        "./typings/es6-promise/es6-promise.d.ts",
+        "./typings/lodash/lodash.d.ts",
+        "./typings/node/node.d.ts",
+        "./typings/nodeunit/nodeunit.d.ts",
+        "./typings/semver/semver.d.ts",
+        "./typings/tsd.d.ts",
+        "./typings/xml2js/xml2js.d.ts"
+    ],
+    "exclude": [],
+    "atom": {
+        "rewriteTsconfig": true
+    }
+}

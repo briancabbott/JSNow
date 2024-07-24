@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/ts-loader undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/ts-loader",
+    "repo": "https://github.com/TypeStrong/ts-loader",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/ts-loader",
+    "startTime": "2024-07-20T17:33:16.917Z",
+    "endTime": "2024-07-20T17:33:23.270Z",
+    "childProcessPid": 3299,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--ts-loader--3299",
+    "executionErrors": []
+}

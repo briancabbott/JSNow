@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/fs-fixture-builder undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/fs-fixture-builder",
+    "repo": "https://github.com/TypeStrong/fs-fixture-builder",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/fs-fixture-builder",
+    "startTime": "2024-07-20T17:32:18.306Z",
+    "endTime": "2024-07-20T17:32:20.126Z",
+    "childProcessPid": 3121,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--fs-fixture-builder--3121",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/learn-typescript undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/learn-typescript",
+    "repo": "https://github.com/TypeStrong/learn-typescript",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/learn-typescript",
+    "startTime": "2024-07-20T17:32:33.560Z",
+    "endTime": "2024-07-20T17:32:35.748Z",
+    "childProcessPid": 3233,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--learn-typescript--3233",
+    "executionErrors": []
+}

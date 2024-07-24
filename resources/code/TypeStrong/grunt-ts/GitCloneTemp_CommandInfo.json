@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/grunt-ts undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/grunt-ts",
+    "repo": "https://github.com/TypeStrong/grunt-ts",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/grunt-ts",
+    "startTime": "2024-07-20T17:32:21.965Z",
+    "endTime": "2024-07-20T17:32:29.230Z",
+    "childProcessPid": 3166,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--grunt-ts--3166",
+    "executionErrors": []
+}

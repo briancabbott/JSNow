@@ -1,0 +1,26 @@
+name: Test
+on: [pull_request, push]
+jobs:
+  lint-build:
+    name: "Lint & Build"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node: [ '16.x' ]
+        os: [ ubuntu-latest, macOS-latest ]
+
+    steps:
+      # checkout code
+      - uses: actions/checkout@v2
+      # install node
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      # lint, build, test
+      - run: npm install
+      - run: npm run test:karma
+      - run: npm run test:coverage
+      - run: npm run lint
+      - name: Codecov
+        uses: codecov/codecov-action@v1

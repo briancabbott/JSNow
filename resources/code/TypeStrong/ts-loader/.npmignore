@@ -1,0 +1,17 @@
+.devcontainer
+.vscode
+.test
+examples
+test
+src
+.pnpm-store
+.github
+.dockerignore
+.gitattributes
+.travis.yml
+appveyor.yml
+CONTRIBUTING.md
+Dockerfile
+HISTORY.md
+RELEASING.md
+*.js.map

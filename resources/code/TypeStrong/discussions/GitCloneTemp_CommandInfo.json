@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/discussions undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/discussions",
+    "repo": "https://github.com/TypeStrong/discussions",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/discussions",
+    "startTime": "2024-07-20T17:32:08.652Z",
+    "endTime": "2024-07-20T17:32:10.592Z",
+    "childProcessPid": 3055,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--discussions--3055",
+    "executionErrors": []
+}

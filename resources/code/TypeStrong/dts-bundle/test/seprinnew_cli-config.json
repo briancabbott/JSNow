@@ -1,0 +1,6 @@
+{
+    "prefix": "--",
+    "indent": "\t",
+    "newline": " //$\n",
+    "separator": "#" 
+}

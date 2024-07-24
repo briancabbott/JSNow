@@ -1,0 +1,40 @@
+{
+  "name": "grunt-typedoc",
+  "description": "Grunt plugin to generate TypeScript docs with TypeDoc",
+  "version": "0.2.4",
+  "homepage": "https://github.com/grunt-ts/grunt-typedoc",
+  "author": {
+    "name": "Bart van der Schoor",
+    "url": "https://github.com/Bartvds"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grunt-ts/grunt-typedoc"
+  },
+  "bugs": {
+    "url": "https://github.com/grunt-ts/grunt-typedoc/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "gruntplugin",
+    "typescript",
+    "typedoc"
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "typedoc": "^0.4.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-jshint": "^1.0.0",
+    "recursive-readdir": "^2.0.0"
+  }
+}
