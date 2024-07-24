@@ -1,0 +1,104 @@
+name: Build
+
+on:
+  push:
+    branches: ['*'] # Run on any pushed branch, but not on any pushed tag
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  build:
+    if: github.event_name != 'pull_request' || github.event.pull_request.base.repo.clone_url != github.event.pull_request.head.repo.clone_url
+    strategy:
+      matrix: # 'macos-14' is arm64
+        os: ['ubuntu-22.04', 'macos-14', 'windows-2022']
+        java: [ 17 ]
+        include:
+        - os: ubuntu-22.04
+          java: 21
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: 'Check out repository'
+        uses: actions/checkout@v4
+
+      - name: 'Set up Java ${{ matrix.java }}'
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'temurin'
+
+      - name: 'Cache Maven packages'
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ matrix.java }}-${{ hashFiles('**/pom.xml', '**/*.target') }}
+
+      - name: Set Maven Home environment variable
+        run: echo "MAVEN_WRAPPER_HOME=$(./mvnw --version | grep "Maven home:" | cut -c 13-)" >> "$GITHUB_ENV"
+        if: runner.os != 'Windows'
+      - name: Set Maven Home environment variable on Windows
+        run: echo "MAVEN_WRAPPER_HOME=$(./mvnw --version | grep "Maven home:" | cut -c 13-)" | Out-File -FilePath $env:GITHUB_ENV -Append
+        # In Windows the syntax for setting environment variable is different
+        if: runner.os == 'Windows'
+
+      - name: Build and test
+        uses: coactions/setup-xvfb@v1.0.1
+        with: 
+          run: ./mvnw clean verify "-Dmaven.home=${{ env.MAVEN_WRAPPER_HOME }}" -PuseJenkinsSnapshots -f org.eclipse.xtext.full.releng
+
+      - name: Archive Test Results
+        uses: actions/upload-artifact@v4
+        if: ${{ failure() || cancelled() }}
+        with:
+          name: test-results-${{ runner.os }}
+          path: '**/*.tests/target/surefire-reports'
+      - name: Archive Logs
+        uses: actions/upload-artifact@v4
+        if: ${{ failure() || cancelled() }}
+        with:
+          name: logs-${{ runner.os }}
+          path: '**/*.tests/target/**/*.log'
+
+  build-maven-artifacts:
+    if: github.event_name != 'pull_request' || github.event.pull_request.base.repo.clone_url != github.event.pull_request.head.repo.clone_url
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: 'Check out repository'
+        uses: actions/checkout@v4
+
+      - name: 'Set up Java'
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'temurin'
+
+      - name: 'Cache Maven packages'
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '**/*.target') }}
+
+      - name: Set Maven Home environment variable
+        run: echo "MAVEN_WRAPPER_HOME=$(./mvnw --version | grep "Maven home:" | cut -c 13-)" >> "$GITHUB_ENV"
+
+      - name: Build Maven artifacts
+        run: ./mvnw clean verify "-Dmaven.home=${{ env.MAVEN_WRAPPER_HOME }}" -PuseJenkinsSnapshots -f org.eclipse.xtext.maven.releng
+
+      - name: Archive Test Results
+        uses: actions/upload-artifact@v4
+        if: ${{ failure() || cancelled() }}
+        with:
+          name: test-results-${{ runner.os }}
+          path: '**/target/surefire-reports'
+      - name: Archive Logs
+        uses: actions/upload-artifact@v4
+        if: ${{ failure() || cancelled() }}
+        with:
+          name: logs-${{ runner.os }}
+          path: '**/target/**/*.log'
