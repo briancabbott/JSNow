@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/atom-typescript-examples undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/atom-typescript-examples",
+    "repo": "https://github.com/TypeStrong/atom-typescript-examples",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/atom-typescript-examples",
+    "startTime": "2024-07-20T17:31:40.785Z",
+    "endTime": "2024-07-20T17:32:06.148Z",
+    "childProcessPid": 3011,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--atom-typescript-examples--3011",
+    "executionErrors": []
+}

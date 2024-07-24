@@ -1,0 +1,21 @@
+{
+    "version": "1.4.1",
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "!./node_modules/**/*.ts"
+    ],
+    "files": [
+        "./es6Target.ts"
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    }
+}
