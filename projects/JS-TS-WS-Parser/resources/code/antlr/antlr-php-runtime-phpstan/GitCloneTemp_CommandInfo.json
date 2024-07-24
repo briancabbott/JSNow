@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/antlr/antlr-php-runtime-phpstan undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/antlr-php-runtime-phpstan",
+    "repo": "https://github.com/antlr/antlr-php-runtime-phpstan",
+    "targetPath": "undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/antlr-php-runtime-phpstan",
+    "startTime": "2024-07-19T02:41:31.297Z",
+    "endTime": "2024-07-19T02:41:31.934Z",
+    "childProcessPid": 13721,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--antlr--antlr-php-runtime-phpstan--13721",
+    "executionErrors": []
+}
