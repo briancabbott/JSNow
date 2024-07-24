@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babelify undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babelify",
+    "repo": "https://github.com/babel/babelify",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babelify",
+    "startTime": "2024-07-20T17:49:24.297Z",
+    "endTime": "2024-07-20T17:49:26.800Z",
+    "childProcessPid": 4321,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babelify--4321",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babyquery undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babyquery",
+    "repo": "https://github.com/babel/babyquery",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babyquery",
+    "startTime": "2024-07-20T17:50:09.378Z",
+    "endTime": "2024-07-20T17:50:11.098Z",
+    "childProcessPid": 4366,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babyquery--4366",
+    "executionErrors": []
+}

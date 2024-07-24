@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/broccoli-babel-transpiler undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/broccoli-babel-transpiler",
+    "repo": "https://github.com/babel/broccoli-babel-transpiler",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/broccoli-babel-transpiler",
+    "startTime": "2024-07-20T17:50:11.099Z",
+    "endTime": "2024-07-20T17:50:12.790Z",
+    "childProcessPid": 4388,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--broccoli-babel-transpiler--4388",
+    "executionErrors": []
+}

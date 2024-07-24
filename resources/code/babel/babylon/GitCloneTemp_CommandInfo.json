@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babylon undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babylon",
+    "repo": "https://github.com/babel/babylon",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babylon",
+    "startTime": "2024-07-20T17:49:26.802Z",
+    "endTime": "2024-07-20T17:50:09.366Z",
+    "childProcessPid": 4343,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babylon--4343",
+    "executionErrors": []
+}
