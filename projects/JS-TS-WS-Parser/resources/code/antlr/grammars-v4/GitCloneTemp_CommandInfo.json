@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/antlr/grammars-v4 undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/grammars-v4",
+    "repo": "https://github.com/antlr/grammars-v4",
+    "targetPath": "undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/grammars-v4",
+    "startTime": "2024-07-19T02:42:12.076Z",
+    "endTime": "2024-07-19T02:42:23.230Z",
+    "childProcessPid": 14095,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--antlr--grammars-v4--14095",
+    "executionErrors": []
+}

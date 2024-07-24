@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/antlr/examples-v3 undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/examples-v3",
+    "repo": "https://github.com/antlr/examples-v3",
+    "targetPath": "undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/examples-v3",
+    "startTime": "2024-07-19T02:42:09.341Z",
+    "endTime": "2024-07-19T02:42:11.060Z",
+    "childProcessPid": 14051,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--antlr--examples-v3--14051",
+    "executionErrors": []
+}

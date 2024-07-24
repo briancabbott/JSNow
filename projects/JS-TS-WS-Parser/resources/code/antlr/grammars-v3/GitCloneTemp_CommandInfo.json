@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/antlr/grammars-v3 undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/grammars-v3",
+    "repo": "https://github.com/antlr/grammars-v3",
+    "targetPath": "undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/grammars-v3",
+    "startTime": "2024-07-19T02:42:11.060Z",
+    "endTime": "2024-07-19T02:42:12.075Z",
+    "childProcessPid": 14073,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--antlr--grammars-v3--14073",
+    "executionErrors": []
+}
