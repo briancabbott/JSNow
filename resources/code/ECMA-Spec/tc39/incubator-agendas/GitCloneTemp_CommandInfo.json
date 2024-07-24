@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/incubator-agendas undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/incubator-agendas",
+    "repo": "https://github.com/tc39/incubator-agendas",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/incubator-agendas",
+    "startTime": "2024-07-18T18:14:21.844Z",
+    "endTime": "2024-07-18T18:14:24.383Z",
+    "childProcessPid": 18935,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--incubator-agendas--18935",
+    "executionErrors": []
+}
