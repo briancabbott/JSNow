@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/oven-sh/bun-types undefined\\oven--07-18-2024--ehkHnyFvUznfpx1BRPhBEx/bun-types",
+    "repo": "https://github.com/oven-sh/bun-types",
+    "targetPath": "undefined\\oven--07-18-2024--ehkHnyFvUznfpx1BRPhBEx/bun-types",
+    "startTime": "2024-07-18T19:25:24.790Z",
+    "endTime": "2024-07-18T19:25:44.280Z",
+    "childProcessPid": 30467,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Bun/workingdir/--oven-sh--bun-types--30467",
+    "executionErrors": []
+}

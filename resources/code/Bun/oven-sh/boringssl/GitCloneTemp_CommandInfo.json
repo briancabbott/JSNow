@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/oven-sh/boringssl undefined\\oven--07-18-2024--ehkHnyFvUznfpx1BRPhBEx/boringssl",
+    "repo": "https://github.com/oven-sh/boringssl",
+    "targetPath": "undefined\\oven--07-18-2024--ehkHnyFvUznfpx1BRPhBEx/boringssl",
+    "startTime": "2024-07-18T19:19:49.901Z",
+    "endTime": "2024-07-18T19:21:37.424Z",
+    "childProcessPid": 29946,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Bun/workingdir/--oven-sh--boringssl--29946",
+    "executionErrors": []
+}

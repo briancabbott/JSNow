@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/oven-sh/awesome-bun undefined\\oven--07-18-2024--ehkHnyFvUznfpx1BRPhBEx/awesome-bun",
+    "repo": "https://github.com/oven-sh/awesome-bun",
+    "targetPath": "undefined\\oven--07-18-2024--ehkHnyFvUznfpx1BRPhBEx/awesome-bun",
+    "startTime": "2024-07-18T19:19:44.873Z",
+    "endTime": "2024-07-18T19:19:49.887Z",
+    "childProcessPid": 29926,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Bun/workingdir/--oven-sh--awesome-bun--29926",
+    "executionErrors": []
+}
