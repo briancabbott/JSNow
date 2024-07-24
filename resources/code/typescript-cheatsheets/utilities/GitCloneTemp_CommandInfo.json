@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/typescript-cheatsheets/utilities undefined\\type--07-21-2024--ndj4JwD2pXNEnc4QArrWy2/utilities",
+    "repo": "https://github.com/typescript-cheatsheets/utilities",
+    "targetPath": "undefined\\type--07-21-2024--ndj4JwD2pXNEnc4QArrWy2/utilities",
+    "startTime": "2024-07-21T07:57:40.605Z",
+    "endTime": "2024-07-21T07:57:41.235Z",
+    "childProcessPid": 12251,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--typescript-cheatsheets--utilities--12251",
+    "executionErrors": []
+}

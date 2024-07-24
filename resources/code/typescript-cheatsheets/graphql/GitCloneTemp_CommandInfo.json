@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/typescript-cheatsheets/graphql undefined\\type--07-21-2024--ndj4JwD2pXNEnc4QArrWy2/graphql",
+    "repo": "https://github.com/typescript-cheatsheets/graphql",
+    "targetPath": "undefined\\type--07-21-2024--ndj4JwD2pXNEnc4QArrWy2/graphql",
+    "startTime": "2024-07-21T07:57:32.675Z",
+    "endTime": "2024-07-21T07:57:33.610Z",
+    "childProcessPid": 11961,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--typescript-cheatsheets--graphql--11961",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/typescript-cheatsheets/jobs undefined\\type--07-21-2024--ndj4JwD2pXNEnc4QArrWy2/jobs",
+    "repo": "https://github.com/typescript-cheatsheets/jobs",
+    "targetPath": "undefined\\type--07-21-2024--ndj4JwD2pXNEnc4QArrWy2/jobs",
+    "startTime": "2024-07-21T07:57:33.611Z",
+    "endTime": "2024-07-21T07:57:34.264Z",
+    "childProcessPid": 11991,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--typescript-cheatsheets--jobs--11991",
+    "executionErrors": []
+}

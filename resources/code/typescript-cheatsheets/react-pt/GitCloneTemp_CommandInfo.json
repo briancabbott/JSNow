@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/typescript-cheatsheets/react-pt undefined\\type--07-21-2024--ndj4JwD2pXNEnc4QArrWy2/react-pt",
+    "repo": "https://github.com/typescript-cheatsheets/react-pt",
+    "targetPath": "undefined\\type--07-21-2024--ndj4JwD2pXNEnc4QArrWy2/react-pt",
+    "startTime": "2024-07-21T07:57:37.235Z",
+    "endTime": "2024-07-21T07:57:37.889Z",
+    "childProcessPid": 12109,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--typescript-cheatsheets--react-pt--12109",
+    "executionErrors": []
+}

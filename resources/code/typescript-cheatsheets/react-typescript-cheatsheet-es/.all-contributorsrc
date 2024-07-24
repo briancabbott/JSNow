@@ -1,0 +1,72 @@
+{
+  "files": [
+    "COLABORADORES.md",
+    "README.md"
+  ],
+  "contributors": [
+    {
+      "login": "laurosilvacom",
+      "name": "Lauro Silva",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/57044804?v=4",
+      "profile": "https://laurosilva.com",
+      "contributions": [
+        "maintenance",
+        "code",
+        "content"
+      ]
+    },
+    {
+      "login": "aromanarguello",
+      "name": "aromanarguello",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/28843542?v=4",
+      "profile": "https://github.com/aromanarguello",
+      "contributions": [
+        "code",
+        "doc",
+        "translation"
+      ]
+    },
+    {
+      "login": "carburo",
+      "name": "Rainer Martínez Fraga",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4054941?v=4",
+      "profile": "https://github.com/carburo",
+      "contributions": [
+        "translation",
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "hlebon",
+      "name": "Hans Garcia",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/18727829?v=4",
+      "profile": "https://hansgarcia.dev/",
+      "contributions": [
+        "translation",
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "dantehemerson",
+      "name": "Dante Calderón",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/18385321?v=4",
+      "profile": "https://dantecalderon.dev",
+      "contributions": [
+        "translation",
+        "code",
+        "doc"
+      ]
+    }
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributorsPerLine": 7,
+  "projectName": "react-typescript-cheatsheet-es",
+  "projectOwner": "typescript-cheatsheets",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
