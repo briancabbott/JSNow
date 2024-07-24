@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/typedoc-action undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/typedoc-action",
+    "repo": "https://github.com/TypeStrong/typedoc-action",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/typedoc-action",
+    "startTime": "2024-07-20T17:33:45.100Z",
+    "endTime": "2024-07-20T17:33:47.570Z",
+    "childProcessPid": 3541,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--typedoc-action--3541",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/typedoc-repros undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/typedoc-repros",
+    "repo": "https://github.com/TypeStrong/typedoc-repros",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/typedoc-repros",
+    "startTime": "2024-07-20T17:34:09.877Z",
+    "endTime": "2024-07-20T17:34:12.470Z",
+    "childProcessPid": 3608,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--typedoc-repros--3608",
+    "executionErrors": []
+}
