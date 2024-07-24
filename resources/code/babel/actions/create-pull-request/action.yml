@@ -1,0 +1,32 @@
+name: Open a Pull Request
+description: |
+  Open a pull request from the given branch
+
+inputs:
+  branch:
+    description: The branch name
+    required: true
+  title:
+    description: The PR title
+    required: true
+  description:
+    description: The PR description
+    required: true
+  labels:
+    decription: PR labels, one for each line
+  token:
+    description: A GitHub access token
+    required: true
+  repository:
+    description: The GitHub owner and repository name. E.g. `babel/website`. By default it is the repo where the workflow is called
+    required: false
+  base:
+    description: The PR base refs. E.g. `main`. By default it is the head of the repo where the workflow is called
+    required: false
+
+runs:
+  using: node20
+  main: main.js
+
+branding:
+  icon: github

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/acorn-to-esprima undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/acorn-to-esprima",
+    "repo": "https://github.com/babel/acorn-to-esprima",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/acorn-to-esprima",
+    "startTime": "2024-07-20T17:46:06.615Z",
+    "endTime": "2024-07-20T17:46:08.670Z",
+    "childProcessPid": 3789,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--acorn-to-esprima--3789",
+    "executionErrors": []
+}

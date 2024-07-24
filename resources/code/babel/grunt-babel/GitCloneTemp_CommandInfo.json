@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/grunt-babel undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/grunt-babel",
+    "repo": "https://github.com/babel/grunt-babel",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/grunt-babel",
+    "startTime": "2024-07-20T17:50:23.080Z",
+    "endTime": "2024-07-20T17:50:24.329Z",
+    "childProcessPid": 4609,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--grunt-babel--4609",
+    "executionErrors": []
+}

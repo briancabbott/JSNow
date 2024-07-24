@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/gobble-babel undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/gobble-babel",
+    "repo": "https://github.com/babel/gobble-babel",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/gobble-babel",
+    "startTime": "2024-07-20T17:50:22.145Z",
+    "endTime": "2024-07-20T17:50:23.079Z",
+    "childProcessPid": 4587,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--gobble-babel--4587",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/generator-babel-boilerplate undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/generator-babel-boilerplate",
+    "repo": "https://github.com/babel/generator-babel-boilerplate",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/generator-babel-boilerplate",
+    "startTime": "2024-07-20T17:50:19.626Z",
+    "endTime": "2024-07-20T17:50:20.848Z",
+    "childProcessPid": 4543,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--generator-babel-boilerplate--4543",
+    "executionErrors": []
+}

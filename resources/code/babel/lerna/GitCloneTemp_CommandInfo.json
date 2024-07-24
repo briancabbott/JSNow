@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/lerna undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/lerna",
+    "repo": "https://github.com/babel/lerna",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/lerna",
+    "startTime": "2024-07-20T17:50:30.490Z",
+    "endTime": "2024-07-20T17:50:39.834Z",
+    "childProcessPid": 4741,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--lerna--4741",
+    "executionErrors": []
+}

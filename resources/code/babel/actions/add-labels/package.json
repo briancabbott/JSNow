@@ -1,0 +1,8 @@
+{
+  "name": "add-labels",
+  "private": true,
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^1.1.0"
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/generator-babel-plugin undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/generator-babel-plugin",
+    "repo": "https://github.com/babel/generator-babel-plugin",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/generator-babel-plugin",
+    "startTime": "2024-07-20T17:50:20.848Z",
+    "endTime": "2024-07-20T17:50:22.144Z",
+    "childProcessPid": 4565,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--generator-babel-plugin--4565",
+    "executionErrors": []
+}
