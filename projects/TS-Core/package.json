@@ -1,0 +1,20 @@
+{
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.3",
+    "typescript": "^5.6.0-dev.20240721"
+  },
+  "name": "ts-core",
+  "version": "1.0.0",
+  "description": "TypeScript core constructs, libs, tools, etc.",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC", 
+  "files": [
+    "src"
+  ]
+}
