@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/test262 undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/test262",
+    "repo": "https://github.com/tc39/test262",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/test262",
+    "startTime": "2024-07-18T18:19:08.676Z",
+    "endTime": "2024-07-18T18:19:49.937Z",
+    "childProcessPid": 24578,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--test262--24578",
+    "executionErrors": []
+}
