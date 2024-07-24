@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel",
+    "repo": "https://github.com/babel/babel",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel",
+    "startTime": "2024-07-20T17:46:13.799Z",
+    "endTime": "2024-07-20T17:48:19.174Z",
+    "childProcessPid": 3855,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel--3855",
+    "executionErrors": []
+}
