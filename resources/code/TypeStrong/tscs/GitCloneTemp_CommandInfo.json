@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/tscs undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/tscs",
+    "repo": "https://github.com/TypeStrong/tscs",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/tscs",
+    "startTime": "2024-07-20T17:33:32.062Z",
+    "endTime": "2024-07-20T17:33:33.659Z",
+    "childProcessPid": 3431,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--tscs--3431",
+    "executionErrors": []
+}

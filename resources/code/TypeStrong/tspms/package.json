@@ -1,0 +1,85 @@
+{
+  "name": "tspms",
+  "version": "0.1.0-beta.1",
+  "description": "An abstraction on top TypeScript language service, that let you consume it in the context of a project.",
+  "homepage": "https://github.com/TypeStrong/tspms",
+  "author": "François de Campredon <francois.de.campredon@gmail.com>",
+  "licenses": [{
+    "type": "Apache License 2.0",
+    "url": "https://github.com/TypeStrong/tspms/LICENSE.txt"
+  }],
+  "keywords": [
+    "TypeScript",
+    "language",
+    "service",
+    "editor"
+  ],
+  "bugs": {
+    "url": "https://github.com/TypeStrong/tspms/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TypeStrong/tspms.git"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "grunt"
+  },
+  "dependencies": {
+    "minimatch": "^1.0.0",
+    "typescript": "^1.4.1"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-exec": "^0.4.6",
+    "grunt-typescript": "^0.6.1",
+    "jest-cli": "^0.2.1",
+    "minimist": "^1.1.0",
+    "promises-aplus-tests": "*"
+  },
+  "jest": {
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/built/promise.js",
+      "assert",
+      "buffer",
+      "child_process",
+      "cluster",
+      "console",
+      "constants",
+      "crypto",
+      "dgram",
+      "dns",
+      "domain",
+      "events",
+      "freelist",
+      "fs",
+      "http",
+      "https",
+      "module",
+      "net",
+      "os",
+      "path",
+      "punycode",
+      "querystring",
+      "readline",
+      "repl",
+      "smalloc",
+      "stream",
+      "string_decoder",
+      "sys",
+      "timers",
+      "tls",
+      "tty",
+      "url",
+      "util",
+      "vm",
+      "zlib"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      ".*Mock.js"
+    ]
+  }
+}

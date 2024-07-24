@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/tspms undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/tspms",
+    "repo": "https://github.com/TypeStrong/tspms",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/tspms",
+    "startTime": "2024-07-20T17:33:35.134Z",
+    "endTime": "2024-07-20T17:33:36.355Z",
+    "childProcessPid": 3475,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--tspms--3475",
+    "executionErrors": []
+}

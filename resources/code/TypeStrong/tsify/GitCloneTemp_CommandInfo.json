@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/tsify undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/tsify",
+    "repo": "https://github.com/TypeStrong/tsify",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/tsify",
+    "startTime": "2024-07-20T17:33:33.660Z",
+    "endTime": "2024-07-20T17:33:35.133Z",
+    "childProcessPid": 3453,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--tsify--3453",
+    "executionErrors": []
+}
