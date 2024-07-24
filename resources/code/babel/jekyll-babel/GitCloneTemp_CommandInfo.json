@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/jekyll-babel undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/jekyll-babel",
+    "repo": "https://github.com/babel/jekyll-babel",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/jekyll-babel",
+    "startTime": "2024-07-20T17:50:26.496Z",
+    "endTime": "2024-07-20T17:50:27.428Z",
+    "childProcessPid": 4675,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--jekyll-babel--4675",
+    "executionErrors": []
+}

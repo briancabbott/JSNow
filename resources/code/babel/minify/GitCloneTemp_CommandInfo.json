@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/minify undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/minify",
+    "repo": "https://github.com/babel/minify",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/minify",
+    "startTime": "2024-07-20T17:50:44.807Z",
+    "endTime": "2024-07-20T17:50:57.423Z",
+    "childProcessPid": 4807,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--minify--4807",
+    "executionErrors": []
+}

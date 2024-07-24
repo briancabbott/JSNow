@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/metalsmith-babel undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/metalsmith-babel",
+    "repo": "https://github.com/babel/metalsmith-babel",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/metalsmith-babel",
+    "startTime": "2024-07-20T17:50:42.723Z",
+    "endTime": "2024-07-20T17:50:44.794Z",
+    "childProcessPid": 4785,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--metalsmith-babel--4785",
+    "executionErrors": []
+}

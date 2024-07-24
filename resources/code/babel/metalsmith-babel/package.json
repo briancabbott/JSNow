@@ -1,0 +1,53 @@
+{
+	"name": "metalsmith-babel",
+	"version": "5.1.0",
+	"description": "Babel plugin for Metalsmith",
+	"repository": "babel/metalsmith-babel",
+	"author": "Shinnosuke Watanabe (https://github.com/shinnn)",
+	"license": "ISC",
+	"scripts": {
+		"pretest": "eslint .",
+		"test": "nyc node test.js"
+	},
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"metalsmith",
+		"metalsmith-plugin",
+		"babel",
+		"transform",
+		"compile",
+		"script",
+		"ecmascript",
+		"typescript",
+		"language",
+		"compatibility",
+		"esnext",
+		"future",
+		"plugin",
+		"harmony"
+	],
+	"dependencies": {
+		"@babel/core": "^7.2.0",
+		"inspect-with-kind": "^1.0.5",
+		"lodash": "^4.17.11"
+	},
+	"devDependencies": {
+		"@babel/plugin-proposal-function-bind": "^7.2.0",
+		"@babel/preset-react": "^7.0.0",
+		"@babel/preset-typescript": "^7.1.0",
+		"@shinnn/eslint-config": "^6.8.4",
+		"eslint": "^5.10.0",
+		"metalsmith": "^2.3.0",
+		"nyc": "^13.1.0",
+		"nyc-config-common": "^1.0.1",
+		"tape": "^4.9.1"
+	},
+	"eslintConfig": {
+		"extends": "@shinnn"
+	},
+	"nyc": {
+		"extends": "nyc-config-common"
+	}
+}
