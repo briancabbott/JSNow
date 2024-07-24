@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/parser_performance undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/parser_performance",
+    "repo": "https://github.com/babel/parser_performance",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/parser_performance",
+    "startTime": "2024-07-20T17:51:00.063Z",
+    "endTime": "2024-07-20T17:51:03.890Z",
+    "childProcessPid": 4851,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--parser_performance--4851",
+    "executionErrors": []
+}

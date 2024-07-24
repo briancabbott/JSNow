@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/podcast.babeljs.io undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/podcast.babeljs.io",
+    "repo": "https://github.com/babel/podcast.babeljs.io",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/podcast.babeljs.io",
+    "startTime": "2024-07-20T17:51:25.278Z",
+    "endTime": "2024-07-20T17:51:27.021Z",
+    "childProcessPid": 4917,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--podcast.babeljs.io--4917",
+    "executionErrors": []
+}

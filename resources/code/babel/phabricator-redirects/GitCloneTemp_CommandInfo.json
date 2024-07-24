@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/phabricator-redirects undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/phabricator-redirects",
+    "repo": "https://github.com/babel/phabricator-redirects",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/phabricator-redirects",
+    "startTime": "2024-07-20T17:51:03.902Z",
+    "endTime": "2024-07-20T17:51:22.912Z",
+    "childProcessPid": 4873,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--phabricator-redirects--4873",
+    "executionErrors": []
+}

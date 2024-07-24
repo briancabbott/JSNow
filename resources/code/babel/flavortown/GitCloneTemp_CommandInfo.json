@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/flavortown undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/flavortown",
+    "repo": "https://github.com/babel/flavortown",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/flavortown",
+    "startTime": "2024-07-20T17:50:18.669Z",
+    "endTime": "2024-07-20T17:50:19.625Z",
+    "childProcessPid": 4521,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--flavortown--4521",
+    "executionErrors": []
+}

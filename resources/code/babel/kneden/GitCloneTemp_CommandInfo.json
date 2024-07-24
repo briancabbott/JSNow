@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/kneden undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/kneden",
+    "repo": "https://github.com/babel/kneden",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/kneden",
+    "startTime": "2024-07-20T17:50:28.767Z",
+    "endTime": "2024-07-20T17:50:30.479Z",
+    "childProcessPid": 4719,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--kneden--4719",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/preset-modules undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/preset-modules",
+    "repo": "https://github.com/babel/preset-modules",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/preset-modules",
+    "startTime": "2024-07-20T17:51:27.021Z",
+    "endTime": "2024-07-20T17:51:28.266Z",
+    "childProcessPid": 4939,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--preset-modules--4939",
+    "executionErrors": []
+}

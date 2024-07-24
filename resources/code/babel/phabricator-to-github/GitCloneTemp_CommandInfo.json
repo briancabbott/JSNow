@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/phabricator-to-github undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/phabricator-to-github",
+    "repo": "https://github.com/babel/phabricator-to-github",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/phabricator-to-github",
+    "startTime": "2024-07-20T17:51:22.913Z",
+    "endTime": "2024-07-20T17:51:25.278Z",
+    "childProcessPid": 4895,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--phabricator-to-github--4895",
+    "executionErrors": []
+}
