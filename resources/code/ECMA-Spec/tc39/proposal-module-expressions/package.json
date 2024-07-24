@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "proposal-js-module-blocks",
+  "scripts": {
+    "start": "npm run build-loose -- --watch",
+    "build": "npm run build-loose -- --strict",
+    "build-loose": "ecmarkup --load-biblio @tc39/ecma262-biblio --verbose spec.emu index.html"
+  },
+  "homepage": "https://github.com/tc39/proposal-js-module-blocks#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/proposal-js-module-blocks.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@tc39/ecma262-biblio": "2.1.2485",
+    "ecmarkup": "^15.0.4"
+  }
+}

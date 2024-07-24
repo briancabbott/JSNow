@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-esm-phase-imports undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-esm-phase-imports",
+    "repo": "https://github.com/tc39/proposal-esm-phase-imports",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-esm-phase-imports",
+    "startTime": "2024-07-18T18:16:20.468Z",
+    "endTime": "2024-07-18T18:16:21.177Z",
+    "childProcessPid": 20652,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-esm-phase-imports--20652",
+    "executionErrors": []
+}

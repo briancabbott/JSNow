@@ -1,0 +1,53 @@
+<!doctype html>
+<meta charset="utf8">
+<pre class="metadata">
+title: Error.isError
+stage: 2
+contributors: Jordan Harband
+</pre>
+
+<emu-clause id="sec-fundamental-objects" number="20">
+	<h1>Fundamental Objects</h1>
+
+	<emu-clause id="sec-error-objects" number="5">
+		<h1>Error Objects</h1>
+
+		<emu-clause id="sec-properties-of-the-error-constructor" number="2">
+			<h1>Properties of the Error Constructor</h1>
+
+			<emu-clause id="sec-error.iserror">
+				<h1>Error.isError ( _arg_ )</h1>
+
+				<emu-alg>
+					1. Return ? IsError(_arg_).
+				</emu-alg>
+			</emu-clause>
+		</emu-clause>
+
+		<emu-clause id="sec-abstract-operations-for-error-objects" number="8">
+			<h1>Abstract Operations for Error Objects</h1>
+
+			<emu-clause id="sec-iserror" type="abstract operation" number="2" class="ins">
+				<h1>
+					IsError(
+						_argument_: an Ecmascript language value,
+					): either a normal completion containing a Boolean, or a throw completion
+				</h1>
+				<dl class="header">
+					<dt>description</dt>
+					<dd>It returns a boolean indicating whether the argument is a built-in Error instance or not.</dd>
+				</dl>
+
+				<emu-alg>
+					1. If _argument_ is not an Object, return *false*.
+					1. If _argument_ has an [[ErrorData]] internal slot, return *true*.
+					1. If _argument_ is a Proxy exotic object, then
+						1. If _argument_.[[ProxyHandler]] is *null*, throw a TypeError exception.
+						1. Let _target_ be _argument_.[[ProxyTarget]].
+						1. Return ? IsError(_target_).
+					1. Return *false*.
+				</emu-alg>
+			</emu-clause>
+		</emu-clause>
+	</emu-clause>
+</emu-clause>

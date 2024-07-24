@@ -1,0 +1,23 @@
+{
+  "name": "proposal-flatmap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "polyfill.js",
+  "dependencies": {
+    "es-abstract": "^1.7.0"
+  },
+  "devDependencies": {
+    "ecmarkup": "^3.11.5",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.7.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ecmarkup proposal.html index.html --verbose --toc",
+    "update-pages": "./publi.sh"
+  },
+  "author": "Brian Terlson",
+  "license": "BSD-2-Clause",
+  "private": true
+}

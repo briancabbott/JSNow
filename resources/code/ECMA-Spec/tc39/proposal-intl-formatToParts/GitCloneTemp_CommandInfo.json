@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-intl-formatToParts undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-formatToParts",
+    "repo": "https://github.com/tc39/proposal-intl-formatToParts",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-formatToParts",
+    "startTime": "2024-07-18T18:16:48.209Z",
+    "endTime": "2024-07-18T18:16:48.827Z",
+    "childProcessPid": 21554,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-intl-formatToParts--21554",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-exponentiation-operator undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-exponentiation-operator",
+    "repo": "https://github.com/tc39/proposal-exponentiation-operator",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-exponentiation-operator",
+    "startTime": "2024-07-18T18:16:22.951Z",
+    "endTime": "2024-07-18T18:16:23.576Z",
+    "childProcessPid": 20718,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-exponentiation-operator--20718",
+    "executionErrors": []
+}

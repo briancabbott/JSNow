@@ -1,0 +1,23 @@
+<!doctype html>
+<meta charset="utf8">
+<link rel="stylesheet" href="./spec.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<script src="./spec.js"></script>
+<pre class="metadata">
+title: Intl Locale Info Proposal
+stage: 3
+location: https://tc39.github.io/proposal-intl-locale-info/
+copyright: true
+contributors: Google, Ecma International
+</pre>
+
+<emu-intro id="sec-intro">
+  <h1>Introduction</h1>
+
+  <p>This proposal exposes Locale information, such as week data (first day in a week, weekend start day, weekend end day, minimun day in the first week), hour cycle used in the locale, measurement system used in the locale.
+  See <a href="https://github.com/tc39/proposal-intl-locale-info/blob/main/README.md">the README</a> for more context.</p>
+</emu-intro>
+
+<emu-biblio href="./biblio.json"></emu-biblio>
+<emu-import href="./locale.html"></emu-import>
+<emu-import href="./annexes.html"></emu-import>

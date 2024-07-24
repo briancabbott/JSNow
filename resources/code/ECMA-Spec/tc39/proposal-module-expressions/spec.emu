@@ -1,0 +1,208 @@
+<!doctype html>
+<meta charset="utf8">
+<link rel="stylesheet" href="./spec.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<pre class="metadata">
+title: Module Expressions
+stage: 2
+contributors: Surma, Dan Ehrenberg, Nicolò Ribaudo
+</pre>
+
+<emu-clause id="sec-ecmascript-language-expressions" number="13">
+  <h1>ECMAScript Language: Expressions</h1>
+
+  <emu-clause id="sec-primary-expression" number="2">
+    <h1>Primary Expression</h1>
+    <h2>Syntax</h2>
+    <emu-grammar type="definition">
+      PrimaryExpression[Yield, Await] :
+        `this`
+        IdentifierReference[?Yield, ?Await]
+        Literal
+        ArrayLiteral[?Yield, ?Await]
+        ObjectLiteral[?Yield, ?Await]
+        FunctionExpression
+        ClassExpression[?Yield, ?Await]
+        GeneratorExpression
+        AsyncFunctionExpression
+        AsyncGeneratorExpression
+        <ins>ModuleExpression</ins>
+        RegularExpressionLiteral
+        TemplateLiteral[?Yield, ?Await, ~Tagged]
+        CoverParenthesizedExpressionAndArrowParameterList[?Yield, ?Await]
+    </emu-grammar>
+
+    <emu-clause id="sec-module-expression" number="10">
+      <h1><ins>Module Expression</ins></h1>
+      <h2>Syntax</h2>
+      <emu-grammar type="definition">
+        ModuleExpression :
+          `module` [no LineTerminator here] `{` ModuleBody? `}`
+      </emu-grammar>
+
+      <emu-clause id="sec-module-expression-runtime-semantics-evaluation" type="sdo">
+        <h1><ins>Runtime Semantics: Evaluation</ins></h1>
+        <emu-grammar>ModuleExpression: `module` `{` `}`</emu-grammar>
+        <emu-alg>
+          1. Let _sourceText_ be the source text matched by |ModuleExpression|.
+          1. Return CreateModuleObject(*""*, _sourceText_).
+        </emu-alg>
+
+        <emu-grammar>ModuleExpression: `module` `{` ModuleBody `}`</emu-grammar>
+        <emu-alg>
+          1. Let _body_ be the source text matched by |ModuleBody|.
+          1. Let _sourceText_ be the source text matched by |ModuleExpression|.
+          1. Return CreateModuleObject(_body_, _sourceText_).
+        </emu-alg>
+
+        <emu-clause id="sec-module-expression-CreateModuleObject" type="abstract operation">
+          <h1>
+            <ins>
+              CreateModuleObject (
+                _body_: a String,
+                _sourceText_: a String,
+              ): a Module Object
+            </ins>
+          </h1>
+          <dl class="header"></dl>
+
+          <emu-alg>
+          1. Let _realm_ be the current Realm Record.
+          1. Let _hostDefined_ be *null*.
+          1. Let _currentScriptOrModule_ be GetActiveScriptOrModule().
+          1. If _currentScriptOrModule_ is not *null*, set _hostDefined_ to _currentScriptOrModule_.[[HostDefined]].
+          1. Let _moduleRecord_ be ParseModule(_body_, _realm_, _hostDefined_).
+          1. Assert: _moduleRecord_ is a Module Record, because parse errors would have been reported when parsing the outer script or module.
+          1. Let _moduleObject_ be OrdinaryObjectCreate(%Module.prototype%, &laquo; [[ModuleRecord]], [[SourceText]] &raquo;).
+          1. Set _moduleObject_.[[ModuleRecord]] to _moduleRecord_.
+          1. Set _moduleObject_.[[SourceText]] to _sourceText_.
+          1. Return _moduleObject_.
+          </emu-alg>
+        </emu-clause>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-left-hand-side-expressions">
+    <h1>Left-Hand-Side Expressions</h1>
+
+    <emu-clause id="sec-import-calls" number="10">
+      <h1>Import Calls</h1>
+
+      <emu-clause id="sec-import-call-runtime-semantics-evaluation" type="sdo">
+        <h1>Runtime Semantics: Evaluation</h1>
+
+        <emu-grammar>ImportCall : `import` `(` AssignmentExpression `)`</emu-grammar>
+        <emu-alg>
+          1. Let _referrer_ be GetActiveScriptOrModule().
+          1. If _referrer_ is *null*, set _referrer_ to the current Realm Record.
+          1. Let _argRef_ be ? Evaluation of |AssignmentExpression|.
+          1. Let _specifier_ be ? GetValue(_argRef_).
+          1. Let _promiseCapability_ be ! NewPromiseCapability(%Promise%).
+          1. <ins>If Type(_specifier_) is Object and _specifier_ has a [[ModuleRecord]] internal slot, then</ins>
+            1. <ins>Perform ContinueDynamicImport(_promiseCapability_, _specifier_.[[ModuleRecord]]).</ins>
+          1. <ins>Else,</ins>
+            1. Let _specifierString_ be Completion(ToString(_specifier_)).
+            1. IfAbruptRejectPromise(_specifierString_, _promiseCapability_).
+            1. Perform HostLoadImportedModule(_referrer_, _specifierString_, ~empty~, _promiseCapability_).
+          1. Return _promiseCapability_.[[Promise]].
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+
+<emu-clause id="sec-ecmascript-language-statements-and-declarations" number="14">
+  <h1>ECMAScript Language: Statements and Declarations</h1>
+  <emu-clause id="sec-expression-statement">
+    <h1>Expression Statement</h1>
+    <h2>Syntax</h2>
+    <emu-grammar type="definition">
+      ExpressionStatement[Yield, Await] :
+        [lookahead &notin; { `{`, `function`, `async` [no LineTerminator here] `function`, `class`, `let` `[`, <ins>`module` [no LineTerminator here] `{`</ins> }] Expression[+In, ?Yield, ?Await] `;`
+    </emu-grammar>
+    <emu-note>
+      <p>An |ExpressionStatement| cannot start with a U+007B (LEFT CURLY BRACKET) because that might make it ambiguous with a |Block|. An |ExpressionStatement| cannot start with the `function` or `class` keywords because that would make it ambiguous with a |FunctionDeclaration|, a |GeneratorDeclaration|, or a |ClassDeclaration|. An |ExpressionStatement| cannot start with `async function` because that would make it ambiguous with an |AsyncFunctionDeclaration| or a |AsyncGeneratorDeclaration|. An |ExpressionStatement| cannot start with the two token sequence `let [` because that would make it ambiguous with a `let` |LexicalDeclaration| whose first |LexicalBinding| was an |ArrayBindingPattern|. <ins>An |ExpressionStatement| cannot start with `module {` for forward compatibility with the <a href="https://github.com/tc39/proposal-module-fragments">Module Declarations</a> proposal.</ins></p>
+    </emu-note>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-ecmascript-language-scripts-and-modules" number="16">
+  <h1>ECMAScript Language: Scripts and Modules</h1>
+
+  <emu-clause id="sec-exports" number="2.3">
+    <h1>Exports</h1>
+    <h2>Syntax</h2>
+    <emu-grammar type="definition">
+      ExportDeclaration :
+        `export` ExportFromClause FromClause `;`
+        `export` NamedExports `;`
+        `export` VariableStatement[~Yield, +Await]
+        `export` Declaration[~Yield, +Await]
+        `export` `default` HoistableDeclaration[~Yield, +Await, +Default]
+        `export` `default` ClassDeclaration[~Yield, +Await, +Default]
+        `export` `default` [lookahead &notin; { `function`, `async` [no LineTerminator here] `function`, `class`, <ins>`module` [no LineTerminator here] `{`</ins> }] AssignmentExpression[+In, ~Yield, +Await] `;`
+        <ins>`export` `default` ModuleExpression `;`</ins>
+    </emu-grammar>
+
+    <emu-note type="editor">
+      <p> The `export` `default` |ModuleExpression| `;` production is necessary for forward-compatibility with the <a href="https://tc39.es/proposal-module-declarations">module declarations</a> proposal, which will replace it with `export` `default` |ModuleDeclaration| `;`.</p>
+      <p>We cannot simply remove the &notin; { `module` `{` } lookahead in the `export` `default` |AssignmentExpression| `;` production, because that would make the following code valid:</p>
+      <pre><code class="javascript">export default module {}.prop;</code></pre>
+    </emu-note>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-fundamental-objects" number="20">
+  <h1>Fundamental Objects</h1>
+
+  <emu-clause id="sec-module-objects" number="6">
+    <h1><ins>Module Objects</ins></h1>
+
+    <emu-clause id="sec-module-constructor">
+      <h1>The Module Constructor</h1>
+      <p>The Module constructor:</p>
+      <ul>
+        <li>is <dfn>%Module%</dfn>.</li>
+        <li>is the initial value of the *"Module"* property of the global object.</li>
+        <li>is not intended to be called as a function and will throw an exception when called in that manner.</li>
+        <li>is not intended to be used with the `new` operator or to be subclassed. It may be used as the value of an `extends` clause of a class definition but a `super` call to the Module constructor will cause an exception.</li>
+      </ul>
+
+      <emu-clause id="sec-module">
+        <h1>Module ( _body_ )</h1>
+        <emu-alg>
+          1. Throw a *TypeError* exception.
+        </emu-alg>
+      </emu-clause>
+
+      <emu-clause id="sec-module.prototype">
+        <h1>Module.prototype</h1>
+        <p>The initial value of `Module.prototype` is the Module prototype object.</p>
+        <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *false* }.</p>
+      </emu-clause>
+    </emu-clause>
+
+    <emu-clause id="sec-properties-of-the-module-prototype-object">
+      <h1>Properties of the Module Prototype Object</h1>
+      <p>The <dfn>Module prototype object</dfn>:</p>
+      <ul>
+        <li>is <dfn>%Module.prototype%</dfn>.</li>
+        <li>has a [[Prototype]] internal slot whose value is %Object.prototype%.</li>
+        <li>is an ordinary object.</li>
+      </ul>
+
+      <emu-clause id="sec-module.prototype.tostring">
+        <h1>Module.prototype.toString ( )</h1>
+        <p>The following steps are taken:</p>
+        <emu-alg>
+          1. Let _module_ be the *this* value.
+          1. If Type(_module_) is Object and has the internal slot [[ModuleRecord]], then
+            1. Return _module_.[[SourceText]].
+          1. Throw a *TypeError* exception.
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>

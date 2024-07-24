@@ -1,0 +1,26 @@
+<html>
+<script src="polyfill/calendars.js"></script>
+<script src="polyfill/currencies.js"></script>
+<script src="polyfill/numberingSystems.js"></script>
+<script src="polyfill/regions.js"></script>
+<script src="polyfill/scripts.js"></script>
+<script src="polyfill/timeZones.js"></script>
+<script src="polyfill/units.js"></script>
+<script>
+function printEnum(name, list) {
+  var frag = "<h2>" + name + "</h2>['" +  list.join("', '") + "'];";
+  document.write(frag);
+}
+</script>
+<body>
+<script>
+printEnum("Intl.getSupportedCalendars()",        Intl.getSupportedCalendars());
+printEnum("Intl.getSupportedCurrencies()",       Intl.getSupportedCurrencies());
+printEnum("Intl.getSupportedNumberingSystems()", Intl.getSupportedNumberingSystems());
+printEnum("Intl.getSupportedRegions()",          Intl.getSupportedRegions());
+printEnum("Intl.getSupportedScripts()",          Intl.getSupportedScripts());
+printEnum("Intl.getSupportedTimeZones()",        Intl.getSupportedTimeZones());
+printEnum("Intl.getSupportedUnits()",            Intl.getSupportedUnits());
+</script>
+</body>
+</html>

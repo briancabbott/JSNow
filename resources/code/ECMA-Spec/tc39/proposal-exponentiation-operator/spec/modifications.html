@@ -1,0 +1,73 @@
+<emu-clause id="modified-productions">
+  <h1>Modifications to Existing Productions</h1>
+
+
+  <emu-clause id="PostfixExpression">
+    <h1><del>|PostfixExpression|</del></h1>
+    <h1><ins>|UpdateExpression|</ins></h1>
+
+    <emu-production name="sec-update-expressions" params="Yield">
+
+      <emu-rhs><emu-nt params="?Yield">LeftHandSideExpression</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield">LeftHandSideExpression</emu-nt> <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann> <emu-t>++</emu-t></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield">LeftHandSideExpression</emu-nt> <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann> <emu-t>--</emu-t></emu-rhs>
+      <ins class="block"><emu-rhs><emu-t>++</emu-t> <emu-nt params="?Yield">LeftHandSideExpression</emu-nt></emu-rhs></ins>
+      <ins class="block"><emu-rhs><emu-t>--</emu-t> <emu-nt params="?Yield">LeftHandSideExpression</emu-nt></emu-rhs></ins>
+    </emu-production>
+
+
+  </emu-clause>
+
+
+  <emu-clause id="UnaryExpression">
+    <h1>|UnaryExpression|</h1>
+    <emu-production name="UnaryExpression">
+      <del class="block"><emu-rhs><emu-nt params="?Yield">PostfixExpression</emu-nt></emu-rhs></del>
+      <ins class="block"><emu-rhs><emu-nt params="?Yield">UpdateExpression</emu-nt></emu-rhs></ins>
+
+      <emu-rhs><emu-t>delete</emu-t><emu-nt params="?Yield">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs><emu-t>void</emu-t><emu-nt params="?Yield">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs><emu-t>typeof</emu-t><emu-nt params="?Yield">UnaryExpression</emu-nt></emu-rhs>
+      <del class="block"><emu-rhs><emu-t>++</emu-t> <emu-nt params="?Yield">UnaryExpression</emu-nt></emu-rhs></del>
+      <del class="block"><emu-rhs><emu-t>--</emu-t> <emu-nt params="?Yield">UnaryExpression</emu-nt></emu-rhs></del>
+      <emu-rhs><emu-t>+</emu-t><emu-nt params="?Yield">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs><emu-t>-</emu-t><emu-nt params="?Yield">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs><emu-t>~</emu-t><emu-nt params="?Yield">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs><emu-t>!</emu-t><emu-nt params="?Yield">UnaryExpression</emu-nt></emu-rhs>
+
+
+    </emu-production>
+  </emu-clause>
+
+
+
+
+  <emu-clause id="AssignmentOperator">
+    <h1>|AssignmentOperator|</h1>
+    <emu-production name="AssignmentOperator" oneof>
+      <del class="block"><emu-rhs><emu-t>= *= /= %= += -= <<= >>= >>>= &= ^= |=</emu-t></emu-rhs></del>
+      <ins class="block"><emu-rhs><emu-t>= *= /= %= += -= <<= >>= >>>= &= ^= |= **=</emu-t></emu-rhs></ins>
+    </emu-production>
+
+    <emu-note>
+      The change here is the addition of `**=`.
+    </emu-note>
+
+  </emu-clause>
+
+
+  <emu-clause id="Punctuators">
+    <h1>|Punctuator|</h1>
+    <emu-production name="Punctuator" type="lexical" oneof>
+      <del class="block"><emu-rhs><emu-t>{ ( ) [ ] . ... ; , < > <= >=  ==  !=  === !==  + - * % ++  -- <<  >>  >>> & | ^ ! ~ &&  ||  ? : = +=  -=  *=  %=  <<= >>= >>>=  &=  |=  ^=  =>
+</emu-t></emu-rhs></del>
+      <ins class="block"><emu-rhs><emu-t>{ ( ) [ ] . ... ; , < > <= >=  ==  !=  === !== + - * ** % ++  -- <<  >>  >>> & | ^ ! ~ &&  ||  ? : = +=  -=  *= **= %=  <<= >>= >>>=  &=  |=  ^=  =>
+</emu-t></emu-rhs></ins>
+
+    </emu-production>
+
+    <emu-note>
+      The change here is the addition of `**` and `**=`.
+    </emu-note>
+  </emu-clause>
+</emu-clause>

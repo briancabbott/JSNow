@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-integer-and-modulus-math undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-integer-and-modulus-math",
+    "repo": "https://github.com/tc39/proposal-integer-and-modulus-math",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-integer-and-modulus-math",
+    "startTime": "2024-07-18T18:16:41.475Z",
+    "endTime": "2024-07-18T18:16:42.114Z",
+    "childProcessPid": 21334,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-integer-and-modulus-math--21334",
+    "executionErrors": []
+}

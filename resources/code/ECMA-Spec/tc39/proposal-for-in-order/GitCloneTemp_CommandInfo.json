@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-for-in-order undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-for-in-order",
+    "repo": "https://github.com/tc39/proposal-for-in-order",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-for-in-order",
+    "startTime": "2024-07-18T18:16:29.584Z",
+    "endTime": "2024-07-18T18:16:30.191Z",
+    "childProcessPid": 20938,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-for-in-order--20938",
+    "executionErrors": []
+}

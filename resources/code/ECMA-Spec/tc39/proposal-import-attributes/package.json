@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "npm run build-loose -- --watch",
+    "build": "npm run build-loose -- --strict",
+    "build-loose": "ecmarkup --load-biblio @tc39/ecma262-biblio --verbose spec.emu index.html"
+  },
+  "devDependencies": {
+    "@tc39/ecma262-biblio": "2.1.2517",
+    "ecmarkup": "^16.2.0"
+  }
+}

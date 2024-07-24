@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "proposal-intl-segmenter",
+  "version": "1.0.0",
+  "description": "ECMAScript Intl.Segmenter proposal",
+  "scripts": {
+    "clean": "rm -rf out",
+    "prebuild": "npm run clean && mkdir out",
+    "build": "ecmarkup spec.html out/index.html"
+  },
+  "repository": "tc39/proposal-intl-bigint",
+  "author": "ECMA TC39",
+  "license": "SEE LICENSE IN https://tc39.github.io/ecma262/#sec-copyright-and-software-license",
+  "homepage": "https://tc39.github.io/proposal-intl-segmenter/",
+  "dependencies": {
+    "ecmarkup": "^7.0.2"
+  },
+  "devDependencies": {
+    "@alrra/travis-scripts": "^3.0.0"
+  }
+}

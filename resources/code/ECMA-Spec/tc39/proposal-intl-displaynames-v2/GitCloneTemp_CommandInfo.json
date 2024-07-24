@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-intl-displaynames-v2 undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-displaynames-v2",
+    "repo": "https://github.com/tc39/proposal-intl-displaynames-v2",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-displaynames-v2",
+    "startTime": "2024-07-18T18:16:44.035Z",
+    "endTime": "2024-07-18T18:16:44.761Z",
+    "childProcessPid": 21422,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-intl-displaynames-v2--21422",
+    "executionErrors": []
+}

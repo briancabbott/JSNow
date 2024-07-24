@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-extractors undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-extractors",
+    "repo": "https://github.com/tc39/proposal-extractors",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-extractors",
+    "startTime": "2024-07-18T18:16:26.097Z",
+    "endTime": "2024-07-18T18:16:26.988Z",
+    "childProcessPid": 20828,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-extractors--20828",
+    "executionErrors": []
+}

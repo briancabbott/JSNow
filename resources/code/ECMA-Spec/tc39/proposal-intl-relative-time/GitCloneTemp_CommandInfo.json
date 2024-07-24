@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-intl-relative-time undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-relative-time",
+    "repo": "https://github.com/tc39/proposal-intl-relative-time",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-relative-time",
+    "startTime": "2024-07-18T18:16:54.411Z",
+    "endTime": "2024-07-18T18:16:55.067Z",
+    "childProcessPid": 21752,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-intl-relative-time--21752",
+    "executionErrors": []
+}

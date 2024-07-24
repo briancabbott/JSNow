@@ -1,0 +1,452 @@
+<!doctype html>
+<meta charset="utf8">
+<!-- <link rel="stylesheet" href="./spec.css"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<!-- <script src="./spec.js"></script> -->
+<pre class="metadata">
+title: Logical Assignment Operators
+status: proposal
+stage: 4
+contributors: Justin Ridgewell
+location: https://tc39.es/proposal-logical-assignment
+</pre>
+
+<emu-clause id="sec-scope">
+  <h1>Scope</h1>
+  <p>
+    This is the spec text of the <a href="https://github.com/tc39/proposal-logical-assignment/">Logical Assignment proposal</a> in ECMAScript.
+  </p>
+  <p>
+    Each Logical Assignment operator embraces the short-circuiting semantics of the respective <a href="https://tc39.es/ecma262/#sec-binary-logical-operators">Binary Logical operator</a>. If the operator short circuits, then the [[Set]] operation is skipped.
+  </p>
+  <p>
+    The new `LogicalAssignmentPunctuator` production defined in <a href="#sec-punctuators">Punctuators</a> section is used only to highlight the new additions. When merged with the main ecma262 spec, the new punctuators should just be added to `OtherPunctuator`.
+  </p>
+</emu-clause>
+
+<emu-clause id="sec-punctuators">
+  <h1>Punctuators (<a href="https://tc39.github.io/ecma262/#sec-punctuators">11.7</a>)</h1>
+  <h2>Syntax</h2>
+  <emu-grammar type="definition">
+    Punctuator ::
+      <ins>LogicalAssignmentPunctuator</ins>
+      OptionalChainingPunctuator
+      OtherPunctuator
+
+    <ins class="block">
+    LogicalAssignmentPunctuator :: one of
+      `&amp;&amp;=` `||=` `??=`
+    </ins>
+
+    OptionalChainingPunctuator ::
+      `?.` [lookahead &lt;! DecimalDigit]
+
+    OtherPunctuator :: one of
+      `{` `(` `)` `[` `]`
+      `.` `...` `;` `,`
+      `&lt;` `&gt;` `&lt;=` `&gt;=`
+      `==` `!=` `===` `!==`
+      `+` `-` `*` `%` `**`
+      `++` `--`
+      `&lt;&lt;` `&gt;&gt;` `&gt;&gt;&gt;`
+      `&amp;` `|` `^`
+      `!` `~`
+      `&amp;&amp;` `||` `??`
+      `?` `:`
+      `=` `+=` `-=` `*=` `%=` `**=` `&lt;&lt;=` `&gt;&gt;=` `&gt;&gt;&gt;=` `&amp;=` `|=` `^=`
+      `=&gt;`
+
+    DivPunctuator ::
+      `/`
+      `/=`
+
+    RightBracePunctuator ::
+      `}`
+  </emu-grammar>
+</emu-clause>
+
+<emu-clause id="sec-assignment-operators">
+  <h1>Assignment Operators (<a href="https://tc39.es/ecma262/#sec-assignment-operators">12.15</a>)</h1>
+  <h2>Syntax</h2>
+  <emu-grammar type="definition">
+    AssignmentExpression[In, Yield, Await] :
+      ConditionalExpression[?In, ?Yield, ?Await]
+      [+Yield] YieldExpression[?In, ?Await]
+      ArrowFunction[?In, ?Yield, ?Await]
+      AsyncArrowFunction[?In, ?Yield, ?Await]
+      LeftHandSideExpression[?Yield, ?Await] `=` AssignmentExpression[?In, ?Yield, ?Await] #assignment
+      LeftHandSideExpression[?Yield, ?Await] AssignmentOperator AssignmentExpression[?In, ?Yield, ?Await]
+      <ins>LeftHandSideExpression[?Yield, ?Await] `&amp;&amp;=` AssignmentExpression[?In, ?Yield, ?Await]</ins>
+      <ins>LeftHandSideExpression[?Yield, ?Await] `||=` AssignmentExpression[?In, ?Yield, ?Await]</ins>
+      <ins>LeftHandSideExpression[?Yield, ?Await] `??=` AssignmentExpression[?In, ?Yield, ?Await]</ins>
+
+    AssignmentOperator : one of
+      `*=` `/=` `%=` `+=` `-=` `&lt;&lt;=` `&gt;&gt;=` `&gt;&gt;&gt;=` `&amp;=` `^=` `|=` `**=`
+
+  </emu-grammar>
+
+  <emu-clause id="sec-assignment-operators-static-semantics-early-errors">
+    <h1>Static Semantics: Early Errors</h1>
+    <emu-grammar>AssignmentExpression : LeftHandSideExpression `=` AssignmentExpression</emu-grammar>
+    <ul>
+      <li>
+        It is a Syntax Error if |LeftHandSideExpression| is either an |ObjectLiteral| or an |ArrayLiteral| and |LeftHandSideExpression| is not covering an |AssignmentPattern|.
+      </li>
+      <li>
+        It is an early Syntax Error if |LeftHandSideExpression| is neither an |ObjectLiteral| nor an |ArrayLiteral| and AssignmentTargetType of |LeftHandSideExpression| is not ~simple~.
+      </li>
+    </ul>
+
+    <emu-grammar>
+      AssignmentExpression :
+        LeftHandSideExpression AssignmentOperator AssignmentExpression
+        <ins>LeftHandSideExpression `&amp;&amp;=` AssignmentExpression</ins>
+        <ins>LeftHandSideExpression `||=` AssignmentExpression</ins>
+        <ins>LeftHandSideExpression `??=` AssignmentExpression</ins>
+    </emu-grammar>
+    <ul>
+      <li>
+        It is an early Syntax Error if AssignmentTargetType of |LeftHandSideExpression| is not ~simple~.
+      </li>
+    </ul>
+  </emu-clause>
+
+  <emu-clause id="sec-assignment-operators-static-semantics-isfunctiondefinition">
+    <h1>Static Semantics: IsFunctionDefinition</h1>
+    <emu-see-also-para op="IsFunctionDefinition"></emu-see-also-para>
+    <emu-grammar>
+      AssignmentExpression :
+        ArrowFunction
+        AsyncArrowFunction
+    </emu-grammar>
+    <emu-alg>
+      1. Return *true*.
+    </emu-alg>
+    <emu-grammar>
+      AssignmentExpression :
+        YieldExpression
+        LeftHandSideExpression `=` AssignmentExpression
+        LeftHandSideExpression AssignmentOperator AssignmentExpression
+        <ins>LeftHandSideExpression `&amp;&amp;=` AssignmentExpression</ins>
+        <ins>LeftHandSideExpression `||=` AssignmentExpression</ins>
+        <ins>LeftHandSideExpression `??=` AssignmentExpression</ins>
+    </emu-grammar>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause oldids="sec-assignment-operators-static-semantics-isvalidsimpleassignmenttarget" id="sec-assignment-operators-static-semantics-assignmenttargettype">
+    <h1>Static Semantics: AssignmentTargetType</h1>
+    <emu-see-also-para op="AssignmentTargetType"></emu-see-also-para>
+    <emu-grammar>
+      AssignmentExpression :
+        YieldExpression
+        ArrowFunction
+        AsyncArrowFunction
+        LeftHandSideExpression `=` AssignmentExpression
+        LeftHandSideExpression AssignmentOperator AssignmentExpression
+        <ins>LeftHandSideExpression `&amp;&amp;=` AssignmentExpression</ins>
+        <ins>LeftHandSideExpression `||=` AssignmentExpression</ins>
+        <ins>LeftHandSideExpression `??=` AssignmentExpression</ins>
+    </emu-grammar>
+    <emu-alg>
+      1. Return ~invalid~.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-assignment-operators-runtime-semantics-evaluation">
+    <h1>Runtime Semantics: Evaluation</h1>
+    <emu-grammar>AssignmentExpression : LeftHandSideExpression `=` AssignmentExpression</emu-grammar>
+    <emu-alg>
+      1. If |LeftHandSideExpression| is neither an |ObjectLiteral| nor an |ArrayLiteral|, then
+        1. Let _lref_ be the result of evaluating |LeftHandSideExpression|.
+        1. ReturnIfAbrupt(_lref_).
+        1. If IsAnonymousFunctionDefinition(|AssignmentExpression|) and IsIdentifierRef of |LeftHandSideExpression| are both *true*, then
+          1. Let _rval_ be NamedEvaluation of |AssignmentExpression| with argument GetReferencedName(_lref_).
+        1. Else,
+          1. Let _rref_ be the result of evaluating |AssignmentExpression|.
+          1. Let _rval_ be ? GetValue(_rref_).
+        1. [id="step-assignmentexpression-evaluation-simple-putvalue"] Perform ? PutValue(_lref_, _rval_).
+        1. Return _rval_.
+      1. Let _assignmentPattern_ be the |AssignmentPattern| that is covered by |LeftHandSideExpression|.
+      1. Let _rref_ be the result of evaluating |AssignmentExpression|.
+      1. Let _rval_ be ? GetValue(_rref_).
+      1. Perform ? DestructuringAssignmentEvaluation of _assignmentPattern_ using _rval_ as the argument.
+      1. Return _rval_.
+    </emu-alg>
+    <emu-grammar>AssignmentExpression : LeftHandSideExpression AssignmentOperator AssignmentExpression</emu-grammar>
+    <emu-alg>
+      1. Let _lref_ be the result of evaluating |LeftHandSideExpression|.
+      1. [id="step-assignmentexpression-evaluation-compound-getvalue"] Let _lval_ be ? GetValue(_lref_).
+      1. Let _rref_ be the result of evaluating |AssignmentExpression|.
+      1. Let _rval_ be ? GetValue(_rref_).
+      1. Let _assignmentOpText_ be the source text matched by |AssignmentOperator|.
+      1. Let _opText_ be the sequence of Unicode code points associated with _assignmentOpText_ in the following table:
+        <figure>
+          <table class="lightweight-table">
+            <tbody>
+              <tr><th> _assignmentOpText_ </th><th> _opText_       </th></tr>
+              <tr><td> `**=`              </td><td> `**`           </td></tr>
+              <tr><td> `*=`               </td><td> `*`            </td></tr>
+              <tr><td> `/=`               </td><td> `/`            </td></tr>
+              <tr><td> `%=`               </td><td> `%`            </td></tr>
+              <tr><td> `+=`               </td><td> `+`            </td></tr>
+              <tr><td> `-=`               </td><td> `-`            </td></tr>
+              <tr><td> `&lt;&lt;=`        </td><td> `&lt;&lt;`     </td></tr>
+              <tr><td> `&gt;&gt;=`        </td><td> `&gt;&gt;`     </td></tr>
+              <tr><td> `&gt;&gt;&gt;=`    </td><td> `&gt;&gt;&gt;` </td></tr>
+              <tr><td> `&amp;=`           </td><td> `&amp;`        </td></tr>
+              <tr><td> `^=`               </td><td> `^`            </td></tr>
+              <tr><td> `|=`               </td><td> `|`            </td></tr>
+            </tbody>
+          </table>
+        </figure>
+      1. Let _r_ be ApplyStringOrNumericBinaryOperator(_lval_, _opText_, _rval_).
+      1. [id="step-assignmentexpression-evaluation-compound-putvalue"] Perform ? PutValue(_lref_, _r_).
+      1. Return _r_.
+    </emu-alg>
+    <ins class="block">
+    <emu-grammar>AssignmentExpression : LeftHandSideExpression `&amp;&amp;=` AssignmentExpression</emu-grammar>
+    <emu-alg>
+      1. Let _lref_ be the result of evaluating |LeftHandSideExpression|.
+      1. [id="step-assignmentexpression-evaluation-lgcl-and-getvalue"] Let _lval_ be ? GetValue(_lref_).
+      1. Let _lbool_ be ! ToBoolean(_lval_).
+      1. If _lbool_ is *false*, return _lval_.
+      1. If IsAnonymousFunctionDefinition(|AssignmentExpression|) is *true* and IsIdentifierRef of |LeftHandSideExpression| is *true*, then
+        1. Let _rval_ be NamedEvaluation of |AssignmentExpression| with argument GetReferencedName(_lref_).
+      1. Else,
+        1. Let _rref_ be the result of evaluating |AssignmentExpression|.
+        1. Let _rval_ be ? GetValue(_rref_).
+      1. [id="step-assignmentexpression-evaluation-lgcl-and-putvalue"] Perform ? PutValue(_lref_, _rval_).
+      1. Return _rval_.
+    </emu-alg>
+    </ins>
+    <ins class="block">
+    <emu-grammar>AssignmentExpression : LeftHandSideExpression `||=` AssignmentExpression</emu-grammar>
+    <emu-alg>
+      1. Let _lref_ be the result of evaluating |LeftHandSideExpression|.
+      1. [id="step-assignmentexpression-evaluation-lgcl-or-getvalue"] Let _lval_ be ? GetValue(_lref_).
+      1. Let _lbool_ be ! ToBoolean(_lval_).
+      1. If _lbool_ is *true*, return _lval_.
+      1. If IsAnonymousFunctionDefinition(|AssignmentExpression|) is *true* and IsIdentifierRef of |LeftHandSideExpression| is *true*, then
+        1. Let _rval_ be NamedEvaluation of |AssignmentExpression| with argument GetReferencedName(_lref_).
+      1. Else,
+        1. Let _rref_ be the result of evaluating |AssignmentExpression|.
+        1. Let _rval_ be ? GetValue(_rref_).
+      1. [id="step-assignmentexpression-evaluation-lgcl-or-putvalue"] Perform ? PutValue(_lref_, _rval_).
+      1. Return _rval_.
+    </emu-alg>
+    </ins>
+    <ins class="block">
+    <emu-grammar>AssignmentExpression : LeftHandSideExpression `??=` AssignmentExpression</emu-grammar>
+    <emu-alg>
+      1. Let _lref_ be the result of evaluating |LeftHandSideExpression|.
+      1. [id="step-assignmentexpression-evaluation-lgcl-nullish-getvalue"] Let _lval_ be ? GetValue(_lref_).
+      1. If _lval_ is neither *undefined* nor *null*, return _lval_.
+      1. If IsAnonymousFunctionDefinition(|AssignmentExpression|) is *true* and IsIdentifierRef of |LeftHandSideExpression| is *true*, then
+        1. Let _rval_ be NamedEvaluation of |AssignmentExpression| with argument GetReferencedName(_lref_).
+      1. Else,
+        1. Let _rref_ be the result of evaluating |AssignmentExpression|.
+        1. Let _rval_ be ? GetValue(_rref_).
+      1. [id="step-assignmentexpression-evaluation-lgcl-nullish-putvalue"] Perform ? PutValue(_lref_, _rval_).
+      1. Return _rval_.
+    </emu-alg>
+    </ins>
+    <emu-note>
+      <p>When this expression occurs within strict mode code, it is a runtime error if _lref_ in step <emu-xref href="#step-assignmentexpression-evaluation-simple-putvalue"></emu-xref>, <emu-xref href="#step-assignmentexpression-evaluation-compound-getvalue"></emu-xref>, <emu-xref href="#step-assignmentexpression-evaluation-lgcl-and-getvalue"></emu-xref>, <emu-xref href="#step-assignmentexpression-evaluation-lgcl-or-getvalue"></emu-xref>, <emu-xref href="#step-assignmentexpression-evaluation-lgcl-nullish-getvalue"></emu-xref> is an unresolvable reference. If it is, a *ReferenceError* exception is thrown. Additionally, it is a runtime error if the _lref_ in step <emu-xref href="#step-assignmentexpression-evaluation-compound-putvalue"></emu-xref>, <emu-xref href="#step-assignmentexpression-evaluation-lgcl-and-putvalue"></emu-xref>, <emu-xref href="#step-assignmentexpression-evaluation-lgcl-or-putvalue"></emu-xref>, <emu-xref href="#step-assignmentexpression-evaluation-lgcl-nullish-putvalue"></emu-xref> is a reference to a data property with the attribute value { [[Writable]]: *false* }, to an accessor property with the attribute value { [[Set]]: *undefined* }, or to a non-existent property of an object for which the IsExtensible predicate returns the value *false*. In these cases a *TypeError* exception is thrown.</p>
+    </emu-note>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-static-semantics-hascallintailposition">
+  <h1>Static Semantics: HasCallInTailPosition (<a href="https://tc39.es/ecma262/#sec-static-semantics-hascallintailposition">14.9.2</a>)</h1>
+  <p>With parameter _call_.</p>
+  <emu-note>
+    <p>_call_ is a Parse Node that represents a specific range of source text. When the following algorithms compare _call_ to another Parse Node, it is a test of whether they represent the same source text.</p>
+  </emu-note>
+
+  <emu-clause id="sec-expression-rules">
+    <h1>Expression Rules (<a href="https://tc39.es/ecma262/#sec-expression-rules">14.9.2.2</a>)</h1>
+    <emu-note>
+      <p>A potential tail position call that is immediately followed by return GetValue of the call result is also a possible tail position call. Function calls cannot return reference values, so such a GetValue operation will always return the same value as the actual function call result.</p>
+    </emu-note>
+    <emu-grammar>
+      AssignmentExpression :
+        YieldExpression
+        ArrowFunction
+        AsyncArrowFunction
+        LeftHandSideExpression `=` AssignmentExpression
+        LeftHandSideExpression AssignmentOperator AssignmentExpression
+        <ins>LeftHandSideExpression `&amp;&amp;=` AssignmentExpression</ins>
+        <ins>LeftHandSideExpression `||=` AssignmentExpression</ins>
+        <ins>LeftHandSideExpression `??=` AssignmentExpression</ins>
+
+      BitwiseANDExpression : BitwiseANDExpression `&amp;` EqualityExpression
+
+      BitwiseXORExpression : BitwiseXORExpression `^` BitwiseANDExpression
+
+      BitwiseORExpression : BitwiseORExpression `|` BitwiseXORExpression
+
+      EqualityExpression :
+        EqualityExpression `==` RelationalExpression
+        EqualityExpression `!=` RelationalExpression
+        EqualityExpression `===` RelationalExpression
+        EqualityExpression `!==` RelationalExpression
+
+      RelationalExpression :
+        RelationalExpression `&lt;` ShiftExpression
+        RelationalExpression `&gt;` ShiftExpression
+        RelationalExpression `&lt;=` ShiftExpression
+        RelationalExpression `&gt;=` ShiftExpression
+        RelationalExpression `instanceof` ShiftExpression
+        RelationalExpression `in` ShiftExpression
+
+      ShiftExpression :
+        ShiftExpression `&lt;&lt;` AdditiveExpression
+        ShiftExpression `&gt;&gt;` AdditiveExpression
+        ShiftExpression `&gt;&gt;&gt;` AdditiveExpression
+
+      AdditiveExpression :
+        AdditiveExpression `+` MultiplicativeExpression
+        AdditiveExpression `-` MultiplicativeExpression
+
+      MultiplicativeExpression :
+        MultiplicativeExpression MultiplicativeOperator ExponentiationExpression
+
+      ExponentiationExpression :
+        UpdateExpression `**` ExponentiationExpression
+
+      UpdateExpression :
+        LeftHandSideExpression `++`
+        LeftHandSideExpression `--`
+        `++` UnaryExpression
+        `--` UnaryExpression
+
+      UnaryExpression :
+        `delete` UnaryExpression
+        `void` UnaryExpression
+        `typeof` UnaryExpression
+        `+` UnaryExpression
+        `-` UnaryExpression
+        `~` UnaryExpression
+        `!` UnaryExpression
+        AwaitExpression
+
+      CallExpression :
+        SuperCall
+        CallExpression `[` Expression `]`
+        CallExpression `.` IdentifierName
+
+      NewExpression : `new` NewExpression
+
+      MemberExpression :
+        MemberExpression `[` Expression `]`
+        MemberExpression `.` IdentifierName
+        SuperProperty
+        MetaProperty
+        `new` MemberExpression Arguments
+
+      PrimaryExpression :
+        `this`
+        IdentifierReference
+        Literal
+        ArrayLiteral
+        ObjectLiteral
+        FunctionExpression
+        ClassExpression
+        GeneratorExpression
+        AsyncFunctionExpression
+        AsyncGeneratorExpression
+        RegularExpressionLiteral
+        TemplateLiteral
+    </emu-grammar>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+    <emu-grammar>
+      Expression :
+        AssignmentExpression
+        Expression `,` AssignmentExpression
+    </emu-grammar>
+    <emu-alg>
+      1. Return HasCallInTailPosition of |AssignmentExpression| with argument _call_.
+    </emu-alg>
+    <emu-grammar>ConditionalExpression : ShortCircuitExpression `?` AssignmentExpression `:` AssignmentExpression</emu-grammar>
+    <emu-alg>
+      1. Let _has_ be HasCallInTailPosition of the first |AssignmentExpression| with argument _call_.
+      1. If _has_ is *true*, return *true*.
+      1. Return HasCallInTailPosition of the second |AssignmentExpression| with argument _call_.
+    </emu-alg>
+    <emu-grammar>LogicalANDExpression : LogicalANDExpression `&amp;&amp;` BitwiseORExpression</emu-grammar>
+    <emu-alg>
+      1. Return HasCallInTailPosition of |BitwiseORExpression| with argument _call_.
+    </emu-alg>
+    <emu-grammar>LogicalORExpression : LogicalORExpression `||` LogicalANDExpression</emu-grammar>
+    <emu-alg>
+      1. Return HasCallInTailPosition of |LogicalANDExpression| with argument _call_.
+    </emu-alg>
+    <emu-grammar>CoalesceExpression : CoalesceExpressionHead `??` BitwiseORExpression</emu-grammar>
+    <emu-alg>
+      1. Return HasCallInTailPosition of |BitwiseORExpression| with argument _call_.
+    </emu-alg>
+    <emu-grammar>
+      CallExpression :
+        CoverCallExpressionAndAsyncArrowHead
+        CallExpression Arguments
+        CallExpression TemplateLiteral
+    </emu-grammar>
+    <emu-alg>
+      1. If this |CallExpression| is _call_, return *true*.
+      1. Return *false*.
+    </emu-alg>
+    <emu-grammar>
+      OptionalExpression :
+        MemberExpression OptionalChain
+        CallExpression OptionalChain
+        OptionalExpression OptionalChain
+    </emu-grammar>
+    <emu-alg>
+      1. Return HasCallInTailPosition of |OptionalChain| with argument _call_.
+    </emu-alg>
+    <emu-grammar>
+      OptionalChain :
+        `?.` `[` Expression `]`
+        `?.` IdentifierName
+        OptionalChain `[` Expression `]`
+        OptionalChain `.` IdentifierName
+    </emu-grammar>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+    <emu-grammar>
+      OptionalChain :
+        `?.` Arguments
+        OptionalChain Arguments
+    </emu-grammar>
+    <emu-alg>
+      1. If this |OptionalChain| is _call_, return *true*.
+      1. Return *false*.
+    </emu-alg>
+    <emu-grammar>
+      MemberExpression :
+        MemberExpression TemplateLiteral
+    </emu-grammar>
+    <emu-alg>
+      1. If this |MemberExpression| is _call_, return *true*.
+      1. Return *false*.
+    </emu-alg>
+    <emu-grammar>PrimaryExpression : CoverParenthesizedExpressionAndArrowParameterList</emu-grammar>
+    <emu-alg>
+      1. Let _expr_ be CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
+      1. Return HasCallInTailPosition of _expr_ with argument _call_.
+    </emu-alg>
+    <emu-grammar>
+      ParenthesizedExpression :
+        `(` Expression `)`
+    </emu-grammar>
+    <emu-alg>
+      1. Return HasCallInTailPosition of |Expression| with argument _call_.
+    </emu-alg>
+  </emu-clause>
+</emu-clause>

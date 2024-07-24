@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-float16array undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-float16array",
+    "repo": "https://github.com/tc39/proposal-float16array",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-float16array",
+    "startTime": "2024-07-18T18:16:28.950Z",
+    "endTime": "2024-07-18T18:16:29.584Z",
+    "childProcessPid": 20916,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-float16array--20916",
+    "executionErrors": []
+}

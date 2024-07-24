@@ -1,0 +1,30 @@
+{
+  "name": "proposal-explicit-resource-management",
+  "version": "0.0.0",
+  "private": true,
+  "description": "ECMAScript explicit resource management",
+  "homepage": "https://github.com/tc39/proposal-explicit-resource-management#readme",
+  "author": {
+    "name": "Ron Buckton",
+    "email": "ron.buckton@microsoft.com"
+  },
+  "keywords": [
+    "javascript",
+    "ecmascript"
+  ],
+  "scripts": {
+    "compile": "gulp build",
+    "start": "gulp start"
+  },
+  "license": "SEE LICENSE IN https://tc39.es/ecma262/#sec-copyright-and-software-license",
+  "devDependencies": {
+    "@tc39/ecma262-biblio": "^2.0.2322",
+    "del": "^6.0.0",
+    "ecmarkup": "^12.1.0",
+    "gulp": "^4.0.2",
+    "gulp-emu": "^2.1.0",
+    "gulp-live-server": "0.0.31",
+    "gulp-rename": "^2.0.0"
+  },
+  "repository": "tc39/proposal-explicit-resource-management"
+}

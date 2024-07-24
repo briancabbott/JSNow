@@ -1,0 +1,11 @@
+{
+  "https://tc39.es/proposal-export-default-from/": [
+    {
+      "type": "production",
+      "id": "prod-DefaultExportFrom",
+      "name": "DefaultExportFrom",
+      "location": "",
+      "key": "DefaultExportFrom"
+    }
+  ]
+}

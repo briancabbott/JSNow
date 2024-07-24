@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-import-meta undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-import-meta",
+    "repo": "https://github.com/tc39/proposal-import-meta",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-import-meta",
+    "startTime": "2024-07-18T18:16:40.798Z",
+    "endTime": "2024-07-18T18:16:41.474Z",
+    "childProcessPid": 21312,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-import-meta--21312",
+    "executionErrors": []
+}

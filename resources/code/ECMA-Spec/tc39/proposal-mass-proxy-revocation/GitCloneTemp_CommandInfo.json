@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-mass-proxy-revocation undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-mass-proxy-revocation",
+    "repo": "https://github.com/tc39/proposal-mass-proxy-revocation",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-mass-proxy-revocation",
+    "startTime": "2024-07-18T18:17:10.693Z",
+    "endTime": "2024-07-18T18:17:11.607Z",
+    "childProcessPid": 22172,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-mass-proxy-revocation--22172",
+    "executionErrors": []
+}

@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "name": "proposal-function-pipe-flow",
+  "description": "Draft specification for standard Function.pipe and Function.flow functions in JavaScript.",
+  "author": "J. S. Choi <jschoi@jschoi.org> (https://jschoi.org/)",
+  "license": "BSD-3-Clause",
+  "repository": "github:js-choi/proposal-function-pipe-flow"
+}

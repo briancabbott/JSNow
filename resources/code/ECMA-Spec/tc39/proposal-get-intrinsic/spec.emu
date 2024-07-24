@@ -1,0 +1,274 @@
+<!doctype html>
+<meta charset="utf8" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" />
+<pre class="metadata">
+title: Get Intrinsic
+stage: 1
+contributors: Jordan Harband
+</pre>
+
+<emu-clause number="6" id="sec-ecmascript-data-types-and-values" aoid="Type">
+  <h1>ECMAScript Data Types and Values</h1>
+
+  <emu-clause id="sec-ecmascript-language-types" number="1">
+    <h1>ECMAScript Language Types</h1>
+
+    <emu-clause id="sec-object-type" number="7">
+      <h1>The <dfn variants="is an Object,is not an Object">Object Type</dfn></h1>
+
+      <emu-clause id="sec-well-known-intrinsic-objects" number="4">
+        <h1>Well-Known Intrinsic Objects</h1>
+        <p>Well-known intrinsics are built-in objects that are explicitly referenced by the algorithms of this specification and which usually have realm-specific identities. Unless otherwise specified each intrinsic object actually corresponds to a set of similar objects, one per realm.</p>
+        <p>Within this specification a reference such as %name% means the intrinsic object, associated with the current realm, corresponding to the name. A reference such as %name.a.b% means, as if the *"b"* property of the value of the *"a"* property of the intrinsic object %name% was accessed prior to any ECMAScript code being evaluated. Determination of the current realm and its intrinsics is described in <emu-xref href="#sec-execution-contexts"></emu-xref>. The well-known intrinsics are listed in <emu-xref href="#table-well-known-intrinsic-objects"></emu-xref>.</p>
+        <emu-table id="table-well-known-intrinsic-objects" caption="Well-Known Intrinsic Objects" oldids="table-7">
+          <table>
+            <tr>
+              <th>
+                Intrinsic Name
+              </th>
+              <th>
+                Global Name
+              </th>
+              <th>
+                ECMAScript Language Association
+              </th>
+              <th>
+                <ins>Directly Accessible to ECMAScript code</ins>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                %AggregateError%
+              </td>
+              <td>
+                `AggregateError`
+              </td>
+              <td>
+                The `AggregateError` constructor (<emu-xref href="#sec-aggregate-error-constructor"></emu-xref>)
+              </td>
+              <td />
+            </tr>
+            <tr>
+              <td>
+                %AsyncFromSyncIteratorPrototype%
+              </td>
+              <td>
+              </td>
+              <td>
+                The prototype of async-from-sync iterator objects (<emu-xref href="#sec-async-from-sync-iterator-objects"></emu-xref>)
+              </td>
+              <td align="center">
+                <ins>No</ins>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                %ForInIteratorPrototype%
+              </td>
+              <td>
+              </td>
+              <td>
+                The prototype of For-In iterator objects (<emu-xref href="#sec-for-in-iterator-objects"></emu-xref>)
+              </td>
+              <td align="center">
+                <ins>No</ins>
+              </td>
+            </tr>
+          </table>
+        </emu-table>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-abstract-operations" number="7">
+  <h1>Abstract Operations</h1>
+
+  <emu-clause id="sec-miscellaneous" number="5">
+    <h1>Miscellaneous</h1>
+
+    <emu-clause id="sec-host-added-intrinsics" type="host-defined abstract operation">
+      <h1>
+        HostAddedIntrinsics(
+        ): a List of Records
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It allows host environments to provide additional intrinsics for `getIntrinsics` to expose.</dd>
+      </dl>
+      <p>An implementation of HostAddedIntrinsics must conform to the following requirements:</p>
+      <ul>
+        <li>Every item in the returned list must be a Record with fields [[Key]] (the intrinsic name) and [[Value]] (the intrinsic value itself).</li>
+        <li>An intrinsic name that describes a data property must have no prefix.</li>
+        <li>An intrinsic name that describes an accessor property must have the prefix *"get "* or *"set "*.</li>
+        <li>Every call to this abstract operation must return the same List contents, in the same order.</li>
+      </ul>
+      <p>The default implementation of HostAddedIntrinsics is to return an empty List.</p>
+    </emu-clause>
+
+    <emu-clause id="sec-get-intrinsics-map" type="abstract operation">
+      <h1>
+        GetIntrinsicsMap(
+        ): a Map
+      </h1>
+      <dl class="header">
+      </dl>
+      <p>`GetIntrinsicsMap` returns a Map object. This Map is not directly observable from ECMAScript code.</p>
+      <emu-note>The returned Map object must be identical on successive calls to this abstract operation.</emu-note>
+      <emu-alg>
+          1. Let _intrinsics_ be a new empty List.
+          1. Let _baseIntrinsics_ be a list of each intrinsic name listed in <emu-xref href="#sec-well-known-intrinsic-objects"></emu-xref>.
+          1. Sort _baseIntrinsics_ alphabetically, with a case-insensitive ordering.
+          1. For each _baseIntrinsic_ of _baseIntrinscs_,
+            1. Append Record { [[Key]]: _baseIntrinsic_, [[Value]]: the referenced intrinsic value } to _intrinsics_.
+            1. Let _nestedIntrinsics_ be a new empty List.
+            1. For each intrinsic _intrinsic_ that would be accessible from the value represented by _baseIntrinsic_ in a new realm prior to any ECMAScript code being evaluated, via member access,
+              1. Let _P_ be the property key represented by _intrinsic_.
+              1. Let _X_ be the property represented by _intrinsic_.
+              1. If _P_ is neither *"constructor"* nor *"__proto__"*,
+                1. If _X_ is a data property,
+                  1. Let _value_ be the [[Value]] attribute of _X_.
+                  1. Append Record { [[Key]]: _intrinsic_, [[Value]]: _value_ } to _nestedIntrinsics_.
+                1. Else,
+                  1. Assert: _X_ is an accessor property.
+                  1. Let _get_ be the [[Get]] attribute of _X_.
+                  1. If _get_ is not *undefined*,
+                    1. Let _name_ be the string-concatenation of *"get "* and _intrinsic_.
+                    1. Append Record { [[Key]]: _name_, [[Value]]: _get_ } to _nestedIntrinsics_.
+                  1. Let _set_ be the [[Set]] attribute of _X_.
+                  1. If _set_ is not *undefined*,
+                    1. Let _name_ be the string-concatenation of *"set "* and _intrinsic_.
+                    1. Append Record { [[Key]]: _name_, [[Value]]: _set_ } to _nestedIntrinsics_.
+            1. TODO: find an easy way to sort that ignores the prefixes.
+            1. Sort _nestedIntrinsics_ in alphabetical order, based on the [[Key]] field of each Record.
+            1. Append the contents of _nestedIntrinsics_ to _intrinsics_.
+          1. Append Record { [[Key]]: *"globalThis"*, [[Value]]: GetThisBinding() } to _intrinsics_.
+          1. Assert: _intrinsics_ contains exactly one record with the [[Key]] *"globalThis"*.
+          1. Let _hostIntrinsics_ be HostAddedIntrinsics().
+          1. Let _map_ be ! OrdinaryCreateFromConstructor(%Map%, "%Map.prototype%", « [[MapData]] »).
+          1. Set _map_.[[MapData]] to the list-concatenation of _intrinsics_ and _hostIntrinsics_.
+          1. Return _map_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-create-intrinsics-iterator" type="abstract operation">
+      <h1>
+        CreateIntrinsicsIterator(
+        ): a Generator
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-alg>
+        1. Return ! CreateMapIterator(GetIntrinsicsMap(), ~key~).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-map-get" type="abstract operation">
+      <h1>
+        MapGet(
+          _map_: a Map,
+          _key_: an ECMAScript language value,
+        ): a Boolean
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-alg>
+        1. Let _entries_ be the List that is _map_.[[MapData]].
+        1. For each Record { [[Key]], [[Value]] } _p_ of _entries_, do
+          1. If _p_.[[Key]] is not ~empty~ and SameValueZero(_p_.[[Key]], _key_) is *true*, return _p_.[[Value]].
+        1. Return *undefined*.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-map-has" type="abstract operation">
+      <h1>
+        MapHas(
+          _map_: a Map,
+          _key_: an ECMAScript language value,
+        ): a Boolean
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-alg>
+        1. Let _entries_ be the List that is _map_.[[MapData]].
+        1. For each Record { [[Key]], [[Value]] } _p_ of _entries_, do
+          1. If _p_.[[Key]] is not ~empty~ and SameValueZero(_p_.[[Key]], _key_) is *true*, return *true*.
+        1. Return *false*.
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="#sec-keyed-collections" number="24">
+  <h1>Keyed Collections</h1>
+  <emu-clause id="#sec-map-objects">
+    <h1>Map Objects</h1>
+    <emu-clause id="#sec-properties-of-the-map-prototype-object" number="3">
+      <h1>Properties of the Map Prototype Object</h1>
+
+      <emu-clause id="#sec-map.prototype.get" number="6">
+        <h1>Map.prototype.get ( _key_ )</h1>
+        <p>This method performs the following steps when called:</p>
+        <emu-alg>
+          1. Let _M_ be the *this* value.
+          1. Perform ? RequireInternalSlot(_M_, [[MapData]]).
+          1. <ins>Return MapGet(_M_, _key_).</ins>
+          1. <del>Let _entries_ be the List that is _M_.[[MapData]].</del>
+          1. <del>For each Record { [[Key]], [[Value]] } _p_ of _entries_, do</del>
+            1. <del>If _p_.[[Key]] is not ~empty~ and SameValueZero(_p_.[[Key]], _key_) is *true*, return _p_.[[Value]].</del>
+          1. <del>Return *undefined*.</del>
+        </emu-alg>
+      </emu-clause>
+
+      <emu-clause id="#sec-map.prototype.has" number="7">
+        <h1>Map.prototype.has ( _key_ )</h1>
+        <p>This method performs the following steps when called:</p>
+        <emu-alg>
+          1. Let _M_ be the *this* value.
+          1. Perform ? RequireInternalSlot(_M_, [[MapData]]).
+          1. <ins>Return MapHas(_M_, _key_).</ins>
+          1. <del>Let _entries_ be the List that is _M_.[[MapData]].</del>
+          1. <del>For each Record { [[Key]], [[Value]] } _p_ of _entries_, do</del>
+            1. <del>If _p_.[[Key]] is not ~empty~ and SameValueZero(_p_.[[Key]], _key_) is *true*, return _p_.[[Value]].</del>
+          1. <del>Return *undefined*.</del>
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-reflection" number="28">
+  <h1>Reflection</h1>
+
+  <emu-clause id="sec-reflect-object" number="1">
+    <h1>The Reflect Object</h1>
+
+    <emu-clause id="sec-reflect.getintrinsic" number="6">
+      <h1>Reflect.getIntrinsic ( _name_ )</h1>
+      <ins class="block">
+      <p>This function performs the following steps when called:</p>
+      <emu-alg>
+        1. If Type(_name_) is not String, throw a *TypeError* exception.
+        1. Let _map_ be GetIntrinsicsMap().
+        1. If MapHas(_map_) is *false*, then
+          1. Throw a *TypeError* exception.
+        1. Return MapGet(_map_, _name_).
+      </emu-alg>
+
+      <emu-note>
+        When the _name_ string succeeds in producing an intrinsic, the _name_ string surrounded by *"%"* matches the intrinsic notation described in the specification in <a href="https://tc39.es/ecma262/#sec-well-known-intrinsic-objects">Well-Known Intrinsic Objects</a>.
+      </emu-note>
+      </ins>
+    </emu-clause>
+
+    <emu-clause id="sec-reflect.getintrinsics" number="7">
+      <h1>Reflect.getIntrinsics ( )</h1>
+      <ins class="block">
+      <p>This function performs the following steps when called:</p>
+      <emu-alg>
+        1. Return CreateIntrinsicsIterator().
+      </emu-alg>
+      </ins>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>

@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "name": "proposal-iterator-sequencing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "spec": "ecmarkup --mark-effects --load-biblio @tc39/ecma262-biblio --load-biblio ./proposal-iterator-helpers-biblio.json --write-biblio biblio.json --lint-spec --strict spec.emu --assets-dir dist dist/index.html",
+    "test": "node --test test/index.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tc39/proposal-iterator-sequencing.git"
+  },
+  "author": "Michael Ficarra",
+  "bugs": {
+    "url": "https://github.com/tc39/proposal-iterator-sequencing/issues"
+  },
+  "homepage": "https://github.com/tc39/proposal-iterator-sequencing#readme",
+  "devDependencies": {
+    "@tc39/ecma262-biblio": "2.1.2736",
+    "ecmarkup": "18.3.1",
+    "typescript": "5.2.2"
+  }
+}

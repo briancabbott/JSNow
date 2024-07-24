@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-iterator-sequencing undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-iterator-sequencing",
+    "repo": "https://github.com/tc39/proposal-iterator-sequencing",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-iterator-sequencing",
+    "startTime": "2024-07-18T18:17:01.923Z",
+    "endTime": "2024-07-18T18:17:02.944Z",
+    "childProcessPid": 21950,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-iterator-sequencing--21950",
+    "executionErrors": []
+}

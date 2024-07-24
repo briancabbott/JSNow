@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-intl-list-format undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-list-format",
+    "repo": "https://github.com/tc39/proposal-intl-list-format",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-list-format",
+    "startTime": "2024-07-18T18:16:48.828Z",
+    "endTime": "2024-07-18T18:16:49.432Z",
+    "childProcessPid": 21576,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-intl-list-format--21576",
+    "executionErrors": []
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>In-browser test cases for shared memory and atomics</title>
+</head>
+
+<body>
+  <p> These test cases run as you load them and test that sharing restrictions are implemented correctly: </p>
+  <ul>
+    <li> <a href="test_sharing_window_and_worker.html">test_sharing_window_and_worker</a>: Sharing memory between Window and Worker works (both directions)
+    <li> <a href="test_sharing_worker_and_nested_worker.html">test_sharing_worker_and_nested_worker</a>: Sharing memory between Worker and its nested Worker works (both directions)
+    <li> <a href="test_sharing_sharedworker_and_nested_worker.html">test_sharing_sharedworker_and_nested_worker</a>: Sharing memory between SharedWorker and its nested Worker works (both directions)
+    <li> <a href="test_sharing_window_and_sharedworker.html">test_sharing_window_and_sharedworker</a>: Sharing between Window and SharedWorker does NOT work (either direction)
+  </ul>
+
+  <p> These test cases run as you load them and test misc inter-agent functionality:</p>
+  <ul>
+    <li> <a href="test_futexTimeout.html">test_futexTimeout</a>: Atomics.wait, Atomics.wake, and timeouts
+    <li> <a href="test_sharedMemCriticalSection.html">test_sharedMemCriticalSection</a>: Simple mutual exclusion using Atomics operations
+    <li> <a href="test_sharedTypedArrayClone.html">test_sharedTypedArrayClone</a>: TypedArray on SharedArrayBuffer can be transmitted to a worker
+  </ul>
+
+  <p> These test cases require additional interaction to run: </p>
+  <ul>
+    <li> <a href="test_serviceWorkerNotSharing.html">test_serviceWorkerNotSharing</a>
+    <li> <a href="test_futexMainTimeout.html">test_futexMainTimeout</a>
+    <li> <a href="test_futexMainWakeup.html">test_futexMainWakeup</a>
+    <li> <a href="test_futexSlowscript.html">test_futexSlowscript</a> (interacts with Slow Script dialog)
+    <li> <a href="test_futexWakeInInterrupt.html">test_futexWakeInInterrupt</a> (interacts with Slow Script dialog)
+  </ul>
+
+  <p> These test cases require the browser or tab to be shut down: </p>
+  <ul>
+    <li> <a href="test_futexInterrupt.html">test_futexInterrupt</a>
+  </ul>
+</body>
+</html>

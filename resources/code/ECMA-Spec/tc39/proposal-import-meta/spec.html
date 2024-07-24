@@ -1,0 +1,324 @@
+<pre class="metadata">
+title: import.meta
+status: proposal
+stage: 4
+location: https://tc39.github.io/proposal-import-meta/
+copyright: false
+contributors: Domenic Denicola
+</pre>
+<script src="ecmarkup.js" defer></script>
+<link rel="stylesheet" href="ecmarkup.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_light.min.css">
+
+<emu-intro id="introduction">
+  <h1>Introduction</h1>
+
+  <p>Background explanatory material for this specification can be found in the <a
+  href="https://github.com/tc39/proposal-import-meta">tc39/proposal-import-meta</a>
+  repository. See also the <a
+  href="https://github.com/tc39/proposal-import-meta/issues">issues</a> list and the <a
+  href="https://github.com/tc39/proposal-import-meta/blob/master/HTML%20Integration.md">HTML
+  integration spec</a> that builds on top of the below JavaScript specification.</p>
+</emu-intro>
+
+<emu-clause id="sec-modules">
+  <h1>Modules</h1>
+
+  <emu-clause id="sec-module-semantics">
+    <h1>Module Semantics</h1>
+
+    <emu-clause id="sec-abstract-module-records">
+      <h1>Abstract Module Records</h1>
+
+      <emu-table id="table-36" caption="Module Record Fields">
+        <table>
+          <thead>
+          <tr>
+            <th>
+              Field Name
+            </th>
+            <th>
+              Value Type
+            </th>
+            <th>
+              Meaning
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              [[Realm]]
+            </td>
+            <td>
+              Realm Record | *undefined*
+            </td>
+            <td>
+              The Realm within which this module was created. *undefined* if not yet assigned.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Environment]]
+            </td>
+            <td>
+              Lexical Environment | *undefined*
+            </td>
+            <td>
+              The Lexical Environment containing the top level bindings for this module. This field is set when the module is instantiated.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Namespace]]
+            </td>
+            <td>
+              Object | *undefined*
+            </td>
+            <td>
+              The Module Namespace Object (<emu-xref href="#sec-module-namespace-objects"></emu-xref>) if one has been created for this module. Otherwise *undefined*.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[Status]]
+            </td>
+            <td>
+              String
+            </td>
+            <td>
+              Initially `"uninstantiated"`. Can become `"instantiating"`, `"instantiated"`, `"evaluating"`, `"evaluated"`, or `"errored"` as the module progresses throughout its lifecycle.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[ErrorCompletion]]
+            </td>
+            <td>
+              An abrupt completion | *undefined*
+            </td>
+            <td>
+              A completion of type ~throw~ representing the exception that occurred during instantiation or evaluation, if [[Status]] is `"errored"`. Otherwise *undefined*.
+            </td>
+          </tr>
+          <tr>
+            <td><ins>[[Meta]]</ins></td>
+            <td><ins>Object | *undefined*</ins></td>
+            <td>
+              <ins>An object exposed through the `import.meta` meta property. It is *undefined* by
+              default, but will become an Object before it is ever accessed by ECMAScript
+              code.</ins>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              [[HostDefined]]
+            </td>
+            <td>
+              Any, default value is *undefined*.
+            </td>
+            <td>
+              Field reserved for use by host environments that need to associate additional information with a module.
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </emu-table>
+    </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-left-hand-side-expressions">
+  <h1>Left-Hand-Side Expressions</h1>
+  <h2>Syntax</h2>
+  <emu-grammar>
+    MemberExpression[Yield, Await] :
+      PrimaryExpression[?Yield, ?Await]
+      MemberExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
+      MemberExpression[?Yield, ?Await] `.` IdentifierName
+      MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await]
+      SuperProperty[?Yield, ?Await]
+      MetaProperty
+      `new` MemberExpression[?Yield, ?Await] Arguments[?Yield, ?Await]
+
+    SuperProperty[Yield, Await] :
+      `super` `[` Expression[+In, ?Yield, ?Await] `]`
+      `super` `.` IdentifierName
+
+    MetaProperty :
+      NewTarget
+      <ins>ImportMeta</ins>
+
+    NewTarget :
+      `new` `.` `target`
+
+    <ins>
+    ImportMeta :
+     `import` `.` `meta`
+    </ins>
+
+    NewExpression[Yield, Await] :
+      MemberExpression[?Yield, ?Await]
+      `new` NewExpression[?Yield, ?Await]
+
+    CallExpression[Yield, Await] :
+      CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] #callcover
+      SuperCall[?Yield, ?Await]
+      CallExpression[?Yield, ?Await] Arguments[?Yield, ?Await]
+      CallExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
+      CallExpression[?Yield, ?Await] `.` IdentifierName
+      CallExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await]
+
+    SuperCall[Yield, Await] :
+      `super` Arguments[?Yield, ?Await]
+
+    Arguments[Yield, Await] :
+      `(` `)`
+      `(` ArgumentList[?Yield, ?Await] `)`
+      `(` ArgumentList[?Yield, ?Await] `,` `)`
+
+    ArgumentList[Yield, Await] :
+      AssignmentExpression[+In, ?Yield, ?Await]
+      `...` AssignmentExpression[+In, ?Yield, ?Await]
+      ArgumentList[?Yield, ?Await] `,` AssignmentExpression[+In, ?Yield, ?Await]
+      ArgumentList[?Yield, ?Await] `,` `...` AssignmentExpression[+In, ?Yield, ?Await]
+
+    LeftHandSideExpression[Yield, Await] :
+      NewExpression[?Yield, ?Await]
+      CallExpression[?Yield, ?Await]
+  </emu-grammar>
+
+  <emu-clause id="sec-static-semantics">
+    <h1>Static Semantics</h1>
+
+    <emu-clause id="sec-left-hand-side-expressions-static-semantics-early-errors">
+      <h1><ins>Static Semantics: Early Errors</ins></h1>
+
+      <emu-grammar>
+        ImportMeta :
+          `import` `.` `meta`
+      </emu-grammar>
+
+      <ul>
+        <li>It is an early Syntax Error if |Module| is not the syntactic goal symbol.</li>
+      </ul>
+    </emu-clause>
+
+    <emu-clause id="sec-static-semantics-static-semantics-isvalidsimpleassignmenttarget">
+      <h1>Static Semantics: IsValidSimpleAssignmentTarget</h1>
+      <emu-see-also-para op="IsValidSimpleAssignmentTarget"></emu-see-also-para>
+      <emu-grammar>
+        CallExpression :
+          CallExpression `[` Expression `]`
+          CallExpression `.` IdentifierName
+
+        MemberExpression :
+          MemberExpression `[` Expression `]`
+          MemberExpression `.` IdentifierName
+          SuperProperty
+      </emu-grammar>
+      <emu-alg>
+        1. Return *true*.
+      </emu-alg>
+      <emu-grammar>
+        CallExpression :
+          CoverCallExpressionAndAsyncArrowHead
+          SuperCall
+          CallExpression Arguments
+          CallExpression TemplateLiteral
+
+        NewExpression :
+          `new` NewExpression
+
+        MemberExpression :
+          MemberExpression TemplateLiteral
+          `new` MemberExpression Arguments
+
+        NewTarget :
+          `new` `.` `target`
+
+        <ins>ImportMeta :
+          `import` `.` `meta`</ins>
+      </emu-grammar>
+      <emu-alg>
+        1. Return *false*.
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-meta-properties">
+    <h1>Meta Properties</h1>
+
+    <emu-clause id="sec-meta-properties-runtime-semantics-evaluation">
+      <h1>Runtime Semantics: Evaluation</h1>
+      <emu-grammar>NewTarget : `new` `.` `target`</emu-grammar>
+      <emu-alg>
+        1. Return GetNewTarget().
+      </emu-alg>
+    </emu-clause>
+
+    <emu-grammar><ins>ImportMeta : `import` `.` `meta`</ins></emu-grammar>
+    <emu-alg>
+      1. <ins>Let _module_ be GetActiveScriptOrModule().</ins>
+      1. <ins>Assert: _module_ is a Module Record (not a Script Record).</ins>
+      1. <ins>Let _importMeta_ be _module_.[[ImportMeta]].</ins>
+      1. <ins>If _importMeta_ is *undefined*.
+        1. <ins>Set _importMeta_ to ObjectCreate(*null*).</ins>
+        1. <ins>Let _importMetaValues_ be ! HostGetImportMetaProperties(_module_).</ins>
+        1. <ins>For each Record {[[Key]], [[Value]]} _p_ that is an element of _importMetaValues_,</ins>
+        1. <ins>Perform ! CreateDataProperty(_importMeta_, _p_.[[Key]], _p_.[[Value]]).</ins>
+        1. <ins>Perform ! HostFinalizeImportMeta(_importMeta_, _module_).</ins>
+        1. <ins>Set _module_.[[ImportMeta]] to _importMeta_.</ins>
+        1. <ins>Return _importMeta_.</ins>
+      1. <ins>Else,
+        1. <ins>Assert: Type(_importMeta_) is Object.</ins>
+        1. <ins>Return _importMeta_.</ins>
+    </emu-alg>
+
+    <emu-clause id="sec-hostgetimportmetaproperties" aoid="HostGetImportMetaProperties">
+      <h1><ins>Runtime Semantics: HostGetImportMetaProperties ( _moduleRecord_ )</ins></h1>
+
+      <p>HostGetImportMetaProperties is an implementation-defined abstract operation that allows
+        hosts to provide property keys and values for the object returned from `import.meta`.</p>
+
+      <p>The implementation of HostGetImportMetaProperties must conform to the following
+        requirements:</p>
+
+      <ul>
+        <li>It must return a List, whose values are all Records with the two fields [[Key]] and
+          [[Value]].</li>
+
+        <li>Each such Record's [[Key]] field must be a property key, i.e., IsPropertyKey must
+          return true when applied to it.</li>
+
+        <li>Each such Record's [[Value]] field must be an ECMAScript value.</li>
+
+        <li>It must always complete normally (i.e., not return an abrupt completion).</li>
+      </ul>
+
+      <p>The default implementation of HostGetImportMetaProperties is to return a new empty
+        List.</p>
+    </emu-clause>
+
+    <emu-clause id="sec-hostfinalizeimportmeta" aoid="HostFinalizeImportMeta">
+      <h1><ins>Runtime Semantics: HostFinalizeImportMeta ( _importMeta_, _moduleRecord_ )</ins></h1>
+
+      <p>HostFinalizeImportMeta is an implementation-defined abstract operation that allows
+        hosts to perform any extraordinary operations to prepare the object returned from
+        `import.meta`.</p>
+
+      <p>Most hosts will be able to simply define HostGetImportMetaProperties, and leave
+        HostFinalizeImportMeta with its default behavior. However, HostFinalizeImportMeta provides an
+        "escape hatch" for hosts which need to directly manipulate the object before it is exposed
+        to ECMAScript code.</p>
+
+      <p>The implementation of HostFinalizeImportMeta must conform to the following
+        requirements:</p>
+
+      <ul>
+        <li>It must always complete normally (i.e., not return an abrupt completion).</li>
+      </ul>
+
+      <p>The default implementation of HostFinalizeImportMeta is to do nothing.</p>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>

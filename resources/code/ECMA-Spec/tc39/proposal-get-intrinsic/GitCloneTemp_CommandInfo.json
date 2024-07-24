@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-get-intrinsic undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-get-intrinsic",
+    "repo": "https://github.com/tc39/proposal-get-intrinsic",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-get-intrinsic",
+    "startTime": "2024-07-18T18:16:35.820Z",
+    "endTime": "2024-07-18T18:16:36.455Z",
+    "childProcessPid": 21158,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-get-intrinsic--21158",
+    "executionErrors": []
+}

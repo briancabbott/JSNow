@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-ecmascript-sharedmem undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-ecmascript-sharedmem",
+    "repo": "https://github.com/tc39/proposal-ecmascript-sharedmem",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-ecmascript-sharedmem",
+    "startTime": "2024-07-18T18:16:16.841Z",
+    "endTime": "2024-07-18T18:16:18.391Z",
+    "childProcessPid": 20564,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-ecmascript-sharedmem--20564",
+    "executionErrors": []
+}

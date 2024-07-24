@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "name": "template-for-proposals",
+  "description": "A repository template for ECMAScript proposals.",
+  "scripts": {
+    "build:annexes": "mkdirp out/annexes && ecmarkup annexes/diff.emu out/annexes/diff.html && ecmarkup annexes/proposed.emu out/annexes/proposed.html",
+    "build:numberformat": "mkdirp out/numberformat && ecmarkup numberformat/diff.emu out/numberformat/diff.html && ecmarkup numberformat/proposed.emu out/numberformat/proposed.html",
+    "build:negotiation": "mkdirp out/negotiation && ecmarkup negotiation/diff.emu out/negotiation/diff.html && ecmarkup negotiation/proposed.emu out/negotiation/proposed.html",
+    "build:pluralrules": "mkdirp out/pluralrules && ecmarkup pluralrules/diff.emu out/pluralrules/diff.html && ecmarkup pluralrules/proposed.emu out/pluralrules/proposed.html",
+    "build:readme": "marked -i README.md -o index.html",
+    "build": "mkdirp out && npm run build:readme && npm run build:annexes && npm run build:numberformat && npm run build:negotiation && npm run build:pluralrules"
+  },
+  "homepage": "https://github.com/tc39/template-for-proposals#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/template-for-proposals.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "ecmarkup": "^16.0.0",
+    "marked": "^4.2.12",
+    "mkdirp": "^2.1.3"
+  }
+}

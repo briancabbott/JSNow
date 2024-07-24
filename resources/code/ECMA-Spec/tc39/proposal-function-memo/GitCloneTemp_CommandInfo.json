@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-function-memo undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-function-memo",
+    "repo": "https://github.com/tc39/proposal-function-memo",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-function-memo",
+    "startTime": "2024-07-18T18:16:32.744Z",
+    "endTime": "2024-07-18T18:16:33.376Z",
+    "childProcessPid": 21048,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-function-memo--21048",
+    "executionErrors": []
+}

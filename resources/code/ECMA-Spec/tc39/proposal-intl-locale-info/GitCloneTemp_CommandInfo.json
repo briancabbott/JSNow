@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-intl-locale-info undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-locale-info",
+    "repo": "https://github.com/tc39/proposal-intl-locale-info",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-locale-info",
+    "startTime": "2024-07-18T18:16:50.035Z",
+    "endTime": "2024-07-18T18:16:50.730Z",
+    "childProcessPid": 21620,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-intl-locale-info--21620",
+    "executionErrors": []
+}

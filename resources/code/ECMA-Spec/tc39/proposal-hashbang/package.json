@@ -1,0 +1,26 @@
+{
+  "name": "proposal-hashbang",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build-loose -- --watch",
+    "build": "npm run build-loose -- --strict",
+    "build-loose": "ecmarkup --load-biblio @tc39/ecma262-biblio --verbose spec.html out.html --lint-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bmeck/proposal-hashbang.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bmeck/proposal-hashbang/issues"
+  },
+  "homepage": "https://github.com/bmeck/proposal-hashbang#readme",
+  "dependencies": {
+    "@tc39/ecma262-biblio": "^2.1.2339",
+    "ecmarkup": "^14.0.1"
+  }
+}

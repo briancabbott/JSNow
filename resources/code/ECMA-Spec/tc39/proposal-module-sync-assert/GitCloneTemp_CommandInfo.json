@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-module-sync-assert undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-module-sync-assert",
+    "repo": "https://github.com/tc39/proposal-module-sync-assert",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-module-sync-assert",
+    "startTime": "2024-07-18T18:17:16.012Z",
+    "endTime": "2024-07-18T18:17:16.703Z",
+    "childProcessPid": 22304,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-module-sync-assert--22304",
+    "executionErrors": []
+}

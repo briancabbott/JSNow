@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-iterator-chunking undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-iterator-chunking",
+    "repo": "https://github.com/tc39/proposal-iterator-chunking",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-iterator-chunking",
+    "startTime": "2024-07-18T18:16:59.847Z",
+    "endTime": "2024-07-18T18:17:00.560Z",
+    "childProcessPid": 21906,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-iterator-chunking--21906",
+    "executionErrors": []
+}

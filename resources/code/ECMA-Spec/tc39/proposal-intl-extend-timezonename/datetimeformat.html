@@ -1,0 +1,224 @@
+<emu-clause id="datetimeformat-objects">
+  <h1>DateTimeFormat Objects</h1>
+
+  <emu-clause id="sec-datetimeformat-abstracts">
+    <h1>Abstract Operations For DateTimeFormat Objects</h1>
+
+    <p>
+      Several DateTimeFormat algorithms use values from the following table, which provides internal slots, property names and allowable values for the components of date and time formats:
+    </p>
+
+    <emu-table id="table-datetimeformat-components">
+      <emu-caption>Components of date and time formats</emu-caption>
+      <table class="real-table">
+        <thead>
+          <tr>
+            <th>Internal Slot</th>
+            <th>Property</th>
+            <th>Values</th>
+          </tr>
+        </thead>
+        <tr>
+          <td>[[Weekday]]</td>
+          <td>*"weekday"*</td>
+          <td>*"narrow"*, *"short"*, *"long"*</td>
+        </tr>
+        <tr>
+          <td>[[Era]]</td>
+          <td>*"era"*</td>
+          <td>*"narrow"*, *"short"*, *"long"*</td>
+        </tr>
+        <tr>
+          <td>[[Year]]</td>
+          <td>*"year"*</td>
+          <td>*"2-digit"*, *"numeric"*</td>
+        </tr>
+        <tr>
+          <td>[[Month]]</td>
+          <td>*"month"*</td>
+          <td>*"2-digit"*, *"numeric"*, *"narrow"*, *"short"*, *"long"*</td>
+        </tr>
+        <tr>
+          <td>[[Day]]</td>
+          <td>*"day"*</td>
+          <td>*"2-digit"*, *"numeric"*</td>
+        </tr>
+        <tr>
+          <td>[[Hour]]</td>
+          <td>*"hour"*</td>
+          <td>*"2-digit"*, *"numeric"*</td>
+        </tr>
+        <tr>
+          <td>[[Minute]]</td>
+          <td>*"minute"*</td>
+          <td>*"2-digit"*, *"numeric"*</td>
+        </tr>
+        <tr>
+          <td>[[Second]]</td>
+          <td>*"second"*</td>
+          <td>*"2-digit"*, *"numeric"*</td>
+        </tr>
+        <tr>
+          <td>[[TimeZoneName]]</td>
+          <td>*"timeZoneName"*</td>
+          <td>*"short"*, *"long"*<ins>, *"shortOffset"*, *"longOffset"*, *"shortGeneric"*, *"longGeneric"*</ins></td>
+        </tr>
+      </table>
+    </emu-table>
+
+
+    <emu-clause id="sec-basicformatmatcher" aoid="BasicFormatMatcher">
+      <h1>BasicFormatMatcher ( _options_, _formats_ )</h1>
+
+      <p>
+        When the BasicFormatMatcher abstract operation is called with two arguments _options_ and _formats_, the following steps are taken:
+      </p>
+
+      <emu-alg>
+        1. Let _removalPenalty_ be 120.
+        1. Let _additionPenalty_ be 20.
+        1. Let _longLessPenalty_ be 8.
+        1. Let _longMorePenalty_ be 6.
+        1. Let _shortLessPenalty_ be 6.
+        1. Let _shortMorePenalty_ be 3.
+        1. <ins>Let _offsetPenalty_ be 1.</ins>
+        1. Let _bestScore_ be -*Infinity*.
+        1. Let _bestFormat_ be *undefined*.
+        1. Assert: Type(_formats_) is List.
+        1. For each element _format_ of _formats_, do
+          1. Let _score_ be 0.
+          1. For each property name _property_ shown in <emu-xref href="#table-datetimeformat-components"></emu-xref>, do
+            1. If _options_ has a field [[&lt;_property_&gt;]], let _optionsProp_ be _options_.[[&lt;_property_&gt;]]; else let _optionsProp_ be *undefined*.
+            1. If _format_ has a field [[&lt;_property_&gt;]], let _formatProp_ be _format_.[[&lt;_property_&gt;]]; else let _formatProp_ be *undefined*.
+            1. If _optionsProp_ is *undefined* and _formatProp_ is not *undefined*, decrease _score_ by _additionPenalty_.
+            1. Else if _optionsProp_ is not *undefined* and _formatProp_ is *undefined*, decrease _score_ by _removalPenalty_.
+            1. <ins>Else if _property_ is *"timeZoneName"*, then</ins>
+              1. <ins>If _optionsProp_ is *"short"* or *"shortGeneric"*, then</ins>
+                1. <ins>If _formatProp_ is *"shortOffset"*, decrease _score_ by _offsetPenalty_.</ins>
+                1. <ins>Else if _formatProp_ is *"longOffset"*, decrease _score_ by (_offsetPenalty_ + _shortMorePenalty_).</ins>
+                1. <ins>Else if _optionsProp_ is *"short"* and _formatProp_ is *"long"*, decrease _score_ by _shortMorePenalty_.</ins>
+                1. <ins>Else if _optionsProp_ is *"shortGeneric"* and _formatProp_ is *"longGeneric"*, decrease _score_ by _shortMorePenalty_.</ins>
+                1. <ins>Else if _optionsProp_ ≠ _formatProp_, decrease _score_ by _removalPenalty_.</ins>
+              1. <ins>Else if _optionsProp_ is *"shortOffset"* and _formatProp_ is *"longOffset"*, decrease _score_ by _shortMorePenalty_.</ins>
+              1. <ins>Else if _optionsProp_ is *"long"* or *"longGeneric"*, then</ins>
+                1. <ins>If _formatProp_ is *"longOffset"*, decrease _score_ by _offsetPenalty_.</ins>
+                1. <ins>Else if _formatProp_ is *"shortOffset"*, decrease _score_ by (_offsetPenalty_ + _longLessPenalty_).</ins>
+                1. <ins>Else if _optionsProp_ is *"long"* and _formatProp_ is *"short"*, decrease _score_ by _longLessPenalty_.</ins>
+                1. <ins>Else if _optionsProp_ is *"longGeneric"* and _formatProp_ is *"shortGeneric"*, decrease _score_ by _longLessPenalty_.</ins>
+                1. <ins>Else if _optionsProp_ ≠ _formatProp_, decrease _score_ by _removalPenalty_.</ins>
+              1. <ins>Else if _optionsProp_ is *"longOffset"* and _formatProp_ is *"shortOffset"*, decrease _score_ by _longLessPenalty_.</ins>
+              1. <ins>Else if _optionsProp_ ≠ _formatProp_, decrease _score_ by _removalPenalty_.</ins>
+            1. Else if _optionsProp_ ≠ _formatProp_, then
+              1. If _property_ is *"fractionalSecondDigits"*, then
+                1. Let _values_ be &laquo; *1*<sub>𝔽</sub>, *2*<sub>𝔽</sub>, *3*<sub>𝔽</sub> &raquo;.
+              1. Else,
+                1. Let _values_ be &laquo; *"2-digit"*, *"numeric"*, *"narrow"*, *"short"*, *"long"* &raquo;.
+              1. Let _optionsPropIndex_ be the index of _optionsProp_ within _values_.
+              1. Let _formatPropIndex_ be the index of _formatProp_ within _values_.
+              1. Let _delta_ be max(min(_formatPropIndex_ - _optionsPropIndex_, 2), -2).
+              1. If _delta_ = 2, decrease _score_ by _longMorePenalty_.
+              1. Else if _delta_ = 1, decrease _score_ by _shortMorePenalty_.
+              1. Else if _delta_ = -1, decrease _score_ by _shortLessPenalty_.
+              1. Else if _delta_ = -2, decrease _score_ by _longLessPenalty_.
+          1. If _score_ > _bestScore_, then
+            1. Let _bestScore_ be _score_.
+            1. Let _bestFormat_ be _format_.
+        1. Return _bestFormat_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-formatdatetimepattern" aoid="FormatDateTimePattern">
+      <h1>FormatDateTimePattern ( _dateTimeFormat_, _patternParts_, _x_, _rangeFormatOptions_ )</h1>
+
+      <p>
+        The FormatDateTimePattern abstract operation is called with arguments _dateTimeFormat_ (which must be an object initialized as a DateTimeFormat), _patternParts_ (which is a list of Records as returned by PartitionPattern), _x_ (which must be a Number value), and _rangeFormatOptions_ (which is a range pattern Record as used in [[rangePattern]] or *undefined*), interprets _x_ as a time value as specified in es2022, <emu-xref href="#sec-time-values-and-time-range"></emu-xref>, and creates the corresponding parts according _pattern_ and to the effective locale and the formatting options of _dateTimeFormat_ and _rangeFormatOptions_. The following steps are taken:
+      </p>
+
+      <emu-alg>
+        1. Let _x_ be TimeClip(_x_).
+        1. If _x_ is *NaN*, throw a *RangeError* exception.
+        1. Let _locale_ be _dateTimeFormat_.[[Locale]].
+        1. Let _nfOptions_ be OrdinaryObjectCreate(*null*).
+        1. Perform ! CreateDataPropertyOrThrow(_nfOptions_, *"useGrouping"*, *false*).
+        1. Let _nf_ be ? Construct(%NumberFormat%, &laquo; _locale_, _nfOptions_ &raquo;).
+        1. Let _nf2Options_ be OrdinaryObjectCreate(*null*).
+        1. Perform ! CreateDataPropertyOrThrow(_nf2Options_, *"minimumIntegerDigits"*, 2).
+        1. Perform ! CreateDataPropertyOrThrow(_nf2Options_, *"useGrouping"*, *false*).
+        1. Let _nf2_ be ? Construct(%NumberFormat%, &laquo; _locale_, _nf2Options_ &raquo;).
+        1. Let _fractionalSecondDigits_ be _dateTimeFormat_.[[FractionalSecondDigits]].
+        1. If _fractionalSecondDigits_ is not *undefined*, then
+          1. Let _nf3Options_ be OrdinaryObjectCreate(*null*).
+          1. Perform ! CreateDataPropertyOrThrow(_nf3Options_, *"minimumIntegerDigits"*, _fractionalSecondDigits_).
+          1. Perform ! CreateDataPropertyOrThrow(_nf3Options_, *"useGrouping"*, *false*).
+          1. Let _nf3_ be ? Construct(%NumberFormat%, &laquo; _locale_, _nf3Options_ &raquo;).
+        1. Let _tm_ be ToLocalTime(_x_, _dateTimeFormat_.[[Calendar]], _dateTimeFormat_.[[TimeZone]]).
+        1. Let _result_ be a new empty List.
+        1. For each Record { [[Type]], [[Value]] } _patternPart_ in _patternParts_, do
+          1. Let _p_ be _patternPart_.[[Type]].
+          1. If _p_ is *"literal"*, then
+            1. Append a new Record { [[Type]]: *"literal"*, [[Value]]: _patternPart_.[[Value]] } as the last element of the list _result_.
+          1. Else if _p_ is equal to *"fractionalSecondDigits"*, then
+            1. Let _v_ be _tm_.[[Millisecond]].
+            1. Let _v_ be floor(_v_ × 10<sup>( _fractionalSecondDigits_ - 3 )</sup>).
+            1. Let _fv_ be FormatNumeric(_nf3_, _v_).
+            1. Append a new Record { [[Type]]: *"fractionalSecond"*, [[Value]]: _fv_ } as the last element of _result_.
+          1. Else if _p_ is equal to *"dayPeriod"*, then
+            1. Let _f_ be the value of _dateTimeFormat_'s internal slot whose name is the Internal Slot column of the matching row.
+            1. Let _fv_ be a String value representing the day period of _tm_ in the form given by _f_; the String value depends upon the implementation and the effective locale of _dateTimeFormat_.
+            1. Append a new Record { [[Type]]: _p_, [[Value]]: _fv_ } as the last element of the list _result_.
+          1. <ins>Else if _p_ is equal to *"timeZoneName"*, then</ins>
+            1. <ins>Let _f_ be _dateTimeFormat_.[[TimeZoneName]].</ins>
+            1. <ins>Let _v_ be _dateTimeFormat_.[[TimeZone]].</ins>
+            1. <ins>Let _fv_ be a String value representing _v_ in the form given by _f_; the String value depends upon the implementation and the effective locale of _dateTimeFormat_. The String value may also depend on the value of the [[InDST]] field of _tm_ if _f_ is *"short"*, *"long"*, *"shortOffset"*, or *"longOffset"*.  If the implementation does not have a localized representation of _f_, then use the String value of _v_ itself.</ins>
+            1. <ins>Append a new Record { [[Type]]: _p_, [[Value]]: _fv_ } as the last element of the list _result_.</ins>
+          1. Else if _p_ matches a Property column of the row in <emu-xref href="#table-datetimeformat-components"></emu-xref>, then
+            1. If _rangeFormatOptions_ is not *undefined*, let _f_ be the value of _rangeFormatOptions_'s field whose name matches _p_.
+            1. Else, let _f_ be the value of _dateTimeFormat_'s internal slot whose name is the Internal Slot column of the matching row.
+            1. Let _v_ be the value of _tm_'s field whose name is the Internal Slot column of the matching row.
+            1. If _p_ is *"year"* and _v_ ≤ 0, let _v_ be 1 - _v_.
+            1. If _p_ is *"month"*, increase _v_ by 1.
+            1. If _p_ is *"hour"* and _dateTimeFormat_.[[HourCycle]] is *"h11"* or *"h12"*, then
+              1. Let _v_ be _v_ modulo 12.
+              1. If _v_ is 0 and _dateTimeFormat_.[[HourCycle]] is *"h12"*, let _v_ be 12.
+            1. If _p_ is *"hour"* and _dateTimeFormat_.[[HourCycle]] is *"h24"*, then
+              1. If _v_ is 0, let _v_ be 24.
+            1. If _f_ is *"numeric"*, then
+              1. Let _fv_ be FormatNumeric(_nf_, _v_).
+            1. Else if _f_ is *"2-digit"*, then
+              1. Let _fv_ be FormatNumeric(_nf2_, _v_).
+              1. If the *"length"* property of _fv_ is greater than 2, let _fv_ be the substring of _fv_ containing the last two characters.
+            1. Else if _f_ is *"narrow"*, *"short"*, or *"long"*, then let _fv_ be a String value representing _v_ in the form given by _f_; the String value depends upon the implementation and the effective locale and calendar of _dateTimeFormat_. If _p_ is *"month"* and _rangeFormatOptions_ is *undefined*, then the String value may also depend on whether _dateTimeFormat_.[[Day]] is *undefined*. If _p_ is *"month"* and _rangeFormatOptions_ is not *undefined*, then the String value may also depend on whether _rangeFormatOptions_.[[day]] is *undefined*. <del>If _p_ is *"timeZoneName"*, then the String value may also depend on the value of the [[InDST]] field of _tm_.</del> If _p_ is *"era"* and _rangeFormatOptions_ is *undefined*, then the String value may also depend on whether _dateTimeFormat_.[[Era]] is *undefined*. If _p_ is *"era"* and _rangeFormatOptions_ is not *undefined*, then the String value may also depend on whether _rangeFormatOptions_.[[era]] is *undefined*. If the implementation does not have a localized representation of _f_, then use the String value of _v_ itself.
+            1. Append a new Record { [[Type]]: _p_, [[Value]]: _fv_ } as the last element of the list _result_.
+          1. Else if _p_ is equal to *"ampm"*, then
+            1. Let _v_ be _tm_.[[Hour]].
+            1. If _v_ is greater than 11, then
+              1. Let _fv_ be an implementation and locale dependent String value representing *"post meridiem"*.
+            1. Else,
+              1. Let _fv_ be an implementation and locale dependent String value representing *"ante meridiem"*.
+            1. Append a new Record { [[Type]]: *"dayPeriod"*, [[Value]]: _fv_ } as the last element of the list _result_.
+          1. Else if _p_ is equal to *"relatedYear"*, then
+            1. Let _v_ be _tm_.[[RelatedYear]].
+            1. Let _fv_ be FormatNumeric(_nf_, _v_).
+            1. Append a new Record { [[Type]]: *"relatedYear"*, [[Value]]: _fv_ } as the last element of the list _result_.
+          1. Else if _p_ is equal to *"yearName"*, then
+            1. Let _v_ be _tm_.[[YearName]].
+            1. Let _fv_ be an implementation and locale dependent String value representing _v_.
+            1. Append a new Record { [[Type]]: *"yearName"*, [[Value]]: _fv_ } as the last element of the list _result_.
+          1. Else,
+            1. Let _unknown_ be an implementation-, locale-, and numbering system-dependent String based on _x_ and _p_.
+            1. Append a new Record { [[Type]]: *"unknown"*, [[Value]]: _unknown_ } as the last element of _result_.
+        1. Return _result_.
+      </emu-alg>
+
+      <emu-note>
+        It is recommended that implementations use the locale and calendar dependent strings provided by the Common Locale Data Repository (available at <a href="http://cldr.unicode.org">http://cldr.unicode.org</a>), and use CLDR *"abbreviated"* strings for DateTimeFormat *"short"* strings, and CLDR *"wide"* strings for DateTimeFormat *"long"* strings.
+      </emu-note>
+
+      <emu-note>
+        It is recommended that implementations use the time zone information of the IANA Time Zone Database.
+      </emu-note>
+    </emu-clause>
+
+  </emu-clause>
+
+</emu-clause>

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-function-and-object-literal-element-decorators undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-function-and-object-literal-element-decorators",
+    "repo": "https://github.com/tc39/proposal-function-and-object-literal-element-decorators",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-function-and-object-literal-element-decorators",
+    "startTime": "2024-07-18T18:16:30.830Z",
+    "endTime": "2024-07-18T18:16:31.470Z",
+    "childProcessPid": 20982,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-function-and-object-literal-element-decorators--20982",
+    "executionErrors": []
+}

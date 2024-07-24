@@ -1,0 +1,152 @@
+      <emu-clause id="StructuredData.SharedArrayBuffer.abstract.MemoryLock" aoid="MemoryLock">
+	<h1>MemoryLock( sab, offset, size )</h1>
+
+	<P> FIXME: This may not adequately specify global synchronization. It may be an error to attempt to operationalize this.  But it's important to specify that overlapping but non-indentical atomic accesses to the same locations may actually be racy. </p>
+
+	<emu-alg>
+	  1. Assert: _sab_ is a SharedArrayBuffer
+	  1. Assert: _offset_ &ge; 0 and _offset_ + _size_ &le; _sab_.byteLength and _offset_ mod _size_ == 0
+	  1. Assert: _size_ is 1, 2, or 4.
+	  1. Assert: The calling agent's rights are cleared.
+	  1. Let _G_ be the unique identifier for the memory of _sab_
+	  1. Wait until no other agent's access rights specify the triple (_G_, _offset_, _size_), then set the calling agent's rights to (_G_, _offset_, _size_)
+	</emu-alg>
+
+	<emu-note>
+	  <p> MemoryLock communicates with other agents. </p>
+	</emu-note>
+
+	<emu-note>
+	  <p> Atomicity is only guaranteed for same-sized accesses to the same memory locations, hence the attempt above at operationalizing that.  But that may be a mistake. </p>
+	</emu-note>
+
+      </emu-clause>
+
+      <emu-clause id="StructuredData.SharedArrayBuffer.abstract.MemoryUnlock" aoid="MemoryUnlock">
+	<h1>MemoryUnlock()</h1>
+	<emu-alg>
+	  1. Assert: The calling agent's rights are not cleared.
+	  1. FIXME: Somehow specify that all local writes will be observed by other agents before they observe that the flag is ~false~.
+	  1. Clear the calling agent's rights
+	</emu-alg>
+	<emu-note>
+	  <p> MemoryUnlock communicates with other agents. </p>
+	</emu-note>
+      </emu-clause>
+
+
+<emu-clause id="ObjectBehaviors">
+  <h1>Ordinary and Exotic Object Behaviors (ES6 9)</h1>
+  <emu-clause id="ObjectBehaviors.Exotic">
+    <h1>Built-in Exotic Object Internal Methods and Slots (ES6 9.4)</h1>
+    <emu-clause id="ObjectBehaviors.Exotic.IntegerIndexed">
+      <h1>Integer Indexed Exotic Objects (ES6 9.4.5)</h1>
+      <P> FIXME: It's possible that the shared-memory case should be embedded in GetValueFromBuffer and SetValueInBuffer, since the latter have callers elsewhere. </p>
+      <emu-clause id="ObjectBehaviors.Exotic.IntegerIndexed.ElementGet">
+        <h1>IntegerIndexedElementGet ( O, index ) (ES6 9.4.5.8)</h1>
+        <p>Replace 14 with the following algorithm:</p>
+        <emu-alg>
+          1. If IsSharedMemory(_buffer_) is true, then:
+            1. Return GetValueFromSharedBuffer( _buffer_, _indexedPosition_, _elementType_ )
+          1. Else
+            1. Return GetValueFromBuffer( _buffer_, _indexedPosition_, _elementType_ )
+        </emu-alg>
+      </emu-clause>
+
+      <emu-clause id="ObjectBehaviors.Exotic.IntegerIndexed.ElementSet">
+        <h1>IntegerIndexedElementSet ( O, index, value ) (ES6 9.4.5.9)</h1>
+        <p>Replace step 16 with the following algorithm:</p>
+        <emu-alg>
+          1. If IsSharedMemory(_buffer_) is true, then
+            1. Perform SetValueInSharedBuffer( _buffer_, _indexedPosition_, _elementType_, _numValue_ )
+          1. Else:
+            1. Perform SetValueInBuffer( _buffer_, _indexedPosition_, _elementType_, _numValue_ )
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+          
+      <emu-clause id="StructuredData.SharedArrayBuffer.abstract.GetValueFromSharedBuffer" aoid="GetValueFromSharedBuffer">
+        <h1>GetValueFromSharedBuffer ( arrayBuffer, byteIndex, type )</h1>
+        <P> This is the same as ArrayBuffer's GetValueFromBuffer (ES6 24.1.1.5) except that: </p>
+        <ul>
+          <li> The _arrayBuffer_ parameter is a SharedArrayBuffer
+          <li> There is no _isLittleEndian_ parameter, it is "not present". The implementation must determine the same value for _isLittleEndian_ in all agents that can communicate through shared memory (see Atomics.isLockFree for more precise wording, for now)
+          <li> There is no detachment check (step 1)
+          <li> Use the [[SharedArrayBufferData]] internal slot (step 4)
+        </ul>
+      </emu-clause>
+      
+      <emu-clause id="StructuredData.SharedArrayBuffer.abstract.SetValueInSharedBuffer" aoid="SetValueInSharedBuffer">
+        <h1>SetValueInSharedBuffer ( arrayBuffer, byteIndex, type, value )</h1>
+        <P> This is the same as ArrayBuffer's SetValueInBuffer (ES6 24.1.1.6) except that: </p>
+        <ul>
+          <li> The _arrayBuffer_ parameter is a SharedArrayBuffer
+          <li> There is no _isLittleEndian_ parameter, it is "not present".
+          <li> There is no detachment check (step 1)
+          <li> Use the [[SharedArrayBufferData]] internal slot (step 5)
+        </ul>
+      </emu-clause>
+
+
+
+
+        
+        A step in the algorithms below that is marked "With atomic access to ..." is known as an atomic step.  There must be a single total order (shared by all the agents that are able to communicate through shared memory) in which atomic steps occur, known as the atomics order.  If an atomic step R reads some bytes B<sub>0</sub> through B<sub>n</sub> in a SharedArrayBuffer, for each byte B it may return any of:</p>
+
+      <p> There is a relation <em>happens-before</em> on program steps that is defined as follows. </p>
+      <ul>
+        <li> If a step S precedes a step T in the dynamic semantics of a program within a single agent then S happens-before T.
+        <li> If a step S writes a value with an atomic operation synchronizes-with a step T then S happens-before T
+        <li> There are certain inter-agent, embedding-specific operations that contribute to the happens-before relationship; see the later section on Web Browser embedding.
+      </ul>
+
+
+      Note, how do the futex sections figure into all of this?
+
+
+      <p> A step in the algorithms below that is marked "With atomic access to ..." is known as an atomic step.  There must be a single total order (shared by all the agents that are able to communicate through shared memory) in which atomic steps occur, known as the atomics order.  If an atomic step R reads some bytes B<sub>0</sub> through B<sub>n</sub> in a SharedArrayBuffer, for each byte B it may return any of:</p>
+      <ul>
+        <li> The most recent (in the atomics order) value written by an atomic step to B.
+        <li> If a non-atomic step S wrote to B, and S happens-before R and there is no other step T that writes to B such that S happens-before T and T happens-before R, then the value that S wrote to B.
+        <li> If a non-atomic step U wrote to B and neither U happens-before R nor R happens-before U, then the value U wrote to B.
+      </ul>
+
+      <p>Notes:</p>
+      <ul>
+        <li> Data-race free programs are sequentially consistent.
+        <li> The fact that all Atomics accesses occur through SharedTypedArrays instead of SharedDataViews or directly to the SharedArrayBuffer guarantees that accesses will be aligned.
+        <li> If two atomic steps access the same elements of a SharedArrayBuffer through SharedTypedArrays with different element sizes, they do not induce a happens-before edge, but they do still occur in the global atomics order.
+        <li> Atomic steps do not have to be through the same type SharedTypedArray to induce a happens-before edge.
+      </ul>
+      
+      <p> If the two threads access the same shared memory cells , and at least one access is not an atomic operation
+      <p> Atomic accesses to memory are totally ordered. </p>
+
+
+      <!--
+      <p> In the algorithms below, the algorithm step 'With atomic access to (_buffer_, _indexedPosition_, _elementSize_)' means the following:</p>
+      <ul>
+        <li> If several agents are claiming atomic access to exactly the same _elementSize_ memory cells then these atomic sections are serialized, each agent executes all its dependent steps while the other agents are waiting
+        <li> FIXME: Well-defined atomic sections are globally ordered
+        <li> FIXME: It's possible to create ill-defined behavior with overlapping
+        <li> FIXME: Conflicts are implementation dependent and can change over time (eg, moving from a spinlock to an atomic can change behavior)
+      </ul>
+-->
+
+    <emu-clause id="Atomics.loadUnordered">
+      <h1>Atomics.loadUnordered( typedArray, index )</h1>
+      <emu-note>
+        <p> This is the same operation as Atomics.load, but where the observable memory effects of Atomics.load relative to operations before and after it are defined, Atomics.loadUnordered can be rearranged (in terms of memory effects) with unordered operations that precede or succeed it, including non-atomic operations.  Atomics.loadUnordered can be implemented much more efficiently than Atomics.load on almost all platforms. </p>
+      </emu-note>
+    </emu-clause>
+    
+    <emu-clause id="Atomics.storeUnordered">
+      <h1>Atomics.storeUnordered( typedArray, index, value )</h1>
+      <emu-note>
+        <p> This is the same operation as Atomics.store, but where the observable memory effects of Atomics.store relative to operations before and after it are defined, Atomics.storeUnordered can be rearranged (in terms of memory effects) with unordered operations that precede or succeed it, including non-atomic operations.  Atomics.storeUnordered can be implemented much more efficiently than Atomics.store on almost all platforms. </p>
+      </emu-note>
+    </emu-clause>
+
+      

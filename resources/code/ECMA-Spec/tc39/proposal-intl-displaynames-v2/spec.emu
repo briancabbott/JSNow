@@ -1,0 +1,22 @@
+<!doctype html>
+<meta charset="utf8">
+<link rel="stylesheet" href="./spec.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<script src="./spec.js"></script>
+<pre class="metadata">
+title: Intl.DisplayNames v2 Proposal
+stage: 3
+location: https://tc39.es/intl-displaynames-v2/
+copyright: true
+contributors: Google, Ecma International
+</pre>
+
+<emu-intro id="sec-intro">
+  <h1>Introduction</h1>
+
+  <p>This proposal enhances the Intl.DisplayNames API and cover more display names for weekday, month, time zone, unit, calendar, numbering system, etc.
+  See <a href="https://github.com/tc39/intl-displaynames-v2/blob/main/README.md">the README</a> for more context.</p>
+</emu-intro>
+
+<emu-biblio href="./biblio.json"></emu-biblio>
+<emu-import href="./displaynames.html"></emu-import>

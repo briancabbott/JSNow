@@ -1,0 +1,19 @@
+<!doctype html>
+<meta charset="utf8">
+<pre class="metadata">
+title: Intl Enumeration API Specification
+status: proposal
+stage: 3
+location: https://tc39.github.io/proposal-intl-enumeration
+copyright: true
+contributors: Google, Ecma International
+</pre>
+<emu-biblio href="./biblio.json"></emu-biblio>
+
+<emu-intro id="sec-intro">
+  <h1>Introduction</h1>
+
+  <p>This proposal adds several function properties to the `Intl Object` to list supported values of options. See <a href="https://github.com/tc39/proposal-intl-enumeration/blob/master/README.md">the README</a> for more context.</p>
+</emu-intro>
+<emu-import href="./locales-currencies-tz.html"></emu-import>
+<emu-import href="./intl.html"></emu-import>

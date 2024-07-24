@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-hack-pipes undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-hack-pipes",
+    "repo": "https://github.com/tc39/proposal-hack-pipes",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-hack-pipes",
+    "startTime": "2024-07-18T18:16:37.777Z",
+    "endTime": "2024-07-18T18:16:38.689Z",
+    "childProcessPid": 21224,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-hack-pipes--21224",
+    "executionErrors": []
+}

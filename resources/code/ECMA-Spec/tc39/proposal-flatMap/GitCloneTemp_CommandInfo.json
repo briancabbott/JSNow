@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-flatMap undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-flatMap",
+    "repo": "https://github.com/tc39/proposal-flatMap",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-flatMap",
+    "startTime": "2024-07-18T18:16:28.339Z",
+    "endTime": "2024-07-18T18:16:28.949Z",
+    "childProcessPid": 20894,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-flatMap--20894",
+    "executionErrors": []
+}

@@ -1,0 +1,40 @@
+{
+	"name": "ecma-proposal-error-stacks",
+	"version": "0.0.0",
+	"description": "ECMAScript spec proposal for Error Stacks",
+	"private": true,
+	"scripts": {
+		"start": "npm run build-loose -- --watch",
+		"build": "npm run build-loose -- --strict",
+		"build-loose": "ecmarkup --load-biblio @tc39/ecma262-biblio --verbose spec.emu index.html --lint-spec"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ljharb/proposal-error-stacks.git"
+	},
+	"keywords": [
+		"error",
+		"errors",
+		"stack",
+		"getStack",
+		"System.getStack",
+		"stack trace",
+		"ECMAScript",
+		"ESNext",
+		"spec",
+		"proposal"
+	],
+	"author": "Jordan Harband <ljharb@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ljharb/proposal-promise-error-stacks/issues"
+	},
+	"homepage": "https://github.com/ljharb/proposal-promise-error-stacks#readme",
+	"dependencies": {
+		"in-publish": "^2.0.1"
+	},
+	"devDependencies": {
+		"@tc39/ecma262-biblio": "^2.1.2682",
+		"ecmarkup": "^18.1.3"
+	}
+}

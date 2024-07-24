@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-math-sum undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-math-sum",
+    "repo": "https://github.com/tc39/proposal-math-sum",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-math-sum",
+    "startTime": "2024-07-18T18:17:11.608Z",
+    "endTime": "2024-07-18T18:17:12.651Z",
+    "childProcessPid": 22194,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-math-sum--22194",
+    "executionErrors": []
+}

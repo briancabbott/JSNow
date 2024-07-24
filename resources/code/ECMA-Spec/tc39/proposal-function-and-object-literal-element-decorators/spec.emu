@@ -1,0 +1,18 @@
+<!doctype html>
+<meta charset="utf8">
+<link rel="stylesheet" href="./spec.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<script src="./spec.js"></script>
+<pre class="metadata">
+title: ECMAScript Decorators for Function Expressions and Function Declarations
+status: proposal
+stage: -1
+contributors: Ron Buckton, Ecma International
+</pre>
+
+<emu-biblio href="node_modules/@tc39/ecma262-biblio/biblio.json"></emu-biblio>
+
+<emu-intro id="intro">
+  <h1>Introduction</h1>
+  <p>See <a href="https://github.com/rbuckton/proposal-function-decorators">the proposal repository</a> for background material and discussion.</p>
+</emu-intro>

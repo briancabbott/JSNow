@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-intl-eradisplay undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-eradisplay",
+    "repo": "https://github.com/tc39/proposal-intl-eradisplay",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-eradisplay",
+    "startTime": "2024-07-18T18:16:46.953Z",
+    "endTime": "2024-07-18T18:16:47.595Z",
+    "childProcessPid": 21510,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-intl-eradisplay--21510",
+    "executionErrors": []
+}

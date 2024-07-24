@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-intl-enumeration undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-enumeration",
+    "repo": "https://github.com/tc39/proposal-intl-enumeration",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-enumeration",
+    "startTime": "2024-07-18T18:16:45.502Z",
+    "endTime": "2024-07-18T18:16:46.295Z",
+    "childProcessPid": 21466,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-intl-enumeration--21466",
+    "executionErrors": []
+}

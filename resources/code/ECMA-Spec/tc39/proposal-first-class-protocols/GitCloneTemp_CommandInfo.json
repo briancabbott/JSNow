@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-first-class-protocols undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-first-class-protocols",
+    "repo": "https://github.com/tc39/proposal-first-class-protocols",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-first-class-protocols",
+    "startTime": "2024-07-18T18:16:27.634Z",
+    "endTime": "2024-07-18T18:16:28.339Z",
+    "childProcessPid": 20872,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-first-class-protocols--20872",
+    "executionErrors": []
+}

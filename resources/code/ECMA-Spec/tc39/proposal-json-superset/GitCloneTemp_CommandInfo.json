@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-json-superset undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-json-superset",
+    "repo": "https://github.com/tc39/proposal-json-superset",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-json-superset",
+    "startTime": "2024-07-18T18:17:08.295Z",
+    "endTime": "2024-07-18T18:17:09.118Z",
+    "childProcessPid": 22106,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-json-superset--22106",
+    "executionErrors": []
+}

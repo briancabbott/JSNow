@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "proposal-json-parse-with-source",
+  "version": "0.1.0",
+  "description": "proposal-intl-segmenter proposal",
+  "devDependencies": {
+    "@tc39/ecma262-biblio": "2.1.2481",
+    "ecmarkup": "^15.0.4"
+  },
+  "scripts": {
+    "clean": "rm -rf docs",
+    "prebuild": "npm run clean && mkdir docs",
+    "build": "ecmarkup --lint-spec --strict --load-biblio @tc39/ecma262-biblio spec.html docs/index.html"
+  },
+  "repository": "tc39/proposal-json-parse-with-source",
+  "author": "ECMA TC39",
+  "license": "SEE LICENSE IN https://tc39.github.io/ecma262/#sec-copyright-and-software-license",
+  "homepage": "https://github.com/tc39/proposal-json-parse-with-source"
+}

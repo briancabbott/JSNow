@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-generator-arrow-functions undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-generator-arrow-functions",
+    "repo": "https://github.com/tc39/proposal-generator-arrow-functions",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-generator-arrow-functions",
+    "startTime": "2024-07-18T18:16:35.227Z",
+    "endTime": "2024-07-18T18:16:35.819Z",
+    "childProcessPid": 21136,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-generator-arrow-functions--21136",
+    "executionErrors": []
+}

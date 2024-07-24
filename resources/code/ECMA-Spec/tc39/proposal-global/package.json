@@ -1,0 +1,37 @@
+{
+	"name": "ecma-proposal-global",
+	"version": "0.0.0",
+	"description": "ECMAScript spec proposal for `global`",
+	"scripts": {
+		"build": "ecmarkup spec.emu | js-beautify -f - --type=html -t > index.html",
+		"prepublish": "npm run build && echo >&2 'no publishing' && exit 255"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ljharb/proposal-global.git"
+	},
+	"keywords": [
+		"global",
+		"self",
+		"window",
+		"System",
+		"System.global",
+		"ES7",
+		"ES2016",
+		"ECMAScript",
+		"ESNext",
+		"spec",
+		"proposal"
+	],
+	"author": "Jordan Harband <ljharb@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ljharb/proposal-global/issues"
+	},
+	"homepage": "https://github.com/ljharb/proposal-global#readme",
+	"dependencies": {},
+	"devDependencies": {
+		"ecmarkup": "^3.16.0",
+		"js-beautify": "^1.8.6"
+	}
+}

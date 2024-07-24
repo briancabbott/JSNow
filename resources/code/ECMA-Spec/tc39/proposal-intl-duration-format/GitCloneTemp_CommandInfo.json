@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-intl-duration-format undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-duration-format",
+    "repo": "https://github.com/tc39/proposal-intl-duration-format",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-intl-duration-format",
+    "startTime": "2024-07-18T18:16:44.762Z",
+    "endTime": "2024-07-18T18:16:45.501Z",
+    "childProcessPid": 21444,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-intl-duration-format--21444",
+    "executionErrors": []
+}

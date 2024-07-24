@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-explicit-resource-management undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-explicit-resource-management",
+    "repo": "https://github.com/tc39/proposal-explicit-resource-management",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-explicit-resource-management",
+    "startTime": "2024-07-18T18:16:21.771Z",
+    "endTime": "2024-07-18T18:16:22.950Z",
+    "childProcessPid": 20696,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-explicit-resource-management--20696",
+    "executionErrors": []
+}
