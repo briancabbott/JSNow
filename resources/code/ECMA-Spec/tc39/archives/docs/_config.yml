@@ -1,0 +1,19 @@
+theme: jekyll-theme-primer
+
+plugins:
+  - jekyll-sitemap
+
+collections:
+  bugzilla:
+    output: true
+    permalink: /:collection/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: "bugzilla"
+    values:
+      layout: "bugzilla"
+
+webmaster_verifications:
+  google: "ED4N-AKhKPU0x6EQ_bMwQx6v_wH0eQn6FQm8szzaOzA"

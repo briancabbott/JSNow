@@ -1,0 +1,7 @@
+/node_modules
+/dist
+/runner-dist
+/proposals
+/notes
+/proposals.json
+/proposals.min.json
