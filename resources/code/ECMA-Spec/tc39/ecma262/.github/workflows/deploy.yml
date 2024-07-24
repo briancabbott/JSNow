@@ -1,0 +1,24 @@
+name: 'ecma-262 deploy'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: 'deploy github pages'
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'tc39/ecma262' }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ljharb/actions/node/install@d9f477827ed71a259056764107f74afc29febcae
+        name: 'nvm install lts/* && npm ci'
+        with:
+          node-version: lts/*
+          use-npm-ci: true
+      - run: npm run build-only
+      - run: ./scripts/auto-deploy.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
