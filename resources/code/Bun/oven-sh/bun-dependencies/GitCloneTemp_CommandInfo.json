@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/oven-sh/bun-dependencies undefined\\oven--07-18-2024--ehkHnyFvUznfpx1BRPhBEx/bun-dependencies",
+    "repo": "https://github.com/oven-sh/bun-dependencies",
+    "targetPath": "undefined\\oven--07-18-2024--ehkHnyFvUznfpx1BRPhBEx/bun-dependencies",
+    "startTime": "2024-07-18T19:25:23.843Z",
+    "endTime": "2024-07-18T19:25:24.748Z",
+    "childProcessPid": 30426,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Bun/workingdir/--oven-sh--bun-dependencies--30426",
+    "executionErrors": []
+}
