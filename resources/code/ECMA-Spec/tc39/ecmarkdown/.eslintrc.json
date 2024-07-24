@@ -1,0 +1,73 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2018
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "overrides": [
+    {
+      "files": ["test/**/*"],
+      "env": {
+        "mocha": true
+      },
+      "parserOptions": {
+        "sourceType": "script",
+        "ecmaVersion": 2020
+      }
+    },
+    {
+      "files": ["bin/**/*"],
+      "parserOptions": {
+        "sourceType": "script",
+        "ecmaVersion": 2020
+      }
+    }
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "consistent-return": "off",
+    "no-floating-decimal": "error",
+    "no-self-compare": "error",
+    "no-throw-literal": "error",
+    "no-void": "error",
+    "strict": [
+      "error",
+      "global"
+    ],
+    "no-use-before-define": [
+      "error",
+      "nofunc"
+    ],
+    "no-underscore-dangle": "off",
+    "no-constant-condition": "off",
+    "no-control-regex": "off",
+    "camelcase": [
+      "error",
+      {
+        "properties": "never"
+      }
+    ],
+    "no-empty": "error",
+    "curly": [
+      "error",
+      "multi-line"
+    ],
+    "no-var": "error",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error"
+  }
+}

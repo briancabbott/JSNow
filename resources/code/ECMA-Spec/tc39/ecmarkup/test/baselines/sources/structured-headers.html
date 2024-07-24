@@ -1,0 +1,148 @@
+<pre class=metadata>
+  toc: false
+  copyright: false
+  assets: none
+</pre>
+
+<emu-clause id="sec-exampleao" type="abstract operation">
+  <h1>
+    ExampleAO (
+      param : an integer,
+      optional param2 : a String,
+    )
+  </h1>
+  <dl class='header'>
+    <dt>description</dt>
+    <dd>It is an example.</dd>
+  </dl>
+  <emu-note>
+    <p>You can put notes after the header.</p>
+  </emu-note>
+  <emu-alg>
+    1. Algorithm steps go here.
+  </emu-alg>
+</emu-clause>
+
+<!-- EXPECT_WARNING { "ruleId": "duplicate-id", "message": "<emu-clause> has duplicate id \"sec-exampleao\"" } -->
+<emu-clause id="sec-exampleao" type="abstract operation">
+  <h1>ExampleAO ( )</h1>
+  <dl class='header'>
+    <dt>description</dt>
+    <dd>It redefines an existing algorithm.</dd>
+    <dt>redefinition</dt>
+    <dd>true</dd>
+  </dl>
+  <emu-alg>
+    1. Algorithm steps go here.
+  </emu-alg>
+</emu-clause>
+
+<emu-clause id="sec-exampleao2" type="abstract operation">
+  <h1>
+    <ins>ExampleAO2 (
+      param : an integer,
+    )</ins>
+  </h1>
+  <dl class='header'>
+  </dl>
+  <emu-alg>
+    1. Algorithm steps go here.
+  </emu-alg>
+</emu-clause>
+
+<emu-clause id="sec-exampleao3" type="abstract operation">
+  <h1>
+    ExampleAO3 (
+      <del>_param_ : an integer,</del>
+      <ins>optional _newParam_ : an integer,</ins>
+    )
+  </h1>
+  <dl class='header'>
+  </dl>
+  <emu-alg>
+    1. Algorithm steps go here.
+  </emu-alg>
+</emu-clause>
+
+<emu-clause id="sec-exampleao4" type="abstract operation">
+  <h1>
+    ExampleAO4 (
+      param : an integer,
+    )
+  </h1>
+  <dl class='header'>
+  </dl>
+  <del class="block">
+    <emu-alg>
+      1. Algorithm steps go here.
+    </emu-alg>
+  </del>
+  <ins class="block">
+    <emu-alg>
+      1. New algorithm steps go here.
+    </emu-alg>
+  </ins>
+</emu-clause>
+
+<emu-clause id="sec-example-grammar">
+  <h1>This and That</h1>
+  <emu-grammar type="definition">
+    PrimaryExpression :
+      `this`
+      `that`
+  </emu-grammar>
+  <emu-clause id="sec-isthis" type="sdo">
+    <h1>IsThis</h1>
+    <dl class='header'>
+      <dt>description</dt>
+      <dd>It is an example.</dd>
+    </dl>
+    <emu-grammar>PrimaryExpression : `this`</emu-grammar>
+    <emu-alg>
+      1. Return *true*.
+    </emu-alg>
+    <emu-grammar>PrimaryExpression : `that`</emu-grammar>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-isthat" type="sdo">
+    <h1>
+      IsThat (
+        _ignored_: an example,
+      )
+    </h1>
+    <dl class='header'>
+    </dl>
+    <emu-grammar>PrimaryExpression : `this`</emu-grammar>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+    <emu-grammar>PrimaryExpression : `that`</emu-grammar>
+    <emu-alg>
+      1. Return *true*.
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-example-return-type" type="abstract operation">
+  <h1>
+    ExampleAO5 (
+      param : an integer,
+    ): the return type
+  </h1>
+  <dl class='header'>
+  </dl>
+  <emu-alg>
+    1. Algorithm steps go here.
+  </emu-alg>
+</emu-clause>
+
+<emu-clause id="sec-example-single-line-return-type" type="abstract operation">
+  <h1>ExampleA4 ( ): *false*</h1>
+  <dl class='header'>
+  </dl>
+  <emu-alg>
+    1. Return *false*.
+  </emu-alg>
+</emu-clause>

@@ -1,0 +1,13 @@
+{
+    "include": ["src/**/*"],
+    "compilerOptions": {
+        "target": "es2019",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "strict": true,
+        "declaration": true,
+        "stripInternal": true,
+        "outDir": "lib",
+        "lib": ["es2020", "dom", "dom.iterable"],
+    }
+}

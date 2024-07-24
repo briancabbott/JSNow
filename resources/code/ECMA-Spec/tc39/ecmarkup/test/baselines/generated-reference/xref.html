@@ -1,0 +1,119 @@
+<!doctype html>
+<head><meta charset="utf-8"></head><body><div id="shortcuts-help">
+<ul>
+  <li><span>Toggle shortcuts help</span><code>?</code></li>
+  <li><span>Toggle "can call user code" annotations</span><code>u</code></li>
+
+  <li><span>Jump to search box</span><code>/</code></li>
+  <li><span>Toggle pinning of the current clause</span><code>p</code></li>
+  <li><span>Jump to <i>n</i>th pin</span><code>1-9</code></li>
+</ul></div><div id="spec-container">
+<emu-biblio href="./xrefTestBiblio.json"></emu-biblio>
+<emu-clause id="sec-clause-id">
+  <h1><span class="secnum">1</span> Clause Title</h1>
+
+  <!-- local refs to clause -->
+  <emu-xref href="#sec-clause-id" id="_ref_0"><a href="#sec-clause-id">with link text</a></emu-xref>
+  <emu-xref href="#sec-clause-id" id="_ref_1"><a href="#sec-clause-id">1</a></emu-xref>
+  <emu-xref href="#sec-clause-id" title="" id="_ref_2"><a href="#sec-clause-id">Clause Title</a></emu-xref>
+
+  <!-- refs to ES6 clause -->
+  <emu-xref href="#sec-notational-conventions"><a href="https://tc39.es/ecma262/#sec-notational-conventions">with link text</a></emu-xref>
+  <emu-xref href="#sec-scope"><a href="https://tc39.es/ecma262/#sec-scope">1</a></emu-xref>
+  <emu-xref href="#sec-additional-syntax" title=""><a href="https://tc39.es/ecma262/#sec-additional-syntax">Additional Syntax</a></emu-xref>
+
+  <!-- refs to imported biblio clause -->
+  <emu-xref href="#sec-foo"><a href="http://example.com/fooSite.html#sec-foo">with link text</a></emu-xref>
+  <emu-xref href="#sec-foo"><a href="http://example.com/fooSite.html#sec-foo">1</a></emu-xref>
+  <emu-xref href="#sec-foo" title=""><a href="http://example.com/fooSite.html#sec-foo">Foo Section</a></emu-xref>
+
+  <!-- refs to local nonterminal -->
+  <emu-xref href="#prod-TestProduction" id="_ref_3"><a href="#prod-TestProduction"><emu-nt>TestProduction</emu-nt></a></emu-xref>
+  <emu-xref href="#prod-TestProduction" id="_ref_4"><a href="#prod-TestProduction">with link text</a></emu-xref>
+
+  <!-- refs to ES6 nonterminal -->
+  <emu-xref href="#prod-PrimaryExpression"><a href="https://tc39.es/ecma262/#prod-PrimaryExpression"><emu-nt>PrimaryExpression</emu-nt></a></emu-xref>
+
+  <!-- refs to local abstract op -->
+  <emu-xref aoid="AbstractOp" id="_ref_5"><a href="#sec-abstract-op">AbstractOp</a></emu-xref>
+  <emu-xref aoid="AbstractOp" id="_ref_6"><a href="#sec-abstract-op">the AbstractOp abstract operation</a></emu-xref>
+
+  <!-- refs to es6 abstract op -->
+  <emu-xref aoid="ReturnIfAbrupt"><a href="https://tc39.es/ecma262/#sec-returnifabrupt">ReturnIfAbrupt</a></emu-xref>
+  <emu-xref aoid="ReturnIfAbrupt"><a href="https://tc39.es/ecma262/#sec-returnifabrupt">Return if abrupt</a></emu-xref>
+
+  <!-- refs to examples -->
+  <emu-xref href="#example-2" id="_ref_7"><a href="#example-2">1.1 Example 1</a></emu-xref>
+  <emu-xref href="#example-1" id="_ref_8"><a href="#example-1">Example 1</a></emu-xref> <!-- examples in current clause shouldn't include clause name -->
+  <emu-xref href="#example-1" title="" id="_ref_9"><a href="#example-1">Example 1</a></emu-xref> <!-- examples in current clause shouldn't include clause name -->
+  <emu-xref href="#example-3" title="" id="_ref_10"><a href="#example-3">AbstractOp Example 2</a></emu-xref>
+  <emu-xref href="#example-2" id="_ref_11"><a href="#example-2">with link text</a></emu-xref>
+
+  <!-- refs to notes -->
+  <emu-xref href="#note-1" id="_ref_12"><a href="#note-1">1.1 Note 1</a></emu-xref>
+  <emu-xref href="#note-1" title="" id="_ref_13"><a href="#note-1">AbstractOp Note 1</a></emu-xref>
+  <emu-xref href="#note-2" id="_ref_14"><a href="#note-2">Note 1</a></emu-xref> <!-- examples in current clause shouldn't include clause name -->
+  <emu-xref href="#note-2" title="" id="_ref_15"><a href="#note-2">Note 1</a></emu-xref> <!-- examples in current clause shouldn't include clause name -->
+  <emu-xref href="#note-2" id="_ref_16"><a href="#note-2">with link text</a></emu-xref>
+  <emu-xref href="#editors-note" id="_ref_17"><a href="#editors-note">to editors note</a></emu-xref>
+
+  <!-- refs to figures and tables -->
+  <emu-xref href="#table-1" id="_ref_18"><a href="#table-1">Table 1</a></emu-xref>
+  <emu-xref href="#figure-1" id="_ref_19"><a href="#figure-1">Figure 1</a></emu-xref>
+
+  <emu-clause id="sec-abstract-op" aoid="AbstractOp">
+    <h1><span class="secnum">1.1</span> AbstractOp</h1>
+    <emu-alg><ol><li>Return.</li></ol></emu-alg>
+
+    <emu-example id="example-2" caption="Foo Caption"><figure><figcaption>Example 1 (Informative): Foo Caption</figcaption>
+      This is an example
+    </figure></emu-example>
+
+    <emu-example id="example-3" caption="Foo Caption"><figure><figcaption>Example 2 (Informative): Foo Caption</figcaption>
+      This is an example
+    </figure></emu-example>
+
+    <emu-note id="note-1"><span class="note"><a href="#note-1">Note</a></span><div class="note-contents">
+      This is another note
+    </div></emu-note>
+  </emu-clause>
+
+  <emu-example id="example-1" caption="Foo Caption"><figure><figcaption>Example (Informative): Foo Caption</figcaption>
+    This is an example
+  </figure></emu-example>
+
+  <emu-note id="note-2"><span class="note"><a href="#note-2">Note</a></span><div class="note-contents">
+    This is a note!
+  </div></emu-note>
+
+  <emu-note id="editors-note" type="editor"><span class="note"><a href="#editors-note">Editor's Note</a></span><div class="note-contents">
+    <p>Editors should heed this note carefully...</p>
+    <p>This is a second paragraph of things to consider carefully...</p>
+    <p>And a third!</p>
+  </div></emu-note>
+
+  <emu-figure id="figure-1"><figure><figcaption>Figure 1</figcaption>
+    this is a figure!
+  </figure></emu-figure>
+
+  <emu-table id="table-1" caption="An example table"><figure><figcaption>Table 1: An example table</figcaption>
+    <table>
+      <thead>
+        <tr><td>Column 1</td><td>Column 2</td></tr>
+      </thead>
+      <tbody><tr><td>Value</td><td>Value 2</td></tr>
+      <tr><td>Value</td><td>Value 2</td></tr>
+      <tr><td>Value</td><td>Value 2</td></tr>
+      <tr><td>Value</td><td>Value 2</td></tr>
+    </tbody></table>
+  </figure></emu-table>
+</emu-clause>
+
+<emu-grammar type="definition"><emu-production name="TestProduction" type="lexical" id="prod-TestProduction">
+    <emu-nt><a href="#prod-TestProduction">TestProduction</a></emu-nt> <emu-geq>::</emu-geq> <emu-rhs a="1">
+        <emu-t>np</emu-t>
+        <emu-t>np</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+</div></body>

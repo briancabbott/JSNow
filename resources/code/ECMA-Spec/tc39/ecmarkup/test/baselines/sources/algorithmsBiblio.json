@@ -1,0 +1,10 @@
+{
+  "location": "http://example.com/fooSite.html",
+  "entries": [
+    {
+      "type": "op",
+      "aoid": "Biblio",
+      "refId": "sec-biblio"
+    }
+  ]
+}

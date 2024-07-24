@@ -1,0 +1,15 @@
+{
+  "location": "https://tc39.es/ecma262/",
+  "entries": [
+    {
+      "type": "op",
+      "id": "sec-returnifabrupt",
+      "aoid": "ReturnIfAbrupt"
+    },
+    {
+      "type": "op",
+      "id": "sec-get-o-p",
+      "aoid": "Get"
+    }
+  ]
+}

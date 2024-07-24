@@ -1,0 +1,164 @@
+<!doctype html>
+<head><meta charset="utf-8"><meta property="og:image" content="https://tc39.es/ecmarkup/ecma-logo.png"><meta property="og:title" content="Ecmarkup Test Document"><meta property="og:description" content="Intro
+  
+    Sub Intro">
+<link rel="stylesheet" href="css/elements.css">
+<script src="ecmarkup.js"></script>
+<title>Ecmarkup Test Document</title></head><body><div id="shortcuts-help">
+<ul>
+  <li><span>Toggle shortcuts help</span><code>?</code></li>
+  <li><span>Toggle "can call user code" annotations</span><code>u</code></li>
+
+  <li><span>Jump to search box</span><code>/</code></li>
+  <li><span>Toggle pinning of the current clause</span><code>p</code></li>
+  <li><span>Jump to <i>n</i>th pin</span><code>1-9</code></li>
+</ul></div><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120" width="54" height="54">
+      <title>Menu</title>
+      <path stroke-width="10" stroke-linecap="round" d="M30,60 h60  M30,30 m0,5 h60  M30,90 m0,-5 h60"></path>
+    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins<button class="unpin-all">clear</button></div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">+</span><a href="#i1" title="Intro">Intro</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#i2" title="Sub Intro">Sub Intro</a></li></ol></li><li><span class="item-toggle">+</span><a href="#c1" title="Clause Foo(a, b)"><span class="secnum">1</span> Clause Foo(<var>a</var>, <var>b</var>)</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#Foo" title="Sub Clause"><span class="secnum">1.1</span> Sub Clause</a></li><li><span class="item-toggle-none"></span><a href="#Bar" title="Sub Clause"><span class="secnum">1.2</span> Sub Clause</a></li><li><span class="item-toggle">+</span><a href="#Baz" title="Header"><span class="secnum">1.3</span> Header</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#import3" title="Import 3"><span class="secnum">1.3.1</span> Import 3</a></li></ol></li></ol></li><li><span class="item-toggle-none"></span><a href="#a1" title="Annex"><span class="secnum">A</span> Annex</a></li></ol></div></div><div id="spec-container"><h1 class="version">Draft 1 / September 26, 2015</h1><h1 class="title">Ecmarkup Test Document</h1>
+<emu-intro id="i1">
+  <h1>Intro</h1>
+  <emu-intro id="i2">
+    <h1>Sub Intro</h1>
+  </emu-intro>
+</emu-intro>
+
+<emu-clause id="c1">
+  <h1><span class="secnum">1</span> Clause Foo(<var>a</var>, <var>b</var>)</h1>
+  <emu-clause id="Foo" aoid="Foo">
+    <h1><span class="secnum">1.1</span> Sub Clause</h1>
+
+    <emu-note><span class="note">Note 1</span><div class="note-contents">Note 1!</div></emu-note>
+    <emu-note><span class="note">Note 2</span><div class="note-contents">Note 2!</div></emu-note>
+  </emu-clause>
+
+  <emu-clause id="Bar" aoid="">
+    <h1><span class="secnum">1.2</span> Sub Clause</h1>
+  </emu-clause>
+
+  <emu-import href="imports/import1.html"><emu-clause id="Baz" aoid="Baz">
+  <h1><span class="secnum">1.3</span> Header</h1>
+  <p>text</p>
+  <p><emu-nt>nonterminal</emu-nt> <code>code</code> <emu-val>value</emu-val>.</p>
+
+  <emu-import href="sub/import3.html"><emu-clause id="import3">
+  <h1><span class="secnum">1.3.1</span> Import 3</h1>
+  wtf??
+  <emu-grammar type="definition"><emu-production name="A" collapsed="" id="prod-A">
+    <emu-nt><a href="#prod-A">A</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="ayxoiyyq"><emu-t>b</emu-t></emu-rhs>
+</emu-production>
+</emu-grammar>
+</emu-clause></emu-import>
+</emu-clause></emu-import>
+
+  <emu-alg><ol><li>Call <emu-xref aoid="Foo" id="_ref_3"><a href="#Foo">Foo</a></emu-xref>(<var>a</var>).</li><li>Call <emu-xref aoid="Bar" id="_ref_4"><a href="#Bar">Bar</a></emu-xref>(<code>toString</code>).</li><li>Call <emu-xref aoid="Baz" id="_ref_5"><a href="#Baz">Baz</a></emu-xref>(<emu-val>true</emu-val>).<ol><li>Do something else.</li><li>And again.</li></ol></li></ol></emu-alg>
+
+  <emu-note><span class="note">Note</span><div class="note-contents">Note!</div></emu-note>
+
+  <emu-production name="WhileStatement" primary="" id="prod-WhileStatement">
+    <emu-nt><a href="#prod-WhileStatement">WhileStatement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs><emu-t>while</emu-t> <emu-t>(</emu-t><emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt> <emu-t>)</emu-t><emu-nt><a href="https://tc39.es/ecma262/#prod-Statement">Statement</a></emu-nt></emu-rhs>
+  </emu-production>
+
+  <emu-production name="ArgumentList" primary="" id="prod-ArgumentList">
+    <emu-nt><a href="#prod-ArgumentList">ArgumentList</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="a"><emu-nt><a href="https://tc39.es/ecma262/#prod-AssignmentExpression">AssignmentExpression</a></emu-nt></emu-rhs>
+
+    <emu-rhs a="b"><emu-nt id="_ref_6"><a href="#prod-ArgumentList">ArgumentList</a></emu-nt><emu-t>,</emu-t><emu-nt><a href="https://tc39.es/ecma262/#prod-AssignmentExpression">AssignmentExpression</a></emu-nt></emu-rhs>
+  </emu-production>
+
+  <emu-production name="SourceCharacter" type="lexical" primary="" id="prod-SourceCharacter">
+    <emu-nt><a href="#prod-SourceCharacter">SourceCharacter</a></emu-nt> <emu-geq>::</emu-geq> <emu-rhs><emu-gprose>any Unicode code point</emu-gprose></emu-rhs>
+  </emu-production>
+
+  <emu-production name="ExpressionStatement" params="Yield" primary="" id="prod-ExpressionStatement">
+    <emu-nt params="Yield"><a href="#prod-ExpressionStatement">ExpressionStatement</a><emu-mods><emu-params>[Yield]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs>
+      <emu-gann>[lookahead ∉ {
+        <emu-t>{</emu-t>,
+        <emu-t>function</emu-t>,
+        <emu-t>class</emu-t>,
+        <emu-t>let [</emu-t>
+      }]</emu-gann>
+    </emu-rhs>
+  </emu-production>
+
+  <emu-production name="StatementList" params="Return, In" primary="" id="prod-StatementList">
+    <emu-nt params="Return, In"><a href="#prod-StatementList">StatementList</a><emu-mods><emu-params>[Return, In]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs constraints="~Return"><emu-constraints>[~Return]</emu-constraints><emu-nt><a href="https://tc39.es/ecma262/#prod-ReturnStatement">ReturnStatement</a></emu-nt></emu-rhs>
+    <emu-rhs><emu-nt id="_ref_7"><a href="#prod-ExpressionStatement">ExpressionStatement</a></emu-nt></emu-rhs>
+  </emu-production>
+
+  <p>
+    Inline production:
+    <emu-production name="Identifier" type="lexical" collapsed="" primary="" id="prod-Identifier" class=" inline">
+      <emu-nt><a href="#prod-Identifier">Identifier</a></emu-nt> <emu-geq>::</emu-geq> <emu-rhs><emu-nt><a href="https://tc39.es/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt> <emu-gmod>but not
+      <emu-nt><a href="https://tc39.es/ecma262/#prod-ReservedWord">ReservedWord</a></emu-nt></emu-gmod></emu-rhs>
+    </emu-production>
+  </p>
+
+  <emu-production name="EnumDeclaration" primary="" id="prod-EnumDeclaration">
+    <emu-nt><a href="#prod-EnumDeclaration">EnumDeclaration</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs>
+      <emu-t optional="">const<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-t>
+      <emu-t>enum</emu-t>
+      <emu-nt id="_ref_8"><a href="#prod-Identifier">Identifier</a></emu-nt>
+      <emu-t>{</emu-t>
+      <emu-nt optional="">EnumBody<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
+      <emu-t>}</emu-t>
+    </emu-rhs>
+  </emu-production>
+  
+
+  <emu-production name="Identifier" type="lexical">
+    <emu-nt><a href="#prod-Identifier">Identifier</a></emu-nt> <emu-geq>::</emu-geq> <emu-rhs><emu-t>DummyIdentifier</emu-t></emu-rhs>
+  </emu-production>
+
+  <emu-production name="Identifier" type="lexical" collapsed="" primary="" class=" inline">
+      <emu-nt><a href="#prod-Identifier">Identifier</a></emu-nt> <emu-geq>::</emu-geq> <emu-rhs><emu-nt><a href="https://tc39.es/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt> <emu-gmod>but not
+      <emu-nt><a href="https://tc39.es/ecma262/#prod-ReservedWord">ReservedWord</a></emu-nt></emu-gmod></emu-rhs>
+    </emu-production>
+  <emu-production name="ArgumentList" primary="" a="a" collapsed="">
+    <emu-nt><a href="#prod-ArgumentList">ArgumentList</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="a"><emu-nt><a href="https://tc39.es/ecma262/#prod-AssignmentExpression">AssignmentExpression</a></emu-nt></emu-rhs></emu-production>
+
+  <emu-grammar type="definition"><emu-production name="FooBar" collapsed="" id="prod-FooBar">
+    <emu-nt><a href="#prod-FooBar">FooBar</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="zeyjkaqp">
+        <emu-nt>Yeild</emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+
+  <emu-grammar type="definition"><emu-production name="FooBarBaz" collapsed="" id="prod-FooBarBaz">
+    <emu-nt><a href="#prod-FooBarBaz">FooBarBaz</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="zeyjkaqp">
+        <emu-nt>Yeild</emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+
+  <emu-prodref name="FooBar" a="a" collapsed=""></emu-prodref>
+  <p>Inline prodref: <emu-prodref name="FooBar" a="a" collapsed="" class=" inline"></emu-prodref></p>
+
+  <pre><code class="language-javascript hljs"><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params"></span>) { };
+<span class="hljs-title function_">test</span>();</code></pre>
+
+  <emu-xref href="#Bar" id="_ref_0"><a href="#Bar">With link text</a></emu-xref>
+  <emu-xref href="#Bar" id="_ref_1"><a href="#Bar">1.2</a></emu-xref>
+  <emu-xref href="#Bar" title="" id="_ref_2"><a href="#Bar">Sub Clause</a></emu-xref>
+
+  <!-- test block collapsed emu-grammar -->
+  <emu-grammar type="definition"><emu-production name="FunctionDeclaration" collapsed="" id="prod-FunctionDeclaration">
+    <emu-nt><a href="#prod-FunctionDeclaration">FunctionDeclaration</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="gxoavzvy">
+        <emu-t>function</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-BindingIdentifier">BindingIdentifier</a></emu-nt>
+        <emu-t>(</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-FormalParameters">FormalParameters</a></emu-nt>
+        <emu-t>)</emu-t>
+        <emu-t>{</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-FunctionBody">FunctionBody</a></emu-nt>
+        <emu-t>}</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+
+  <p>Test <emu-nt params="WithParams">NonTerminal<emu-mods><emu-params>[WithParams]</emu-params></emu-mods></emu-nt> and <emu-nt optional="">NonTerminal<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>.</p>
+</emu-clause>
+
+<emu-annex id="a1">
+  <h1><span class="secnum">A</span> Annex</h1>
+</emu-annex>
+</div></body>

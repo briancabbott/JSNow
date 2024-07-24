@@ -1,0 +1,11 @@
+{
+  "location": "http://example.com/fooSite.html",
+  "entries": [
+    {
+      "type": "clause",
+      "title": "Foo Section",
+      "number": "1",
+      "id": "sec-foo"
+    }
+  ]
+}

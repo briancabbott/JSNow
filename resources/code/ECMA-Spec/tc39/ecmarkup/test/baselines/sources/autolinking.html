@@ -1,0 +1,34 @@
+<pre class=metadata>
+toc: false
+copyright: false
+assets: none
+</pre>
+<emu-clause id="sec-foo">
+  <h1>Autolinking</h1>
+  <p>Type, type, Type(), type()</p>
+  <p>%Array% and %ArrayPrototype% from ES6 should link (but not %Arrayprototype%).</p>
+
+  <p><dfn>Lowercase</dfn></p>
+  <p><dfn>strict mode</dfn></p>
+  <p><dfn>%Percent%</dfn></p>
+  <p><dfn>extra      spaces</dfn></p>
+  <p><dfn>Await</dfn></p>
+  <p><dfn id="variants" variants="vOne, vTwo">Variants</dfn></p>
+  <p><emu-eqn id="𝔽" aoid="𝔽">𝔽(_x_)</emu-eqn></p>
+</emu-clause>
+<emu-clause id="sec-bar">
+  <h1>Autolinking 2</h1>
+  <p>lowercase should not autolink. But Lowercase should. But not LowerCase.</p>
+  <p>Strict mode shoud link. But Strict Mode should not. Also, strict
+  mode can be wrapped across lines and contain extra whitespace.</p>
+  <p>extra spaces in a dfn should be narrowed to one space.</p>
+  <p>%Percent% should autolink.</p>
+  <p>Vars to dfns should be vars not dfns: _Lowercase_.</p>
+  <p>Also, no autolinks in <a href="#">anchors: Lowercase</a>.</p>
+  <p>Similarly, no autolinks for <sub>[Await]</sub>.</p>
+  <p>Variants like vOne and vTwo should autolink, including when capitalized as in VOne.</p>
+  <emu-alg>
+    1. Non-word-chars AOs still link when invoked, like 𝔽(_x_).
+  </emu-alg>
+</emu-clause>
+<p>%Array% and %ArrayPrototype% outside of clauses is ok.</p>

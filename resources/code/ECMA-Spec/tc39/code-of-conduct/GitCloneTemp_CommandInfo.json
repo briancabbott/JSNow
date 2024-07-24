@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/code-of-conduct undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/code-of-conduct",
+    "repo": "https://github.com/tc39/code-of-conduct",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/code-of-conduct",
+    "startTime": "2024-07-18T18:12:48.871Z",
+    "endTime": "2024-07-18T18:12:49.601Z",
+    "childProcessPid": 18223,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--code-of-conduct--18223",
+    "executionErrors": []
+}

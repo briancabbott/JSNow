@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/agendas undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/agendas",
+    "repo": "https://github.com/tc39/agendas",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/agendas",
+    "startTime": "2024-07-18T18:12:27.846Z",
+    "endTime": "2024-07-18T18:12:34.746Z",
+    "childProcessPid": 18157,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--agendas--18157",
+    "executionErrors": []
+}

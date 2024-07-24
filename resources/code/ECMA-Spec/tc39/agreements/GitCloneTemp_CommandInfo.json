@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/agreements undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/agreements",
+    "repo": "https://github.com/tc39/agreements",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/agreements",
+    "startTime": "2024-07-18T18:12:34.746Z",
+    "endTime": "2024-07-18T18:12:35.284Z",
+    "childProcessPid": 18179,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--agreements--18179",
+    "executionErrors": []
+}
