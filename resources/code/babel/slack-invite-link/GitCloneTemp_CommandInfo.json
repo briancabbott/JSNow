@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/slack-invite-link undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/slack-invite-link",
+    "repo": "https://github.com/babel/slack-invite-link",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/slack-invite-link",
+    "startTime": "2024-07-20T17:51:32.568Z",
+    "endTime": "2024-07-20T17:51:33.255Z",
+    "childProcessPid": 5072,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--slack-invite-link--5072",
+    "executionErrors": []
+}

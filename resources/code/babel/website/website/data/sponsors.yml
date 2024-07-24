@@ -1,0 +1,18 @@
+- name: Coinbase
+  url: https://github.com/coinbase
+  image: https://avatars.githubusercontent.com/u/1885080?s=200&v=4
+  type: opencollective
+  tier: gold-sponsors
+  monthly: 1000
+- name: ACV Auctions
+  url: https://github.com/acv-auctions
+  image: https://avatars.githubusercontent.com/u/9889795?s=200&v=4
+  type: opencollective
+  tier: silver-sponsors
+  monthly: 500
+- name: American Express
+  url: https://developer.americanexpress.com/
+  image: https://avatars.githubusercontent.com/u/3853301?s=200&v=4
+  type: opencollective
+  tier: gold-sponsors
+  monthly: 1000

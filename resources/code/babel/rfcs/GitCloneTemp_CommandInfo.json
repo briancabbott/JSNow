@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/rfcs undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/rfcs",
+    "repo": "https://github.com/babel/rfcs",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/rfcs",
+    "startTime": "2024-07-20T17:51:30.098Z",
+    "endTime": "2024-07-20T17:51:30.894Z",
+    "childProcessPid": 5005,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--rfcs--5005",
+    "executionErrors": []
+}

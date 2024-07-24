@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/ruby-babel-transpiler undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/ruby-babel-transpiler",
+    "repo": "https://github.com/babel/ruby-babel-transpiler",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/ruby-babel-transpiler",
+    "startTime": "2024-07-20T17:51:30.895Z",
+    "endTime": "2024-07-20T17:51:31.707Z",
+    "childProcessPid": 5027,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--ruby-babel-transpiler--5027",
+    "executionErrors": []
+}

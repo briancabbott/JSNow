@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+bundle exec ruby -w test/test_babel_transpiler.rb
+
+if [ -n "$VALIDATE_TRAVIS" ]; then
+  ./script/validate-travis
+fi
+
+if [ -n "$BUILD_SOURCE_GEM" ]; then
+  for version in $(./script/unpublished-source-versions)
+  do
+    ./script/test-gem "$version"
+  done
+fi

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+set -x
+
+export VERSION="$1"
+export SOURCE_VERSION=$(./script/gem-version $VERSION)
+
+if [ ! -f "tmp/vendor/cache/babel-source-$SOURCE_VERSION.gem" ]; then
+  ./script/build-gem "$VERSION"
+fi
+
+cp Gemfile tmp/Gemfile
+rm -f tmp/Gemfile.lock
+
+export BUNDLE_GEMFILE="tmp/Gemfile"
+bundle install --no-prune
+
+bundle exec ruby test/test_babel_transpiler.rb

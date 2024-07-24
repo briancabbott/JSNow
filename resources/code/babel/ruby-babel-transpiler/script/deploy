@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+
+if [ -n "$TRAVIS" ] && ([ "$TRAVIS_SECURE_ENV_VARS" != "true" ] || [ "$TRAVIS_BRANCH" != "master" ] || [ "$TRAVIS_PULL_REQUEST" != "false" ] || [ -z "$BUILD_SOURCE_GEM" ])
+then
+  echo "skipping deploy" >&2
+  exit 0
+fi
+
+echo "deploying unpublished versions" >&2
+
+if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
+  cat << EOF > ~/.gem/credentials
+---
+:rubygems_api_key: $RUBYGEMS_API_KEY
+EOF
+  chmod 0600 ~/.gem/credentials
+fi
+
+for source_version in $(./script/unpublished-source-versions)
+do
+  if [ ! -f "tmp/vendor/cache/babel-source-$source_version.gem" ]; then
+    ./script/test-gem "$version"
+  fi
+  gem push "tmp/vendor/cache/babel-source-$source_version.gem"
+done

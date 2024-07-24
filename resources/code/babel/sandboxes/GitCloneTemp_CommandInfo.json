@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/sandboxes undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/sandboxes",
+    "repo": "https://github.com/babel/sandboxes",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/sandboxes",
+    "startTime": "2024-07-20T17:51:31.708Z",
+    "endTime": "2024-07-20T17:51:32.567Z",
+    "childProcessPid": 5049,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--sandboxes--5049",
+    "executionErrors": []
+}

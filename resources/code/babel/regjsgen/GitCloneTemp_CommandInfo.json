@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/regjsgen undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/regjsgen",
+    "repo": "https://github.com/babel/regjsgen",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/regjsgen",
+    "startTime": "2024-07-20T17:51:28.942Z",
+    "endTime": "2024-07-20T17:51:30.097Z",
+    "childProcessPid": 4983,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--regjsgen--4983",
+    "executionErrors": []
+}
