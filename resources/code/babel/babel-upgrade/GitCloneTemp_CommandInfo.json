@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-upgrade undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-upgrade",
+    "repo": "https://github.com/babel/babel-upgrade",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-upgrade",
+    "startTime": "2024-07-20T17:49:21.342Z",
+    "endTime": "2024-07-20T17:49:24.295Z",
+    "childProcessPid": 4299,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-upgrade--4299",
+    "executionErrors": []
+}

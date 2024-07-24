@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-sublime undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-sublime",
+    "repo": "https://github.com/babel/babel-sublime",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-sublime",
+    "startTime": "2024-07-20T17:49:08.997Z",
+    "endTime": "2024-07-20T17:49:12.403Z",
+    "childProcessPid": 4211,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-sublime--4211",
+    "executionErrors": []
+}

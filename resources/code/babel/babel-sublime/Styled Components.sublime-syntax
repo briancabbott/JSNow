@@ -1,0 +1,60 @@
+%YAML 1.2
+---
+version: 2
+extends: Packages/CSS/CSS.sublime-syntax
+hidden: true
+scope: source.js.css
+file_extensions: []
+first_line_match:
+contexts:
+  main:
+    - meta_prepend: true
+    - match: (?=(?:{{html_tags}}|{{svg_tags}})(?!:))
+      push: styled-components-selector-body
+    - include: property-identifiers
+    - include: property-values
+
+  rule-list-body:
+    - meta_prepend: true
+    - include: main
+
+  comments:
+    - meta_prepend: true
+    - match: //
+      scope: punctuation.definition.comment.begin.css.styled-components
+      push:
+        - meta_scope: comment.line.double-slash.css.styled-components
+        - match: ^
+          pop: true
+
+  selectors:
+    - meta_prepend: true
+    - match: (?=&)
+      push: styled-components-selector-body
+
+  selector-body:
+    - meta_prepend: true
+    - match: \&
+      scope: variable.language.css.styled-components
+
+  selector-content:
+    - meta_prepend: true
+    - match: \&
+      scope: variable.language.css.styled-components
+
+  # Make sure that we handle both the old and new CSS context names
+  styled-components-selector-body:
+    - meta_scope: meta.selector.css
+    - include: selector-body
+    - include: selector-content
+
+  at-keyframe-block-body:
+    - meta_prepend: true
+
+  at-keyframe-block-content:
+    - meta_prepend: true
+
+  styled-components-keyframe-body:
+    - meta_scope: meta.at-rule.keyframe.css
+    - include: at-keyframe-block-body
+    - include: at-keyframe-block-content

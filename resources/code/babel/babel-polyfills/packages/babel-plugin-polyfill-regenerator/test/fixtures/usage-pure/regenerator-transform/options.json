@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "chrome": 40
+  },
+  "plugins": [
+    [
+      "@@/polyfill-regenerator",
+      {
+        "method": "usage-pure"
+      }
+    ],
+    "@babel/plugin-transform-regenerator"
+  ]
+}

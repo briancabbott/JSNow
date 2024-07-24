@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-time-travel undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-time-travel",
+    "repo": "https://github.com/babel/babel-time-travel",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-time-travel",
+    "startTime": "2024-07-20T17:49:19.318Z",
+    "endTime": "2024-07-20T17:49:21.340Z",
+    "childProcessPid": 4277,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-time-travel--4277",
+    "executionErrors": []
+}

@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    [
+      "@@/polyfill-regenerator",
+      {
+        "method": "usage-global"
+      }
+    ],
+    "@babel/plugin-transform-regenerator"
+  ]
+}

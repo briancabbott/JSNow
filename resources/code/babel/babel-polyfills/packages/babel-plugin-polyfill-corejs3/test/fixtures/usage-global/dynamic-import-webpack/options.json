@@ -1,0 +1,14 @@
+{
+  "plugins": [
+    [
+      "@@/polyfill-corejs3",
+      {
+        "method": "usage-global"
+      }
+    ]
+  ],
+  "caller": {
+    "name": "babel-loader",
+    "supportsDynamicImport": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-polyfills undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-polyfills",
+    "repo": "https://github.com/babel/babel-polyfills",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-polyfills",
+    "startTime": "2024-07-20T17:48:43.006Z",
+    "endTime": "2024-07-20T17:48:55.385Z",
+    "childProcessPid": 4122,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-polyfills--4122",
+    "executionErrors": []
+}

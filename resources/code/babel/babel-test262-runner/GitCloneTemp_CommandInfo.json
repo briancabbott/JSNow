@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-test262-runner undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-test262-runner",
+    "repo": "https://github.com/babel/babel-test262-runner",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-test262-runner",
+    "startTime": "2024-07-20T17:49:14.710Z",
+    "endTime": "2024-07-20T17:49:19.305Z",
+    "childProcessPid": 4255,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-test262-runner--4255",
+    "executionErrors": []
+}

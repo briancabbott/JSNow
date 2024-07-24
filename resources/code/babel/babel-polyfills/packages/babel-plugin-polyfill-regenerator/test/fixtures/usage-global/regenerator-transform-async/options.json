@@ -1,0 +1,17 @@
+{
+  "plugins": [
+    [
+      "@@/polyfill-regenerator",
+      {
+        "method": "usage-global"
+      }
+    ],
+    [
+      "@@/polyfill-corejs2",
+      {
+        "method": "usage-global"
+      }
+    ],
+    "@babel/plugin-transform-regenerator"
+  ]
+}

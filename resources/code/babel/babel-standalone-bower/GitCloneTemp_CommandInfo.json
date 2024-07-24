@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/babel/babel-standalone-bower undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-standalone-bower",
+    "repo": "https://github.com/babel/babel-standalone-bower",
+    "targetPath": "undefined\\babe--07-20-2024--8iGtVky25yJ3hwkxMDouNa/babel-standalone-bower",
+    "startTime": "2024-07-20T17:49:02.130Z",
+    "endTime": "2024-07-20T17:49:08.996Z",
+    "childProcessPid": 4189,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--babel--babel-standalone-bower--4189",
+    "executionErrors": []
+}
