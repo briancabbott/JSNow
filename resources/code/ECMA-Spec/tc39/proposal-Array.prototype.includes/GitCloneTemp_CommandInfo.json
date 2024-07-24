@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-Array.prototype.includes undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-Array.prototype.includes",
+    "repo": "https://github.com/tc39/proposal-Array.prototype.includes",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-Array.prototype.includes",
+    "startTime": "2024-07-18T18:15:02.890Z",
+    "endTime": "2024-07-18T18:15:03.941Z",
+    "childProcessPid": 19111,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-Array.prototype.includes--19111",
+    "executionErrors": []
+}

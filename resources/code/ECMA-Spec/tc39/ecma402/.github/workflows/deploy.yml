@@ -1,0 +1,50 @@
+name: 'deploy github pages'
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - es[0-9]+
+      - es[0-9]*.[0-9]*
+
+jobs:
+  deploy:
+    name: 'deploy github pages'
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'tc39/ecma402' }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: lts/*
+          check-latest: true
+      - run: npm install
+      - run: npm run build-only
+      - name: 'Require output size ≥ input size'
+        run: du --bytes spec/ out/index.html | awk '{ print; if($1 < prev) exit 1; prev=$1 }'
+      - name: 'Checkout gh-pages'
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: gh-pages
+      - name: 'Update gh-pages (draft)'
+        id: update_draft
+        if: ${{ github.ref_name == 'main' || github.ref_name == 'master' }}
+        run: |
+          find gh-pages -mindepth 1 -maxdepth 1 -regex '.*/[0-9]*$' -prune -o -exec rm -rf '{}' '+'
+          cp -r out/* gh-pages/
+      - name: 'Update gh-pages (snapshot)'
+        if: ${{ steps.update_draft.outcome == 'skipped' }}
+        run: |
+          branch=${{ github.ref_name }}
+          subdir=$(printf '%s' "$branch" | sed 's/^[^0-9]*//')
+          rm -rf "gh-pages/$subdir" || true
+          mkdir -p "gh-pages/$subdir"
+          cp -r out/* "gh-pages/$subdir"
+      - name: 'Deploy 🚀'
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          branch: gh-pages
+          folder: gh-pages

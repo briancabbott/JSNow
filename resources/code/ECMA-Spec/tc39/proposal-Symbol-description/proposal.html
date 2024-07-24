@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf8">
+<link rel="shortcut icon" href="https://tc39.github.io/ecma262/img/favicon.ico" />
+<pre class=metadata>
+title: Symbol description accessor
+status: proposal
+stage: 4
+contributors: Michael Ficarra
+location: https://github.com/michaelficarra/Symbol-description-proposal
+</pre>
+
+
+<emu-intro id="sec-introduction">
+  <h1>Introduction</h1>
+  <h2>Goals</h2>
+
+  <ul>
+    <li>Expose the [[Description]] internal slot of a symbol directly instead of just indirectly through `Symbol.prototype.toString`.
+  </ul>
+</emu-intro>
+
+
+<!-- intended to be inserted after 19.4.3.2 -->
+<emu-clause id="sec-symbol.prototype.description">
+  <h1>get Symbol.prototype.description</h1>
+  <p>`Symbol.prototype.description` is an accessor property whose set accessor function is *undefined*. Its get accessor function performs the following steps:</p>
+  <emu-alg>
+    1. Let _s_ be the *this* value.
+    1. Let _sym_ be ? thisSymbolValue(_s_).
+    1. Return _sym_.[[Description]].
+  </emu-alg>
+</emu-clause>

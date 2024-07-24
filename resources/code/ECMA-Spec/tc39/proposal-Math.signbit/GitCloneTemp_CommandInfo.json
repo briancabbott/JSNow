@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/proposal-Math.signbit undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-Math.signbit",
+    "repo": "https://github.com/tc39/proposal-Math.signbit",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/proposal-Math.signbit",
+    "startTime": "2024-07-18T18:15:04.767Z",
+    "endTime": "2024-07-18T18:15:05.580Z",
+    "childProcessPid": 19155,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--proposal-Math.signbit--19155",
+    "executionErrors": []
+}

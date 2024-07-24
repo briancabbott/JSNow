@@ -1,0 +1,9 @@
+--- 
+blank_issues_enabled: true
+contact_links: 
+  - name: "Proposal guidelines"
+    about: "Criteria against which feature requests and proposals are evaluated."
+    url: "https://github.com/tc39/ecma402/blob/HEAD/CONTRIBUTING.md#ecma-402-guidelines-for-feature-requests-and-proposals"
+  - name: "\U0001F4AC Code of conduct"
+    about: "This repository is a TC39 project and subscribes to its code of conduct."
+    url: "https://tc39.es/code-of-conduct/"
