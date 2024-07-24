@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/antlr/_grammar-test undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/_grammar-test",
+    "repo": "https://github.com/antlr/_grammar-test",
+    "targetPath": "undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/_grammar-test",
+    "startTime": "2024-07-19T02:41:29.653Z",
+    "endTime": "2024-07-19T02:41:30.355Z",
+    "childProcessPid": 13677,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--antlr--_grammar-test--13677",
+    "executionErrors": []
+}
