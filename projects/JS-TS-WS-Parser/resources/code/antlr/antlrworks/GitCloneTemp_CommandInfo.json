@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/antlr/antlrworks undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/antlrworks",
+    "repo": "https://github.com/antlr/antlrworks",
+    "targetPath": "undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/antlrworks",
+    "startTime": "2024-07-19T02:41:57.203Z",
+    "endTime": "2024-07-19T02:42:03.752Z",
+    "childProcessPid": 14007,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--antlr--antlrworks--14007",
+    "executionErrors": []
+}

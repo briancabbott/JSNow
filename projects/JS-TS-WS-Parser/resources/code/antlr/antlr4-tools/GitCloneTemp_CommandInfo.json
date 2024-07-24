@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/antlr/antlr4-tools undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/antlr4-tools",
+    "repo": "https://github.com/antlr/antlr4-tools",
+    "targetPath": "undefined\\antl--07-18-2024--uehxopTomJLptxvHeJDeuM/antlr4-tools",
+    "startTime": "2024-07-19T02:41:43.659Z",
+    "endTime": "2024-07-19T02:41:44.557Z",
+    "childProcessPid": 13875,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--antlr--antlr4-tools--13875",
+    "executionErrors": []
+}
