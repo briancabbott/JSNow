@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/oven-sh/docs undefined\\oven--07-18-2024--ehkHnyFvUznfpx1BRPhBEx/docs",
+    "repo": "https://github.com/oven-sh/docs",
+    "targetPath": "undefined\\oven--07-18-2024--ehkHnyFvUznfpx1BRPhBEx/docs",
+    "startTime": "2024-07-18T19:25:45.769Z",
+    "endTime": "2024-07-18T19:25:46.273Z",
+    "childProcessPid": 30843,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Bun/workingdir/--oven-sh--docs--30843",
+    "executionErrors": []
+}
