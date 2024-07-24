@@ -1,0 +1,8 @@
+dsl textX [tx] {
+
+	paths {
+		grammar: "textx/textx.tx"
+		outline: "textx/textx.txol"
+		coloring: "textx/textx.txcl"
+	}
+}

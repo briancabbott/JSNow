@@ -1,0 +1,74 @@
+Program:
+    grammar_patterns+=GrammarPattern 
+    'start' scope_name=ScopeName '(' start_expressions+=ID [','] ')'
+;
+
+ScopeName:
+    /[a-zA-Z_]+(\.[a-zA-Z_]+)*/
+;
+
+QuotedScopeName:
+    '"' scopeName=ScopeName '"'
+;
+
+GrammarPattern:
+    name=PatternId ':'
+    statements+=PatternStatement
+;
+
+PatternId:
+    /#[a-z_][a-zA-Z_]*/
+;
+
+PatternStatement:
+    IncludeStatement | MatchStatement | CompoundStatement | MatchFromGrammarStatement
+;
+
+IncludeStatement:
+    'include' ':' pattern=ID
+;
+
+MatchStatement:
+    'match' ':' regex=STRING 'name' ':' scope_name=QuotedScopeName
+;
+
+
+ConfigStatement:
+    KeyWordsConfigStatement | OperatorsConfigStatement | StringsLiteralConfigStatement
+    | NumericLiteralsConfigStatement
+;
+
+KeyWordsConfigStatement:
+    'keywords' ':' regex=STRING
+;
+
+OperatorsConfigStatement:
+    'operators' ':' regex=STRING
+;
+
+StringsLiteralConfigStatement:
+    'string_literals' ':' regex=STRING
+;
+
+NumericLiteralsConfigStatement:
+    'numeric_literals' ':' regex=STRING
+;
+
+MatchFromGrammarConfig:
+    '('
+        statements *= ConfigStatement
+    ')'
+;
+
+MatchFromGrammarStatement:
+    'matches_from_grammar' ':' grammar_path=STRING  config_statements=MatchFromGrammarConfig?;
+
+CompoundStatement:
+    'begin' ':' begin_regex=STRING 'names' ': ' begin_names+=QuotedScopeName [',']
+    'end' ':' end_regex=STRING 'names' ': ' end_names+=QuotedScopeName [',']
+    ('name' ':' scope_name=STRING )? ('(' statements*=PatternStatement ')')?
+;
+
+Comment:
+  /\/\/.*$/ | /\/\*(\*(?!\/)|[^*])*\*\//
+;

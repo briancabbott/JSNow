@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "outDir": "out",
+        "lib": [
+            "es6"
+        ],
+        "sourceMap": true,
+        "rootDir": ".",
+        "allowJs": true
+    },
+    "files": [
+        "node_modules/typescript/lib/lib.es6.d.ts"
+    ],
+    "include": [
+        "src",
+        "test"
+    ],
+    "exclude": [
+        "node_modules",
+        ".vscode-test",
+        "out",
+        "graph_preview",
+        "site"
+    ]
+}

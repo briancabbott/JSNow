@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/textX/textx-multi-metamodel-example undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textx-multi-metamodel-example",
+    "repo": "https://github.com/textX/textx-multi-metamodel-example",
+    "targetPath": "undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textx-multi-metamodel-example",
+    "startTime": "2024-07-19T02:36:30.582Z",
+    "endTime": "2024-07-19T02:36:31.545Z",
+    "childProcessPid": 13242,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--textX--textx-multi-metamodel-example--13242",
+    "executionErrors": []
+}

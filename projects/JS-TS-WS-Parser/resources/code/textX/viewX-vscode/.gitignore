@@ -1,0 +1,11 @@
+/out
+/node_modules
+*.log
+*.pyc
+/.vscode
+/.idea
+/vsc-extension-quickstart.md
+/.vscodeignore
+/docs
+/site
+*.zip

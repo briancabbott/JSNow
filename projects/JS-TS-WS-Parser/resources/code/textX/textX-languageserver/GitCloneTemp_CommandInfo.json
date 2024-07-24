@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/textX/textX-languageserver undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textX-languageserver",
+    "repo": "https://github.com/textX/textX-languageserver",
+    "targetPath": "undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textX-languageserver",
+    "startTime": "2024-07-19T02:36:23.634Z",
+    "endTime": "2024-07-19T02:36:24.765Z",
+    "childProcessPid": 13043,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--textX--textX-languageserver--13043",
+    "executionErrors": []
+}

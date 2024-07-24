@@ -1,0 +1,60 @@
+tximport StateMachine from "./../../tx_samples/state_machine/state_machine.tx"
+
+apply to "*.sm;state*.*"
+
+view State as Rectangle
+{
+    background: blue
+    border: yellow 4 double
+    label: State.name
+    {
+        background: yellow 0.8
+        font: purple 13 italic
+    }
+    link
+    {
+        to: State.transitions.event
+        {
+            arrow: red 2 triangle hollow
+        }
+    }
+}
+
+view Event as Ellipse // inside State where this = State.transitions.event
+{
+    background: green
+    label: Event.name
+    {
+        font: 15
+        background: red 0.5
+    }
+    border: orange 2 dotted
+}
+
+view Command as Star inside State
+{
+    background: yellow
+    label: Command.name
+    {
+        font: white 12
+        background: black 0.5
+    }
+    border: red 2 solid
+}
+
+view Transition as Link
+{
+    line: green 3 dashed
+    label: Transition.event.name
+    {
+        font: blue 18 oblique
+    }
+    from: Transition.event
+    {
+        arrow: yellow 5 diamond filled
+    }
+    to: Transition.to_state
+    {
+        arrow: red 2 triangle hollow
+    }
+}

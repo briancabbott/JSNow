@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/textX/textx-lang-questionnaire undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textx-lang-questionnaire",
+    "repo": "https://github.com/textX/textx-lang-questionnaire",
+    "targetPath": "undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textx-lang-questionnaire",
+    "startTime": "2024-07-19T02:36:29.287Z",
+    "endTime": "2024-07-19T02:36:29.939Z",
+    "childProcessPid": 13198,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--textX--textx-lang-questionnaire--13198",
+    "executionErrors": []
+}

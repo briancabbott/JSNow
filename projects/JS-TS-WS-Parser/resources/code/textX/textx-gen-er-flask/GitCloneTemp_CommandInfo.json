@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/textX/textx-gen-er-flask undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textx-gen-er-flask",
+    "repo": "https://github.com/textX/textx-gen-er-flask",
+    "targetPath": "undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textx-gen-er-flask",
+    "startTime": "2024-07-19T02:36:27.212Z",
+    "endTime": "2024-07-19T02:36:27.870Z",
+    "childProcessPid": 13132,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--textX--textx-gen-er-flask--13132",
+    "executionErrors": []
+}

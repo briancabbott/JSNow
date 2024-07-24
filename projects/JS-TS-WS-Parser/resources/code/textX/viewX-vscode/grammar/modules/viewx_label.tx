@@ -1,0 +1,41 @@
+import viewx_common
+
+PreLabel:
+    label=STRING '+'
+;
+
+PostLabel:
+    '+' label=STRING
+;
+
+LabelProperty:
+    LabelFont | LabelBackground | LabelOutline | LabelMargin
+;
+
+LabelFont:
+    'font' ':' (color=Color)? size=INT (style=LabelFontStyle)? (weight=LabelFontWeight)?
+;
+
+LabelBackground:
+    'background' ':' color=Color (opacity=FloatWrapper)? (shape=LabelBackgroundShape)?
+;
+
+LabelBackgroundShape:
+    'round'
+;
+
+LabelFontStyle:
+    'normal' | 'italic' | 'oblique'
+;
+
+LabelFontWeight:
+    'lighter' | 'normal' | 'bold' | 'bolder' | /{1-9}00/
+;
+
+LabelOutline:
+    'outline' ':' color=Color  width=INT (opacity=FloatWrapper)?
+;
+
+LabelMargin:
+    'margin' ':' x_axis=IntWrapper (y_axis=IntWrapper)?
+;

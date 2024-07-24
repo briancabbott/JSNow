@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/textX/textX-LS undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textX-LS",
+    "repo": "https://github.com/textX/textX-LS",
+    "targetPath": "undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textX-LS",
+    "startTime": "2024-07-19T02:36:20.860Z",
+    "endTime": "2024-07-19T02:36:22.218Z",
+    "childProcessPid": 12977,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--textX--textX-LS--12977",
+    "executionErrors": []
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/textX/textX-ninja undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textX-ninja",
+    "repo": "https://github.com/textX/textX-ninja",
+    "targetPath": "undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textX-ninja",
+    "startTime": "2024-07-19T02:36:24.765Z",
+    "endTime": "2024-07-19T02:36:25.743Z",
+    "childProcessPid": 13065,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--textX--textX-ninja--13065",
+    "executionErrors": []
+}

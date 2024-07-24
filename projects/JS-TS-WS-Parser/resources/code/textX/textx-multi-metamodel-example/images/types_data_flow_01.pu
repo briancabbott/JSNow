@@ -1,0 +1,57 @@
+@startuml
+
+component types_dsl <<project>> {
+	component Types <<metamodel>> as Types
+	component Types.tx <<grammar>> as TypesG
+}
+note as TypesNote
+**Responsibility**: parse and validate
+**Language**: types_dsl
+**Extension**: *.etype1
+end note
+
+component data_dsl <<project>> {
+	component Data <<metamodel>> as Data
+	component Data.tx <<grammar>> as DataG
+}
+note as DataNote
+**Responsibility**: parse
+**Language**: data_dsl
+**Extension**: *.edata1
+end note
+
+component flow_dsl <<project>> {
+	component Flow <<metamodel>> as Flow
+	component Flow.tx <<grammar>> as FlowG
+}
+note as FlowNote
+**Responsibility**: parse and validate
+**Language**: flow_dsl
+**Extension**: *.eflow1
+end note
+
+component flow_codegen <<project>> {
+	component FlowCodeGen <<target>> as FlowCodeGen
+}
+note as FlowCodeGenNote
+**Responsibility**: generate code
+**Language**: flow_dsl
+**Target**: PlantUML
+end note
+
+
+types_dsl . TypesNote
+data_dsl . DataNote
+flow_dsl . FlowNote
+flow_codegen . FlowCodeGenNote
+
+Data --> "references" Types
+Flow --> "references" Data
+
+Types -> "uses" TypesG
+Data -> "uses" DataG
+Flow -> "uses" FlowG
+FlowCodeGen --> "uses" Flow
+
+@enduml
+

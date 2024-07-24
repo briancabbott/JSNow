@@ -1,0 +1,13 @@
+dsl robot [rbt] {
+	
+	general {
+		publisher: "test"
+		version: "0.0.1"
+	}
+
+	paths {
+		grammar: "robot/robot.tx"
+		outline: "robot/robot.txol"
+		coloring: "robot/robot.txcl"
+	}
+}

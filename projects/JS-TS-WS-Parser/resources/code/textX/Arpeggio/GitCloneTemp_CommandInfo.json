@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/textX/Arpeggio undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/Arpeggio",
+    "repo": "https://github.com/textX/Arpeggio",
+    "targetPath": "undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/Arpeggio",
+    "startTime": "2024-07-19T02:36:13.545Z",
+    "endTime": "2024-07-19T02:36:15.982Z",
+    "childProcessPid": 12885,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--textX--Arpeggio--12885",
+    "executionErrors": []
+}

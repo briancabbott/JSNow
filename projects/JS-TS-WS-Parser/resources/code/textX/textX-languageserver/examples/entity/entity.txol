@@ -1,0 +1,14 @@
+Entity {
+	label = name
+	icon = "icons/entity.png"
+}
+
+Property {
+	label = prop + " : " + type
+	icon = "icons/property.png"
+}
+
+SimpleType {
+	label = name
+	icon = "icons/type.png"
+}

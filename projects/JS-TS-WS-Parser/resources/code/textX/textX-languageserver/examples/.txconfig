@@ -1,0 +1,16 @@
+dsl Simple [smpl] {
+
+	general {
+		publisher: "test"
+		version: "0.0.1"
+	}
+
+	paths {
+		grammar: "simple/simple.tx"
+		outline: "simple/outline.txol"
+		classes: "simple/lang.py:get_classes"
+		builtins: "simple/lang.py:get_builtins"
+		model_processors: "simple/lang.py:get_model_proc"
+		object_processors: "simple/lang.py:get_obj_proc"
+	}
+}

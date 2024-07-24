@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/textX/recipec undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/recipec",
+    "repo": "https://github.com/textX/recipec",
+    "targetPath": "undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/recipec",
+    "startTime": "2024-07-19T02:36:16.732Z",
+    "endTime": "2024-07-19T02:36:17.481Z",
+    "childProcessPid": 12929,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--textX--recipec--12929",
+    "executionErrors": []
+}

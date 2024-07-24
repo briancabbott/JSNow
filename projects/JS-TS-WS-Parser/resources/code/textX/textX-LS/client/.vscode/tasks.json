@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "compile:client",
+            "type": "shell",
+            "command": "npm run webpack",
+            "group": "build",
+            "presentation": {
+                "panel": "dedicated",
+                "reveal": "never"
+            }
+        },
+        {
+            "label": "watch:client",
+            "type": "shell",
+            "command": "npm run webpack-dev",
+            "isBackground": true,
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "panel": "dedicated",
+                "reveal": "never"
+            }
+        }
+    ]
+}

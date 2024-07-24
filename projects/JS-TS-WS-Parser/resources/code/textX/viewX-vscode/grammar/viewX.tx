@@ -1,0 +1,122 @@
+import modules.viewx_common
+import modules.viewx_label
+import modules.viewx_link
+
+ViewXModel:
+    tx_import=Import
+    // support wildcard * and separator ;
+    (apply_to=ApplyTo)?
+    (stylesheet=Stylesheet)?
+    views+=ClassView
+;
+
+Import:
+    'tximport' model=ID 'from' path=TxPathRegEx
+;
+
+TxPathRegEx:
+    /"\.?(\w|\.\.|\/|[-])+(\.tx)?"/
+;
+
+ApplyTo:
+    'apply' 'to' regex=/"((\w|\*(?!\*))+\.(\w|\*(?!\*))+)(;(\w|\*(?!\*))+\.(\w|\*(?!\*))+)*"/
+;
+
+Stylesheet:
+    (overwrite='overwrite')? 'style' ':' style=StyleProperty ':' 'style' 'end'
+;
+
+StyleProperty[noskipws]:
+    /(.|\n)*?(?=:\s*style\s*end)/
+;
+
+ClassView:
+    'view' name=ID 'as' shape=Shape (('child' 'of' parent_view=[ClassView]) | ( 'inside' container=Shape))? ('where' 'this' '=' conditional_parent=[ClassView] ('.' class_properties+=ID['.']))?
+    ('{' properties+=ViewProperty '}')?
+;
+
+Shape:
+    LinkShape | NodeShape
+;
+
+NodeShape:
+    'None' | 'Graph' | 'State'  | /\w+/
+;
+
+LinkShape:
+    'Link' (style=LinkStyleProperty)?
+;
+
+ViewProperty:
+    ShapeProperty | EdgeProperty | ContainerProperty | SelectedProperty | Label 
+;
+
+ShapeProperty:
+    WidthProperty | HeightProperty | BackgroundProperty | LineProperty | BorderProperty | PaddingProperty
+;
+
+Label:
+    'label' (':' (pre_label=PreLabel)? (label=STRING | label=ClassLabel) (post_label=PostLabel)?)? ('{' label_properties+=LabelProperty '}')?
+;
+
+ClassLabel:
+    class_view=[ClassView] ('.' class_properties+=ID['.'])?
+;
+
+ContainerProperty:
+    'container' '{' properties+=ViewProperty '}'
+;
+
+SelectedProperty:
+    'selected' ('as' shape=Shape)? '{' properties+=ViewProperty '}'
+;
+
+// edge related rules
+
+EdgeProperty:
+    EdgeStartProperty | EdgeEndProperty | PropertyLink
+;
+
+EdgeStartProperty:
+    'from' ':' class_view=[ClassView] ('.' class_properties+=ID['.']) // this class property needs to be defined here as ClassView
+    ('{' arrow_properties+=ArrowProperty '}')?
+;
+
+EdgeEndProperty:
+    'to' ':' class_view=[ClassView] ('.' class_properties+=ID['.'])
+    ('{' arrow_properties+=ArrowProperty '}')?
+;
+
+PropertyLink:
+    'link' ('as' style=LinkStyleProperty)? '{' 
+        (link_from=LinkFromProperty)?
+        link_to=LinkToProperty?
+        properties*=LinkProperties
+    '}'
+;
+
+LinkFromProperty:
+    'from' ':' ('this' | class_view=[ClassView])?
+    ('{' arrow_properties+=ArrowProperty '}')?
+;
+
+LinkToProperty:
+    'to' ':' class_view=[ClassView] ('.' class_properties+=ID['.'])
+    ('{' arrow_properties+=ArrowProperty '}')?
+;
+
+LinkProperties:
+    LineProperty | Label | LinkSelectedProperty
+;
+
+LinkSelectedProperty:
+    'selected' ('as' style=LinkStyleProperty)? '{' properties+=NestedLinkProperties '}'
+;
+
+NestedLinkProperties:
+    LineProperty | Label | LinkFromProperty | LinkToProperty
+;
+
+Comment:
+  /\/\/.*$/
+;

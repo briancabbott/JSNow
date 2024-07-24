@@ -1,0 +1,11 @@
+#main:
+    begin: "entity" names: "keyword"
+    end: "{" names: "keyword.other"
+    (match: "[a-zA-Z][a-zA-Z_0-9]*" name: "support.class")
+    
+    begin: "[a-zA-Z][a-zA-Z_0-9]*" names: "markup.italic"
+    end: "[a-zA-Z][a-zA-Z_0-9]*" names: "entity.name.function"
+    (match:"\s*:\s*" name:"keyword.other")
+
+    matches_from_grammar: "entity.tx"
+start entity(main)   

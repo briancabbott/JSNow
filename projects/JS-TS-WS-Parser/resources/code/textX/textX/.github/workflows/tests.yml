@@ -1,0 +1,45 @@
+name: tests
+
+on:
+  push:
+    paths:
+      - 'textx/**'
+      - 'tests/**'
+      - 'examples/**'
+      - '.github/workflows/tests.yml'
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install test dependencies
+      run: |
+        ./install-test.sh
+    - name: Install dev version of Arpeggio
+      run: |
+        cd ..
+        git clone --depth=1 --branch=master https://github.com/textX/Arpeggio
+        pip install -e Arpeggio --upgrade
+        cd textX
+    - name: Run unit tests
+      run: |
+        ./runtests.sh
+    - name: Upload coverage data to coveralls.io
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_FLAG_NAME: ${{ matrix.python-version }}
+        COVERALLS_PARALLEL: true
+      run: |
+        coveralls --service=github

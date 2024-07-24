@@ -1,0 +1,7 @@
+function fib(a)
+    if a <= 1 then
+        return 1
+    end
+    return fib(a - 1) + fib(a - 2)
+end
+println("fib(25) = ", fib(25))

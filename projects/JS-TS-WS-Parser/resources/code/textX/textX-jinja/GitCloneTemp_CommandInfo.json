@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/textX/textX-jinja undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textX-jinja",
+    "repo": "https://github.com/textX/textX-jinja",
+    "targetPath": "undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textX-jinja",
+    "startTime": "2024-07-19T02:36:22.952Z",
+    "endTime": "2024-07-19T02:36:23.634Z",
+    "childProcessPid": 13021,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--textX--textX-jinja--13021",
+    "executionErrors": []
+}

@@ -1,0 +1,106 @@
+* Object->relational mapping
+** 1:1
+*** Non-containing
+- A references one B
+- Example:
+      #+BEGIN_SRC
+      entity A {
+            ...
+            b: B
+      }
+      #+END_SRC
+
+- Maps to FK field(s) in A table. If PK of B is composite than FK contains
+  multiple columns. If lower multiplicity is 0 FK is NULL else it is NOT
+  NULL.
+
+- Bidirectional references: FK must be unique.  Problem: only one null record?
+
+*** Containing
+- A contains one B. Deleting A should delete B also, but deleting B is
+  possible without deleting A if the relationship is non-mandatory (e.g.
+  lower multiplicity bound is 0).
+- Example:
+      #+BEGIN_SRC
+      entity A {
+            ...
+            b+: B
+      #+END_SRC
+
+- Entity can be contained in only one other entity and only one reference to
+  some entity can be containing reference.
+- Two options:
+      - FK in the contained table (B) which is the same as PK -> PKs of A and
+        B are the same. B can't exists without A.
+      - FK in the container table (A). Must be unique. B can exists without
+        A.
+
+** 1:n
+*** Non-containing
+- A references possibly many Bs.
+- Example:
+      #+BEGIN_SRC
+      entity A {
+            ...
+            b: B[*]
+      }
+      #+END_SRC
+- FK in B which is not unique and nullable.
+
+*** Containing
+- A contains possibly many Bs.
+- Example:
+      #+BEGIN_SRC
+      entity A {
+            ...
+            b+: B[*]
+      }
+      #+END_SRC
+- FK in B table which is a part of PK (thus non-null). PK of B contains
+  additional colums which determine the element in the collection (usually an
+  ordinal).
+
+** n:n
+*** Non-containing
+- A references many Bs and each B references many As.
+- Example:
+      #+BEGIN_SRC
+      entity A {
+            ...
+            // This kind of relationships must be bidirectional to define
+            // multiplicity * on both ends.
+            b<->a: B[*]
+      }
+      entity B{
+            ...
+            a<->b: A[*]
+      }
+      #+END_SRC
+
+- Additional table with two FKs pointing to each of the entity's tables.
+  Both FKs form additional table PK.
+
+*** Containing
+- A contains many Bs and each B references many As.
+- Example:
+      #+BEGIN_SRC
+      entity A {
+            ...
+            // This kind of relationships must be bidirectional to define
+            // multiplicity * on both ends.
+            // This side is the containing side.
+            b+<->a: B[*]
+      }
+      entity B{
+            ...
+            // Only one side can be containing. Entity A contains B entities.
+            a<->b: A[*]
+      }
+      #+END_SRC
+
+- The same as for non-containing but app must take care to delete all
+  containing objects when the container is deleted. When the relationship is
+  deleted, contained object is deleted also, i.e. it can't exists without its
+  container.
+
+

@@ -1,0 +1,391 @@
+input = []
+cursor = 0
+length = 0
+
+function peek()
+    if cursor >= length then
+        local ch = read_input_length(1)
+        input[cursor] = ch
+        length = cursor + 1
+    end
+    return input[cursor]
+end
+
+function advance()
+    cursor = cursor + 1
+end
+
+function next()
+    local ch = peek()
+    advance()
+    return ch
+end
+
+function read()
+    while isspace(peek()) do
+        advance()
+    end
+    local ch = peek()
+    if ch == "" then
+        return [type="end of input"]
+    elseif ch == "(" then
+        return read_list()
+    elseif ch == "'" then
+        advance()
+        return [type="list", length=2, list=
+         [[type="symbol", name="quote"], read()]]
+    elseif ch == "-" || isdigit(ch) then
+        return read_number()
+    else
+        return read_symbol()
+    end
+end
+
+function read_symbol()
+    local name = ""
+    while !isspace(peek()) && peek() != ")" do
+        name = name + next()
+    end
+    return [type="symbol", name=name]
+end
+
+function read_number()
+    local sign = 1
+    if peek() == "-" then
+        sign = -1
+        advance()
+    end
+    if !isdigit(peek()) then
+        return [type="symbol", name="-"]
+    end
+    local n = 0
+    while isdigit(peek()) do
+        n = n * 10 + todigit(next())
+    end
+    return [type="number", number=n*sign]
+end
+
+function read_list()
+    advance() # past the open paren
+    local length = 0
+    local list = []
+    while peek() != "" do
+        while isspace(peek()) do
+            advance()
+        end
+        if peek() == ")" then
+            advance()
+            return [type="list", length=length, list=list]
+        end
+        list[length] = read()
+        length = length + 1
+    end
+    return [type="error"]
+end
+
+function print_val(val)
+    if val.type == "symbol" then
+        print(val.name)
+    elseif val.type == "number" then
+        print(val.number)
+    elseif val.type == "list" then
+        print("(")
+        local len = val.length
+        for v in val.list do
+            print_val(v)
+            len = len - 1
+            if len > 0 then
+                print(" ")
+            end
+        end
+        print(")")
+    else
+        print("[" + val.type + "]")
+    end
+end
+
+function eval(val)
+    if val.type == "symbol" then
+        return env[val.name]
+    elseif val.type == "list" then
+        return apply(eval(val.list[0]), val)
+    else
+        return val
+    end
+end
+
+function apply(func, val)
+    if func.type != "func" then
+        print_val(func)
+        println(" is not a function")
+        return [type="error"]
+    end
+    return func.func(val)
+end
+
+function quote(val)
+    return val.list[1]
+end
+
+function lambda(val)
+    local params = val.list[1]
+    local body = val.list[2]
+    function eval_lambda(call_val)
+        local next_env = []
+        for k=v in env do
+            next_env[k] = v
+        end
+        for i=v in params.list do
+            next_env[v.name] = eval(call_val.list[i + 1])
+        end
+        local saved = env
+        env = next_env
+        local val = eval(body)
+        for k=v in globals do
+            saved[k] = v
+        end
+        env = saved
+        return val
+    end
+    return [type="func", func=eval_lambda]
+end
+
+function func_val(f)
+    return [type="func", func=f]
+end
+
+function begin(val)
+    local i = 1
+    local v = [type="list", length=0, list=[]]
+    while i < val.length do
+        v = eval(val.list[i])
+        i = i + 1
+    end
+    return v
+end
+
+function list_func(val)
+    local i = 1
+    local v = [type="list", length=val.length - 1, list=[]]
+    while i < val.length do
+        v.list[i - 1] = eval(val.list[i])
+        i = i + 1
+    end
+    return v
+end
+
+function make_list(val)
+    local len = eval(val.list[1])
+    local i = 0
+    local v = [type="list", length=len.number, list=[]]
+    while i < v.length do
+        v.list[i] = [type="list", length=0, list=[]]
+        i = i + 1
+    end
+    return v
+end
+
+function if_func(val)
+    local pred = eval(val.list[1])
+    local v = pred
+    if pred.type != "list" || pred.length > 0 then
+        v = eval(val.list[2])
+    elseif val.length >= 4 then
+        v = eval(val.list[3])
+    end
+    return v
+end
+
+function plus(val)
+    return [type="number", number=eval(val.list[1]).number +
+     eval(val.list[2]).number]
+end
+
+function minus(val)
+    return [type="number", number=eval(val.list[1]).number -
+     eval(val.list[2]).number]
+end
+
+function times(val)
+    return [type="number", number=eval(val.list[1]).number *
+     eval(val.list[2]).number]
+end
+
+function divided_by(val)
+    return [type="number", number=eval(val.list[1]).number /
+     eval(val.list[2]).number]
+end
+
+function eq_func(val)
+    local v = eval(val.list[1])
+    if v.number == eval(val.list[2]).number then
+        return [type="list", length=1, list=[v]]
+    else
+        return [type="list", length=0, list=[]]
+    end
+end
+
+function eqp_func(val)
+    local v = eval(val.list[1])
+    if v.name == eval(val.list[2]).name then
+        return [type="list", length=1, list=[v]]
+    else
+        return [type="list", length=0, list=[]]
+    end
+end
+
+function neq_func(val)
+    local v = eval(val.list[1])
+    if v.number != eval(val.list[2]).number then
+        return [type="list", length=1, list=[v]]
+    else
+        return [type="list", length=0, list=[]]
+    end
+end
+
+function lt_func(val)
+    local v = eval(val.list[1])
+    if v.number < eval(val.list[2]).number then
+        return [type="list", length=1, list=[v]]
+    else
+        return [type="list", length=0, list=[]]
+    end
+end
+
+function gt_func(val)
+    local v = eval(val.list[1])
+    if v.number > eval(val.list[2]).number then
+        return [type="list", length=1, list=[v]]
+    else
+        return [type="list", length=0, list=[]]
+    end
+end
+
+function le_func(val)
+    local v = eval(val.list[1])
+    if v.number <= eval(val.list[2]).number then
+        return [type="list", length=1, list=[v]]
+    else
+        return [type="list", length=0, list=[]]
+    end
+end
+
+function ge_func(val)
+    local v = eval(val.list[1])
+    if v.number >= eval(val.list[2]).number then
+        return [type="list", length=1, list=[v]]
+    else
+        return [type="list", length=0, list=[]]
+    end
+end
+
+function set(val)
+    local v = eval(val.list[2])
+    env[val.list[1].name] = v
+    return v
+end
+
+function set_global(val)
+    local v = eval(val.list[2])
+    env[val.list[1].name] = v
+    globals[val.list[1].name] = v
+    return v
+end
+
+function read_func(val)
+    return read()
+end
+
+function eval_func(val)
+    return eval(eval(val.list[1]))
+end
+
+function print_func(val)
+    print_val(eval(val.list[1]))
+    println()
+    return [type="list", length=0, list=[]]
+end
+
+function has_type(t)
+    function f(val)
+        local v = eval(val.list[1])
+        if v.type == t then
+            return [type="symbol", name="true"]
+        else
+            return [type="list", length=0, list=[]]
+        end
+    end
+    return f
+end
+
+function is_null(val)
+    local v = eval(val.list[1])
+    if v.type == "list" && v.length == 0 then
+        return [type="symbol", name="true"]
+    else
+        return [type="list", length=0, list=[]]
+    end
+end
+
+function len_func(val)
+    local v = eval(val.list[1])
+    return [type="number", number=v.length]
+end
+
+function at_func(val)
+    local v = eval(val.list[1])
+    local i = eval(val.list[2])
+    return v.list[i.number]
+end
+
+function set_at_func(val)
+    local v = eval(val.list[1])
+    local i = eval(val.list[2])
+    local a = eval(val.list[3])
+    v.list[i.number] = a
+    return a
+end
+
+env = [
+    # operatives
+    quote=func_val(quote),
+    lambda=func_val(lambda),
+    begin=func_val(begin),
+    ["if"]=func_val(if_func),
+    set=func_val(set),
+    ["set-global"]=func_val(set_global),
+
+    # applicatives
+    ["+"]=func_val(plus),
+    ["-"]=func_val(minus),
+    ["*"]=func_val(times),
+    ["/"]=func_val(divided_by),
+    ["="]=func_val(eq_func),
+    ["/="]=func_val(neq_func),
+    ["<"]=func_val(lt_func),
+    [">"]=func_val(gt_func),
+    ["<="]=func_val(le_func),
+    [">="]=func_val(ge_func),
+    ["len"]=func_val(len_func),
+    ["at"]=func_val(at_func),
+    ["set-at"]=func_val(set_at_func),
+    ["eq?"]=func_val(eqp_func),
+    ["number?"]=func_val(has_type("number")),
+    ["list?"]=func_val(has_type("list")),
+    ["symbol?"]=func_val(has_type("symbol")),
+    ["null?"]=func_val(is_null),
+    list=func_val(list_func),
+    ["make-list"]=func_val(make_list),
+    read=func_val(read_func),
+    print=func_val(print_func),
+]
+globals = []
+
+while true do
+    print("> ")
+    print_val(eval(read()))
+    println()
+    if peek() == "" then
+        break
+    end
+end

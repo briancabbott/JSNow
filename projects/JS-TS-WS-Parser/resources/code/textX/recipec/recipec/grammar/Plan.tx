@@ -1,0 +1,11 @@
+import Base
+
+Plan:
+    'plan' name=STRING '{'
+        entries+=PlanEntry
+    '}'
+;
+
+PlanEntry:
+    name=STRING ':' importURI=STRING 'x' person_count=FLOAT
+;

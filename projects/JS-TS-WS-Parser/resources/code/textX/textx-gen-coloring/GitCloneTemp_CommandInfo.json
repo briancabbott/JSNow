@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/textX/textx-gen-coloring undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textx-gen-coloring",
+    "repo": "https://github.com/textX/textx-gen-coloring",
+    "targetPath": "undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textx-gen-coloring",
+    "startTime": "2024-07-19T02:36:26.474Z",
+    "endTime": "2024-07-19T02:36:27.211Z",
+    "childProcessPid": 13110,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--textX--textx-gen-coloring--13110",
+    "executionErrors": []
+}

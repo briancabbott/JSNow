@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/textX/textx-gen-vscode undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textx-gen-vscode",
+    "repo": "https://github.com/textX/textx-gen-vscode",
+    "targetPath": "undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/textx-gen-vscode",
+    "startTime": "2024-07-19T02:36:27.871Z",
+    "endTime": "2024-07-19T02:36:28.606Z",
+    "childProcessPid": 13154,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--textX--textx-gen-vscode--13154",
+    "executionErrors": []
+}

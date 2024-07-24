@@ -1,0 +1,499 @@
+Version 1.4.1 (2022-03-11)
+--------------------------
+- Improved support for Java 16+ (thanks to @kenwenzel for the patch!)
+- Dropped support for Java 8
+
+
+Version 1.4.0 (2022-01-24)
+--------------------------
+- Support Java 17
+- Upgraded to ASM 9.2
+- Dropped support for Scala 2.11
+
+
+Version 1.3.1 (2019-06-24)
+--------------------------
+- Upgraded to ASM 7.1
+- Fixed class loader in parser generation
+- Added cross-build for Scala 2.13.0
+- Dropped support for Scala 2.10
+
+
+Version 1.3.0 (2019-01-23)
+--------------------------
+- Upgraded to ASM 7.0
+- Added Scala 2.13.0-M5 build
+
+
+Version 1.2.0 (2018-09-14)
+--------------------------
+- Added support for `~~>` and friends in ReductionRules
+- Added support for PushRules to chain after ReductionRules
+- Upgraded to ASM 6.2.1
+- Added Scala 2.13.0-M4 build
+- Dropped support for Java 1.5
+
+
+Version 1.1.8 (2017-01-11)
+--------------------------
+- Cross build for Scala 2.10, 2.11 and 2.12
+- Upgrade to ASM 5.2
+- Fixed "Utils.findConstructor doesn't match boolean parameter" (#94)
+- Added method for clearing class cache in AsmUtil
+
+
+Version 1.1.7 (2015-02-09)
+--------------------------
+- Upgrade to Scala 2.11.4, cross build for Scala 2.9.2, 2.9.3, 2.10 and 2.11
+- Upgrade to ASM 5.0.3, closed #76
+- Make parboiled-java relocatable, closed #80
+
+
+Version 1.1.6 (2013-08-22)
+--------------------------
+- Core:
+  - Improved error msg for unexpected end of input
+  - Fixed error reporting for rules underneath testNot rules
+- Scala
+  - Added support for ReductionRule1 inside oneOrMore/zeroOrMore while returning a subtype
+  - Upgraded to Scala 2.10.2
+
+
+Version 1.1.5 (2013-05-02)
+--------------------------
+- General: Added missing OSGi Bundle metadata
+- Core: Fixed MemoMismatcher producing erroneous parsing results
+        for subsequent parsing runs with the same parser instance
+- Java: Fixed problem AsmUtils
+- Scala: Upgraded to Scala 2.9.3 and 2.10.1
+
+
+Version 1.1.4 (2012-11-27)
+--------------------------
+Core:
+- Added parser automatic parser termination after matching 100K EOI, closed #52
+- Extended IndentDedentBuffer with option to not swallow empty lines, closed #56
+Java:
+- Upgraded to ASM 4.1
+Scala:
+- Upgraded to Scala 2.10.0-RC3
+
+
+Version 1.1.3 (2012-10-16)
+--------------------------
+Core & Java:
+- Removed superfluous dependency on Scala library
+
+
+Version 1.1.2 (2012-10-15)
+--------------------------
+Scala:
+- Fix cross-building path generation to include the full scala-version
+for unstable versions (milestones, RC)
+- Upgrade to Scala 2.10-RC1
+
+
+Version 1.1.1 (2012-09-21)
+--------------------------
+General:
+- Fixed incorrect scope for scalatest dependency
+- Upgraded to SBT 0.12.0
+- Changed deployment target to sonatype (i.e. maven central)
+Scala:
+- Enabled proper scala-version cross-building
+- Upgraded to Scala 2.10-M7
+
+
+Version 1.1 (2012-07-28)
+------------------------
+Java:
+- Added `NTimes` rule construction helper
+- Upgraded to ASM 4.0, closes #41
+- Improved ABC example
+Scala:
+- Upgraded to Scala 2.10-M6
+
+
+Version 1.0.2 (2011-09-30)
+--------------------------
+Core:
+- Fixed #32 (ReportingParseRunner assumes only one parse error)
+Java:
+- Added 'NoneOf' rule constructor
+- Updated Java parser example
+- Fixed #22 (problem with parse tree creation for skipNode() matchers)
+- Fixed #24 (IllegalStateException in certain cases involving parser inheritance)
+- Fixed #30 (problem in action class naming resulting in NoSuchFieldError in certain cases)
+- Fixed #31 (incorrect handling of 'switch' statements in rule method extension)
+Scala:
+- Upgraded to Scala 2.9.1
+- Fixed #29 (nTimes(1, "a") will throw ClassCastException)
+
+
+Version 1.0.1 (2011-07-05)
+--------------------------
+Scala:
+- Upgraded to Scala 2.9.0-1
+
+
+Version 1.0.0 (2011-05-13)
+--------------------------
+Scala:
+- Upgraded to Scala 2.9.0.final 
+
+
+Version 0.11.2 (2011-05-13)
+---------------------------
+- Changed build system from Apache Buildr to SBT 0.7.7 (Scala Build Tool)
+Core:
+- Added convenience methods to Context and BaseActions returning the current location in the InputBuffer as a Position
+- Fixed another potential problem with ActionMatcher subcontext initialization
+- Fixed MissingFormatArgumentException in ParseRuntimeException when args array is empty
+Java:
+- Added convenience 'currentIndex()' method to BaseActions
+Scala:
+- Added '~:?' operator
+- Fixed 'withContext' not usable on '~%' operator problem
+- Turned all remaining references to Context[_] to Context[Any]
+(this is the last version built against Scala 2.8.1)
+
+
+Version 0.11.1 (2011-04-06)
+---------------------------
+Core:
+- Fixed bug causing parser actions at the first position in sequences to sometimes inadvertently
+  advance the match cursor, leading to hard-to-find input mismatches
+- Fix bug in TracingParseRunner.withLog
+- Added support for timeouts to RecoveringParseRunner
+
+
+Version 0.11.0 (2011-03-21)
+---------------------------
+Core:
+- Major overhaul of RecoveryParseRunner, fixed numerous bugs, improved performance
+- Changed RecoveringParseRunner to not create additional ParseTreeNodes underneath error nodes
+- Added Context.inErrorRecovery method
+- Added "strict" flag to IndentDedentBuffer for enabling/disabling exception throwing on illegal indentations
+- Fixed bug in IndentDedentBuffer leaving blank lines on indented comments before EOI
+- Smaller fixes, cleanups and improvements 
+Java:
+- Switched internal class name resolving from using the current Threads ContextClassLoader to using the respective
+  class' own ClassLoader in an attempt to increase compatibility with a broader range of application environments
+Scala:
+- Simplified ParsingResult to be more scala idiomatic, removed "result", renamed "resultOption" to "result",
+  removed "hasErrors" method
+- Renamed POPx rules to DROP, DROP2 and DROP3
+- Removed Parser.withParseTreeBuilding method, changed Parser.buildParseTree from var to a def, which needs to be
+  overridden in order to activate parse tree building
+- Removed empty parens on a number of rule marker methods
+- Added overloads with Rule2 parameter to optional, zeroOrMore, oneOrMore and nTimes
+
+
+Version 0.10.1 (2011-02-11)
+---------------------------
+Core:
+- Added Context.getMatchLength() method and helpers
+- Added support for IndexRanges
+- Completely overhauled ParseRunner implementations architecture in preparation for coming extensions
+- Deprecated static run methods of main ParseRunners
+- Improved logging architecture for DebuggingValueStack and TracingParseRunner
+- Moved class InputBuffer.Position into package org.parboiled.support
+- Fixed small memory leak in DefaultValueStack
+- Completely rewrote IndentDedentBuffer implementation (the previous one had serious limitations)
+- Many smaller fixes, cleanups and improvements 
+Java:
+- Added StringBuilderVar helper for parser actions 
+- Fixed bug causing StringIndexOutOfBoundsException during parser extension for parsers without package prefix
+- Fixed NPE in AsmUtils caused by actions involving methods defined in super-interfaces
+- Upgraded to ASM 3.3.1
+Scala:
+- Fixed bug in Rule0 causing ClassCastException in certain cases involving ReductionRule2s and PopRule2s
+- Moved Input.collectContents from scala module into core
+
+
+Version 0.10.0 (2011-01-13)
+---------------------------
+- Switched build system from Ant to Apache Buildr
+- Completed mavenization, parboiled artifacts are now also available from the http://scala-tools.org/repo-releases/ maven repository
+- Split source into several modules creating distinct artifacts
+- Changed to 3 part version numbering in preparation of the coming semantic versioning compatibility (http://semver.org)
+- Fixed VerifyError with certain Var<...> constructs
+- Fixed IllegalStateException during error recovery involving AnyMatchers
+- Fixed bug in creation of expected string error message for AnyOf matchers
+- Fixed bug in DebuggingValueStack (thx to Matthieu Baechler)
+- Fixed GH issue #10 (ParseTreeUtils.findNodeByLabel() methods are non static)
+- Fixed bug in ErrorUtils
+- Fixed Java parser example to support non-ascii chars in identifiers
+- Added pushFromContext rule creator to Scala facade
+- Improved Scala Input wrapper
+- Removed internal dependency on jetbrains annotations
+- Removed internal dependency on google collections
+- Upgraded to ASM 3.3
+- Upgraded to Scala 2.8.1
+- Many smaller cleanup and improvements
+
+
+Version 0.9.9.0 (2010-10-04)
+----------------------------
+- BREAKING CHANGES:
+  - Moved all named MatcherVisitor implementations from org.parboiled.support to new package org.parboiled.matchervisitors
+  - Moved InputBuffer implementations from org.parboiled.support to to new package org.parboiled.buffers
+  - Moved special character definitions from org.parboiled.Characters class into dedicated class org.parboiled.Characters
+  - Decapitalized not-extended rule construction helper methods in BaseParser (e.g. ToRule -> toRule) for better compliance with the style guide
+  - New MatcherPath implementation, not more "lastMatch" property in InvalidInputError
+- Significantly extended Scala facade:
+  - Cleaner structure, faster rule building, faster rules (e.g. enabled fast-string-matching for FirstOf operator)
+  - More flexible action functions (more action operators, 'withContext' actions)
+  - Added missing variance annotations to rule types and aliases
+  - Added org.parboiled.scala.testing.ParboiledTest trait for simplified parser testing
+  - More and better scala wrappers (ParseRunners, ParsingResult, parsing Input)
+- Added TracingParseRunner as another important debugging tool
+- Added IndentDedentInputBuffer supporting line indentation based grammars
+- Added Context.getFirstMatchChar and helpers in Java and Scala
+- Added NothingMatcher as counterpart to the EmptyMatcher, along with respective rule constants
+- Added missing 'getStarterChar' functionality to CustomMatcher base class
+- Improved filtering of Node and Matcher tree printing with simple predicate logic
+- Fixed incorrect parse error reporting in some cases
+- Fixed in Scala facade: Some standard rule builders don't group their sub rules correctly
+- Fixed bug in RecoveringParseRunner causing NPE if very first char was not matched
+- Fixed bug in RecoveryParseRunner incorrectly executing pre-error sub rules of resync sequences
+- Fixed bug preventing the creation of 'action-only' rules
+- Fixed bug in FirstOfStringsMatcher preventing the matching of alternatives that are prefixes of other alternatives
+- Fixed matcher labelling problem in Scala facade
+- Many smaller cleanups and improvements
+
+
+Version 0.9.8.2 (2010-08-13)
+----------------------------
+- BREAKING CHANGES:
+  - Renamed BaseParser.FirstOf(string) overload to BaseParser.AnyOf
+  - Renamed CharSetMatcher to AnyOfMatcher
+- Fixed bug in MemoMismatchesMatcher causing erroneous rule mismatches at input location 0
+
+
+Version 0.9.8.1 (2010-08-12)
+----------------------------
+- BREAKING CHANGE:
+  - Renamed BaseParser.CharSet methods to BaseParser.FirstOf overloads
+- Fixed bug in RecoveringParseRunner producing inconsistenst value stack states during rule resynchronization
+- Added BaseParser.matchOrDefault() helper
+- Added ability to set ClassLoader for auxiliary classes (for parser extension) via the threads ContextClassLoader
+- Added a few more convenience overloads to Parser.zeroOrMore(...) and Parser.oneOrMore(...) in Scala facade
+- Added MemoMismatches rule option to Scala facade
+- Improved Javadoc and Scaladoc documentation as well as Scala examples
+
+
+Version 0.9.8.0 (2010-08-10)
+----------------------------
+- BREAKING CHANGES:
+  - Added a parser "Value Stack", retired parser value handling via parse tree decoration
+  - Removed all action expression helpers for the old parse-tree-based value handling
+  - Changed default parsing behavior from parse-tree-building to parse-tree-less, added @BuildParseTree annotation
+  - Changed Eoi(), Any() and Empty() to public static final fields on the BaseParser
+  - Renamed BaseParser.CharIgnoreCase and BaseParser.StringIgnoreCase to BaseParser.IgnoreCase
+- Fixed bug provoking an exception at the 65536th input character
+- Fixed bug in Test-/TestNotMatchers
+- Fixed some problems in Java Parser example
+- Added Scala facade for efficient parser building without byte code manipulation,
+  featuring DSL elements for value stack operations with complete static type checking
+- Added a complete JsonParser as an example for using the Scala facade
+- Added a matcher specialization for fast string matching also in FirstOf-Rules (~10% speedup in JavaParser example)
+- Added overloads to standard rule builders OneOrMore(...), Optional(...), Test(...), TestNot(...) and ZeroOrMore(...)
+  directly taking several sub rules as a sequence
+- Added @MemoMismatches and respective implementation (which is a first step towards "packratting" support)
+- Added ProfilingParseRunner and JavaParserProfiler example
+- Adapted build process to build two independent libraries, one for Java, one for Scala
+- Changed source directory structure to "Maven-style"
+
+
+Version 0.9.7.3 (2010-07-09)
+----------------------------
+- Fixed several problems in parse error recovery
+- Added fast string matching (significant speed increase for languages relying on string matching)
+- Added additional error recovery strategy: Single character replacement
+- Added support for custom InputBuffer implementations
+- Removed superfluous CAPTURE constructs along with all related code
+
+
+Version 0.9.7.2 (2010-06-14)
+----------------------------
+- BREAKING CHANGE: Tracking of locations in input text is now purely done via integer indices (was: instances of
+  class org.parboiled.common.InputLocation) for a much reduced memory footprint and a significant performance increase,
+  especially for large input files and rather simple grammars
+  (most of the functionality of org.parboiled.common.InputLocation has been moved to org.parboiled.common.InputBuffer)
+- Added smaller extensions in a few support classes
+
+
+Version 0.9.7.1 (2010-06-08)
+----------------------------
+- BREAKING CHANGE: Rule methods w/ parameters are now also automatically labelled, @Label now requires parameter!
+- Fixed action variable initializers not working as expected in certain scenarios
+- Fixed several bugs related to overriding of Rule methods in multi-level parser class hierarchies
+- Fixed "Constructor with descriptor '()V' not found" exception in certain action expressions
+- Fixed displaying of empty "expected" part in parse error messages caused by TestNot(...) failures
+- Fixed small problems with building against Java 6
+- Added missing field and method private access verification for non-action instructions
+- Added Context.getPrevStartLocation() and Context.getPrevEndLocation() and respective helpers
+- Added convenience overload ErrorUtils.printParseErrors(ParsingResult)
+- Improved error reporting of parse errors caused by TestNot(...) failures
+- Improved parsing performance of Reporting- and RecoveringParseRunner by 10+ % at the expense of one more parsing run on invalid input
+- Improved calculator examples, added new CalculatorParser6 example demonstrating parse-tree-less parsing and action variables
+- Changed java example to exercise parboileds parse-tree-less instead of the parse-tree-based parsing performance
+
+
+Version 0.9.7.0 (2010-04-28)
+----------------------------          
+- Fixed exception during parser creation when parser contains action/capture expressions with constructor calls
+- Fixed NoSuchFieldError occuring in some scenarios with similar actions in derived parser classes
+- Fixed "Couldn't get field" exception during parser extension occuring in parsers accessing parent fields
+- Fixed bug in parser extension causing java.lang.VerifyError in some scenarios
+- Fixed Context.inPredicate() not working underneath TestNotMatchers
+- Fixed illegal context issue in action expressions recursing into themselves
+- Fixed problem in MutableTreeNodeImpl preventing the addition of new child nodes
+- Fixed unintended @SuppressNode on String/StringIgnoreCase rules (now:@SuppressSubnodes)
+- Added support for action variables (org.parboiled.support.Var<T>)
+- Added prevValue(), prevText() and prevChar() functionality for parse tree less AST node building
+- Added support for parser statistics (class org.parboiled.ParserStatistics)
+- Added @SkipActionsInPredicates and @DontSkipActionsInPredicates
+- Added BaseParser.newInstance()
+
+
+Version 0.9.6.0 (2010-04-14)
+----------------------------
+- Fixed serious performance problem in construction of parse tree nodes with many subnodes
+- Fixed ClassCastException on caching of rule creating methods with primitive array parameters
+- Fixed smaller problems in Java parser example
+- MAJOR BREAKING CHANGES:
+  - Renamed all methods returning Rule instances to begin with an uppercase character
+  - Renamed all helper method defined in BaseActions class from all uppercase to "regular" Java method names
+  - Renamed @Leaf to @SuppressSubnodes
+- Significantly improved parser extension logic for speed and memory requirements
+- Added support for action expressions in rule methods with parameters
+- Added support for accessing local variables and methods parameters from within action expressions
+- Added new overloads taking char[] for CharSet, String and StringIgnoreCase rule creators
+- Added BaseParser.FromCharArray(...)
+- Added support for explicit action expressions via BaseParser.ACTION(...)
+- Added UP2, UP3, UP4, UP5, UP6 and DOWN2, DOWN3, DOWN4, DOWN5, DOWN6 context switching helpers
+- Added @DontLabel annotation preventing the automatic labelling of rules created by parameterless rule methods
+- Added @SuppressNode and @SkipNode annotations and logic
+- Added CustomMatcher base class for custom matcher implementations
+- Added Context.lookAhead(int)
+- Added support for Captures (special closure-like constructs simplifying certain rule creation scenarios)
+- Improved Calculator examples
+- Smaller bug fixes and other improvements
+
+
+Version 0.9.5.1 (2010-03-16)
+----------------------------
+- Fixed classLoader issue triggering an IOException(Class not found) exception in some environments
+- Added org.parboiled.examples.pegtranslator.PegTranslator example, thanks to Radu Vlasov for the contribution
+- Replaced BaseActions.NO_ERROR() with the inversed BaseActions.HAS_ERROR()
+- Small Javadoc improvements and other cosmetic changes
+
+
+Version 0.9.5.0 (2010-03-02)
+----------------------------
+- Major update of basic matching architecture (some breaking changes) 
+- Removed BaseParser.parse(...), introduced ParseRunner interface with 4 standard implementations
+- Implemented a completely new and much improved parse error reporting and recovery logic
+- Removed all, now obsolete, rule enforcement constructs like enforcedSequence(...)
+- Replaced a number of utility classes (like ImmutableList) with implementations from Google Collections
+- Added Proguard-based build step to perform unused class/member removal for more flexible use of external libraries
+- Smaller performance optimization (ca. 10% faster parsing of error free input over version 0.9.2.0)
+- Corrected and improved API documentation
+- Many smaller bug fixes, refactorings and other improvements
+
+
+Version 0.9.2.0 (2010-02-02)
+----------------------------
+- Added @Leaf annotation for marking rules as "creating parse tree leaf nodes"
+- Added @Label annotation
+- Significantly improved parsing speed (with some @Leaf usage: speedup factor of ca. 3)
+- Changed Action.run() to Action.run(Context), removed AbstractAction
+- Changed ParseError.context to ParseError.matcherPath
+- Removed Parboiled.RecoverFromErrors flag logic
+- Removed Failed-Rule-Memoization option due to limited effectiveness
+- Improved Java parser example, added performance test
+- Smaller bug fixes and architectural improvements
+
+
+Version 0.9.1.1 (2010-01-29)
+----------------------------
+- Fixed @Cached problem with overloaded rule creation methods
+- Added BaseParser.charSet(...) and a few other standard rule definition overloads
+
+
+Version 0.9.1.0 (2010-01-28)
+----------------------------
+- Added Failed-Rule-Memoization option
+- Added @Cached annotation logic for automatic caching of rule creating methods with parameters
+- Added parser extension caching for not recreating extension class upon repeated Parboiled.createParser(...)
+- Added ENFORCED() action expression helper
+- Improved character matchers for increased parsing speed
+- Renamed @DontExtend to @KeepAsIs
+- Removed BaseParser.fromUserObject(...), overwrite toRule(...) for the same effect
+- Smaller bug fixes and architectural improvements
+
+
+Version 0.9.0.2 (2010-01-26)
+----------------------------
+Major rewrite of action and parser extension infrastructure, now based on bytecode analysis,
+action instructions separation and automatic action class generation/parser class rewriting.
+Many, many thanks to Ken Wenzel for the original idea as well as a sample implementation!
+- Removed ActionResult interface, actions can now be arbitrary boolean expressions
+- Removed now obsolete EQUALS, AND, OR, NOT as well as all CONVERT_XXX helpers
+- Removed dependency on cglib, parboiled JAR now has no non-SDK dependencies
+- Simplified running parboiled examples (now run via ANT) 
+
+
+Version 0.8.5.0 (2010-01-18)
+----------------------------
+- Fixed IllegalStateException on trying to label a rule from within a recursion
+- Fixed rare bug occurring in certain scenarios involving recursive test/testNot rules
+- Improved reporting of parse errors, also renamed ParserConstructionException to GrammarException and
+  ParsingException to ActionException, introduced ParserRuntimeException
+- Enabled writing access to ParseError list returned by Context.getParseErrors()
+- Inlined MatcherContext.runMatcher(boolean) for reduced stack footprint and cleaner stack traces
+
+
+Version 0.8.4.0 (2010-01-07)
+----------------------------
+- Fixed incorrect ordering of action calls when several calls are present in one rule
+- Fixed test/testNot rules throwing ParserConstructionException at EOI
+- Added action helpers: EQUALS, AND, OR, NOT, NEXT_CHAR, NODE_BY_LABEL and NODES_BY_LABEL
+- Added Time and RPN example (thanks to Reinier Zwitserloot from http://projectlombok.org for the RPN code) 
+- Added Action interface enabling stand-alone action objects within rule creation expressions
+- Added SplitParserTest, testing splitting of one grammar into several parser objects
+- Simplified ActionParameter infrastructure, now allows casting of action parameters
+- Changed access of BaseParser.toRule(s) from private to protected to allow for easy conversion of custom objects
+
+
+Version 0.8.3.0 (2009-12-15)
+----------------------------
+- Improved parsing speed by factor 4 after first basic CPU profiling
+- Added @SkipInPredicates annotation for action methods
+- Added option for convenient rule creation from user objects (suggested by Manuel Brotz)
+
+
+Version 0.8.2.0 (2009-12-11)
+----------------------------
+- Added option for manual rule label change
+- Added error filter to only report the first parse error at a specific input location
+- Added string matching optimization for one-letter strings
+- Added some more parser structure validation checks
+- Improved customizability of parse tree printouts
+- Improved naming of firstOf-rules in parse errors and parse tree printing
+- Updated SparqlParser example
+
+
+Version 0.8.1.0 (2009-12-07)
+----------------------------
+- Fixed definition of special characters to be fully compatible with the unicode standard
+- Fixed IllegalStateException during parse error recovery of testNot() rules
+- Added support for case independent matching of characters and strings
+- Added SPARQL parser example (incl. test), thanks to Ken Wenzel from http://www.iwu.fraunhofer.de
+
+
+Version 0.8.0.0 (2009-11-12)
+----------------------------
+first public release

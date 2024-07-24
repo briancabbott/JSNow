@@ -1,0 +1,8 @@
+dsl Entity [ent] {
+
+	paths {
+		grammar: "entity/entity.tx"
+		outline: "entity/entity.txol"
+		coloring: "entity/entity.txcl"
+	}
+}

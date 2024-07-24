@@ -1,0 +1,62 @@
+tximport Workflow from "./../../tx_samples/workflow/workflow.tx"
+
+style:
+{
+    "selector": "node.task",
+    "style": {
+        "shape": "rectangle",
+        "background-color": "green",
+        "label": "data(label)",
+        "font-size": 15,
+        "font-style": "normal",
+        "color": "black",
+        "text-background-color": "red",
+        "text-background-opacity": 0.5,
+        "text-background-shape": "rectangle",
+        "border-width": 3,
+        "border-style": "solid",
+        "border-color": "black"
+    }
+},
+{
+    "selector": "edge.task-next",
+    "style": {
+        "curve-style": "bezier",
+        "arrow-scale": 2,
+        "source-arrow-shape": "diamond",
+        "source-arrow-fill": "filled",
+        "source-arrow-color": "red",
+        "target-arrow-shape": "triangle",
+        "target-arrow-fill": "hollow",
+        "target-arrow-color": "red",
+        "width": 3,
+        "line-color": "blue",
+        "line-style": "dotted",
+        "label": "data(label)"
+    }
+}
+:style end
+
+view Task as Rectangle
+{
+    background: red
+    label: Task.name
+    {
+        font: 15
+        background: yellow 0.5
+    }
+    border: black 3 solid
+    link
+    {
+        from: this
+        {
+            arrow: blue 3 diamond filled
+        }
+        to: Task.next
+        {
+            arrow: red 2 triangle hollow
+        }
+        line: green 3 dashed
+        label: Task.next.name
+    }
+}

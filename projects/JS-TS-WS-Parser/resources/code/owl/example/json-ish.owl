@@ -1,0 +1,14 @@
+#using owl.v4
+
+# This is "json-ish" because Owl's built-in tokenizer doesn't interpret
+# string escape sequences the way JSON does.
+
+value =
+ [ '{' (string ':' value){','} '}' ] : object
+ [ '[' value{','} ']' ] : array
+ string : string
+ number : pos-number
+ '-' number : neg-number
+ 'true' : true
+ 'false' : false
+ 'null' : null

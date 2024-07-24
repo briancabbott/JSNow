@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/textX/viewX-vscode undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/viewX-vscode",
+    "repo": "https://github.com/textX/viewX-vscode",
+    "targetPath": "undefined\\X--07-18-2024--3Hn36ULq1dkMAfUEtHxm4p/viewX-vscode",
+    "startTime": "2024-07-19T02:36:34.309Z",
+    "endTime": "2024-07-19T02:36:35.533Z",
+    "childProcessPid": 13331,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/projects/JS-TS-Parser/resources/code/workingdir/--textX--viewX-vscode--13331",
+    "executionErrors": []
+}

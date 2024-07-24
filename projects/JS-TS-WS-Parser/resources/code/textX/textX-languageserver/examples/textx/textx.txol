@@ -1,0 +1,4 @@
+TextxRule {
+	label = name
+	icon = "icons/rule.png"
+}

@@ -1,0 +1,30 @@
+#element:
+    match: "#[a-z_][a-zA-Z_0-9]*" name: "entity.name.function"
+#st_stmnt:
+    begin: "start" names: "keyword"
+    end : "\(" names: "keyword.other"      
+   (match:"[a-zA-Z_]+(\.[a-zA-Z_]+)*" name: "support.class")          
+#incl_statement:
+    begin: "include.*:" names: "keyword"
+    end: "$" names: "constant.language"
+    name: "keyword" (
+        match: "[a-z_][a-zA-Z_0-9]*" name: "support.function"
+    )    
+#keyword:
+    match: "names|start|matches_from_grammar|match|name|begin|end|string_literals|numeric_literals|keywords|operators" 
+    name: "keyword"
+    /* matches from grammar, pogotovo za vece matcheve, textx gramatika upotrebom
+       textxa */
+#language_elements:
+    match: "\(|\)|\:" name: "constant.language"
+#string:
+    match:  "\"(\\.|[^\"])*\"" name: "string"
+#comment:
+    match: "//.*?$" name: "comment.line"
+    include: comment_block
+#comment_block:
+    begin: "\/\*" names: "comment.block"
+    end: "\*\/" names: "comment.block"
+    name:"comment" 
+// this is a comment
+start clrlang(element,st_stmnt,keyword,language_elements,string,comment,incl_statement)

@@ -1,0 +1,4 @@
+TEXT[noskipws]: /(.|\n)*/;
+SEPARATOR: /\-\-\-+/;
+LINE: /[^\+][^\n]+/;
+IDEXT: /(\w[\w\s]*)?\w/;

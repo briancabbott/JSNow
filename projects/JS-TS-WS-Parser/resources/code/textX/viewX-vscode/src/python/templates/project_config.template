@@ -1,0 +1,18 @@
+{
+    "project": {
+        "type": "viewX",
+        "name": "{{ projectName }}",
+        "version": "0.2.1",
+        "root": ".",
+        "socketPort": 4000
+    },
+    "viewXModels": {
+        "root": ".",
+        "patternMappings": [
+            {
+                "modelName": "course_overview.vx",
+                "pattern": "*.univ"
+            }
+        ]
+    }
+}
