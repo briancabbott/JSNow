@@ -1,0 +1,309 @@
+<!doctype html>
+<!--[if lt IE 9]><html class="ie"><![endif]-->
+<!--[if gte IE 9]><!--><html><!--<![endif]-->
+
+	<head>
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+                <script async src="https://www.googletagmanager.com/gtag/js?id=G-G0NX9K3FP5"></script>
+                <script>
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+
+                  gtag('config', 'G-G0NX9K3FP5');
+                </script>
+
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+		<title>ANTLR Development Tools</title>
+
+		<!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+		
+		
+		<link rel="stylesheet" href="css/fontface/Droid-Sans/stylesheet.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="css/fontface/Droid-Serif/stylesheet.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="css/fontface/DejaVu-Sans-Mono/stylesheet.css" type="text/css" media="screen" />
+			
+		<link rel="stylesheet" href="css/antlr.css" type="text/css" media="screen" />
+		
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script src="scripts/selectivizr-min.js"></script>	
+		<script src="scripts/cycle.js"></script>	
+		<script src="scripts/rounded.js"></script>	
+		<script src="scripts/watermark.js"></script>	
+		
+		<script type="text/javascript" src="scripts/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+		<script type="text/javascript" src="scripts/source/jquery.fancybox.js?v=2.0.6"></script>
+		<link rel="stylesheet" type="text/css" href="scripts/source/jquery.fancybox.css?v=2.0.6" media="screen" />		
+	
+	</head>
+
+<body>
+
+<header>
+
+<a id="index" href="index.html">ANTLR</a>
+
+<nav>
+  <script src="scripts/topnav.js"></script>
+</nav>
+
+
+</header>
+
+<div id="wrapper">
+<div id="container">
+
+<div id="main">
+
+	<div id="content">
+	
+<h1>ANTLR Lab</h1>
+
+<p>
+<a href="http://lab.antlr.org/"">ANTLR lab</a> lets you can learn about ANTLR or experiment with and test grammars without having to install any software.</p>
+
+<p><a href="http://lab.antlr.org/"><img src="images/lab-snapshot.png" width=300></a>
+
+<h1>ANTLR Development Tools</h1>
+
+
+<img align=left src="images/icons/rocket.png">There are plug-ins for Intellij, NetBeans, Eclipse, Visual Studio Code, Visual Studio IDE, and jEdit.<br><br>
+
+<h2>Intellij Plugin for ANTLR 4</h2>
+
+<p>
+We have a <a href="http://plugins.jetbrains.com/plugin/7358?pr=">ANTLR v4 plugin</a> for <a href="http://www.jetbrains.com/idea/download/">Intellij</a>. Videos:
+
+<p>
+<table border="0">
+<tr style="vertical-align:top">
+<td><iframe width="160" src="https://www.youtube.com/embed/JbnjtbPhIX4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</td>
+<td width=10> </td>
+
+<td>
+<iframe width="160" src="https://www.youtube.com/embed/0A2-BquvxMU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</td>
+<td width=10></td>
+
+<td>
+<a href="/images/plugin-parse-tree.png"><img src="images/plugin-parse-tree.png" width=200></a>
+<a href="/images/profiler.png"><img src="images/profiler.png" width=180></a>
+</td>
+<td width=10></td>
+
+<td>
+<a href="/images/subphrase.png"><img src="images/subphrase.png" width=180></a>
+</td>
+</tr>
+</table>
+
+<p>
+Features:
+
+
+<ul>
+<li>Syntax highlighting and syntax error checking
+<li>Navigation window 
+<li>Code completion for tokens, rule names
+<li>Live grammar interpreter for grammar preview
+<li>Config per grammar, autobuild on save
+<li>Use the meta-key while moving the mouse and it will show you token information; click on the token that's underlined and it will show the location in the ANTLR grammar editor window of the grammar element that matched that token
+<li>Meta-j pops up a list of live templates, just like it does for Java programming
+<li>Ctrl-return, or whatever you have configured for the generate pop-up, will bring up a list of things you can generate
+<li>Alt-key while moving the mouse shows the region of input associated with parser rule that matched it
+<li>Clicking at the same time jumps the grammar to the associated rule. A pop up shows the parser call stack leading to that parse region.
+<li>Sophisticated profiler tab that shows ambiguities, lookahead depth, etc...
+</ul>
+
+<p>
+Sample usage showing Java grammar to the right.
+
+<h2>ANTLRWorks2 and NetBeans Plugin for ANTLR 3 and 4</h2>
+
+<p>
+<a href="http://tunnelvisionlabs.com/products/antlrworks">ANTLRWorks 2</a>. This IDE is a sophisticated editor for ANTLR v3/v4 grammars as well as StringTemplate templates. It can run the ANTLR tool to generate recognizers and can run the TestRig (grun on command line) to test grammars. <i>To integrate ANTLR-generated recognizers into your application, you will still need at least the <a href="/download.html">runtime library</a>.</i>
+
+<h2>ANTLR4 IDE Eclipse Plugin for ANTLR 4</h2>
+
+<p>
+<a href="/images/eclipse-v4-plugin.png"><img align=right src="/images/eclipse-v4-plugin.png" width=120></a>
+Edgar Espina has created an <a href="https://github.com/jknack/antlr4ide">Eclipse plugin for ANTLR v4</a>. Features:
+
+<ul>
+<li>Advanced Syntax Highlighting
+<li>Automatic Code Generation (on save)
+<li>Manual Code Generation (through External Tools menu)
+<li>Code Formatter (Ctrl+Shift+F)
+<li>Syntax Diagrams
+<li>Advanced Rule Navigation between files (F3 or Ctrl+Click over a rule)
+<li>Quick fixes
+</ul>
+
+<br>
+<h2>AntlrDT Tools Suite for Eclipse</h2>
+
+<p>
+<a href="/images/antlrdt-v4-plugin.png"><img align=right src="/images/antlrdt-v4-plugin.png" width=180></a>
+
+<p>
+1. AntlrDT &mdash; an ANTLR v4 grammar editor and builder 
+<ul>
+	<li>full syntax-directed editor with outline view
+	<li>hyperlinked navigation between rules and rule subterms
+	<li>automatic builder with real-time problem feedback markers
+	<li>ANTLR grammar and Java native code formatter
+	<li>Parse Tree view &ndash; graphical visualization of generated parse trees 
+		<ul>
+			<li>builds parse trees using full (non-interpreted) grammar builds and parsing
+			<li>displays lexed tokens list and full parser/lexer errors list
+			<li>supports use of custom token emitters, token factories, and error strategies
+		</ul>
+	<li>Paths view &ndash; graphical visualization of rule connectivity paths 
+		<ul>
+			<li>shows all possible parse paths from the start rule to any other selected rule
+			<li>particularly useful in the design of XVisitor grammars and ANTLR XPaths
+		</ul>
+</ul>
+
+<p>
+<a href="/images/xvisitordt-plugin.png"><img align=right src="/images/xvisitordt-plugin.png" width=180></a>
+
+<p>
+2. XVisitorDT &mdash; an XVisitor grammar editor and builder 
+<ul>
+	<li>full syntax-directed editor with outline view
+	<li>hyperlinked navigation between rules
+	<li>automatic builder with real-time problem feedback markers
+	<li>builder performs automatic visitor code generation
+	<li>utilizes fully symbolic XPath-style rule path references
+	<li>ANTLR grammar and Java native code formatter
+</ul>
+
+<br>
+<p>
+3. StringTemplateDT &mdash; a StringTemplate v4 template editor 
+<ul>
+	<li>full syntax-directed editor with outline view
+	<li>for template ('.st') and template group ('.stg') files 
+</ul>
+
+<br>
+<p>
+<em>Update site:</em> <code>http://www.certiv.net/updates/</code>
+
+<br>
+<h2>Visual Studio Code plugin for ANTLR 4</h2>
+
+<p>
+<a href="https://raw.githubusercontent.com/mike-lischke/vscode-antlr4/master/images/antlr4-3.png"><img src="https://raw.githubusercontent.com/mike-lischke/vscode-antlr4/master/images/antlr4-3.png" width=180 align=right></a>
+Mike Lischke created an <a href="https://marketplace.visualstudio.com/items?itemName=mike-lischke.vscode-antlr4">ANTLR 4 plug-in for Visual Studio Code</a>. Features:
+
+<ul>
+<li>Syntax coloring for ANTLR grammars (.g and .g4 files).
+<li>An own color theme, which not only includes all the recommended groups, but also some special rules for grammar elements that you don't find in other themes.
+<li>Parser generation on save.
+<li>Syntax and some semantic error checking (symbol matching)
+<li>Quick navigation via ctrl/cmd+click.
+<li>The symbol list for quick navigation (via shift+ctrl/cmd+O).
+<li>Hovers (tooltips) with symbol information.
+<li>Rule reference counts via code lens.
+<li>Railroad diagrams for all types of rules (parser, lexer, fragment lexer).
+<li>ATN graphs for all rule types. This is a visualization of the internal ATN that drives lexers + parsers. It uses D3.js for layout and interaction. Nodes can be repositioned with the mouse and you can drag and zoom the image. The transformation and position state is restored when reopening a graph.
+</ul>
+
+<br>
+<h2>Visual Studio IDE extension for ANTLR 4</h2>
+
+<p>
+Ken Domino created an
+<a href="https://marketplace.visualstudio.com/items?itemName=KenDomino.AntlrVSIX">ANTLR
+   4 extention for Visual Studio 2019</a>. Features:
+
+<ul>
+<li>Syntax highlighting for ANTLR grammars (.g and .g4 files).
+<li>Quick navigation for next and previous rules in grammar.
+<li>Intellisense command completion and tooltips.
+<li>Go to def/refs.
+<li>Go to C# visitor and listener methods, with generation if missing.
+<li>Reformat using Codebuff.
+<li>Support for integrated C# parser generation via Antlr Java tool, compile, and debug.
+<li>Templates for NET Code and Framework Antlr examples.
+</ul>
+
+<br>
+<h2>Visual Studio IDE extension for ANTLR 4</h2>
+
+<p>
+	<a href="https://raw.githubusercontent.com/zspitz/ANTLR4ParseTreeVisualizer/master/screenshot.png"><img src="https://raw.githubusercontent.com/zspitz/ANTLR4ParseTreeVisualizer/master/screenshot.png" width=180 align=right></a>
+Zev Spitz has created a <a href="https://github.com/zspitz/ANTLR4ParseTreeVisualizer">Visual Studio debugging visualizer</a> that supports Antlr.Runtime.Standard.DLL, as well as the older Antlr.Runtime.DLL. Features:
+
+<ul>
+<li>Multiple views: token list, parse tree nodes, source
+<li>Selection sync across views
+<li>Targets <code>System.String</code>, <code>BufferedTokenStream</code>, <code>RuleContext</code>, and subclasses
+<li>Filter by text, whitespace, and/or errors; and by specific token types or rule contexts
+<li>UI controls can be embedded in third-party applications
+</ul>
+
+<br>
+<h2>jEdit plugin for ANTLR 4</h2>
+
+<p>
+<a href="/images/jedit.png"><img src="/images/jedit.png" width=180 align=right></a>
+The <a href="http://www.jedit.org/">jEdit</a> editor has a plugin with:
+
+<ul>
+<li>Syntax highlighting
+<li>Code navigation
+<li>Code generation
+<li>Error checking
+</ul>
+
+<br>
+<h2>Grun.Net for ANTLR 4</h2>
+
+<p>
+<a href="https://github.com/wiredwiz/Grun.Net"><img src="https://raw.githubusercontent.com/wiredwiz/Grun.Net/assets/Assets/GrunWinExample.GIF" width=180 align=right></a>
+Thaddeus Ryker created a .Net desktop tool for diagnosing/exploring/testing ANTLR 4 grammars that were created with .Net.  Features:
+
+<ul>
+	<li>A mostly feature comparable grun command line tool like the java testrig.
+	<li>A visual analyzer tool named GrunWin with various features:
+		<ul>
+			<li>A text editor with defaut syntax highlighting and the ability for users to create targeted custom syntax guides
+			<li>A tab with a list of all generated tokens
+			<li>A tab with a trace view of the parsing
+			<li>An error message window showing you errors based on the test text in the editor
+			<li>A visual graphing tab that graphs all the syntax nodes in the parsed text from the editor
+			<li>A tree view of the nodes next to the graph window allowing you to graph subsets of the tree
+			<li>The ability to select text from the editor by selecting tokens in the list or rules from the graph
+			<li>The ability to select specific tokens or parse rules in the graph based on selected text in the editor
+		</ul>
+</ul>
+
+	</div><!--/content-->
+	
+<div id="sidebar">
+    <script src="scripts/leftnav.js"></script>
+</div><!--/sidebar-->
+
+</div><!--/main-->
+
+
+</div><!--/container-->
+
+<div class="clear"><!--necessary nudge--></div>
+</div><!--/wrapper-->	
+
+<footer>
+	<script src="scripts/bottomnav.js"></script>
+</footer>
+
+<script src="scripts/functions.js"></script>	
+
+</body>
+</html>
