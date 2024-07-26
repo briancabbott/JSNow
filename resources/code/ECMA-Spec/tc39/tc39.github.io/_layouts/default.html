@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang='{{ locale | default: "en-US" }}'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,minimum-scale=1,initial-scale=1"
+    />
+    <meta name="theme-color" content="#157878" />
+    <title>TC39 - {{ site["title"] }}</title>
+    <link rel="alternate" hreflang="de" href="https://tc39.es/de/" />
+    <link rel="alternate" hreflang="ja" href="https://tc39.es/ja/" />
+    <link rel="alternate" hreflang="ru" href="https://tc39.es/ru/" />
+    <link rel="alternate" hreflang="zh-Hans" href="https://tc39.es/zh-Hans/" />
+    <link rel="alternate" hreflang="x-default" href="https://tc39.es/" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "url": "https://tc39.es",
+        "logo": "https://tc39.es/assets/img/logo.svg"
+      }
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Source+Sans+Pro:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ '/assets/css/normalize.css' | url }}" />
+    <link
+      rel="stylesheet"
+      href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | url }}"
+    />
+    <script
+      defer
+      src="{{ '/assets/js/main.js?v=' | append: site.github.build_revision | url }}"
+    ></script>
+  </head>
+  <body class="no-js">
+    {% include "./page_header.html" %}
+    <main class="container">
+      <h1 id="content" class="page-title">{{ site["title"] }}</h1>
+      <section class="main-content">
+        {% include "intro.html" %} {% include "proposals.html" %}
+      </section>
+    </main>
+    {% include "./page_footer.html" %}
+  </body>
+</html>

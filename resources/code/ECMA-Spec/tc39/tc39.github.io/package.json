@@ -1,0 +1,36 @@
+{
+  "name": "@tc39/tc39.github.io",
+  "private": true,
+  "description": "Get involved in specifying JavaScript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tc39/tc39.github.io.git"
+  },
+  "scripts": {
+    "prebuild": "npm run sass",
+    "build": "eleventy",
+    "fix": "npm run fix:biome & npm run fix:scss",
+    "fix:biome": "npm run lint:biome -- --fix",
+    "fix:scss": "npm run lint:scss -- --fix",
+    "lint": "npm run lint:biome & npm run lint:scss",
+    "lint:biome": "biome check",
+    "lint:scss": "stylelint _sass",
+    "sass": "sass --style=compressed _sass/style.scss assets/css/style.css",
+    "sass:watch": "sass --style=compressed _sass/style.scss assets/css/style.css --watch",
+    "start": "eleventy --serve --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "2.0.1",
+    "@11ty/eleventy-fetch": "4.0.1",
+    "@biomejs/biome": "^1.8.3",
+    "@primer/octicons": "19.11.0",
+    "sass": "1.77.8",
+    "stylelint": "16.7.0",
+    "stylelint-config-recess-order": "5.0.1",
+    "stylelint-config-standard-scss": "13.1.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

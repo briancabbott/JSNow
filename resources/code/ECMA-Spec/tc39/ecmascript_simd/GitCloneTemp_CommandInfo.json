@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/tc39/ecmascript_simd undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/ecmascript_simd",
+    "repo": "https://github.com/tc39/ecmascript_simd",
+    "targetPath": "undefined\\tc39--07-18-2024--p3D3ZkPUw1qVbqTfFy3yWD/ecmascript_simd",
+    "startTime": "2024-07-18T18:14:09.662Z",
+    "endTime": "2024-07-18T18:14:16.412Z",
+    "childProcessPid": 18869,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/ECMA-Spec/workingdir/--tc39--ecmascript_simd--18869",
+    "executionErrors": []
+}

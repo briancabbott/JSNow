@@ -1,0 +1,33 @@
+.page-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background: inherit;
+
+  @media (min-width: $bp-tablet) {
+    $spacing: 30px;
+
+    .page-menu {
+      margin-left: $spacing;
+
+      [dir="rtl"] & {
+        margin-right: $spacing;
+        margin-left: 0;
+      }
+    }
+  }
+
+  @media (min-width: $bp-desktop) {
+    $spacing: 90px;
+
+    .page-menu {
+      margin-left: $spacing;
+      font-size: 1.1em;
+
+      [dir="rtl"] & {
+        margin-right: $spacing;
+        margin-left: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "proposal-regexp-legacy-features": {
+    "title": "Устаревшие возможности RegExp в JavaScript",
+    "description": "Черновик спецификации для устаревших возможностей RegExp в JavaScript, т.е. статических свойств конструктора вида RegExp.$1, а также метода RegExp.prototype.compile."
+  },
+  "proposal-hashbang": {
+    "title": "Грамматика Hashbang",
+    "description": "Это предложение по стандартизации использования Shebang / Hashbang в соответствии с тем, как они фактически уже используются в некоторых CLI-окружениях JS. В настоящее время такие окружения удаляют шебанг для того, чтобы сгенерировать валидный исходный код на JS перед тем, как отдать его на исполнение JS-движкам. Это предложение позволит унифицировать и стандартизировать такое использование."
+  },
+  "proposal-atomics-wait-async": {
+    "title": "<code>Atomics.waitAsync</code>",
+    "description": "Предложение для добавления атомарной операции ожидания асинхронной операции в ECMAScript, прежде всего, для использования в агентах, в которых невозможна блокировка."
+  },
+  "proposal-relative-indexing-method": {
+    "title": "<code>.at()</code>",
+    "description": "Предложение по добавлению метода <code>.at()</code> во все основные перечисляемые классы (<code>Array</code>, <code>String</code>, <code>TypedArray</code>)."
+  },
+  "proposal-import-assertions": {
+    "title": "Import assertions",
+    "description": "Предложение по добавлению синтаксиса для импорта модулей ES с дополнительными параметрами."
+  },
+  "proposal-json-modules": {
+    "title": "JSON Modules",
+    "description": "Предложение по импорту JSON-файлов как модулей."
+  },
+  "proposal-private-fields-in-in": {
+    "title": "Ergonomic Brand Checks",
+    "description": null
+  },
+  "proposal-class-static-block": {
+    "title": "Class Static Block",
+    "description": null
+  },
+  "proposal-error-cause": {
+    "title": "Error Cause",
+    "description": null
+  },
+  "proposal-temporal": {
+    "title": "Temporal",
+    "description": null
+  },
+  "proposal-accessible-object-hasownproperty": {
+    "title": "Accessible Object.prototype.hasOwnProperty()",
+    "description": "Предложение по добавлению метода Object.hasOwn(), который делает Object.prototype.hasOwnProperty() более доступным."
+  },
+  "proposal-resizablearraybuffer": {
+    "title": "In-Place Resizable and Growable ArrayBuffers",
+    "description": null
+  },
+  "proposal-array-find-from-last": {
+    "title": "Array.prototype.findLast and Array.prototype.findLastIndex",
+    "description": "Методы по поиску соответствия с конца массива для элементов и их индексов."
+  },
+  "proposal-shadowrealm": {
+    "title": "ShadowRealm API",
+    "description": "ShadowRealms — это отдельное глобальное окружение со своим глобальным объектом, интристиками и встроенными объектами (стандартные объекты, которые не привязаны к глобальным переменным, таким как изначальное значение Object.prototype)."
+  },
+  "proposal-array-grouping": {
+    "title": "Array Grouping",
+    "description": "Предложение о том, как сделать группировку массивов проще."
+  }
+}

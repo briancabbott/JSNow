@@ -1,0 +1,17 @@
+name: Perform CI
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          check-latest: true
+      - run: npm ci
+      - run: npm run lint

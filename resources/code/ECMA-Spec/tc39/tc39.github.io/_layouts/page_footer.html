@@ -1,0 +1,218 @@
+<footer class="page-footer container">
+  <section class="synopsis grid-container">
+    <div class="g-row">
+      <div class="g-col-3">
+        <h3 id="connect-label">{{ site["footer"]["connect"] }}</h3>
+        <ul class="connect" aria-labelledby="connect-label">
+          <li>
+            <a href="https://es.discourse.group" target="_blank">
+              <span class="icon"
+                ><svg
+                  height="24"
+                  aria-label="discussion"
+                  class="octicon octicon-comment-discussion"
+                  viewBox="0 0 16 16"
+                  version="1.1"
+                  width="24"
+                  role="link"
+                >
+                  {{ octicons["commentDiscussion"] }}
+                </svg></span
+              >
+              <p>Discourse</p>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/tc39" target="_blank">
+              <span class="icon"
+                ><svg
+                  height="24"
+                  aria-label="github"
+                  class="octicon octicon-mark-github"
+                  viewBox="0 0 16 16"
+                  version="1.1"
+                  width="24"
+                  role="link"
+                >
+                  {{ octicons["markGithub"] }}
+                </svg></span
+              >
+              <p>GitHub</p>
+            </a>
+          </li>
+          <li>
+            <a href="https://fosstodon.org/@TC39" target="_blank" rel="me">
+              <span class="icon"
+                ><svg
+                  height="24"
+                  aria-label="Mastodon"
+                  viewBox="0 0 16 16"
+                  version="1.1"
+                  width="24"
+                  role="link"
+                >
+                  <!-- https://icons.getbootstrap.com/icons/mastodon/ (MIT License) -->
+                  <path
+                    d="M11.19 12.195c2.016-.24 3.77-1.475 3.99-2.603.348-1.778.32-4.339.32-4.339 0-3.47-2.286-4.488-2.286-4.488C12.062.238 10.083.017 8.027 0h-.05C5.92.017 3.942.238 2.79.765c0 0-2.285 1.017-2.285 4.488l-.002.662c-.004.64-.007 1.35.011 2.091.083 3.394.626 6.74 3.78 7.57 1.454.383 2.703.463 3.709.408 1.823-.1 2.847-.647 2.847-.647l-.06-1.317s-1.303.41-2.767.36c-1.45-.05-2.98-.156-3.215-1.928a3.614 3.614 0 0 1-.033-.496s1.424.346 3.228.428c1.103.05 2.137-.064 3.188-.189zm1.613-2.47H11.13v-4.08c0-.859-.364-1.295-1.091-1.295-.804 0-1.207.517-1.207 1.541v2.233H7.168V5.89c0-1.024-.403-1.541-1.207-1.541-.727 0-1.091.436-1.091 1.296v4.079H3.197V5.522c0-.859.22-1.541.66-2.046.456-.505 1.052-.764 1.793-.764.856 0 1.504.328 1.933.983L8 4.39l.417-.695c.429-.655 1.077-.983 1.934-.983.74 0 1.336.259 1.791.764.442.505.661 1.187.661 2.046v4.203z"
+                  />
+                </svg>
+              </span>
+              <p>Mastodon</p>
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://matrix.to/#/#tc39-space:matrix.org"
+              target="_blank"
+            >
+              <span class="icon"
+                ><svg
+                  height="24"
+                  aria-label="Matrix"
+                  viewBox="0 0 16 16"
+                  version="1.1"
+                  width="24"
+                  role="link"
+                >
+                  <path
+                    d="m.4.4v15.3h1.1v.4H0V0h1.5v.4H.4Zm4.7,4.8v.8h0c.2-.3.5-.5.7-.7.3-.2.6-.2,1-.2s.7,0,1,.2c.3.1.5.4.7.7.2-.2.4-.5.7-.7.3-.2.6-.3,1-.3s.6,0,.8.1c.3,0,.5.2.7.4.2.2.3.4.4.6.1.3.2.6.2.9v3.8h-1.6v-3.2c0-.2,0-.4,0-.5,0-.2,0-.3-.1-.4,0-.1-.2-.2-.3-.3-.1,0-.3-.1-.5-.1s-.4,0-.5.1c-.1,0-.2.2-.3.3,0,.1-.1.3-.2.5,0,.2,0,.3,0,.5v3.2h-1.6v-3.2c0-.2,0-.3,0-.5,0-.2,0-.3,0-.5,0-.1-.1-.3-.3-.3-.1,0-.3-.1-.6-.1s-.2,0-.3,0c-.1,0-.2,0-.4.2-.1,0-.2.2-.3.4,0,.2-.1.4-.1.7v3.3h-1.6v-5.7h1.5Zm10.5,10.4V.4h-1.1v-.4h1.5v16h-1.5v-.4h1.1Z"
+                  />
+                </svg>
+              </span>
+              <p>Matrix</p>
+            </a>
+          </li>
+          <li>
+            <a href="http://twitter.com/tc39" target="_blank">
+              <span class="icon"
+                ><svg
+                  height="24"
+                  aria-label="Twitter"
+                  class="octicon octicon-mark-twitter"
+                  viewBox="0 0 16 16"
+                  version="1.1"
+                  width="24"
+                  role="link"
+                >
+                  <path
+                    d="m14.115 3.3111c0.67809-0.42788 1.1984-1.1064 1.4425-1.9146-0.63482 0.39718-1.3364 0.68442-2.0849 0.83993-0.59725-0.67353-1.4509-1.0935-2.3956-1.0935-1.8126 0-3.2814 1.5501-3.2814 3.4617 0 0.27139 0.027277 0.53585 0.083581 0.78842-2.7272-0.14461-5.1455-1.5214-6.7655-3.6172-0.28268 0.51307-0.44421 1.1074-0.44421 1.7413 0 1.2005 0.57944 2.2603 1.4603 2.8823-0.53812-0.017828-1.0443-0.17532-1.4876-0.43284v0.04259c0 1.6779 1.1307 3.0774 2.6343 3.3944-0.27611 0.081219-0.56535 0.12183-0.86588 0.12183-0.2113 0-0.41791-0.020801-0.617-0.061409 0.41697 1.3748 1.6294 2.3772 3.0662 2.4039-1.1241 0.92906-2.5394 1.4817-4.0767 1.4817-0.26484 0-0.52685-0.01486-0.78323-0.04755 1.4528 0.98156 3.178 1.555 5.0318 1.555 6.0386 0 9.3387-5.2753 9.3387-9.8503 0-0.15056-0.0018-0.30012-0.0084-0.4477 0.64147-0.48831 1.1993-1.0984 1.6379-1.7928-0.5888 0.27536-1.2218 0.46157-1.8849 0.54477z"
+                  />
+                </svg>
+              </span>
+              <p>Twitter</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="g-col-3">
+        <h3 id="standards-label">{{ site["footer"]["standards"] }}</h3>
+        <ul aria-labelledby="standards-label">
+          <li><a href="https://tc39.es/ecma262">ECMA-262, ECMAScript</a></li>
+          <li><a href="https://tc39.es/ecma402">ECMA-402, Intl API</a></li>
+          <li>
+            <a
+              href="https://www.ecma-international.org/publications-and-standards/standards/ecma-404/"
+              >ECMA-404, JSON</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.ecma-international.org/publications-and-standards/standards/ecma-414/"
+              >ECMA-414, ECMAScript Specification Suite</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="g-col-3">
+        <h3 id="proposals-label">{{ site["footer"]["proposals"] }}</h3>
+        <ul aria-labelledby="proposals-label">
+          <li>
+            <a
+              href="https://github.com/tc39/proposals/blob/main/stage-0-proposals.md#stage-0-proposals"
+              >Stage 0</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/tc39/proposals/blob/main/stage-1-proposals.md#stage-1-proposals"
+              >Stage 1</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/tc39/proposals/blob/main/README.md#stage-2"
+              >Stage 2</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/tc39/proposals/blob/main/README.md#stage-27"
+              >Stage 2.7</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/tc39/proposals/blob/main/README.md#stage-3"
+              >Stage 3</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/tc39/proposals/blob/main/finished-proposals.md#finished-proposals"
+              >Stage 4</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="g-col-3">
+        <h3 id="contribute-label">
+          {{ site["navigation"]["contribute"]["title"] }}
+        </h3>
+        <ul aria-labelledby="contribute-label">
+          <li>
+            <a href='{{ site["links"]["contribute-to-proposals"] }}'>
+              {{ site["navigation"]["contribute"]["proposals"] }}
+            </a>
+          </li>
+          <li>
+            <a href='{{ site["links"]["contribute-to-tests"] }}'>
+              {{ site["navigation"]["contribute"]["tests"] }}
+            </a>
+          </li>
+          <li>
+            <a href="https://timothygu.me/es-howto" target="_blank">
+              {{ site["navigation"]["contribute"]["read"] }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <div class="grid-container">
+    <div class="grid-start">
+      <span>
+        {{ site["footer"]["feedback"] }}
+        <br />
+        {{ site["footer"]["feedback-prompt"] }}
+      </span>
+    </div>
+    <nav class="grid-end" aria-label="site info">
+      <ul class="pipe-nav">
+        <li>
+          <a href="https://tc39.es/archives">
+            {{ site["footer"]["archives"] }}
+          </a>
+        </li>
+        <li>
+          <a href='{{ site["links"]["process"] }}'>
+            {{ site["footer"]["process"] }}
+          </a>
+        </li>
+        <li>
+          <a href='{{ site["links"]["coc"] }}'> {{ site["footer"]["coc"] }} </a>
+        </li>
+      </ul>
+      <span>&copy; Ecma International</span>
+    </nav>
+  </div>
+</footer>
