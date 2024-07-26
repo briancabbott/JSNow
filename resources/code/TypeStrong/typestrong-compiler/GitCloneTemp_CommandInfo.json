@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/typestrong-compiler undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/typestrong-compiler",
+    "repo": "https://github.com/TypeStrong/typestrong-compiler",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/typestrong-compiler",
+    "startTime": "2024-07-20T17:34:21.341Z",
+    "endTime": "2024-07-20T17:34:23.492Z",
+    "childProcessPid": 3674,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--typestrong-compiler--3674",
+    "executionErrors": []
+}

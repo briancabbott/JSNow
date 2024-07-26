@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/TypeStrong/typescript-compiler-docs undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/typescript-compiler-docs",
+    "repo": "https://github.com/TypeStrong/typescript-compiler-docs",
+    "targetPath": "undefined\\TS--07-20-2024--4Wz8hK4YhZurYzkRzpsjXX/typescript-compiler-docs",
+    "startTime": "2024-07-20T17:34:19.352Z",
+    "endTime": "2024-07-20T17:34:21.339Z",
+    "childProcessPid": 3652,
+    "commandLogFilePath": "/Volumes/data-store-ext/JSNow/resources/code/workingdir/--TypeStrong--typescript-compiler-docs--3652",
+    "executionErrors": []
+}
