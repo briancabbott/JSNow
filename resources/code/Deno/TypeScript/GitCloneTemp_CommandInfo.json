@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/denoland/TypeScript undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/TypeScript",
+    "repo": "https://github.com/denoland/TypeScript",
+    "targetPath": "undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/TypeScript",
+    "startTime": "2024-07-18T18:53:05.496Z",
+    "endTime": "2024-07-18T19:21:34.621Z",
+    "childProcessPid": 26379,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Deno/workingdir/--denoland--TypeScript--26379",
+    "executionErrors": []
+}
