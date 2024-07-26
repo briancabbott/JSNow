@@ -1,0 +1,9 @@
+{
+  "name": "edge-function",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/node": "^18.7.23",
+    "typescript": "^4.8.4"
+  }
+}

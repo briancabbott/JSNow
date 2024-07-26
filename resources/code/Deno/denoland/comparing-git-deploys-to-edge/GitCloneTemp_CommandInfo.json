@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/denoland/comparing-git-deploys-to-edge undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/comparing-git-deploys-to-edge",
+    "repo": "https://github.com/denoland/comparing-git-deploys-to-edge",
+    "targetPath": "undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/comparing-git-deploys-to-edge",
+    "startTime": "2024-07-18T19:26:37.010Z",
+    "endTime": "2024-07-18T19:26:38.862Z",
+    "childProcessPid": 32313,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Deno/workingdir/--denoland--comparing-git-deploys-to-edge--32313",
+    "executionErrors": []
+}

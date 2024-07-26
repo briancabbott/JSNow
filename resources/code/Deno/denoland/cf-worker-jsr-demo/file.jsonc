@@ -1,0 +1,11 @@
+{
+	// This is a comment
+	"foo": "bar",
+	"baz": [
+		1,
+		// This is another comment
+		2,
+		3
+	]
+}
+

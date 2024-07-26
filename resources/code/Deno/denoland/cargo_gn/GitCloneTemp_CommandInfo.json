@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/denoland/cargo_gn undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/cargo_gn",
+    "repo": "https://github.com/denoland/cargo_gn",
+    "targetPath": "undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/cargo_gn",
+    "startTime": "2024-07-18T19:25:57.827Z",
+    "endTime": "2024-07-18T19:25:58.979Z",
+    "childProcessPid": 31260,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Deno/workingdir/--denoland--cargo_gn--31260",
+    "executionErrors": []
+}

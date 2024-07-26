@@ -1,0 +1,2332 @@
+---
+openapi: 3.1.0
+info:
+  title: Deno Land APIs
+  description: Describes the API available on api.deno.land.
+  contact:
+    url: https://deno.land/
+  version: 2.0.0
+  license:
+    name: MIT
+    url: https://github.com/denoland/apiland/LICENSE.md
+servers:
+  - url: https://apiland.deno.dev
+    description: The latest deployment of this repository on Deploy.
+security:
+  - bearerAuth: []
+tags:
+- name: registry
+  description: Information about the module registry.
+- name: pages
+  description: Endpoints for rendering pages.
+- name: metrics
+  description: Metric information.
+- name: completions
+  description: Endpoints for intelligent editor completions.
+- name: badges
+  description: Endpoints providing badge information.
+- name: webhooks
+  description: Endpoints used for integration.
+- name: infrastructure
+  description: APIs that relate to internal infrastructure.
+paths:
+  /completions/items/{mod}:
+    get:
+      tags:
+        - completions
+      summary: Get module completion items.
+      description: >
+        Return a list of modules from the registry which can be imported.
+      operationId: getCompletionItemsMod
+      parameters:
+        - name: mod
+          in: path
+          description: The module name or search term
+          required: false
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompletionItems"
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /completions/items/{mod}/{ver}:
+    get:
+      tags:
+        - completions
+      summary: Get module version completion items.
+      description: >
+        Return a list of module versions from the registry which can be
+        imported.
+      operationId: getCompletionItemsModVer
+      parameters:
+        - name: mod
+          in: path
+          description: The module name
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: ver
+          in: path
+          description: The version or partial version
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompletionItems"
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /completions/items/{mod}/{ver}/{path}:
+    get:
+      tags:
+        - completions
+      summary: Get path completion items.
+      description: >
+        Return a list of paths from the registry which can be
+        imported or directories which contain paths which can be imported.
+      operationId: getCompletionItemsPath
+      parameters:
+        - name: mod
+          in: path
+          description: The module name
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: ver
+          in: path
+          description: The version or partial version
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The path or partial path.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompletionItems"
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /completions/resolve/{mod}:
+    get:
+      tags:
+        - completions
+      summary: Get module completion docs.
+      description: Return documentation, if any, for a module.
+      operationId: getCompletionItemDocMod
+      parameters:
+        - name: mod
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompletionItemDoc"
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /completions/resolve/{mod}/{ver}:
+    get:
+      tags:
+        - completions
+      summary: Get module completion docs.
+      description: Return documentation, if any, for a module.
+      operationId: getCompletionItemDocModVer
+      parameters:
+        - name: mod
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: ver
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompletionItemDoc"
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /completions/resolve/{mod}/{ver}/{path}:
+    get:
+      tags:
+        - completions
+      summary: Get documentation for a path.
+      description: >
+        If found, return any documentation associated with a path for display
+        in a client.
+      operationId: getCompletionItemDocPath
+      parameters:
+        - name: mod
+          in: path
+          description: The module name
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: ver
+          in: path
+          description: The version or partial version
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The path or partial path.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompletionItemDoc"
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/metrics/apis:
+    get:
+      tags:
+        - metrics
+      summary: Get built-in API metrics.
+      description: >
+        Provides a object which contains metrics about the built-in APIs in
+        Deno CLI.
+      operationId: getAPIMetrics
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIMetrics"
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/metrics/dependencies:
+    get:
+      tags:
+        - registry
+        - metrics
+      summary: List dependency metrics.
+      description: > 
+        Provides objects by dependency source containing metrics about what
+        deno.land/x modules depend on code at that source.
+      operationId: getDependencyMetrics
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/DependencyMetrics"
+                required:
+                  - "items"
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/metrics/dependencies/{source}:
+    get:
+      tags:
+        - registry
+        - metrics
+      summary: List dependency metrics for a source.
+      description: > 
+        Provides objects by dependency source containing metrics about what
+        deno.land/x modules depend on code at that source.
+      operationId: getDependencyMetricsSource
+      parameters:
+        - name: source
+          in: path
+          description: Source name
+          required: true
+          schema:
+            type: string
+            example: "deno.land/x"
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/DependencyMetrics"
+                required:
+                  - "items"
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/metrics/modules:
+    get:
+      tags:
+      - registry
+      - metrics
+      summary: Lists module metrics.
+      description: Provides a list of metrics for modules.
+      operationId: getModulesMetrics
+      parameters:
+        - name: limit
+          in: query
+          description: The number of items to limit the response to.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - name: page
+          in: query
+          description: >
+            The page number to use as an offset for results. It is a 1 based
+            index. Must be used in conjunction with `limit`.
+          schema:
+            type: integer
+            minimum: 1
+        - name: orderBy
+          in: query
+          description: >
+            The popularity field to order the results by, defaults to `score`.
+          schema:
+            type: string
+            example: "users_30_day"
+      responses:
+        "200":
+          description: A JSON array of registered modules.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ModuleMetricList"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+                schema:
+                  type: string
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/metrics/modules/{module}:
+      get:
+        tags:
+          - registry
+          - metrics
+        summary: Get metrics about a module.
+        description: >
+          Returns an object which provides metrics about a module across
+          popularity, quality, and maintenance.
+        operationId: getModuleMetrics
+        parameters:
+          - name: module
+            in: path
+            required: true
+            schema:
+              $ref: "#/components/schemas/ModuleName"
+        responses:
+          "200":
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ModuleMetricsInfo"
+          "404":
+            description: Not found - the requested resource was not found
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/HttpError"
+              text/html:
+                schema:
+                  type: string
+  /v2/metrics/submodules/{submodule}:
+    get:
+      tags:
+      - registry
+      - metrics
+      summary: Lists sub-module metrics.
+      description: Provides a list of metrics for submodules for a module.
+      operationId: getSubModuleMetrics
+      parameters:
+        - name: submodule
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "oak"
+        - name: limit
+          in: query
+          description: The number of items to limit the response to.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - name: page
+          in: query
+          description: >
+            The page number to use as an offset for results. It is a 1 based
+            index. Must be used in conjunction with `limit`.
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        "200":
+          description: A JSON array of submodule metrics.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SubModuleMetricList"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+                schema:
+                  type: string
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/metrics/usage/{module}:
+    get:
+      tags:
+      - registry
+      - metrics
+      summary: Provides usage metrics.
+      description: For a given module, return the usage metrics for that module.
+      operationId: getUsageMetrics
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+      responses:
+        "200":
+          description: An object containing usage information.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ModuleUsage"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+                schema:
+                  type: string
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/builds/{id}:
+    get:
+      tags:
+        - registry
+      summary: Gets information about a build.
+      description: >
+        This resource represents an individual build action.
+      operationId: getBuild
+      parameters:
+        - name: id
+          in: path
+          description: ID
+          required: true
+          schema:
+            $ref: "#/components/schemas/BuildId"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Build"
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/modules:
+    get:
+      tags:
+      - registry
+      summary: Lists registered modules.
+      description: Provides a list of registered modules.
+      operationId: getModules
+      parameters:
+        - name: limit
+          in: query
+          description: The number of items to limit the response to.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - name: page
+          in: query
+          description: >
+            The page number to use as an offset for results. It is a 1 based
+            index. Must be used in conjunction with `limit`.
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        "200":
+          description: A JSON array of registered modules.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ModuleList"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+                schema:
+                  type: string
+        "404":
+          description: >
+            Not found - no resources for the given query were found. Try
+            changing the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/modules/{module}:
+    get:
+      tags:
+        - registry
+      summary: Gets information about a module.
+      description: >
+        This resource represents an individual registered module repository.
+      operationId: getModule
+      parameters:
+        - name: module
+          in: path
+          description: Module name
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Module"
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/modules/{module}/{version}:
+    get:
+      tags:
+        - registry
+      summary: Get information about a module version.
+      description: >
+        Returns information about a specific version of a module available in
+        the registry.
+      operationId: getModuleVersion
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ModuleVersion"
+        "302":
+          description: >
+            Found - The latest version has been found. This is sent when 
+            `__latest__` is used as the version.
+          headers:
+            Location:
+              schema:
+                type: string
+            X-Deno-Module:
+              schema:
+                $ref: "#/components/schemas/ModuleName"
+            X-Deno-Latest-Version:
+              schema:
+                type: string
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/modules/{module}/{version}/doc:
+    post:
+      tags:
+        - registry
+      summary: Get doc nodes for a module.
+      description: >
+        Get doc nodes for a module filtered by the array of paths provided in
+        the request body.
+      operationId: getModuleVersionDocs
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+            example: v10.0.1
+      requestBody:
+        description: An array of paths to lookup.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+              example: ["/mod.ts", "/lib/mod.ts"]
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DocNodeByEntry"
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/modules/{module}/{version}/doc/{path}:
+    get:
+      tags:
+        - registry
+      summary: Get doc nodes for a file.
+      description: >
+        Get doc nodes for a file.
+      operationId: getModuleVersionDocByPath
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+            example: v10.0.1
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+            example: mod.ts
+        - name: kind
+          in: query
+          description: >
+            Filter the results based on DocNode kind.
+          schema:
+            $ref: "#/components/schemas/DocNodeKind"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DocNode"
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/modules/{module}/{version}/index:
+    get:
+      tags:
+        - registry
+      summary: Get an index map of modules.
+      description: >
+        Responds with an object containing an `index` and `docs` properties. 
+        The `index` is a map of folders and the modules inside those folders.
+        Items marked as private or obvious tests are filtered out. The `docs` is
+        any module level JSDoc available for the module.
+      operationId: getModuleVersionIndex
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+            example: v10.0.1
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IndexDoc"
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/modules/{module}/{version}/index/{path}:
+    get:
+      tags:
+        - registry
+      summary: Get a sub index map of modules.
+      description: >
+        Responds with an object containing an `index` and `docs` properties for
+        a given path. The `index` is a map of folders and the modules inside
+        those folders. Items marked as private or obvious tests are filtered
+        out. The `docs` is any module level JSDoc available for the module.
+      operationId: getModuleVersionIndexByPath
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+            example: v10.0.1
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+            example: src
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IndexDoc"
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/modules/{module}/{version}/raw/{path}:
+    get:
+      tags:
+        - registry
+      summary: Get raw content for a file.
+      operationId: getModuleVersionPathRaw
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+            example: v10.0.1
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+            example: mod.ts
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/*:
+              schema:
+                type: string
+                format: binary
+            text/*:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/pages/mod/source/{module}/{version}:
+    get:
+      tags:
+        - pages
+      summary: Get information about a module to render a source view of a root.
+      description: >
+        Responds with all the information needed to render a root source view of
+        a module.
+      operationId: getSourcePageInfo
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "0.148.0"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SourcePage"
+        "400":
+          description: Bad Request - the request was malformed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+        "301":
+          description: Moved - This page has a different location
+          headers:
+            Location:
+              schema:
+                type: string
+            X-Deno-Module:
+              schema:
+                $ref: "#/components/schemas/ModuleName"
+            X-Deno-Version:
+              schema:
+                type: string
+            X-Deno-Path:
+              schema:
+                type: string
+        "302":
+          description: >
+            Found - The latest version has been found. This is sent when 
+            `__latest__` is used as the version.
+          headers:
+            Location:
+              schema:
+                type: string
+            X-Deno-Module:
+              schema:
+                $ref: "#/components/schemas/ModuleName"
+            X-Deno-Latest-Version:
+              schema:
+                type: string
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/pages/mod/source/{module}/{version}/{path}:
+    get:
+      tags:
+        - pages
+      summary: Get information about a module to render a source view.
+      description: >
+        Responds with all the information needed to render a a source view of an
+        entry of a module.
+      operationId: getSourcePagePathInfo
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "0.148.0"
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "mod.ts"
+        - name: symbol
+          in: query
+          description: >
+            The specific symbol to search for. If searching for a symbol on non-
+            module path, a Bad Request will be returned. To search for a
+            namespaced symbol, deliminate using the `.` (e.g.
+            `namespace.Value`).
+          schema:
+            type: string
+            example: "AClass"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SourcePage"
+        "400":
+          description: Bad Request - the request was malformed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/pages/mod/doc/{module}/{version}:
+    get:
+      tags:
+        - pages
+      summary: Get information about a module to render the root doc page.
+      description: >
+        Responds with all the information needed to render a root doc page of a
+        module.
+      operationId: getModDocPageInfo
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "0.148.0"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocPage"
+        "400":
+          description: Bad Request - the request was malformed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+        "301":
+          description: Moved - This page has a different location
+          headers:
+            Location:
+              schema:
+                type: string
+            X-Deno-Module:
+              schema:
+                $ref: "#/components/schemas/ModuleName"
+            X-Deno-Version:
+              schema:
+                type: string
+            X-Deno-Path:
+              schema:
+                type: string
+        "302":
+          description: >
+            Found - The latest version has been found. This is sent when 
+            `__latest__` is used as the version.
+          headers:
+            Location:
+              schema:
+                type: string
+            X-Deno-Module:
+              schema:
+                $ref: "#/components/schemas/ModuleName"
+            X-Deno-Latest-Version:
+              schema:
+                type: string
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/pages/mod/doc/{module}/{version}/{path}:
+    get:
+      tags:
+        - pages
+      summary: Get information about a module to render a doc page.
+      description: >
+        Responds with all the information needed to render a doc page of a
+        module.
+      operationId: getModDocPagePathInfo
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "0.148.0"
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "mod.ts"
+        - name: symbol
+          in: query
+          description: >
+            The specific symbol to search for. If searching for a symbol on non-
+            module path, a Bad Request will be returned. To search for a
+            namespaced symbol, deliminate using the `.` (e.g.
+            `namespace.Value`).
+          schema:
+            type: string
+            example: "AClass"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocPage"
+        "400":
+          description: Bad Request - the request was malformed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /v2/pages/mod/info/{module}/{version}:
+    get:
+      tags:
+        - pages
+      summary: Get information about a module to render a doc page.
+      description: >
+        Responds with all the information needed to render a doc page of a
+        module.
+      operationId: getPageModInfo
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "0.148.0"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InfoPage"
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /shields/{module}/popularity:
+    get:
+      tags:
+        - badges
+      summary: A shield payload for popularity
+      description: >
+        Return a JSON payload which can be used on shields.io to generate a
+        badge representing how popular a package is on deno.land/x.
+      operationId: getBadgeModulePopularity
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShieldsPayload"
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /shields/{module}/version:
+    get:
+      tags:
+        - badges
+      summary: A shield payload for latest version
+      description: >
+        Return a JSON payload which can be used on shields.io to generate a
+        badge representing the latest version published on deno.land/x.
+      operationId: getBadgeModuleVersion
+      parameters:
+        - name: module
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ModuleName"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShieldsPayload"
+        "404":
+          description: Not found - the requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /webhook/publish:
+    post:
+      tags:
+        - webhooks
+      summary: A module has been published.
+      description: >
+        A module has been published and apiland should add the module to the
+        datastore.
+      operationId: postWebhookPublish
+      requestBody:
+        description: Information about the publish event
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PublishEvent"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+            text/html:
+              schema:
+                type: string
+  /ping:
+    get:
+      tags:
+        - infrastructure
+      summary: Server heartbeat operation
+      description: >
+        This operation shows how to override the global security defined above,
+        as we want to open it up for all users.
+      operationId: getPing
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/pong"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    APIMetrics:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/APIViews"
+    APIViews:
+      type: object
+      properties:
+        total:
+          $ref: "#/components/schemas/Views"
+        symbols:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/Views"
+      required:
+        - "total"
+        - "symbols"
+    Build:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/BuildId"
+        module:
+          $ref: "#/components/schemas/ModuleName"
+        version:
+          type: string
+          example: v10.0.1
+        status:
+          type: string
+          enum:
+            - "queued"
+            - "success"
+            - "error"
+            - "publishing"
+        message:
+          type: string
+          example: Published module.
+        created_at:
+          type: string
+          format: date-time
+          example: 2022-05-06T01:03:14.774Z
+        upload_options:
+          $ref: "#/components/schemas/UploadOptions"
+      required:
+        - id
+        - module
+        - version
+        - status
+        - message
+        - created_at
+        - upload_options
+      description: Representation of a build action
+    BuildId:
+      type: string
+      example: 39229ca6-e764-4d8d-b762-6b720607458c
+    CompletionItemDoc:
+      type: object
+      properties:
+        kind:
+          type: string
+          enum:
+            - "markdown"
+            - "text"
+        value:
+          type: string
+      required:
+        - "kind"
+        - "value"
+    CompletionItems:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: string
+        isIncomplete:
+          type: boolean
+        preselect:
+          type: string
+      required:
+        - items
+        - isIncomplete
+    DeclarationKind:
+      type: string
+      enum:
+        - private
+        - export
+        - declare
+    DependencyError:
+      type: object
+      properties:
+        specifier:
+          type: string
+        error:
+          type: string
+      required:
+        - "specifier"
+        - "error"
+    DependencyMetrics:
+      type: object
+      properties:
+        source:
+          type: string
+          example: "deno.land/x"
+        count:
+          type: integer
+          example: 4521
+        mods:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/DependencyModuleMetrics"
+      required:
+        - "source"
+        - "count"
+        - "mods"
+    DependencyModuleMetrics:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 4251
+        dependents:
+          type: array
+          items:
+            type: string
+        dependent_versions:
+          type: array
+          items:
+            type: string
+        versions:
+          type: object
+          additionalProperties:
+            type: integer
+    DocNode:
+      type: object
+      properties:
+        kind:
+          $ref: "#/components/schemas/DocNodeKind"
+        jsDoc:
+          $ref: "#/components/schemas/JsDoc"
+    DocNodeArray:
+      type: array
+      items:
+        $ref: "#/components/schemas/DocNode"
+    DocNodeByEntry:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/DocNodeArray"
+    DocNodeKind:
+      type: string
+      enum:
+        - moduleDoc
+        - function
+        - variable
+        - enum
+        - class
+        - typeAlias
+        - namespace
+        - interface
+        - import
+    DocPage:
+      oneOf:
+        - $ref: "#/components/schemas/DocPageSymbol"
+        - $ref: "#/components/schemas/DocPageModule"
+        - $ref: "#/components/schemas/DocPageIndex"
+        - $ref: "#/components/schemas/DocPageFile"
+        - $ref: "#/components/schemas/PageInvalidVersion"
+        - $ref: "#/components/schemas/PagePathNotFound"
+      discriminator:
+        propertyName: kind
+        mapping:
+          symbol: "#/components/schemas/DocPageSymbol"
+          module: "#/components/schemas/DocPageModule"
+          index: "#/components/schemas/DocPageIndex"
+          file: "#/components/schemas/DocPageFile"
+          invalid-version: "#/components/schemas/PageInvalidVersion"
+          notfound: "#/components/schemas/PagePathNotFound"
+    DocPageDirItem:
+      type: object
+      properties:
+        kind:
+          type: string
+          example: dir
+        path:
+          type: string
+          example: "/"
+      required:
+        - "kind"
+        - "path"
+    DocPageFile:
+      allOf:
+        - $ref: "#/components/schemas/PageBase"
+    DocPageIndex:
+      allOf:
+        - $ref: "#/components/schemas/PageBase"
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: "#/components/schemas/IndexItem"
+          required:
+            - "items"
+    DocPageModule:
+      allOf:
+        - $ref: "#/components/schemas/PageBase"
+        - type: object
+          properties:
+            nav:
+              type: array
+              items:
+                $ref: "#/components/schemas/DocPageNavItem"
+            docNodes:
+              $ref: "#/components/schemas/DocNodeArray"
+            symbols:
+              type: array
+              items:
+                $ref: "#/components/schemas/SymbolIndexItem"
+          required:
+            - "nav"
+            - "docNodes"
+    DocPageModuleItem:
+      type: object
+      properties:
+        kind:
+          type: string
+          example: module
+        path:
+          type: string
+          example: "/mod.ts"
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SymbolItem"
+      required:
+        - "kind"
+        - "path"
+        - "items"
+    DocPageNavItem:
+      oneOf:
+        - $ref: "#/components/schemas/DocPageDirItem"
+        - $ref: "#/components/schemas/DocPageModuleItem"
+      discriminator:
+        propertyName: kind
+        mapping:
+          dir: "#/components/schemas/DocPageDirItem"
+          module: "#/components/schemas/DocPageModuleItem"
+    DocPageSymbol:
+      allOf:
+        - $ref: "#/components/schemas/PageBase"
+        - type: object
+          properties:
+            nav:
+              type: array
+              items:
+                $ref: "#/components/schemas/DocPageNavItem"
+            name:
+              type: string
+              example: "AClass"
+            docNodes:
+              $ref: "#/components/schemas/DocNodeArray"
+            symbols:
+              type: array
+              items:
+                $ref: "#/components/schemas/SymbolIndexItem"
+          required:
+            - "nav"
+            - "name"
+            - "docNodes"
+    HttpError:
+      type: object
+      properties:
+        status:
+          type: number
+          minimum: 400
+          maximum: 599
+          example: 400
+        statusText:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: Parameter "page" must be 1 or greater.
+        stack:
+          type: string
+          example: BadRequestError - Parameter "page" must be 1 or greater.
+      required:
+        - status
+        - statusText
+        - message
+    IndexItem:
+      type: object
+      properties:
+        kind:
+          type: string
+          enum:
+            - dir
+            - module
+            - file
+        path:
+          type: string
+          example: "/mod.ts"
+        size:
+          type: number
+          example: 563245
+        ignored:
+          type: boolean
+        doc:
+          type: string
+          example: "Some documentation for item"
+      required:
+        - "kind"
+        - "path"
+        - "size"
+        - "ignored"
+    InfoPage:
+      oneOf:
+        - $ref: "#/components/schemas/ModInfoPage"
+        - $ref: "#/components/schemas/PageInvalidVersion"
+      discriminator:
+        propertyName: kind
+        mapping:
+          modinfo: "#/components/schemas/ModInfoPage"
+          invalid-version: "#/components/schemas/PageInvalidVersion"
+    JsDoc:
+      type: object
+      properties:
+        doc:
+          type: string
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/JsDocTag"
+    JsDocMap:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/JsDoc"
+    JsDocTag:
+      type: object
+      properties:
+        kind:
+          type: string
+          enum:
+            - callback
+            - constructor
+            - deprecated
+            - enum
+            - example
+            - extends
+            - module
+            - param
+            - public
+            - private
+            - property
+            - protected
+            - readonly
+            - return
+            - template
+            - this
+            - typedef
+            - type
+            - unsupported
+    ModInfoPage:
+      type: object
+      properties:
+        kind:
+          type: string
+          example: modinfo
+        module:
+          $ref: "#/components/schemas/ModuleName"
+        description:
+          type: string
+          example: A module for Deno
+        version:
+          type: string
+          example: "0.148.0"
+        path:
+          type: string
+          example: "/mod.ts"
+        versions:
+          type: array
+          items:
+            type: string
+          example: ["0.146.0", "0.147.0", "0.148.0"]
+        latest_version:
+          type: string
+          example: "0.148.0"
+        dependencies:
+          type: array
+          items:
+            $ref: "#/components/schemas/ModuleDependency"
+        dependency_errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/DependencyError"
+        defaultModule:
+          $ref: "#/components/schemas/ModuleEntry"
+        defaultExport:
+          type: boolean
+        readme:
+          $ref: "#/components/schemas/ModuleEntry"
+        config:
+          $ref: "#/components/schemas/ModuleEntry"
+        import_map:
+          $ref: "#/components/schemas/ModuleEntry"
+        uploaded_at:
+          type: string
+          format: date-time
+          example: 2022-05-06T01:03:14.774Z
+        upload_options:
+          $ref: "#/components/schemas/UploadOptions"
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/ModuleTag"
+      required:
+        - "kind"
+        - "module"
+        - "version"
+        - "versions"
+        - "latest_version"
+        - "uploaded_at"
+    Module:
+      type: object
+      properties:
+        name:
+          $ref: "#/components/schemas/ModuleName"
+        description:
+          type: string
+          example: A middleware framework for Deno
+        latest_version:
+          type: string
+          example: v10.0.1
+        versions:
+          type: array
+          items:
+            type: string
+          example: ["v10.0.0", "v10.0.1"]
+      required:
+        - name
+        - description
+        - latest_version
+        - versions
+      description: Representation of a module
+    ModuleDependency:
+      type: object
+      properties:
+        src:
+          type: string
+          example: "deno.land/x"
+        org:
+          type: string
+        pkg:
+          type: string
+          example: "oak"
+        ver:
+          type: string
+          example: "v11.1.0"
+      required:
+        - "src"
+        - "pkg"
+    ModuleMetricList:
+      allOf:
+        - $ref: "#/components/schemas/ListBase"
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: "#/components/schemas/ModuleMetrics"
+    ModuleEntry:
+      type: object
+      properties:
+        path:
+          type: string
+          example: "/mod.ts"
+        type:
+          type: string
+          enum:
+            - "file"
+            - "dir"
+          example: "file"
+        size:
+          type: number
+          example: 4532
+        default:
+          type: string
+          example: "/mod.ts"
+        dirs:
+          type: array
+          items:
+            type: string
+        docable:
+          type: boolean
+        index:
+          type: array
+          items:
+            type: string
+      required:
+        - "path"
+        - "type"
+        - "size"
+    ModuleList:
+      allOf:
+        - $ref: "#/components/schemas/ListBase"
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: "#/components/schemas/Module"
+    ModuleMetrics:
+      type: object
+      properties:
+        name:
+          $ref: "#/components/schemas/ModuleName"
+        description:
+          type: string
+        updated:
+          type: string
+          format: date-time
+        maintenance:
+          type: object
+        popularity:
+          type: object
+          properties:
+            sessions_30_day:
+              type: number
+              format: integer
+              example: 4792
+            users_30_day:
+              type: number
+              format: integer
+              example: 5421
+            score:
+              type: number
+              format: integer
+              example: 5042
+            prev_sessions_30_day:
+              type: number
+              format: integer
+              example: 4792
+            prev_users_30_day:
+              type: number
+              format: integer
+              example: 5421
+            prev_score:
+              type: number
+              format: integer
+              example: 5042
+          required:
+            - "session_30_day"
+            - "users_30_day"
+            - "score"
+        quality:
+          type: object
+      required:
+        - "name"
+        - "updated"
+        - "maintenance"
+        - "popularity"
+        - "quality"
+    ModuleMetricsInfo:
+      type: object
+      properties:
+        metrics:
+          $ref: "#/components/schemas/ModuleMetrics"
+        info:
+          $ref: "#/components/schemas/ModInfoPage"
+      required:
+        - "metrics"
+    ModuleName:
+      type: string
+      pattern: "^[A-Za-z_]{3,}$"
+      example: oak
+    ModuleTag:
+      oneOf:
+        - $ref: "#/components/schemas/PopularityModuleTag"
+      discriminator:
+        propertyName: kind
+        mapping:
+          popularity: "#/components/schemas/PopularityModuleTag"
+    ModuleUsage:
+      type: object
+      properties:
+        total:
+          $ref: "#/components/schemas/UsageMetric"
+        daily:
+          type: array
+          items:
+            $ref: "#/components/schemas/UsageMetric"
+        versions:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/UsageMetric"
+        updated:
+          type: string
+          format: date-time
+      required:
+        - "total"
+        - "daily"
+        - "updated"
+    ModuleVersion:
+      type: object
+      properties:
+        name:
+          $ref: "#/components/schemas/ModuleName"
+        description:
+          type: string
+          example: A middleware framework for Deno
+        version:
+          type: string
+          example: v10.0.1
+        uploaded_at:
+          type: string
+          format: date-time
+          example: 2022-05-06T01:03:14.774Z
+        upload_options:
+          $ref: "#/components/schemas/UploadOptions"
+    IndexDoc:
+      type: object
+      properties:
+        index:
+          $ref: "#/components/schemas/IndexMap"
+        docs:
+          $ref: "#/components/schemas/JsDocMap"
+      required:
+        - "index"
+        - "docs"
+    IndexMap:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+      example:
+        /: ["/mod.ts"]
+        /src: ["/src/lib.ts", "/src/util.js"]
+    ListBase:
+      type: object
+      properties:
+        next:
+          type: string
+          example: /modules?limit=100&page=3
+        previous:
+          type: string
+          example: /modules?limit=100&page=1
+    PageBase:
+      type: object
+      properties:
+        kind:
+          type: string
+          example: index
+        module:
+          $ref: "#/components/schemas/ModuleName"
+        description:
+          type: string
+          example: A module for Deno
+        version:
+          type: string
+          example: "0.148.0"
+        path:
+          type: string
+          example: "/mod.ts"
+        versions:
+          type: array
+          items:
+            type: string
+          example: ["0.146.0", "0.147.0", "0.148.0"]
+        latest_version:
+          type: string
+          example: "0.148.0"
+        uploaded_at:
+          type: string
+          format: date-time
+          example: 2022-05-06T01:03:14.774Z
+        upload_options:
+          $ref: "#/components/schemas/UploadOptions"
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/ModuleTag"
+      required:
+        - "kind"
+        - "module"
+        - "version"
+        - "path"
+        - "versions"
+        - "latest_version"
+        - "uploaded_at"
+        - "upload_options"
+    PageInvalidVersion:
+      type: object
+      properties:
+        kind:
+          type: string
+          example: "invalid-version"
+        module:
+          $ref: "#/components/schemas/ModuleName"
+        description:
+          type: string
+          example: A module for Deno
+        versions:
+          type: array
+          items:
+            type: string
+          example: ["0.146.0", "0.147.0", "0.148.0"]
+        latest_version:
+          type: string
+          example: "0.148.0"
+    PagePathNotFound:
+      allOf:
+        - $ref: "#/components/schemas/PageBase"
+    PublishEvent:
+      type: object
+      properties:
+        event:
+          type: string
+          example: create
+        module:
+          type: string
+          example: oak
+        version:
+          type: string
+          example: all
+      required:
+        - event
+        - module
+        - version
+    PopularityModuleTag:
+      type: object
+      properties:
+        kind:
+          type: string
+          example: "popularity"
+        value:
+          type: string
+          enum:
+            - "top_1_percent"
+            - "top_5_percent"
+            - "top_10_percent"
+    ShieldsPayload:
+      type: object
+      properties:
+        schemaVersion:
+          type: number
+          example: 1
+        label:
+          type: string
+          example: deno.land/x
+        message:
+          type: string
+          example: v1.0.0
+        namedLogo:
+          type: string
+          example: deno
+        color:
+          type: string
+          example: informational
+        cacheSeconds:
+          type: number
+          example: 300
+      required:
+        - schemaVersion
+        - label
+        - message
+    SourcePage:
+      oneOf:
+        - $ref: "#/components/schemas/SourcePageDir"
+        - $ref: "#/components/schemas/SourcePageFile"
+        - $ref: "#/components/schemas/PageInvalidVersion"
+        - $ref: "#/components/schemas/PagePathNotFound"
+      discriminator:
+        propertyName: kind
+        mapping:
+          dir: "#/components/schemas/SourcePageDir"
+          file: "#/components/schemas/SourcePageFile"
+          invalid-version: "#/components/schemas/PageInvalidVersion"
+          notfound: "#/components/schemas/PagePathNotFound"
+    SourcePageDir:
+      allOf:
+        - $ref: "#/components/schemas/PageBase"
+        - type: object
+          properties:
+            entries:
+              type: array
+              items:
+                $ref: "#/components/schemas/SourcePageDirEntry"
+          required:
+            - "entries"
+    SourcePageDirEntry:
+      type: object
+      properties:
+        path:
+          type: string
+          example: /mod.ts
+        kind:
+          type: string
+          enum:
+            - file
+            - dir
+        size:
+          type: number
+        docable:
+          type: boolean
+      required:
+        - "path"
+        - "kind"
+        - "size"
+    SourcePageFile:
+      allOf:
+        - $ref: "#/components/schemas/PageBase"
+        - type: object
+          properties:
+            size:
+              type: number
+              example: 27234
+            docable:
+              type: boolean
+          required:
+            - "size"
+    SubModuleMetricList:
+      allOf:
+        - $ref: "#/components/schemas/ListBase"
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: "#/components/schemas/SubModuleMetrics"
+    SubModuleMetrics:
+      type: object
+      properties:
+        module:
+          $ref: "#/components/schemas/ModuleName"
+        submodule:
+          type: string
+          example: "std"
+        updated:
+          type: string
+          format: data-time
+        popularity:
+          type: object
+          properties:
+            sessions_30_day:
+              type: number
+              example: 4792
+            users_30_day:
+              type: number
+              example: 5421
+            score:
+              type: number
+              format: integer
+              example: 5042
+          required:
+            - "session_30_day"
+            - "users_30_day"
+            - "score"
+      required:
+        - "module"
+        - "submodule"
+        - "updated"
+        - "popularity"
+    SymbolIndexItem:
+      type: object
+      properties:
+        name:
+          type: string
+        kind:
+          $ref: "#/components/schemas/DocNodeKind"
+        declarationKind:
+          $ref: "#/components/schemas/DeclarationKind"
+        filename:
+          type: string
+      required:
+        - "name"
+        - "kind"
+        - "declarationKind"
+        - "filename"
+    SymbolItem:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example
+        kind:
+          $ref: "#/components/schemas/DocNodeKind"
+        jsDoc:
+          $ref: "#/components/schemas/JsDoc"
+      required:
+        - "name"
+        - "kind"
+    UploadOptions:
+      type: object
+      properties:
+        type:
+          type: string
+          example: github
+        repository:
+          type: string
+          example: oakserver/oak
+        ref:
+          type: string
+          example: v10.0.1
+        subdir:
+          type: string
+          example: /deno
+      required:
+        - type
+        - repository
+        - ref
+    UsageMetric:
+      type: object
+      properties:
+        sessions:
+          type: integer
+          example: 12345
+        users:
+          type: integer
+          example: 4562
+      required:
+        - "sessions"
+        - "users"
+    Views:
+      type: object
+      properties:
+        pageviews:
+          type: integer
+          example: 12345
+        unstable:
+          type: boolean
+      required:
+        - "pageviews"
+    WebhookResponse:
+      type: object
+      properties:
+        result:
+          type: string
+          example: enqueued
+        id:
+          type: number
+          example: 1
+    pong:
+      type: object
+      properties:
+        pong:
+          type: boolean

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/denoland/bump-workspaces undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/bump-workspaces",
+    "repo": "https://github.com/denoland/bump-workspaces",
+    "targetPath": "undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/bump-workspaces",
+    "startTime": "2024-07-18T19:25:56.582Z",
+    "endTime": "2024-07-18T19:25:57.826Z",
+    "childProcessPid": 31237,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Deno/workingdir/--denoland--bump-workspaces--31237",
+    "executionErrors": []
+}

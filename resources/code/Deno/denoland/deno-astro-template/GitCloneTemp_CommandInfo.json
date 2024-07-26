@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/denoland/deno-astro-template undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/deno-astro-template",
+    "repo": "https://github.com/denoland/deno-astro-template",
+    "targetPath": "undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/deno-astro-template",
+    "startTime": "2024-07-18T19:26:51.338Z",
+    "endTime": "2024-07-18T19:26:53.071Z",
+    "childProcessPid": 32581,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Deno/workingdir/--denoland--deno-astro-template--32581",
+    "executionErrors": []
+}

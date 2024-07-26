@@ -1,0 +1,9 @@
+.env
+/keys
+/docnodes
+/cache
+
+.terraform
+/terraform/*.tfplan
+/terraform/*.tfstate
+/terraform/*.tfvars

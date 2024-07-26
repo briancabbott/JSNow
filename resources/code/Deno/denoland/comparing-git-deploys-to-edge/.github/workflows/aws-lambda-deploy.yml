@@ -1,0 +1,29 @@
+name: lambda-depl
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_source:
+    name: build and deploy lambda
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./aws-lambda@edge
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install dependencies, Build application and Zip dist folder contents
+        run: npm install
+      - name: serverless deploy
+        uses: serverless/github-action@master
+        with:
+          args: deploy --stage production --region ${{ secrets.AWS_REGION }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

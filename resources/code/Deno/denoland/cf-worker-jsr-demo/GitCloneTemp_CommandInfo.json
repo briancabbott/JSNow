@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/denoland/cf-worker-jsr-demo undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/cf-worker-jsr-demo",
+    "repo": "https://github.com/denoland/cf-worker-jsr-demo",
+    "targetPath": "undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/cf-worker-jsr-demo",
+    "startTime": "2024-07-18T19:25:58.980Z",
+    "endTime": "2024-07-18T19:25:59.911Z",
+    "childProcessPid": 31282,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Deno/workingdir/--denoland--cf-worker-jsr-demo--31282",
+    "executionErrors": []
+}

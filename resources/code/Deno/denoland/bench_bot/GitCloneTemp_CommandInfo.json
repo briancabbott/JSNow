@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/denoland/bench_bot undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/bench_bot",
+    "repo": "https://github.com/denoland/bench_bot",
+    "targetPath": "undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/bench_bot",
+    "startTime": "2024-07-18T19:25:31.461Z",
+    "endTime": "2024-07-18T19:25:32.288Z",
+    "childProcessPid": 30563,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Deno/workingdir/--denoland--bench_bot--30563",
+    "executionErrors": []
+}

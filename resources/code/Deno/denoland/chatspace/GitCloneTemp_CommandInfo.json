@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/denoland/chatspace undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/chatspace",
+    "repo": "https://github.com/denoland/chatspace",
+    "targetPath": "undefined\\deno--07-18-2024--t6bQUytLU4mp9b5RrkcUak/chatspace",
+    "startTime": "2024-07-18T19:25:59.912Z",
+    "endTime": "2024-07-18T19:26:05.114Z",
+    "childProcessPid": 31324,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Deno/workingdir/--denoland--chatspace--31324",
+    "executionErrors": []
+}
