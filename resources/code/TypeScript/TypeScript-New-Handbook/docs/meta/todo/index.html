@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>TODO</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="../../css/handbook.css" />
+        <script src="../../js/handbook.js"></script>
+    </head>
+    <body class="dark-light">
+        <div class="theme-selector">
+            Theme:
+            <div id="set-theme-light">■</div>
+            <div id="set-theme-dark">■</div>
+            <div id="set-theme-dark-light">■</div>
+            <div id="set-theme-light-dark">■</div>
+        </div>
+    <article>
+    <h2 id="new-syntax-not-yet-covered"><a href="#new-syntax-not-yet-covered">New Syntax Not Yet Covered</h2></a>
+<ul>
+<li><code>const</code> contexts</li>
+</ul>
+<h2 id="infrastructure"><a href="#infrastructure">Infrastructure</h2></a>
+<ul>
+<li>Enforce lint rules (already implemented)</li>
+<li>Disable text selection from tooltips</li>
+<li>Semantic HTML, and tag parsing</li>
+<li>Weird highlighting for <code>T extends (...args: never[]) =&gt; infer U ? U : never;</code><ul>
+<li>Are the classifiers fighting with each other?</li></ul></li>
+<li>Text wrapping in a bunch of stuff…</li>
+<li>Highlight descriptions<ul>
+<li>Evaluate reusing tooltips for quickinfo.</li>
+<li>Need to be linked via <code>aria-describedby</code></li></ul></li>
+</ul>
+    </article>
+        <script>loadSavedTheme();</script>
+    </body>
+    </html>

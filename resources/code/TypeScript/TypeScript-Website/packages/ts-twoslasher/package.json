@@ -1,0 +1,62 @@
+{
+  "name": "@typescript/twoslash",
+  "version": "3.2.8",
+  "license": "MIT",
+  "author": "TypeScript team",
+  "homepage": "https://github.com/microsoft/TypeScript-Website",
+  "repository": {
+    "url": "https://github.com/microsoft/TypeScript-Website.git",
+    "directory": "packages/create-typescript-playground-plugin",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/microsoft/TypeScript-Website/issues"
+  },
+  "main": "dist/index.js",
+  "module": "dist/twoslash.esm.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "dts watch",
+    "bootstrap": "pnpm build",
+    "build": "dts build && pnpm readme && pnpm make-global",
+    "make-global": "node scripts/makeGlobals.js",
+    "readme": "pnpm md-magic README.md --config ./scripts/inline-results.js && pnpm prettier README.md --write",
+    "test": "dts test",
+    "lint": "dts lint"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/prettier": "^1.19.0",
+    "dts-cli": "^2.0.5",
+    "jest": "^29.5.0",
+    "jest-file-snapshot": "^0.3.8",
+    "markdown-magic": "^1.0.0",
+    "preact": "^10.5.13",
+    "prettier": "^2.3.2",
+    "ts-jest": "^29.0.5",
+    "tslib": "^2.6.2",
+    "typescript": "*"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "watchPathIgnorePatterns": [
+      "test/results"
+    ]
+  },
+  "browser": {
+    "fs": false,
+    "lz-string": false,
+    "typescript": false
+  },
+  "dependencies": {
+    "@typescript/vfs": "workspace:*",
+    "debug": "^4.1.1",
+    "lz-string": "^1.5.0"
+  },
+  "peerDependencies": {
+    "typescript": "*"
+  }
+}
