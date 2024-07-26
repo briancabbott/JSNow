@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/v8/.allstar undefined\\v8--07-18-2024--oQcVrDLttJowHKoGoW8Tgz/.allstar",
+    "repo": "https://github.com/v8/.allstar",
+    "targetPath": "undefined\\v8--07-18-2024--oQcVrDLttJowHKoGoW8Tgz/.allstar",
+    "startTime": "2024-07-18T18:40:17.011Z",
+    "endTime": "2024-07-18T18:40:17.622Z",
+    "childProcessPid": 25619,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/V8/workingdir/--v8--.allstar--25619",
+    "executionErrors": []
+}
