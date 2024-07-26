@@ -1,0 +1,65 @@
+import type { Octokit } from '@octokit/core'
+import type { Endpoints } from '@octokit/types'
+
+export type TreeParameter = Endpoints['POST /repos/{owner}/{repo}/git/trees']['parameters']['tree']
+
+export interface CommitOptions {
+  owner: string
+  repo: string
+  head: string
+  base: string
+  createWhenEmpty?: boolean
+  changes: Changes | Changes[]
+  fresh?: boolean
+}
+
+export interface PullRequestOptions {
+  title: string
+  body: string
+  owner: string
+  repo: string
+  head: string
+  base: string
+  labels?: string[]
+}
+
+export interface Changes {
+  files?: Record<string, string | File | UpdateFunction>
+  emptyCommit?: boolean | string
+  commit: string
+  author?: {
+    name?: string
+    email?: string
+  }
+}
+
+// https://developer.github.com/v3/git/blobs/#parameters
+export interface File {
+  content: string
+  encoding: 'utf-8' | 'base64'
+}
+
+export type UpdateFunctionFile =
+  | {
+    exists: true
+    size: number
+    encoding: 'base64'
+    content: string
+  }
+  | {
+    exists: false
+    size: never
+    encoding: never
+    content: never
+  }
+
+export type UpdateFunction = (file: UpdateFunctionFile) => string | File | null
+
+export interface State {
+  octokit: Octokit
+  owner: string
+  repo: string
+  latestCommitSha?: string
+  latestCommitTreeSha?: string
+  treeSha?: string
+}

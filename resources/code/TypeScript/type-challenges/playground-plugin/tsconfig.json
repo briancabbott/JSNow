@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "noEmit": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "target": "es2017",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "types": ["svelte"]
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
+}

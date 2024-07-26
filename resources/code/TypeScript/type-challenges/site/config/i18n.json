@@ -1,0 +1,78 @@
+{
+  "code": {
+    "en": "Code",
+    "zh-CN": "代码"
+  },
+  "question_list": {
+    "en": "Question List",
+    "zh-CN": "题目列表"
+  },
+  "type_to_search": {
+    "en": "Type to search...",
+    "zh-CN": "请输入关键词搜索"
+  },
+  "setting": {
+    "en": "setting",
+    "zh-CN": "设置"
+  },
+  "description": {
+    "en": "Description",
+    "zh-CN": "题目描述"
+  },
+  "solution": {
+    "en": "Solution",
+    "zh-CN": "解答"
+  },
+  "theme": {
+    "en": "theme",
+    "zh-CN": "主题"
+  },
+  "font_size": {
+    "en": "font size",
+    "zh-CN": "字体大小"
+  },
+  "tab_size": {
+    "en": "tab size",
+    "zh-CN": "缩进大小"
+  },
+  "language": {
+    "en": "language",
+    "zh-CN": "语言"
+  },
+  "confirm_title": {
+    "en": "Confirm",
+    "zh-CN": "确认"
+  },
+  "confirm_btn": {
+    "en": "confirm",
+    "zh-CN": "确认"
+  },
+  "cancel_btn": {
+    "en": "cancel",
+    "zh-CN": "取消"
+  },
+  "confirm_reset_code": {
+    "en": "Are you sure to reset code?",
+    "zh-CN": "确认重置代码？"
+  },
+  "no_question": {
+    "en": "No Result",
+    "zh-CN": "暂无数据"
+  },
+  "compilation_error": {
+    "en": "Compilation Error",
+    "zh-CN": "编译失败"
+  },
+  "compilation_success": {
+    "en": "Compilation Successful",
+    "zh-CN": "编译成功"
+  },
+  "compilation_success_info": {
+    "en": "\uD83C\uDF89 Yay! You have finished this challenge.",
+    "zh-CN": "\uD83C\uDF89 恭喜你完成了这个挑战！"
+  },
+  "share_solution": {
+    "en": "Share your Solution",
+    "zh-CN": "分享你的解答"
+  }
+}

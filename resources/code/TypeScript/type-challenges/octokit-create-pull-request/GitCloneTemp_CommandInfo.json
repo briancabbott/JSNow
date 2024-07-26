@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/type-challenges/octokit-create-pull-request undefined\\type--07-18-2024--78FeZniB1sRFWxqBwMgsws/octokit-create-pull-request",
+    "repo": "https://github.com/type-challenges/octokit-create-pull-request",
+    "targetPath": "undefined\\type--07-18-2024--78FeZniB1sRFWxqBwMgsws/octokit-create-pull-request",
+    "startTime": "2024-07-18T19:09:01.883Z",
+    "endTime": "2024-07-18T19:09:11.869Z",
+    "childProcessPid": 28835,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/TypeScript/workingdir/--type-challenges--octokit-create-pull-request--28835",
+    "executionErrors": []
+}

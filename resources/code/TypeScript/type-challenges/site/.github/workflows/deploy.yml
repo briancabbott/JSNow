@@ -1,0 +1,47 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - config/**
+      - html/**
+      - src/**
+      - rspack.config.ts
+      - tsconfig.json
+      - package.json
+      - yarn.lock
+    branches:
+      - dev
+      - main
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Install dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build
+      - name: Deploy to github pages
+        if: ${{ github.ref == 'refs/heads/dev' }}
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          repository-name: type-challenges/site
+      - name: Deploy to github pages
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          repository-name: type-challenges/type-challenges.github.io
