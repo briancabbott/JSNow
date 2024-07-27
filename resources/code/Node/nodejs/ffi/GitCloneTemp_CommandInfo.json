@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/ffi undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/ffi",
+    "repo": "https://github.com/nodejs/ffi",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/ffi",
+    "startTime": "2024-07-18T19:12:41.329Z",
+    "endTime": "2024-07-18T19:18:16.809Z",
+    "childProcessPid": 29126,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--ffi--29126",
+    "executionErrors": []
+}
