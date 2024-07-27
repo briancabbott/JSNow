@@ -1,0 +1,8 @@
+.env
+.npmrc
+coverage
+node_modules
+*.tgz
+.idea
+.vscode
+yarn.lock
