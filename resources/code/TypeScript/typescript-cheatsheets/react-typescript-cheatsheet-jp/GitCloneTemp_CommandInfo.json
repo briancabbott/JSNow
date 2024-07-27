@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/typescript-cheatsheets/react-typescript-cheatsheet-jp undefined\\type--07-18-2024--eeWRpDXXrnKMz9vS2qAG54/react-typescript-cheatsheet-jp",
+    "repo": "https://github.com/typescript-cheatsheets/react-typescript-cheatsheet-jp",
+    "targetPath": "undefined\\type--07-18-2024--eeWRpDXXrnKMz9vS2qAG54/react-typescript-cheatsheet-jp",
+    "startTime": "2024-07-18T19:08:21.077Z",
+    "endTime": "2024-07-18T19:08:22.462Z",
+    "childProcessPid": 28705,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/TypeScript/workingdir/--typescript-cheatsheets--react-typescript-cheatsheet-jp--28705",
+    "executionErrors": []
+}

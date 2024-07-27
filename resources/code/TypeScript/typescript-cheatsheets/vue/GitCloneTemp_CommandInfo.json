@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/typescript-cheatsheets/vue undefined\\type--07-18-2024--eeWRpDXXrnKMz9vS2qAG54/vue",
+    "repo": "https://github.com/typescript-cheatsheets/vue",
+    "targetPath": "undefined\\type--07-18-2024--eeWRpDXXrnKMz9vS2qAG54/vue",
+    "startTime": "2024-07-18T19:08:26.937Z",
+    "endTime": "2024-07-18T19:08:28.547Z",
+    "childProcessPid": 28793,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/TypeScript/workingdir/--typescript-cheatsheets--vue--28793",
+    "executionErrors": []
+}

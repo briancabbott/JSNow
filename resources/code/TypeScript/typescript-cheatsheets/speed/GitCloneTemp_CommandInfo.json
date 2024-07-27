@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/typescript-cheatsheets/speed undefined\\type--07-18-2024--eeWRpDXXrnKMz9vS2qAG54/speed",
+    "repo": "https://github.com/typescript-cheatsheets/speed",
+    "targetPath": "undefined\\type--07-18-2024--eeWRpDXXrnKMz9vS2qAG54/speed",
+    "startTime": "2024-07-18T19:08:23.903Z",
+    "endTime": "2024-07-18T19:08:25.292Z",
+    "childProcessPid": 28749,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/TypeScript/workingdir/--typescript-cheatsheets--speed--28749",
+    "executionErrors": []
+}

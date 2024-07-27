@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/typescript-cheatsheets/react-native undefined\\type--07-18-2024--eeWRpDXXrnKMz9vS2qAG54/react-native",
+    "repo": "https://github.com/typescript-cheatsheets/react-native",
+    "targetPath": "undefined\\type--07-18-2024--eeWRpDXXrnKMz9vS2qAG54/react-native",
+    "startTime": "2024-07-18T19:08:16.321Z",
+    "endTime": "2024-07-18T19:08:17.693Z",
+    "childProcessPid": 28637,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/TypeScript/workingdir/--typescript-cheatsheets--react-native--28637",
+    "executionErrors": []
+}
