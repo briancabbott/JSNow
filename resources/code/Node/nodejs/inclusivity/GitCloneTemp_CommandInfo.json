@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/inclusivity undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/inclusivity",
+    "repo": "https://github.com/nodejs/inclusivity",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/inclusivity",
+    "startTime": "2024-07-18T19:24:53.740Z",
+    "endTime": "2024-07-18T19:24:55.625Z",
+    "childProcessPid": 30118,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--inclusivity--30118",
+    "executionErrors": []
+}

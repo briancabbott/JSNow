@@ -1,0 +1,52 @@
+<h1>JavaScript I/O</h1>
+
+<p class="home-slogan">
+  {{hb 'home.slogan'}}
+</p>
+
+<p class="home-description">
+  {{hb 'home.short_description'}}
+</p>
+
+<div class="home-deprecation">
+  <h3>{{hb 'deprecation.title'}}</h3>
+  <p>{{{hb 'deprecation.content'}}}</p>
+</div>
+
+{{#if project.banner.visible}}
+<div class="home-download-banner">{{{project.banner.content}}}</div>
+{{/if}}
+
+<div class="home-download">
+  <a href="{{project.current_version_downloads.all}}" class="home-logo"><img src="/images/1.0.0.png" alt="io.js"></a>
+  <div class="home-download-details">
+    <p class="home-download-version">
+      <a href="{{project.current_version_downloads.all}}">{{hb 'verbose_version'}}</a>
+    </p>
+    <p class="home-download-list">
+        <a href="https://iojs.org/dist/latest/" class="home-download-button" id="home-downloadbutton" data-version="v{{project.current_version}}" data-dl-local="{{hb 'home.download_for'}}">{{hb 'home.download_button'}}</a>
+    </p>
+    <p>
+    {{#if i18n.home.custom_changelog}}
+      {{hb 'home.custom_changelog'}}
+    {{~^~}}
+      {{link 'pages.changelog'}}
+    {{/if}}
+        &nbsp;&nbsp;&nbsp;
+      <a href="https://iojs.org/dist/latest/">{{hb 'downloads.all'}}</a>
+    </p>
+  </div>
+</div>
+
+{{#if i18n.home.news_link}}
+<div class="home-secondary-links">
+  <p>{{hb 'home.news_link'}}</p>
+</div>
+{{/if}}
+
+<div class="home-secondary-links">
+  <p>{{hb 'home.nightly_releases'}}</p>
+  <p>{{hb 'home.faq_verbose'}}</p>
+</div>
+
+<script src="/js/download.js" charset="utf-8"></script>

@@ -1,0 +1,72 @@
+[
+  {
+    "candidates": ["Alice", "Bob", "Charlie"],
+    "voters": [{ "id": "Riri" }, { "id": "Fifi" }, { "id": "Loulou" }],
+    "examples": [
+      {
+        "method": "Condorcet",
+        "winner": "Charlie",
+        "ballots": [
+          {
+            "voter": "Riri",
+            "preferences": { "Alice": 0, "Bob": 1, "Charlie": 2 }
+          },
+          {
+            "voter": "Fifi",
+            "preferences": { "Alice": 0, "Bob": 1, "Charlie": 2 }
+          },
+          {
+            "voter": "LouLou",
+            "preferences": { "Alice": 0, "Bob": 1, "Charlie": 2 }
+          }
+        ]
+      },
+      {
+        "method": "Condorcet",
+        "winner": "Charlie",
+        "ballots": [
+          {
+            "voter": "Riri",
+            "preferences": { "Alice": 0, "Bob": 1, "Charlie": 2 }
+          },
+          {
+            "voter": "Fifi",
+            "preferences": { "Bob": 0, "Alice": 1, "Charlie": 2 }
+          },
+          {
+            "voter": "LouLou",
+            "preferences": { "Alice": 0, "Bob": 1, "Charlie": 2 }
+          }
+        ]
+      },
+      {
+        "method": "Condorcet",
+        "winner": "Charlie",
+        "ballots": [
+          {
+            "voter": "Riri",
+            "preferences": { "Alice": 0, "Bob": 1, "Charlie": 2 }
+          },
+          {
+            "voter": "Fifi",
+            "preferences": { "Alice": 0, "Bob": 1, "Charlie": 2 }
+          }
+        ]
+      },
+      {
+        "method": "Condorcet",
+        "winner": "Charlie",
+        "ballots": [
+          {
+            "voter": "Riri",
+            "preferences": { "Alice": 0, "Bob": 1, "Charlie": 2 }
+          },
+          {
+            "voter": "Fifi",
+            "preferences": { "Alice": 1, "Bob": 2, "Charlie": 0 }
+          }
+        ]
+      }
+    ]
+  }
+]

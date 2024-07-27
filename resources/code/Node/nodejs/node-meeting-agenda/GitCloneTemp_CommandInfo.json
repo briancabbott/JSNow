@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/node-meeting-agenda undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/node-meeting-agenda",
+    "repo": "https://github.com/nodejs/node-meeting-agenda",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/node-meeting-agenda",
+    "startTime": "2024-07-18T19:26:04.941Z",
+    "endTime": "2024-07-18T19:26:05.958Z",
+    "childProcessPid": 31416,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--node-meeting-agenda--31416",
+    "executionErrors": []
+}

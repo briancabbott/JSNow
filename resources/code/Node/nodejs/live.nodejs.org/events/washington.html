@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Node.js</title>
+
+  <link rel="dns-prefetch" href="http://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="http://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="http://www.google-analytics.com">
+
+  <meta name="author" content="Node.js Foundation">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/static/milligram.min.css" media="all">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700' rel='stylesheet' type='text/css'>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67020396-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    a {
+      color: #80bd01;
+    }
+    .button {
+      background-color: #80bd01;
+      border: 0.1rem solid #80bd01;
+    }
+    div.live-event {
+      background-color: #b3b3b3;
+      border-radius: 3px;
+      margin: 10px 35px 10px 35px;
+      color: black;
+      font-family: "Open Sans Condensed",sans-serif;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    div.live-event h3 {
+      margin-top:5px;
+      margin-bottom: 0;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 50px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 50px;
+    }
+    div.live-event h3 a,
+    div.live-event h3 a:visited {
+      text-decoration: underline;
+      color: black;
+    }
+    div.live-event p {
+      margin-bottom: 5px;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    div.top-container div.column h2 {
+     padding-top:50px;
+     color:#80bd01;
+     font-weight:500;
+    }
+    div.events-container {
+      margin: 0;
+      padding: 30px 10%;
+      background: url(/static/background.jpg);
+    }
+    div.footer-container {
+      background-color:#b3b3b3;
+      padding:15px;
+    }
+    div.footer-container a {
+      color:#fff;
+      white-space: nowrap;
+    }
+    div.footer-container p {
+      margin-bottom:0;
+    }
+    img.logo {
+      max-width:100%;
+      padding: 50px 50px 50px 50px;
+    }
+    .languages {
+      display: block;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      list-style: none;
+    }
+    .languages li {
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-container container">
+    <div class="row">
+      <div class="column" style="text-align:center">
+        <img class="logo" src="/static/new-node.png" alt=""/>
+      </div>
+      <div class="column">
+        <p><h2>Node.js Live</h2></p>
+<p>The Node.js Foundation is kicking off a series of global events bringing together local Node.js developers around the world.</p>
+<p>Each event is different and tailored to the local community, varying in length and in some cases in partnership with local Node.js groups and users.</p>
+
+      </div>
+    </div>
+    <ul id="languages" class="languages">
+      <li><a data-lang="en" href="javascript:void(0);">English</a> |</li>
+      <li><a data-lang="zh-CN" href="javascript:void(0);">简体中文</a></li>
+    </ul>
+  </div>
+
+  <div class="events-container">
+    <style>
+  nav ul {
+    list-style-type:none;
+  }
+  li h3 {
+    color: black;
+    font-family: "Open Sans Condensed",sans-serif;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 50px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+  li h3 a, li h3 a:visited{
+    text-decoration: underline;
+    color: black;
+  }
+  div.events-container {
+    background-color: #F2F2F2;
+    background-image: none;
+  }
+  div.events-container div.row p img {
+    max-width:300px;
+    max-height:80px;
+    cursor:pointer;
+  }
+  /*npm logo*/
+  div.events-container h2 img {
+    position: relative;
+    bottom: -10px;
+    max-height:40px;
+    cursor:pointer;
+  }
+  @media screen and (max-width: 600px) {
+    div.side-navigation {
+      visibility: collapse !important;
+      display: none !important;
+    }
+  }
+</style>
+
+<div class="row">
+  <div class="column column-40 side-navigation">
+    <nav>
+      <ul>
+        <li><h3><a href="los-angeles.html">Los Angeles</a></h3></li>
+        <li><h3><a href="bangalore.html">Bangalore</a></h3></li>
+        <li><h3><a href="paris.html">Paris</a></h3></li>
+        <li><h3><a href="beijing.html">Beijing</a></h3></li>
+        <li><h3><a href="chicago.html">Chicago</a></h3></li>
+        <li><h3><a href="london.html">London</a></h3></li>
+        <li><h3><a href="boston.html">Boston</a></h3></li>
+        <li><h3><a href="washington.html">Wash. DC</a></h3></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="column">
+    <h1 id="washington-d-c-">Washington, D.C.</h1>
+<p><strong>October 26, 2016</strong></p>
+<ul>
+<li><strong>Location</strong> <a href="https://www.socialtables.com/">Social Tables</a></li>
+<li><strong>Address</strong> 1325 G St. NW, 3rd Floor Washington, DC 20005</li>
+</ul>
+<p><a class="button" href="https://www.regonline.com/Register/Checkin.aspx?EventID=1813427">Register Now!</a></p>
+<h2 id="sponsors">Sponsors</h2>
+<p><img src="/static/sponsors/ibmLogo.png" alt="http://ibm.com" title="IBM"></p>
+<p><img src="/static/sponsors/socialtables-logo.png" alt="https://www.socialtables.com/" title="socialtables"></p>
+<p><img src="/static/sponsors/progress-logo.png" alt="http://www.telerik.com/modulus" title="Progress"></p>
+<p><img src="/static/sponsors/eta-logo.png" alt="http://www.emergingtechnologyadvisors.com/" title="ETA"></p>
+<h2 id="nodetogether-by-https-www-npmjs-com-static-sponsors-npm-logo-svg-npm-">NodeTogether by <img src="/static/sponsors/npm-logo.svg" alt="https://www.npmjs.com" title="npm"></h2>
+<p>NodeTogether is an educational initiative to improve the diversity of the Node community by bringing people of underrepresented groups together to learn Node.js.</p>
+<p>To learn more, and/or if you are interested in applying as a student, mentor, or sponsor, please visit <a href="http://www.nodetogether.org/">http://www.nodetogether.org/</a>.</p>
+<h2 id="agenda">Agenda</h2>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Speaker</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6:00pm</td>
+<td>Reception</td>
+<td></td>
+</tr>
+<tr>
+<td>6:30pm</td>
+<td>IBM welcome</td>
+<td></td>
+</tr>
+<tr>
+<td>6:35pm</td>
+<td>Social Tables lightning talk</td>
+<td></td>
+</tr>
+<tr>
+<td>6:40pm</td>
+<td>Progress lightning talk</td>
+<td></td>
+</tr>
+<tr>
+<td>6:45pm</td>
+<td><a href="https://twitter.com/mikeal">Mikeal Rogers</a></td>
+<td>Node.js Everywhere</td>
+</tr>
+<tr>
+<td>7:00pm</td>
+<td><a href="https://github.com/RichardLitt">Richard Littauer</a></td>
+<td>Standardizing READMEs for Great Good</td>
+</tr>
+<tr>
+<td>7:20pm</td>
+<td><a href="https://twitter.com/srobtweets">Sara Robinson</a></td>
+<td>Big Data and Machine Learning Magic with Node.js and Google Cloud</td>
+</tr>
+<tr>
+<td>7:40pm</td>
+<td>stretch and bio break!</td>
+</tr>
+<tr>
+<td>7:50pm</td>
+<td><a href="https://github.com/pkafei">Portia Burton</a></td>
+<td>Bitcoin, Blockchain, and Node.js</td>
+</tr>
+<tr>
+<td>8:10pm</td>
+<td><a href="https://github.com/TheAlphaNerd">Myles Borins</a></td>
+<td>The CIGTM Diaries</td>
+</tr>
+<tr>
+<td>8:30pm</td>
+<td><a href="https://github.com/dshaw">Dan Shaw</a></td>
+<td>The Node.js Ecosystem in Perspective</td>
+</tr>
+<tr>
+<td>9:00pm</td>
+<td></td>
+<td>↓ ↓ ↓ Happy Hour! ↓ ↓ ↓</td>
+</tr>
+</tbody>
+</table>
+<p>Visit with speakers and new friends at our happy hour hosted by   <img src="/static/sponsors/eta-logo.png" alt="http://www.emergingtechnologyadvisors.com/" title="ETA"><br>across the street at <a href="http://www.laughingmantavern.com/">Laughing Man Tavern</a> directly after our closing.</p>
+<h1 id="speakers">Speakers</h1>
+<h4 id="-mikeal-rogers-https-twitter-com-mikeal-"><a href="https://twitter.com/mikeal">Mikeal Rogers</a></h4>
+<p>Mikeal is the Community Manager of the Node.js Foundation and the creator of
+<a href="https://github.com/request/request">request</a> and <a href="http://www.nodeconf.com">NodeConf</a>.</p>
+<p>His talk will be all about what the Foundation has been up to recently and its plans for
+the rest of 2016.</p>
+<h4 id="-richard-littauer-https-github-com-richardlitt-"><a href="https://github.com/RichardLitt">Richard Littauer</a></h4>
+<p>Richard Littauer is a member of Protocol Labs, busy building a better, decentralized, and permanent internet. He is dedicated to community infrastructure, and has run several NodeSchools in the developing and development world, spoken at meetups from New York to Svalbard, and spends a lot of this time making sure that docs are maintained and relevant. He likes books a lot, too.</p>
+<h4 id="-sara-robinson-https-twitter-com-srobtweets-"><a href="https://twitter.com/srobtweets">Sara Robinson</a></h4>
+<p>Sara is a Developer Advocate on Google&#39;s Cloud Platform team, where she helps with developer relations through online content, outreach and events. She has a bachelor’s degree in Business and International Studies from Brandeis University. When she&#39;s not programming, she can be found running, listening to country music, or finding the best ice cream in New York.</p>
+<p>Want to take advantage of machine learning without building and training your own models? The Google Cloud machine learning APIs expose the functionality behind Google Photos, Google Images, and the speech recognition in “Ok, Google” through a simple REST API call. In this talk, I’ll provide an overview of these APIs, show you how to use them with Node, and risk it all with a live demo. I&#39;ll also provide a peek into the Node.js community by querying terabytes of data.</p>
+<h4 id="-alex-grigoryan-https-github-com-alexg92-"><a href="https://github.com/AlexG92">Alex Grigoryan</a></h4>
+<p>Alex Grigoryan leads the Application Platform team at @WalmartLabs&#39; Customer Experience, responsible for the technical innovation strategy and the framework powering the web and mobile experiences across Walmart.com and it’s subsidiaries. Building platforms at scale, he focuses on reusability, performance and security while leveraging the latest technologies. Prior to @WalmartLabs, Alex headed the team in charge of building the new generation checkout experience at PayPal.</p>
+<h4 id="-portia-burton-https-github-com-pkafei-"><a href="https://github.com/pkafei">Portia Burton</a></h4>
+<p>Portia Burton is a Django full stack developer during the day, and a Solidity and Node enthusiast by night. When she is not in front of her computer, she enjoys running and cycling the mean streets of Washington DC.</p>
+<h4 id="-myles-borins-https-github-com-thealphanerd-"><a href="https://github.com/TheAlphaNerd">Myles Borins</a></h4>
+<p>Myles is a developer, musician, artist, and inventor. He works for IBM spending most of his time contributing to the node.js ecosystem. He graduated with a Master of Music Science and Technology from c.c.r.m.a. a.k.a the center for computer research in music and acoustics</p>
+<h4 id="-dan-shaw-https-github-com-dshaw-"><a href="https://github.com/dshaw">Dan Shaw</a></h4>
+<p>Dan Shaw (dshaw) is Co-Founder and CTO of NodeSource, the Enterprise Node Company, and is dedicated to helping improve and grow the Node Community. He is a veteran of numerous Node.js startups including Voxer, Spreecast and Storify. Dan has extensive experience building large-scale, realtime systems with Node.js and has been building production services using Node since v0.2. Dan is a frequent speaker, host of the NodeUp podcast and organizer of events like EnterpriseJS and the SFNode meetup. Prior to Node, Dan worked in large-scale government contracts for Defense, Health Care and Education.</p>
+<p>Node.js was created 7 years ago by Ryan Dahl to increase the performance of web application development. Many novel choices were made along the way. Node.js ships with &quot;batteries included&quot;. Node.js was built with a very liberal license. Node.js has no standard library and encourages userland experimentation. Node.js chose to standardize on a single package management solution with npm. Node.js is fully cross-platform. Node.js applications run everywhere (take that Java!). All of this comes together to create an extraordinary ecosystem.</p>
+<p>Dan Shaw will explore the implications of these decisions and how they have impacted the Node.js Ecosystem. 7 years on, Node.js is everywhere with a massive user base and the largest package registry ever. And yet, there&#39;s still so much to do.</p>
+
+    <h2 id="conduct">Code of Conduct</h2>
+    <p>
+      All attendees, speakers, staff and sponsors are expected to follow the <a href="http://confcodeofconduct.com/">Code of Conduct.</a>
+    <p>
+  </div>
+</div>
+
+<script>
+  var elementList = document.querySelectorAll('div.events-container div.row img')
+  for (var i=0;i<elementList.length;i++) {
+    ;(function () {
+      var elem = elementList[i]
+      elem.addEventListener('click', function () {
+        window.location = elem.alt
+      })
+    })()
+  }
+</script>
+
+  </div>
+
+  <div class="footer-container">
+    <div class="container">
+      <p>© 2016 Node.js Foundation. All Rights Reserved. Node.js is a trademark of Joyent, Inc. and is used with its permission. Please review the <a href="https://nodejs.org/static/documents/trademark-policy.pdf">Trademark Guidelines of the Node.js Foundation</a>.</p>
+    </div>
+  </div>
+
+  <script src="/static/languages.js"></script>
+
+</body>
+</html>

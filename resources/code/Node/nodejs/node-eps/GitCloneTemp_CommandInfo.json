@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/node-eps undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/node-eps",
+    "repo": "https://github.com/nodejs/node-eps",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/node-eps",
+    "startTime": "2024-07-18T19:25:59.517Z",
+    "endTime": "2024-07-18T19:26:00.518Z",
+    "childProcessPid": 31302,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--node-eps--31302",
+    "executionErrors": []
+}

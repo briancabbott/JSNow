@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/create-node-meeting-artifacts undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/create-node-meeting-artifacts",
+    "repo": "https://github.com/nodejs/create-node-meeting-artifacts",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/create-node-meeting-artifacts",
+    "startTime": "2024-07-18T19:03:14.627Z",
+    "endTime": "2024-07-18T19:03:16.407Z",
+    "childProcessPid": 27911,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--create-node-meeting-artifacts--27911",
+    "executionErrors": []
+}

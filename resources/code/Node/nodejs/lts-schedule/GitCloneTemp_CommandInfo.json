@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/lts-schedule undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/lts-schedule",
+    "repo": "https://github.com/nodejs/lts-schedule",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/lts-schedule",
+    "startTime": "2024-07-18T19:25:32.574Z",
+    "endTime": "2024-07-18T19:25:33.361Z",
+    "childProcessPid": 30605,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--lts-schedule--30605",
+    "executionErrors": []
+}

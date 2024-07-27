@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/badges undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/badges",
+    "repo": "https://github.com/nodejs/badges",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/badges",
+    "startTime": "2024-07-18T18:58:05.483Z",
+    "endTime": "2024-07-18T18:58:07.103Z",
+    "childProcessPid": 27334,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--badges--27334",
+    "executionErrors": []
+}

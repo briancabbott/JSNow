@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/TSC undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/TSC",
+    "repo": "https://github.com/nodejs/TSC",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/TSC",
+    "startTime": "2024-07-18T18:56:24.351Z",
+    "endTime": "2024-07-18T18:56:30.594Z",
+    "childProcessPid": 27030,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--TSC--27030",
+    "executionErrors": []
+}

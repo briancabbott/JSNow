@@ -1,0 +1,45 @@
+{
+  "browser-title": "io.js - JavaScript I/O",
+  "contribute-message": "See something you like? Want to help? Visit https://github.com/nodejs/iojs-cn to contribute",
+  "logo-text": "io.js",
+  "roadmap-url": "http://roadmap.iojs.org/cn/",
+  "roadmap-link": "Roadmap",
+  "heading-languages": "其他语言",
+  "faq-link": "常见问题",
+  "es6-link": "ES6",
+  "api-link": "API 文档",
+  "issues-link": "GitHub Issues",
+  "org-link": "GitHub Org",
+  "irc-link": "IRC 聊天室",
+  "irc-logs-link": "Logs",
+  "gov-link": "项目管理",
+  "verbose_version": "版本 {{project.current_version}}",
+  "downloads": {
+    "linux": "Linux",
+    "win32": "Win32",
+    "win64": "Win64",
+    "mac": "Mac",
+    "all": "其他"
+  },
+  "home": {
+    "download_links": "下载 {{> current_download_links}} 版本。",
+    "custom_changelog": "{{link '更新日志' 'https://github.com/nodejs/iojs-cn/blob/gh-pages/CHANGELOG.md'}}",
+    "faq_verbose": "{{link 'pages.faq_verbose'}}",
+    "nightly_releases": "{{link '每日构建版本' 'https://iojs.org/download/nightly/'}} 和 {{link '下个主要版本的每日构建版本' 'https://iojs.org/download/next-nightly/'}} 均可用于测试。",
+    "short_description": "{{link 'website'}} 是一个衍生自 {{link 'nodejs'}}，并兼容 {{link 'npm'}} 的开发平台。",
+    "slogan": "将 {{link 'pages.es6'}} 带入 Node 社区！",
+    "news_link": "{{link '每周播报' 'http://cn.iojs.org/weekly/'}} <small>核心特性和社区动态 ({{link 'Medium' 'https://medium.com/node-js-javascript/'}})</small>"
+  },
+  "links": {
+    "nodejs": "Node.js™",
+    "npm": "npm",
+    "website": "io.js",
+    "pages": {
+      "changelog": "更新日志",
+      "home": "首页",
+      "es6": "ES6",
+      "faq": "FAQ",
+      "faq_verbose": "常见问题"
+    }
+  }
+}

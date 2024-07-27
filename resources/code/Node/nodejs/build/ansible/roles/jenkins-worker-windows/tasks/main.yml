@@ -1,0 +1,22 @@
+---
+
+#
+# Install the Jenkins worker
+#
+
+- name: install Java 17
+  win_chocolatey: name=Temurin17
+
+- name: download Jenkins icon
+  win_get_url:
+    url: '{{ jenkins_icon }}'
+    dest: 'C:\jenkins.ico'
+    force: no
+
+- name: create jenkins.bat
+  win_template:
+    src: '../templates/jenkins.bat'
+    dest: 'C:\jenkins.bat'
+
+- name: create Jenkins shortcuts
+  script: '../files/Jenkins-Shortcuts.ps1'

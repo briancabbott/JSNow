@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "scripts": {
+    "test": ":",
+    "prebuild": "mkdirp docs",
+    "build": "ecmarkup --verbose spec.html docs/index.html --css docs/ecmarkup.css --js docs/ecmarkup.js",
+    "watch": "npm run build -- --watch"
+  },
+  "devDependencies": {
+    "ecmarkup": "^3.12.0",
+    "mkdirp": "^0.5.1"
+  }
+}

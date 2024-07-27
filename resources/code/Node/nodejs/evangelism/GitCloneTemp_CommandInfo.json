@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/evangelism undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/evangelism",
+    "repo": "https://github.com/nodejs/evangelism",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/evangelism",
+    "startTime": "2024-07-18T19:12:35.960Z",
+    "endTime": "2024-07-18T19:12:39.507Z",
+    "childProcessPid": 29082,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--evangelism--29082",
+    "executionErrors": []
+}

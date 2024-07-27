@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/github-bot undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/github-bot",
+    "repo": "https://github.com/nodejs/github-bot",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/github-bot",
+    "startTime": "2024-07-18T19:18:20.341Z",
+    "endTime": "2024-07-18T19:18:21.493Z",
+    "childProcessPid": 29751,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--github-bot--29751",
+    "executionErrors": []
+}

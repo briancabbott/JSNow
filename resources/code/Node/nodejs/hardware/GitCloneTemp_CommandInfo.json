@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/hardware undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/hardware",
+    "repo": "https://github.com/nodejs/hardware",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/hardware",
+    "startTime": "2024-07-18T19:18:22.609Z",
+    "endTime": "2024-07-18T19:18:23.212Z",
+    "childProcessPid": 29795,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--hardware--29795",
+    "executionErrors": []
+}

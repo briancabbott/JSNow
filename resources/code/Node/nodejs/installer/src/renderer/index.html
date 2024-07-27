@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Node.js Installer</title>
+    <link rel="stylesheet" href="../../node_modules/flexboxgrid/dist/flexboxgrid.min.css" type="text/css">
+    <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../node_modules/prismjs/themes/prism.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./less/core.less"/>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+    import React from 'react'
+    import ReactDOM from 'react-dom'
+    import 'prismjs'
+
+    const render = () => {
+      const { App } = require('./components/App')
+      ReactDOM.render(<App />, document.querySelector('#app'))
+    }
+    render()
+    if (module.hot) {
+      module.hot.accept(render)
+    }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,137 @@
+{
+  "name": "changelog-maker",
+  "version": "4.1.1",
+  "description": "A git log to CHANGELOG.md tool",
+  "main": "changelog-maker.js",
+  "type": "module",
+  "bin": {
+    "changelog-maker": "./changelog-maker.js"
+  },
+  "exports": {
+    "./collect-commit-labels": "./collect-commit-labels.js",
+    "./groups": "./groups.js",
+    "./process-commits": "./process-commits.js"
+  },
+  "author": "Rod <rod@vagg.org> (https://r.va.gg/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nodejs/changelog-maker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nodejs/changelog-maker/issues"
+  },
+  "homepage": "https://github.com/nodejs/changelog-maker#readme",
+  "keywords": [],
+  "preferGlobal": true,
+  "dependencies": {
+    "@octokit/graphql": "^7.0.1",
+    "async": "^3.2.4",
+    "chalk": "^5.3.0",
+    "commit-stream": "^2.1.0",
+    "debug": "^4.3.4",
+    "ghauth": "^6.0.0",
+    "ghissues": "^1.1.4",
+    "gitexec": "^2.0.1",
+    "minimist": "^1.2.8",
+    "pkg-to-id": "^0.0.3",
+    "remark-parse": "^11.0.0",
+    "remark-preset-lint-node": "^5.0.0",
+    "remark-stringify": "^11.0.0",
+    "split2": "^4.2.0",
+    "strip-ansi": "^7.1.0",
+    "unified": "^11.0.3"
+  },
+  "devDependencies": {
+    "standard": "^17.1.0",
+    "tap": "^18.0.4"
+  },
+  "scripts": {
+    "lint": "standard",
+    "unit": "tap --allow-incomplete-coverage",
+    "build": "true",
+    "test:ci": "npm run test",
+    "test": "npm run lint && npm run unit"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits",
+          "releaseRules": [
+            {
+              "breaking": true,
+              "release": "major"
+            },
+            {
+              "revert": true,
+              "release": "patch"
+            },
+            {
+              "type": "feat",
+              "release": "minor"
+            },
+            {
+              "type": "fix",
+              "release": "patch"
+            },
+            {
+              "type": "chore",
+              "release": "patch"
+            },
+            {
+              "type": "docs",
+              "release": "patch"
+            },
+            {
+              "type": "test",
+              "release": "patch"
+            },
+            {
+              "scope": "no-release",
+              "release": false
+            }
+          ]
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits",
+          "presetConfig": {
+            "types": [
+              {
+                "type": "feat",
+                "section": "Features"
+              },
+              {
+                "type": "fix",
+                "section": "Bug Fixes"
+              },
+              {
+                "type": "chore",
+                "section": "Trivial Changes"
+              },
+              {
+                "type": "docs",
+                "section": "Trivial Changes"
+              },
+              {
+                "type": "test",
+                "section": "Tests"
+              }
+            ]
+          }
+        }
+      ],
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ]
+  }
+}

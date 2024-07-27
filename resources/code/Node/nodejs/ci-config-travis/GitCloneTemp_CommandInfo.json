@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/ci-config-travis undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/ci-config-travis",
+    "repo": "https://github.com/nodejs/ci-config-travis",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/ci-config-travis",
+    "startTime": "2024-07-18T18:58:53.931Z",
+    "endTime": "2024-07-18T18:58:55.155Z",
+    "childProcessPid": 27642,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--ci-config-travis--27642",
+    "executionErrors": []
+}

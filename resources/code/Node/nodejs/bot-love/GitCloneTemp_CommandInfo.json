@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/bot-love undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/bot-love",
+    "repo": "https://github.com/nodejs/bot-love",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/bot-love",
+    "startTime": "2024-07-18T18:58:18.247Z",
+    "endTime": "2024-07-18T18:58:20.904Z",
+    "childProcessPid": 27400,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--bot-love--27400",
+    "executionErrors": []
+}

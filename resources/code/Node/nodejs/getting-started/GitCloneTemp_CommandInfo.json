@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/getting-started undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/getting-started",
+    "repo": "https://github.com/nodejs/getting-started",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/getting-started",
+    "startTime": "2024-07-18T19:18:19.672Z",
+    "endTime": "2024-07-18T19:18:20.339Z",
+    "childProcessPid": 29728,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--getting-started--29728",
+    "executionErrors": []
+}

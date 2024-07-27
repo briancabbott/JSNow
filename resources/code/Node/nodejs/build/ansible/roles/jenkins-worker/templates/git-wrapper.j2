@@ -1,0 +1,18 @@
+#!/bin/sh
+export _BPXK_AUTOCVT=ON
+export _CEE_RUNOPTS="FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"
+export _TAG_REDIR_ERR=txt
+export _TAG_REDIR_IN=txt
+export _TAG_REDIR_OUT=txt
+
+if [[ $WORKSPACE != "" ]]; then
+  chtag -t -c iso8859-1 "$WORKSPACE/.git/config"
+fi
+
+if [[ $1 == "rev-parse" ]]; then
+  {{ git_cmd }} "$@" | cat
+elif [[ $1 == "whatchanged" ]]; then
+  {{ git_cmd }} "$@" | iconv -f iso8859-1 -t ibm-1047 | iconv -t iso8859-1 -f ibm-1047
+else
+  {{ git_cmd }} $@
+fi

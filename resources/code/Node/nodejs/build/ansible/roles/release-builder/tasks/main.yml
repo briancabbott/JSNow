@@ -1,0 +1,38 @@
+---
+
+# Set up release hosts to be able to upload to the staging server.
+# Requires access to the secrets repository. User should have already
+# been prompted for GPG credentials during the inventory load.
+
+- name: create .ssh directory
+  ansible.builtin.file:
+    dest: "{{ release_home_dir }}/.ssh"
+    mode: "0700"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    state: directory
+
+- name: copy key to access staging server
+  ansible.builtin.copy:
+    content: "{{ secrets.staging_key }}"
+    dest: "{{ release_home_dir }}/.ssh/id_rsa"
+    mode: "0600"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+
+- name: write ssh_config
+  ansible.builtin.copy:
+    dest: "{{ release_home_dir }}/.ssh/config"
+    src: "{{ role_path }}/files/ssh_config"
+    mode: "0600"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+
+- name: write known_hosts
+  ansible.builtin.known_hosts:
+    name: direct.nodejs.org
+    key: "{{ secrets.known_hosts }}"
+    path: "{{ release_home_dir }}/.ssh/known_hosts"
+    state: present
+  become: yes
+  become_user: "{{ server_user }}"

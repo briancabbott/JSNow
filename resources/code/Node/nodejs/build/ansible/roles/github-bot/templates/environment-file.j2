@@ -1,0 +1,14 @@
+NODE_ENV=production
+PORT={{ gh_bot_secrets.envs.port }}
+TRAVIS_TOKEN={{ gh_bot_secrets.envs.travis_token }}
+GITHUB_TOKEN={{ gh_bot_secrets.envs.github_token }}
+GITHUB_WEBHOOK_SECRET={{ gh_bot_secrets.envs.github_webhook_secret }}
+LOGIN_CREDENTIALS={{ gh_bot_secrets.envs.login_credentials }}
+NODE_REPO_DIR=/home/{{ server_user }}/repos/node
+LOGS_DIR=/home/{{ server_user }}/logs
+JENKINS_API_CREDENTIALS={{ gh_bot_secrets.envs.jenkins_api_credentials }}
+JENKINS_JOB_CITGM={{ gh_bot_secrets.envs.jenkins_job_citgm }}
+JENKINS_BUILD_TOKEN_CITGM={{ gh_bot_secrets.envs.jenkins_build_token_citgm }}
+JENKINS_JOB_NODE={{ gh_bot_secrets.envs.jenkins_job_node }}
+JENKINS_BUILD_TOKEN_NODE={{ gh_bot_secrets.envs.jenkins_build_token_node }}
+JENKINS_WORKER_IPS={{ jenkins_workspace_ips | join(',') }}

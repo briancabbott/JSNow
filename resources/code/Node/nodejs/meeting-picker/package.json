@@ -1,0 +1,44 @@
+{
+  "name": "meeting-picker",
+  "version": "2.1.0",
+  "description": "",
+  "main": "meeting-picker.js",
+  "bin": {
+    "meeting-picker": "meeting-picker.js"
+  },
+  "type": "module",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "meeting-picker.js",
+    "package.json"
+  ],
+  "scripts": {
+    "test": "ts-standard -p tsconfig.json && tsc && c8 --100 node test/test.js"
+  },
+  "author": "Rich Trott",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nodejs/meeting-picker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nodejs/meeting-picker/issues"
+  },
+  "homepage": "https://github.com/nodejs/meeting-picker#readme",
+  "ts-standard": {
+    "ignore": [
+      "**/*.js",
+      "**/*.d.ts"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "20.14",
+    "c8": "10.1",
+    "ts-standard": "^12.0.2",
+    "typescript": "^5.0.2"
+  },
+  "engines": {
+    "node": ">=12"
+  }
+}

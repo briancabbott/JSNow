@@ -1,0 +1,37 @@
+---
+
+#
+# a fedora bootstrap - similar between majors which is why its merged
+# @TODO: figure out which version requires what and make it conditional
+# @TODO: important: we don't have ansible os facts gathered yet, we need to
+#        use our own logic. Perhaps better to avoid ansible facts altogether?
+#
+
+- name: check for {{ 'libselinux-python' if os in ("fedora30") else 'python3-libselinux' }} bindings
+  raw: dnf info {{ 'libselinux-python' if os in ("fedora30") else 'python3-libselinux' }} | grep Installed
+  check_mode: no
+  register: has_libselinux
+  failed_when:  has_libselinux.rc > 1
+
+- name: install libselinux-python bindings
+  when: os in ("fedora30") and has_libselinux.rc == 1
+  raw: dnf install -y libselinux-python
+
+- name: install python3-libselinux bindings
+  when: os not in ("fedora30") and has_libselinux.rc == 1
+  raw: dnf install -y python3-libselinux
+
+- name: disable selinux
+  selinux: state=disabled
+  # this should be done. not sure how to make it properly/gracefully
+  # notify: reboot host
+
+- name: check for firewalld
+  raw: stat /usr/sbin/firewalld
+  check_mode: no
+  register: has_firewalld
+  failed_when: has_firewalld.rc > 1
+
+- name: remove firewalld
+  when: has_firewalld.rc == 0
+  raw: dnf remove -y firewalld

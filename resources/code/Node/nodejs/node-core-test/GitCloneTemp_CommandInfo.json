@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/node-core-test undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/node-core-test",
+    "repo": "https://github.com/nodejs/node-core-test",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/node-core-test",
+    "startTime": "2024-07-18T19:25:49.252Z",
+    "endTime": "2024-07-18T19:25:54.749Z",
+    "childProcessPid": 31170,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--node-core-test--31170",
+    "executionErrors": []
+}

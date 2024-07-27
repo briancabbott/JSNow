@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="{{lang}}"{{#if i18n.isRTL}} dir="rtl"{{/if}}>
+<head>
+  <meta charset="utf-8">
+  <title>{{i18n.browser-title}}</title>
+  <meta http-equiv="x-ua-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="io.js is an npm compatible platform originally based on node.js">
+  <meta name="keywords" content="iojs, io.js, io js, javascript io, uv, libuv, node-forward, node forward, node, node.js, node.js forward, nodejs, nodejs forward, javascript">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+  <link href="/main.css" rel="stylesheet">
+  <link href="/mobile.css" rel="stylesheet">
+  {{#if article.stylesheets}}
+    {{#article.stylesheets}}
+  <link href="{{this}}" rel="stylesheet">
+    {{/article.stylesheets}}
+  {{else}}
+  <link href="/{{build.pageStylesheet}}.css" rel="stylesheet">
+  {{/if}}
+  <link rel="icon" href="/images/1.0.0.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon-1.0.0.png">
+  <meta property="og:image" content="https://iojs.org/images/1.0.0.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1369">
+  <meta property="og:image:height" content="1563">
+  {{#each project.links.rss}}
+  <link rel="alternate" type="application/atom+xml" title="{{title}}" href="{{url}}" />
+  {{/each}}
+  {{#each i18n.links.rss}}
+  <link rel="alternate" type="application/atom+xml" title="{{title}}" href="{{url}}" />
+  {{/each}}
+</head>
+
+<body data-markdown-page="{{build.markdownPage}}">
+
+  <header>
+    <nav class="content" role="navigation">
+      <a href="index.html" class="logo">{{i18n.logo-text}}</a>
+      <div class="spacer"></div>
+      <a href="{{i18n.roadmap-url}}">{{i18n.roadmap-link}}</a>
+      <a href="faq.html">{{i18n.faq-link}}</a>
+      <a href="es6.html">{{i18n.es6-link}}</a>
+      <a href="https://iojs.org/api/">{{i18n.api-link}}</a>
+    </nav>
+  </header>
+
+  <div class="content content--body clearfix" role="main">
+    {{{content}}}
+  </div>
+
+  <footer class="content" role="contentinfo">
+    <nav>
+      <ul class="list-inline list-divider">
+        <li>{{link 'pages.releases'}}</li>
+        <li><a href="https://github.com/nodejs/io.js/issues">{{i18n.issues-link}}</a></li>
+        <li><a href="https://github.com/nodejs">{{i18n.org-link}}</a></li>
+        <li><a href="https://scrollback.io/iojs/all/all-messages">{{i18n.irc-link}}</a></li>
+        <li><a href="http://logs.libuv.org/io.js/latest">{{i18n.irc-logs-link}}</a></li>
+        <li><a href="https://github.com/nodejs/io.js/blob/master/GOVERNANCE.md#readme">{{i18n.gov-link}}</a></li>
+      </ul>
+    </nav>
+    <nav class="languageFooter">
+      <h3>{{i18n.heading-languages}}</h3>
+      <ul class="list-inline">
+        {{#page.languages}}
+          <li><a href="{{url}}" lang="{{code}}">{{name}}</a></li>
+        {{/page.languages}}
+      </ul>
+    </nav>
+  </footer>
+
+  <!-- {{i18n.contribute-message}}  -->
+</body>
+
+</html>

@@ -1,0 +1,155 @@
+---
+
+#
+# Create a Git server to be used for CI temporary binaries
+# https://git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server
+#
+
+- name: Run which git-shell
+  changed_when: false
+  command: "which git-shell"
+  register: which_git_shell
+
+- name: Add git-shell to /etc/shells
+  when: "which_git_shell.rc == 0"
+  lineinfile:
+    dest: "/etc/shells"
+    state: present
+    line: "{{ which_git_shell.stdout }}"
+
+- name: Create binary_tmp group
+  group:
+    name: "binary_tmp"
+
+- name: Create binary_tmp user
+  user:
+    name: "binary_tmp"
+    group: "binary_tmp"
+    shell: "{{ which_git_shell.stdout }}"
+
+- name: Download GitHub pubkey for nodejs-ci
+  get_url:
+    url: "https://github.com/nodejs-ci.keys"
+    dest: "/tmp/nodejs-ci.keys"
+  delegate_to: 127.0.0.1
+  become: no
+
+- name: Add nodejs-ci to authorized_keys for binary_tmp
+  authorized_key:
+    user: "binary_tmp"
+    key: "{{ lookup('file', '/tmp/nodejs-ci.keys') }}"
+
+- name: Create repository parent directory
+  file:
+    path: "{{ home }}/{{ server_user }}/build/"
+    state: directory
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: 0755
+
+- name: Create repository directory
+  file:
+    path: "~binary_tmp/binary_tmp.git"
+    state: directory
+    owner: "binary_tmp"
+    group: "binary_tmp"
+    mode: 0755
+
+- name: Initialize Git repository
+  become: true
+  become_user: binary_tmp
+  git:
+    repo: "https://github.com/nodejs/node"
+    dest: "~binary_tmp/binary_tmp.git"
+    bare: yes
+
+- name: Create git-shell-commands directory
+  file:
+    path: "~binary_tmp/git-shell-commands"
+    state: directory
+    owner: "binary_tmp"
+    group: "binary_tmp"
+    mode: 0755
+
+- name: Create git-shell-commands/no-interactive-login
+  copy:
+    content: "echo \"No interactive login.\"\n"
+    dest: "~binary_tmp/git-shell-commands/no-interactive-login"
+    owner: "binary_tmp"
+    group: "binary_tmp"
+    mode: 0755
+
+- name: Increase the maximum number of connections trying to authenticate
+  notify: restart sshd
+  lineinfile:
+    line: "MaxStartups 100:30:150"
+    dest: "{{ ssh_config }}"
+    regexp: "MaxStartups"
+
+- name: Create clean-up script
+  copy:
+    src: "{{ role_path }}/files/clean_binary_tmp.sh"
+    dest: "~binary_tmp/clean_binary_tmp.sh"
+    owner: "binary_tmp"
+    group: "binary_tmp"
+    mode: 0755
+
+- name: Schedule clean-up script to run daily
+  lineinfile:
+    line: "0 5	* * *	binary_tmp	~binary_tmp/clean_binary_tmp.sh"
+    dest: "/etc/crontab"
+    regexp: "clean_binary_tmp"
+
+- name: Disable automatic garbage collection
+  become: true
+  become_user: binary_tmp
+  community.general.git_config:
+    name: gc.auto
+    file: "~binary_tmp/binary_tmp.git/config"
+    scope: file
+    value: 0
+
+# Remove old NodeSource repository setup
+- name: Get Ubuntu codename
+  ansible.builtin.command: "lsb_release -s -c"
+  changed_when: no
+  check_mode: no
+  register: release_codename
+
+- name: Remove nodesource 20 repo
+  apt_repository:
+    repo: deb https://deb.nodesource.com/node_20.x {{ release_codename.stdout }} main
+    state: absent
+ 
+- name: Remove nodesource 16 repo
+  apt_repository:
+    repo: deb https://deb.nodesource.com/node_16.x {{ release_codename.stdout }} main
+    state: absent
+
+- name: Remove old nodesource signing key
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: absent
+
+# NodeSource distribution
+- name: Add nodesource signing key
+  ansible.builtin.get_url:
+    dest: /etc/apt/keyrings/nodesource-repo.gpg.asc
+    url: https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key
+
+- name: Add nodesource 20 repo
+  apt_repository:
+    repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/nodesource-repo.gpg.asc] https://deb.nodesource.com/node_20.x nodistro main
+    state: present
+
+- name: Install node
+  package:
+    name: nodejs
+    state: latest
+    update_cache: yes
+
+- name: Upgrade pip3
+  pip:
+    name: pip
+    executable: pip3
+    state: latest

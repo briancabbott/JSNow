@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/import-in-the-middle undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/import-in-the-middle",
+    "repo": "https://github.com/nodejs/import-in-the-middle",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/import-in-the-middle",
+    "startTime": "2024-07-18T19:24:51.620Z",
+    "endTime": "2024-07-18T19:24:53.739Z",
+    "childProcessPid": 30093,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--import-in-the-middle--30093",
+    "executionErrors": []
+}

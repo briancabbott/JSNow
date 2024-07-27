@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/iojs.org undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/iojs.org",
+    "repo": "https://github.com/nodejs/iojs.org",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/iojs.org",
+    "startTime": "2024-07-18T19:24:57.893Z",
+    "endTime": "2024-07-18T19:25:00.193Z",
+    "childProcessPid": 30184,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--iojs.org--30184",
+    "executionErrors": []
+}

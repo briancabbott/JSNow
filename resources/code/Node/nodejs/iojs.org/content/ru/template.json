@@ -1,0 +1,14 @@
+{
+  "browser-title":"io.js - JavaScript I/O",
+  "logo-text":"io.js",
+  "roadmap-url": "http://roadmap.iojs.org/ru/",
+  "roadmap-link": "Roadmap",
+  "faq-link":"ЧАВО",
+  "es6-link":"ES6",
+  "api-link":"API",
+  "issues-link":"GitHub Issues",
+  "org-link":"GitHub Org",
+  "irc-link":"IRC-Чат",
+  "irc-logs-link":"Logs",
+  "gov-link":"Управление"
+}

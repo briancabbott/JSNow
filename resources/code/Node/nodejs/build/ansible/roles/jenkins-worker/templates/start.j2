@@ -1,0 +1,14 @@
+#!/bin/bash
+export HOME={{ home }}/{{ server_user }}
+export NODE_TEST_DIR="$HOME/tmp"
+export JOBS="{{ jobs_env }}"
+
+export OSTYPE=osx
+export ARCH="{{ arch }}"
+export DESTCPU="{{ arch }}"
+# Make sure `brew` is on the PATH to get the location of the ccache symlinks.
+export PATH="/usr/local/opt/python3/Frameworks/Python.framework/Versions/Current/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="$(brew --prefix)/opt/ccache/libexec:$PATH"
+{{ java_path[os] }} -Xmx{{ server_ram|default('128m') }} \
+    -jar {{ home }}/{{ server_user }}/agent.jar -secret {{ secret }} \
+    -url {{ jenkins_url }} -name {{ inventory_hostname }}

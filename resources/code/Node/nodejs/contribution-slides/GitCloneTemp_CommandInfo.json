@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/contribution-slides undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/contribution-slides",
+    "repo": "https://github.com/nodejs/contribution-slides",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/contribution-slides",
+    "startTime": "2024-07-18T18:59:05.014Z",
+    "endTime": "2024-07-18T18:59:06.143Z",
+    "childProcessPid": 27818,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--contribution-slides--27818",
+    "executionErrors": []
+}

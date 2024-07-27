@@ -1,0 +1,32 @@
+[Unit]
+Description=Jenkins agent
+Wants=network.target
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+User={{ server_user }}
+Restart=always
+RestartSec=30
+StartLimitInterval=0
+WorkingDirectory=/home/{{ server_user }}
+
+Environment="USER={{ server_user }}"
+Environment="JOBS={{ jobs_env }}"
+Environment="SHELL=/bin/bash"
+Environment="HOME=/home/{{ server_user }}"
+Environment="PATH=/home/{{ server_user }}/venv/bin:/home/{{ server_user }}/nghttp2/src:/home/{{ server_user }}/wrk:/usr/lib/ccache:/usr/lib64/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="NODE_COMMON_PIPE=/home/{{ server_user }}/test.pipe"
+Environment="NODE_TEST_DIR=/home/{{ server_user }}/tmp"
+Environment="OSTYPE=linux-gnu"
+Environment="DESTCPU={{ arch }}"
+Environment="ARCH={{ arch }}"
+
+ExecStart=/usr/bin/java -Xmx{{ server_ram|default('128m') }} \
+          -jar /home/{{ server_user }}/agent.jar \
+          -url {{ jenkins_url }} \
+          -name {{ inventory_hostname }} \
+          -secret {{ secret }}

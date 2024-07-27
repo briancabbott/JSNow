@@ -1,0 +1,61 @@
+---
+
+#
+# updates iptables
+#
+# done in two tasks to avoid proxy hosts. make the assumption that hosts
+# beind a proxy will use the external ip of the proxy host
+#
+
+- hosts:
+  - infra-digitalocean-ubuntu2204-x64-1 # ci.nodejs.org
+  - infra-ibm-ubuntu1804-x64-1 # ci-release.nodejs.org
+
+  vars:
+    hostgroups: {
+      'infra-digitalocean-ubuntu2204-x64-1': 'test',
+      'infra-ibm-ubuntu1804-x64-1': 'release'
+      }
+
+  tasks:
+  - name: Update the apt cache
+    apt:
+      update_cache: yes
+
+  - name: Ensure iptables-persistent is installed
+    apt:
+      name: iptables-persistent
+      state: present
+
+  - name: add hosts to firewall
+    when:
+      - not 'ansible_ssh_common_args' in hostvars[host]
+      - hostgroups[inventory_hostname] == hostvars[host].type
+      # Following condition filters out entries without an IP address.
+      - hostvars[host]['ansible_host'] is defined
+    iptables:
+      table: filter
+      chain: jnlp
+      jump: ACCEPT
+      comment: "{{ comment }}"
+      source: "{{ ip_address }}/32"
+    loop_control:
+      loop_var: host
+    with_inventory_hostnames: "{{ hostgroups[inventory_hostname] }}"
+    vars:
+      # Some hosts specify a hostname rather than a numeric IP address in the
+      # inventory. In such cases, add the supplied hostname instead of the
+      # name of the host to iptables rules.
+      comment: "{{ host if is_numeric_ip else host_or_ip }}"
+      host_or_ip: "{{ hostvars[host]['ansible_host'] }}"
+      ip_address: "{{ host_or_ip if is_numeric_ip else (comment | dig) }}"
+      # Use this regexp as ipaddr filter requires netaddr to be installed.
+      is_numeric_ip: "{{ host_or_ip | regex_findall('^[0-9.]+$') }}"
+
+  - name: add proxy host(s) to firewall
+    iptables:
+      table: filter
+      chain: jnlp
+      jump: ACCEPT
+      comment: "{{ jumphost }}"
+      source: "{{ jumphost | dig }}/32"

@@ -1,0 +1,76 @@
+---
+
+- name: docker | register {{ server_user }} GID
+  shell: "grep ^{{ server_user }} /etc/group | awk -F: '{print $3}'"
+  register: server_user_gid
+
+- name: docker | register {{ server_user }} UID
+  shell: "grep ^{{ server_user }} /etc/passwd | awk -F: '{print $4}'"
+  register: server_user_uid
+
+- name: docker | fetch samba ccache HTML page
+  local_action: shell curl -sL https://www.samba.org/ftp/ccache/ | sed -n -e 's/.*"ccache-\([0-9.]*\).tar.gz".*/\1/p' | tail -1
+  register: ccache_html_content
+
+- name: docker | extract ccache latest version
+  set_fact:
+    ccache_latest: "{{ ccache_html_content.stdout }}"
+
+- name: docker | check if docker exists
+  shell: which docker
+  register: docker_exists
+  ignore_errors: yes
+
+- name: docker | install docker from docker.com
+  when: "docker_exists.stdout == ''"
+  raw: curl -fsSL get.docker.com | bash -
+
+- name: docker | copy docker-exec script
+  template:
+    src: "{{ role_path }}/templates/docker-node-exec.sh.j2"
+    dest: "/usr/local/bin/docker-node-exec.sh"
+    mode: 0755
+
+- name: docker | give {{ server_user }} sudoers access to docker-exec script
+  lineinfile:
+    line: "{{ server_user }} ALL=(ALL) NOPASSWD: /usr/local/bin/docker-node-exec.sh"
+    dest: "/etc/sudoers"
+    regexp: docker-node-exec.sh$
+
+- name: docker | make build directory
+  file:
+    path: /root/docker-container-{{ item.name }}
+    state: directory
+  with_items: "{{ docker_containers }}"
+
+- name: docker | generate Dockerfile
+  template:
+    src: "{{ role_path }}/templates/{{ item.template }}"
+    dest: /root/docker-container-{{ item.name }}/Dockerfile
+    mode: "0644"
+  with_items: "{{ docker_containers }}"
+
+- name: docker | build image
+  command: docker build -t node-ci:{{ item.name }} /root/docker-container-{{ item.name }}/
+  with_items: "{{ docker_containers }}"
+
+- name: docker | generate and copy init script
+  template:
+    src: "{{ role_path }}/templates/docker-jenkins.service.j2"
+    dest: "/lib/systemd/system/docker-jenkins-{{ item.name }}.service"
+  with_items: "{{ docker_containers }}"
+
+- name: docker | stop containers
+  service:
+    name: "docker-jenkins-{{ item.name }}"
+    state: stopped
+  failed_when: "stop_containers is failed and 'not loaded' not in stop_containers.msg"
+  register: stop_containers
+  with_items: "{{ docker_containers }}"
+
+- name: docker | start containers
+  service:
+    name: "docker-jenkins-{{ item.name }}"
+    state: started
+    enabled: yes
+  with_items: "{{ docker_containers }}"

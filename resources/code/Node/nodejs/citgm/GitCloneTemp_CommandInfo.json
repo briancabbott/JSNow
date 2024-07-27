@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/citgm undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/citgm",
+    "repo": "https://github.com/nodejs/citgm",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/citgm",
+    "startTime": "2024-07-18T18:58:55.156Z",
+    "endTime": "2024-07-18T18:58:57.109Z",
+    "childProcessPid": 27664,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--citgm--27664",
+    "executionErrors": []
+}

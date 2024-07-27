@@ -1,0 +1,91 @@
+{
+  "description": "Reduce inactive collaborator duration",
+  "outcome": {
+    "winner(s)": [
+      "Status quo: Keep the current inactive collaborator duration of 12 months"
+    ]
+  },
+  "votes": {
+    "aduh95": {
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1,
+      "Reduce the inactive collaborator duration to 9 months": 0
+    },
+    "anonrig": {
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 0,
+      "Reduce the inactive collaborator duration to 9 months": 1
+    },
+    "apapirovski": {
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1,
+      "Reduce the inactive collaborator duration to 9 months": 0
+    },
+    "benjamingr": {
+      "Reduce the inactive collaborator duration to 9 months": 0,
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 100
+    },
+    "BridgeAR": {
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1,
+      "Reduce the inactive collaborator duration to 9 months": 0
+    },
+    "GeoffreyBooth": {
+      "Reduce the inactive collaborator duration to 9 months": 1,
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1
+    },
+    "gireeshpunathil": {
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 10,
+      "Reduce the inactive collaborator duration to 9 months": -10
+    },
+    "jasnell": {
+      "Reduce the inactive collaborator duration to 9 months": 0,
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1
+    },
+    "joyeecheung": {
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 0,
+      "Reduce the inactive collaborator duration to 9 months": 1
+    },
+    "legendecas": {
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1,
+      "Reduce the inactive collaborator duration to 9 months": 0
+    },
+    "mcollina": {
+      "Reduce the inactive collaborator duration to 9 months": 0,
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1
+    },
+    "mhdawson": {
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1,
+      "Reduce the inactive collaborator duration to 9 months": -1
+    },
+    "MoLow": {
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 0,
+      "Reduce the inactive collaborator duration to 9 months": 0
+    },
+    "RafaelGSS": {
+      "Reduce the inactive collaborator duration to 9 months": -1,
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1
+    },
+    "richardlau": {
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1,
+      "Reduce the inactive collaborator duration to 9 months": 0
+    },
+    "ronag": {
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1,
+      "Reduce the inactive collaborator duration to 9 months": -1
+    },
+    "ruyadorno": {
+      "Reduce the inactive collaborator duration to 9 months": 0,
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1
+    },
+    "ShogunPanda": {
+      "Reduce the inactive collaborator duration to 9 months": 10,
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 5
+    },
+    "targos": {
+      "Reduce the inactive collaborator duration to 9 months": 0,
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 1
+    },
+    "tniessen": {
+      "Status quo: Keep the current inactive collaborator duration of 12 months": 12,
+      "Reduce the inactive collaborator duration to 9 months": 9
+    }
+  },
+  "refs": "https://github.com/nodejs/TSC/pull/1540"
+}

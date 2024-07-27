@@ -1,0 +1,30 @@
+{
+  "name": "@node-core/caritat",
+  "x-release-please-start-version": null,
+  "version": "1.6.0",
+  "x-release-please-end": null,
+  "files": [
+    "dist/"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodejs/caritat.git"
+  },
+  "dependencies": {
+    "@node-core/caritat-crypto": "workspace:*",
+    "js-yaml": "^4.1.0"
+  },
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./generateNewVoteFolder": "./dist/generateNewVoteFolder.js",
+    "./countBallotsFromGit": "./dist/countBallotsFromGit.js",
+    "./voteUsingGit": "./dist/voteUsingGit.js",
+    "./parser": "./dist/parser.js",
+    "./checkCommitValidity": "./dist/checkCommitValidity.js",
+    "./countParticipationFromGit": "./dist/countParticipationFromGit.js",
+    "./summary/condorcet": "./dist/summary/condorcetSummary.js",
+    "./package.json": "./package.json"
+  },
+  "type": "module"
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/caritat undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/caritat",
+    "repo": "https://github.com/nodejs/caritat",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/caritat",
+    "startTime": "2024-07-18T18:58:45.379Z",
+    "endTime": "2024-07-18T18:58:50.027Z",
+    "childProcessPid": 27575,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--caritat--27575",
+    "executionErrors": []
+}

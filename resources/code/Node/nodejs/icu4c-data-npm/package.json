@@ -1,0 +1,18 @@
+{
+  "name": "icu4c-data-builder",
+  "version": "0.0.1",
+  "description": "ICU4C data generator",
+  "scripts": {
+    "gen": "node index.js"
+  },
+  "keywords": [
+    "icu4c"
+  ],
+  "author": "Steven R. Loomis <srl295@gmail.com>",
+  "license": "Unicode-DFS-2016",
+  "main": "index.js",
+  "dependencies": {
+    "minimist": "^1.2.6"
+  },
+  "private": true
+}

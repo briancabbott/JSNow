@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/installer undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/installer",
+    "repo": "https://github.com/nodejs/installer",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/installer",
+    "startTime": "2024-07-18T19:24:56.550Z",
+    "endTime": "2024-07-18T19:24:57.891Z",
+    "childProcessPid": 30162,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--installer--30162",
+    "executionErrors": []
+}

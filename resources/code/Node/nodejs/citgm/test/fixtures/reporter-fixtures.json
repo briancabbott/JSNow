@@ -1,0 +1,37 @@
+{
+  "iPass": {
+    "name": "iPass",
+    "version": "4.2.2",
+    "duration": 50
+  },
+  "iSkipped": {
+    "name": "iSkipped",
+    "skipped": true
+  },
+  "iFail": {
+    "name": "iFail",
+    "version": "3.0.1",
+    "error": {
+      "message": "I dun wurk"
+    },
+    "testOutput": "Thanks for testing!",
+    "duration": 50
+  },
+  "iFlakyPass": {
+    "name": "iFlakyPass",
+    "version": "3.0.1",
+    "flaky": true,
+    "testOutput": "Thanks for testing!",
+    "duration": 50
+  },
+  "iFlakyFail": {
+    "name": "iFlakyFail",
+    "version": "3.3.3",
+    "flaky": true,
+    "error": {
+      "message": "I dun wurk"
+    },
+    "testOutput": "Thanks for testing!",
+    "duration": 50
+  }
+}

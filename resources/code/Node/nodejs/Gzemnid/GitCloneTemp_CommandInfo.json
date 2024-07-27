@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/Gzemnid undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/Gzemnid",
+    "repo": "https://github.com/nodejs/Gzemnid",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/Gzemnid",
+    "startTime": "2024-07-18T18:56:12.520Z",
+    "endTime": "2024-07-18T18:56:15.913Z",
+    "childProcessPid": 26898,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--Gzemnid--26898",
+    "executionErrors": []
+}

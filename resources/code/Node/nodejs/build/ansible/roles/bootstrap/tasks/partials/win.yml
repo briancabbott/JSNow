@@ -1,0 +1,62 @@
+---
+
+#
+# Windows bootstrap
+#
+
+- name: create TEMP directory
+  win_file: path='C:\TEMP' state=directory
+
+- block:
+  - name: set automatic logon user name
+    win_regedit:
+      path: "{{ autologon_regpath }}"
+      name: DefaultUsername
+      data: "{{ ansible_ssh_user }}"
+      type: string
+  - name: set automatic logon password
+    win_regedit:
+      path: "{{ autologon_regpath }}"
+      name: DefaultPassword
+      data: "{{ ansible_ssh_pass }}"
+      type: string
+  - name: enable automatic logon
+    win_regedit:
+      path: "{{ autologon_regpath }}"
+      name: AutoAdminLogon
+      data: 1
+      type: string
+
+# Comply with Azure security recommendations
+# After changing anything in this list check if the following still work:
+# - Windows Update
+# - PowerShell remoting (for Ansible connections)
+# - RDP from Windows
+# - RDP from Remmina
+- block:
+  - name: disable SSL 2.0
+    win_regedit:
+      path: 'HKLM:\System\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server'
+      name: Enabled
+      data: 0
+      type: dword
+  - name: disable SSL 3.0
+    win_regedit:
+      path: 'HKLM:\System\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server'
+      name: Enabled
+      data: 0
+      type: dword
+
+- block:
+  - name: disable Let's Finish Setting up Your Device screen
+    win_regedit:
+      path: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement'
+      name: ScoobeSystemSettingEnabled
+      data: 0
+      type: dword
+  - name: disable Windows Welcome Experience
+    win_regedit:
+      path: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager'
+      name: SubscribedContent-310093Enabled
+      data: 0
+      type: dword

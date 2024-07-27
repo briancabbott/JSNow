@@ -1,0 +1,20 @@
+{
+  "useragent": "Gzemnid https://github.com/nodejs/Gzemnid",
+  "dir": "./pool",
+  "api": {
+    "port": 3000,
+    "tokens": {}
+  },
+  "compression": {
+    "high": true
+  },
+  "extract": {
+    "features": {
+      "ast": false
+    },
+    "compress": true
+  },
+  "meta": {
+    "compress": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/automation undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/automation",
+    "repo": "https://github.com/nodejs/automation",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/automation",
+    "startTime": "2024-07-18T18:58:03.745Z",
+    "endTime": "2024-07-18T18:58:05.471Z",
+    "childProcessPid": 27312,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--automation--27312",
+    "executionErrors": []
+}

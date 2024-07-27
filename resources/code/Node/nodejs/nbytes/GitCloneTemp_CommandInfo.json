@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/nbytes undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/nbytes",
+    "repo": "https://github.com/nodejs/nbytes",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/nbytes",
+    "startTime": "2024-07-18T19:25:39.447Z",
+    "endTime": "2024-07-18T19:25:40.227Z",
+    "childProcessPid": 30742,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--nbytes--30742",
+    "executionErrors": []
+}

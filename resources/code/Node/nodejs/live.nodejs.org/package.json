@@ -1,0 +1,21 @@
+{
+  "name": "live.nodejs.org",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js",
+    "start": "nodemon -e hbs,md,js,css --ignore node_modules serve.js"
+  },
+  "keywords": [],
+  "author": "Mikeal Rogers <mikeal.rogers@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^4.0.5",
+    "marked": "^0.3.5",
+    "milligram": "^1.0.3",
+    "nodemon": "^1.8.1",
+    "st": "^1.1.0"
+  }
+}

@@ -1,0 +1,22 @@
+CALENDAR_FILTER="Node.js Community Committee"
+CALENDAR_ID="nodejs.org_nr77ama8p7d7f9ajrpnu506c98@group.calendar.google.com"
+USER="nodejs"
+REPO="community-committee"
+GROUP_NAME="Community Committee"
+AGENDA_TAG=cc-agenda
+JOINING_INSTRUCTIONS="
+
+* Link for participants: <https://zoom.us/j/95198277339>
+* For those who just want to watch: <https://www.youtube.com/channel/UCQPYJluYC_sn_Qz_XE-YbTQ>
+
+---
+
+**Invitees**
+
+Please use the following emoji reactions in this post to indicate your
+availability.
+
+* :+1: - Attending
+* :-1: - Not attending
+* :confused: - Not sure yet
+"

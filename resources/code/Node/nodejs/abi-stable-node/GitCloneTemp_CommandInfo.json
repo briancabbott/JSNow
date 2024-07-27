@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/abi-stable-node undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/abi-stable-node",
+    "repo": "https://github.com/nodejs/abi-stable-node",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/abi-stable-node",
+    "startTime": "2024-07-18T18:56:30.596Z",
+    "endTime": "2024-07-18T18:57:56.113Z",
+    "childProcessPid": 27052,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--abi-stable-node--27052",
+    "executionErrors": []
+}

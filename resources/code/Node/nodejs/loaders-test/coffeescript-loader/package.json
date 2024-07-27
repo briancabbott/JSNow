@@ -1,0 +1,17 @@
+{
+  "name": "coffeescript-loader",
+  "version": "0.1.0",
+  "description": "Node.js loader for CoffeeScript transpilation",
+  "type": "module",
+  "main": "./loader.js",
+  "scripts": {
+    "start": "npm test",
+    "test": "node test.js",
+    "esm-only": "node --experimental-loader ./loader-esm-only.js ./fixtures/esm-imports.coffee"
+  },
+  "author": "Geoffrey Booth <webmaster@geoffreybooth.com>",
+  "license": "MIT",
+  "dependencies": {
+    "coffeescript": "^2.5.1"
+  }
+}

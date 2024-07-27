@@ -1,0 +1,55 @@
+{
+  "testsuite": {
+    "$": {
+      "name": "citgm"
+    },
+    "testcase": [
+      {
+        "$": {
+          "name": "iPass-v4.2.2",
+          "time": "0.05"
+        },
+        "system-out": [""]
+      },
+      {
+        "$": {
+          "name": "iFlakyFail-v3.3.3",
+          "time": "0.05"
+        },
+        "system-out": [" Thanks for testing!"],
+        "skipped": [""],
+        "failure": [
+          {
+            "_": "[object Object] ",
+            "$": {
+              "message": "module test suite failed"
+            }
+          }
+        ]
+      },
+      {
+        "$": {
+          "name": "iFail-v3.0.1",
+          "time": "0.05"
+        },
+        "system-out": [" Thanks for testing!"],
+        "failure": [
+          {
+            "_": "[object Object] ",
+            "$": {
+              "message": "module test suite failed"
+            }
+          }
+        ]
+      },
+      {
+        "$": {
+          "name": "iSkipped",
+          "time": "NaN"
+        },
+        "system-out": [""],
+        "skipped": [""]
+      }
+    ]
+  }
+}

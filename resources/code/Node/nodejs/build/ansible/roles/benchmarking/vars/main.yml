@@ -1,0 +1,15 @@
+---
+packages:
+  - g++-12
+  - libc-ares-dev
+  - libcunit1-dev
+  - libev-dev
+  - libevent-dev
+  - libjansson-dev
+  - libssl-dev
+  - libxml2-dev
+  - pkg-config
+  - python3-requests
+  - zlib1g-dev
+  - build-essential
+  - unzip

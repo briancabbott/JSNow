@@ -1,0 +1,119 @@
+---
+
+#
+# set up a jenkins worker -- muy bueno!
+#
+
+- hosts:
+  - test
+  - release
+  - "!*-win*"
+
+  roles:
+    - bootstrap
+    - package-upgrade
+    - baselayout
+    - { role: 'benchmarking',
+        tags: 'benchmarking',
+        when: is_benchmark is defined and is_benchmark|bool == True }
+    - { role: 'static-analysis',
+        tags: 'static-analysis',
+        when: is_benchmark is defined and is_benchmark|bool == True }
+#
+# Install Linux perf on Benchmarking servers
+#
+    - { role: 'linux-perf',
+        tags: 'linux-perf',
+        when: is_benchmark is defined and is_benchmark|bool == True }
+    - jenkins-worker
+    - { role: release-builder,
+        release_home_dir: "{{ home }}/{{ server_user }}",
+        when: '"release" in group_names' }
+
+  pre_tasks:
+# Requires `secret: XXX` to be in the ansible/host_vars/HOST
+# file, where XXX is the jenkins secret used to connect to the master,
+# and HOST is the full ansible host name.
+    - name: check if secret is properly set
+      fail:
+      failed_when: not secret
+
+  environment: '{{remote_env}}'
+
+- hosts:
+  - "*-win*"
+  gather_facts: yes
+  gather_subset: min
+
+  roles:
+    - bootstrap
+    - package-upgrade
+    - baselayout-windows
+    - visual-studio
+    - jenkins-worker-windows
+    - github-windows
+
+  pre_tasks:
+    - name: check if secret is properly set
+      fail:
+      failed_when: not secret
+
+  post_tasks:
+    - name: reboot Windows machines
+      when: os|startswith("win")
+      win_reboot:
+
+  environment: '{{remote_env}}'
+
+#
+# Set up Jenkins Workspace servers
+#
+
+- hosts:
+    - test-equinix-ubuntu2204-x64-1
+    - test-equinix-ubuntu2204-x64-2
+    - test-ibm-ubuntu2204-x64-3
+    - test-mnx-ubuntu2204-x64-1
+    - test-mnx-ubuntu2204-x64-2
+
+  roles:
+    - jenkins-workspace
+
+#
+# Ensure node is not installed anywhere but the linter servers
+#
+
+- hosts:
+  - test
+  - release
+  tasks:
+    - name: remove node and npm packages
+      when:
+      - not os|startswith("aix")
+      - not os|startswith("ibmi")
+      - not os|startswith("win")
+      - not os|startswith("zos")
+      - os != "macos11.0"
+      - not (alias is defined and alias is match('jenkins-workspace.*'))
+      package:
+        name: "{{ package }}"
+        state: absent
+      loop_control:
+        loop_var: package
+      with_items: [ "node", "nodejs", "npm" ]
+    - name: fail if node is in the path - please uninstall it
+      when:
+      - not os|startswith("win")
+      - not (alias is defined and alias is match('jenkins-workspace.*'))
+      shell: "node -v"
+      register: node_check_cmd
+      failed_when: node_check_cmd.rc == 0
+      changed_when: False
+    - name: fail if node is in the path - please uninstall it
+      when:
+      - os|startswith("win")
+      - not (alias is defined and alias is match('jenkins-workspace.*'))
+      win_shell: "node -v"
+      register: node_check_cmd_win
+      failed_when: node_check_cmd_win.rc == 0
+      changed_when: False

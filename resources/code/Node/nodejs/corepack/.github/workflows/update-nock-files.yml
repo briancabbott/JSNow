@@ -1,0 +1,107 @@
+name: Update Nock files
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_id:
+        description: PR ID
+        type: number
+        required: true
+      head_sha:
+        description: Commit SHA of the head of the PR branch (only required for PRs from forks)
+        type: string
+        required: false
+
+env:
+  YARN_ENABLE_GLOBAL_CACHE: false
+
+jobs:
+  build-and-update-nock-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get PR info
+        id: pr_info
+        run: |
+          {
+            echo 'DATA<<""EOF""'
+            gh api \
+              -H "Accept: application/vnd.github+json" \
+              /repos/${{ github.repository }}/pulls/${{ inputs.pr_id }} \
+              --jq '{ repo: .head.repo.full_name, clone_url: .head.repo.clone_url, head_sha: .head.sha, head_ref: .head.ref }'
+            echo '""EOF""'
+          } >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Validate HEAD SHA
+        if: ${{ fromJson(steps.pr_info.outputs.DATA).repo != github.repository || inputs.head_sha }}
+        run: >
+          [[ "$EXPECTED" == "$ACTUAL" ]] || exit 1
+        env:
+          ACTUAL: ${{ fromJson(steps.pr_info.outputs.DATA).head_sha }}
+          EXPECTED: ${{ inputs.head_sha }}
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ fromJson(steps.pr_info.outputs.DATA).head_sha }}
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Get the Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(corepack yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{steps.yarn-cache-dir-path.outputs.dir}}
+          key: ${{runner.os}}-yarn-${{hashFiles('**/yarn.lock')}}
+          restore-keys: |
+            ${{runner.os}}-yarn-
+
+      - run: corepack yarn install --immutable
+      - run: corepack yarn build # We need the stubs to run the tests
+
+      - name: Remove old Nock files to avoid conflicts
+        run: rm tests/nocks.db
+
+      - run: corepack yarn test
+        env:
+          NOCK_ENV: record
+
+      - name: Check if anything has changed
+        id: contains-changes
+        run: |
+          sqlite3 tests/nocks.db .dump > /tmp/before.sql
+          cp tests/nocks.db tests/nocks.db.new
+          git checkout HEAD -- tests/nocks.db
+          sqlite3 tests/nocks.db .dump > /tmp/after.sql
+          echo "result=$(git --no-pager diff --quiet --no-index /tmp/before.sql /tmp/after.sql || echo "yes")" >> "$GITHUB_OUTPUT"
+          mv tests/nocks.db.new tests/nocks.db
+        shell: bash
+
+      - name: Commit changes
+        if: ${{ steps.contains-changes.outputs.result == 'yes' }}
+        run: |
+          git add tests/nocks.db
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git commit -m "update Nock files"
+
+      - name: Push changes
+        if: ${{ steps.contains-changes.outputs.result == 'yes' }}
+        run: git push "$REMOTE" "HEAD:refs/heads/$REMOTE_REF"
+        env:
+          REMOTE: ${{ fromJson(steps.pr_info.outputs.DATA).clone_url }}
+          REMOTE_REF: ${{ fromJson(steps.pr_info.outputs.DATA).head_ref }}
+
+      - name: Upload `tests/nocks.db` in case of failure
+        uses: actions/upload-artifact@v4
+        if: ${{ failure() && steps.contains-changes.outputs.result == 'yes' }}
+        with:
+          name: nock
+          path: |
+            tests/nocks.db

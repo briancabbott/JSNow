@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/build-toolchain-next undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/build-toolchain-next",
+    "repo": "https://github.com/nodejs/build-toolchain-next",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/build-toolchain-next",
+    "startTime": "2024-07-18T18:58:44.260Z",
+    "endTime": "2024-07-18T18:58:45.379Z",
+    "childProcessPid": 27532,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--build-toolchain-next--27532",
+    "executionErrors": []
+}

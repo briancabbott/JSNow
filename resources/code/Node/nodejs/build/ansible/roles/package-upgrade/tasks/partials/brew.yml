@@ -1,0 +1,67 @@
+---
+
+#
+# Updates all packages for macos-based distributions
+#
+
+  - name: Check for xcode-tools
+    raw: xcode-select --print-path &> /dev/null
+    register: xcode
+    ignore_errors: yes
+    check_mode: no
+
+  - name: Install xcode-tools
+    script: files/install-xcode.sh
+    when: xcode.rc > 1
+
+  - name: Check if Homebrew is already installed (Apple Silicon)
+    stat:
+      path: /opt/homebrew/bin/brew
+    register: armbrew
+    when: os == "macos11.0"
+
+  - name: Check if Homebrew is already installed
+    stat:
+      path: /usr/local/bin/brew
+    register: brew
+    when: os != "macos11.0"
+
+  - name: Install Homebrew
+    become_user: "{{ ansible_user }}"
+    script: files/install-homebrew.sh
+    when: os != "macos11.0" and not brew.stat.exists
+
+  - name: Install Homebrew
+    become_user: "{{ ansible_user }}"
+    script: files/install-homebrew.sh
+    when: os == "macos11.0" and not armbrew.stat.exists
+
+  # Ignoring deprecation errors in MacOS 10.x
+  - name: Upgrade installed packages 
+    become_user: "{{ ansible_user }}"
+    homebrew:
+      upgrade_all: yes
+    ignore_errors: "{{ os == 'macos10.15' }}"
+
+  - name: Install brew cu
+    become_user: "{{ ansible_user }}"
+    homebrew_tap:
+      name: buo/cask-upgrade
+
+  - name: Install brew cask-versions
+    become_user: "{{ ansible_user }}"
+    homebrew_tap:
+      name: homebrew/cask-versions
+
+  - name: Update Casks
+    become_user: "{{ ansible_user }}"
+    homebrew_cask:
+      upgrade_all: yes
+
+  - name: Disable Crash Reporter 1
+    become_user: root
+    command: launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
+
+  - name: Disable Crash Reporter 2
+    become_user: root
+    command: launchctl unload -w /System/Library/LaunchDaemons/com.apple.ReportCrash.Root.plist

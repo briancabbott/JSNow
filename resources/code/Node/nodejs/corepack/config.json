@@ -1,0 +1,176 @@
+{
+  "definitions": {
+    "npm": {
+      "default": "10.8.2+sha1.3c123c7f14409dc0395478e7269fdbc32ae179d8",
+      "fetchLatestFrom": {
+        "type": "npm",
+        "package": "npm"
+      },
+      "transparent": {
+        "commands": [
+          [
+            "npm",
+            "init"
+          ],
+          [
+            "npx"
+          ]
+        ]
+      },
+      "ranges": {
+        "*": {
+          "url": "https://registry.npmjs.org/npm/-/npm-{}.tgz",
+          "bin": {
+            "npm": "./bin/npm-cli.js",
+            "npx": "./bin/npx-cli.js"
+          },
+          "registry": {
+            "type": "npm",
+            "package": "npm"
+          },
+          "commands": {
+            "use": [
+              "npm",
+              "install"
+            ]
+          }
+        }
+      }
+    },
+    "pnpm": {
+      "default": "9.5.0+sha1.8c155dc114e1689d18937974f6571e0ceee66f1d",
+      "fetchLatestFrom": {
+        "type": "npm",
+        "package": "pnpm"
+      },
+      "transparent": {
+        "commands": [
+          [
+            "pnpm",
+            "init"
+          ],
+          [
+            "pnpx"
+          ],
+          [
+            "pnpm",
+            "dlx"
+          ]
+        ]
+      },
+      "ranges": {
+        "<6.0.0": {
+          "url": "https://registry.npmjs.org/pnpm/-/pnpm-{}.tgz",
+          "bin": {
+            "pnpm": "./bin/pnpm.js",
+            "pnpx": "./bin/pnpx.js"
+          },
+          "registry": {
+            "type": "npm",
+            "package": "pnpm"
+          },
+          "commands": {
+            "use": [
+              "pnpm",
+              "install"
+            ]
+          }
+        },
+        ">=6.0.0": {
+          "url": "https://registry.npmjs.org/pnpm/-/pnpm-{}.tgz",
+          "bin": {
+            "pnpm": "./bin/pnpm.cjs",
+            "pnpx": "./bin/pnpx.cjs"
+          },
+          "registry": {
+            "type": "npm",
+            "package": "pnpm"
+          },
+          "commands": {
+            "use": [
+              "pnpm",
+              "install"
+            ]
+          }
+        }
+      }
+    },
+    "yarn": {
+      "default": "1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610",
+      "fetchLatestFrom": {
+        "type": "npm",
+        "package": "yarn"
+      },
+      "transparent": {
+        "default": "4.3.1+sha224.934d21773e22af4b69a7032a2d3b4cb38c1f7c019624777cc9916b23",
+        "commands": [
+          [
+            "yarn",
+            "init"
+          ],
+          [
+            "yarn",
+            "dlx"
+          ]
+        ]
+      },
+      "ranges": {
+        "<2.0.0": {
+          "url": "https://registry.yarnpkg.com/yarn/-/yarn-{}.tgz",
+          "bin": {
+            "yarn": "./bin/yarn.js",
+            "yarnpkg": "./bin/yarn.js"
+          },
+          "registry": {
+            "type": "npm",
+            "package": "yarn"
+          },
+          "commands": {
+            "use": [
+              "yarn",
+              "install"
+            ]
+          }
+        },
+        ">=2.0.0": {
+          "name": "yarn",
+          "url": "https://repo.yarnpkg.com/{}/packages/yarnpkg-cli/bin/yarn.js",
+          "bin": [
+            "yarn",
+            "yarnpkg"
+          ],
+          "registry": {
+            "type": "url",
+            "url": "https://repo.yarnpkg.com/tags",
+            "fields": {
+              "tags": "aliases",
+              "versions": "tags"
+            }
+          },
+          "npmRegistry": {
+            "type": "npm",
+            "package": "@yarnpkg/cli-dist",
+            "bin": "bin/yarn.js"
+          },
+          "commands": {
+            "use": [
+              "yarn",
+              "install"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "keys": {
+    "npm": [
+      {
+        "expires": null,
+        "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+        "keytype": "ecdsa-sha2-nistp256",
+        "scheme": "ecdsa-sha2-nistp256",
+        "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1Olb3zMAFFxXKHiIkQO5cJ3Yhl5i6UPp+IhuteBJbuHcA5UogKo0EWtlWwW6KSaKoTNEYL7JlCQiVnkhBktUgg=="
+      }
+    ]
+  }
+}

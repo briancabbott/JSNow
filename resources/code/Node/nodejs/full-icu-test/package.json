@@ -1,0 +1,24 @@
+{
+  "name": "full-icu-test",
+  "version": "1.0.4",
+  "description": "Test for the full-icu module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --icu-data-dir=node_modules/full-icu ./test.js"
+  },
+  "keywords": [
+    "i18n"
+  ],
+  "author": "Steven R. Loomis <srl295@gmail.com>",
+  "license": "Unicode-DFS-2016",
+  "dependencies": {
+    "full-icu": "^1.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unicode-org/full-icu-test.git"
+  },
+  "bugs": {
+    "url": "https://github.com/unicode-org/full-icu-npm/issues"
+  }
+}

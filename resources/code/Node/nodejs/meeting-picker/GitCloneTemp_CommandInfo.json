@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/meeting-picker undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/meeting-picker",
+    "repo": "https://github.com/nodejs/meeting-picker",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/meeting-picker",
+    "startTime": "2024-07-18T19:25:34.345Z",
+    "endTime": "2024-07-18T19:25:35.491Z",
+    "childProcessPid": 30652,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--meeting-picker--30652",
+    "executionErrors": []
+}

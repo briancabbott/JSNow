@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/llparse-test-fixture undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/llparse-test-fixture",
+    "repo": "https://github.com/nodejs/llparse-test-fixture",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/llparse-test-fixture",
+    "startTime": "2024-07-18T19:25:20.237Z",
+    "endTime": "2024-07-18T19:25:21.405Z",
+    "childProcessPid": 30341,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--llparse-test-fixture--30341",
+    "executionErrors": []
+}

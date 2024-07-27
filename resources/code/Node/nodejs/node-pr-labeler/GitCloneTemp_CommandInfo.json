@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/node-pr-labeler undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/node-pr-labeler",
+    "repo": "https://github.com/nodejs/node-pr-labeler",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/node-pr-labeler",
+    "startTime": "2024-07-18T19:26:06.839Z",
+    "endTime": "2024-07-18T19:26:08.078Z",
+    "childProcessPid": 31483,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--node-pr-labeler--31483",
+    "executionErrors": []
+}

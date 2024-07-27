@@ -1,0 +1,118 @@
+name: on push or pull_request
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  schedule:
+    - cron:  '0 0 * * *'
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - version: 14.x
+          - version: 16.x
+          - version: 18.x
+          # These error with "Unexpected input(s) 'node-mirror' ...":
+          # - version: 19.x
+          #   mirror: https://nodejs.org/download/nightly
+          # - version: 19.x
+          #   mirror: https://nodejs.org/download/v8-canary
+        # os: [ubuntu-latest, macos-latest]
+        # Temporarily disable MacOS until
+        # https://github.com/nodejs/node/issues/32981 is fixed
+        # TODO(mmarchini): test on 20.04 (need different lldb version)
+        os: [ubuntu-18.04, ubuntu-20.04]
+        llvm: [8, 9, 10, 11, 12, 13, 14]
+        exclude:
+          # This errors due to a glibc incompatibility.
+          - {os: ubuntu-18.04, node: {version: 18.x}}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node.version }} ${{ matrix.node.mirror }}
+        uses:  No9/setup-node@mirror
+        with:
+          node-version: ${{ matrix.node.version }}
+          # TODO(mmarchini): re-enable once mirror is supported on setup-node
+          node-mirror: ${{ matrix.node.mirror }}
+      - name: install dependencies Linux
+        if: startsWith(matrix.os, 'ubuntu-')
+        run: |
+          use_llvm_repos=0
+
+          case "${{ matrix.os }}-${{ matrix.llvm }}" in
+            ubuntu-18.04-10) use_llvm_repos=1;;
+            ubuntu-18.04-11) use_llvm_repos=1;;
+            ubuntu-18.04-12) use_llvm_repos=1;;
+            ubuntu-18.04-13) use_llvm_repos=1;;
+            ubuntu-18.04-14) use_llvm_repos=1;;
+            ubuntu-20.04-13) use_llvm_repos=1;;
+            ubuntu-20.04-14) use_llvm_repos=1;;
+            *) use_llvm_repos=0;;
+          esac
+
+          if [[ ${use_llvm_repos} == 1 ]]; then
+            wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -;
+            release="$(lsb_release -cs)"
+            cat << EOF | sudo tee /etc/apt/sources.list.d/llvm-${{ matrix.llvm }}.list
+          deb http://apt.llvm.org/${release}/ llvm-toolchain-${release}-${{ matrix.llvm }} main
+          deb-src http://apt.llvm.org/${release}/ llvm-toolchain-${release}-${{ matrix.llvm }} main
+          EOF
+          fi
+
+          sudo apt-get -qq update
+          sudo apt-get install -y --no-install-recommends \
+            lcov gdb \
+            lldb-${{ matrix.llvm }} \
+            liblldb-${{ matrix.llvm }}-dev
+
+          if [[ -n "$(which lldb-${{ matrix.llvm }})" ]]; then
+            sudo ln -s "$(which lldb-${{ matrix.llvm }})" /usr/bin/lldb
+            sudo mkdir -p /usr/lib/lib/python3.8
+            sudo ln -s /usr/lib/llvm-${{ matrix.llvm }}/lib/python3.8/site-packages /usr/lib/lib/python3.8/site-packages
+          fi
+
+          if [[ -n "$(which llvm-config-${{ matrix.llvm }})" ]]; then
+            sudo ln -s "$(which llvm-config-${{ matrix.llvm }})" /usr/bin/llvm-config
+          fi
+      - name: npm install
+        run: |
+          npm install --llnode_build_addon=true --llnode_coverage=true
+      - name: run tests
+        run: TEST_LLDB_BINARY=`which lldb-${{ matrix.llvm }}` npm run nyc-test-all
+        if: matrix.node.version != '19.x'
+      - name: run tests (nightly)
+        run: TEST_LLDB_BINARY=`which lldb-${{ matrix.llvm }}` npm run nyc-test-all
+        if: matrix.node.version == '19.x'
+        continue-on-error: true
+      - name: prepare coverage
+        if: startsWith(matrix.os, 'ubuntu-') && matrix.node.version != '19.x'
+        run: |
+          npm run coverage
+          cat ./coverage-js.info > ./coverage.info
+          cat ./coverage-cc.info >> ./coverage.info
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.info
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js LTS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - name: npm install, build, and test
+        run: |
+          sudo apt-get -qq update
+          sudo apt-get install lldb-6.0 liblldb-6.0-dev lcov -y
+          sudo ln -s $(which lldb-6.0) /usr/bin/lldb
+          npm install
+          npm run linter

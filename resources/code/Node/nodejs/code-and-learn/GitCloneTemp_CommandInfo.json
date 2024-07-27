@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/code-and-learn undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/code-and-learn",
+    "repo": "https://github.com/nodejs/code-and-learn",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/code-and-learn",
+    "startTime": "2024-07-18T18:58:58.973Z",
+    "endTime": "2024-07-18T18:59:00.158Z",
+    "childProcessPid": 27708,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--code-and-learn--27708",
+    "executionErrors": []
+}

@@ -1,0 +1,26 @@
+---
+
+#
+# aix: python2.7 is default
+#
+
+
+- name: download get-pip.py
+  get_url:
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: /home/iojs/get-pip.py
+
+- name: install pip
+  ansible.builtin.command: python3 /home/iojs/get-pip.py
+
+- name: create pip symbolic link
+  file:
+   src: "/opt/freeware/bin/pip3"
+   dest: "/usr/bin/pip"
+   state: link
+
+- name: install tap2junit
+  pip: 
+    name: tap2junit=={{ tap2junit_version }}
+    state: present
+    executable: /usr/bin/pip

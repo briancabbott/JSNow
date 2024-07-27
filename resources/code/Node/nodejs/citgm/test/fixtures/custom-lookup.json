@@ -1,0 +1,9 @@
+{
+  "omg-i-pass": {
+    "npm": true
+  },
+  "omg-i-pass-too": {
+    "prefix": "v",
+    "stripAnsi": true
+  }
+}

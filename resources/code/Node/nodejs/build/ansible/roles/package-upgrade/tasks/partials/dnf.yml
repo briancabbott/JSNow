@@ -1,0 +1,11 @@
+---
+
+#
+# Updates all packages for fedora-based distributions
+#
+
+  - name: upgrade installed packages
+    ansible.builtin.dnf:
+      name: "*"
+      state: latest
+    notify: package updated

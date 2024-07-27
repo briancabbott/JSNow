@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/email undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/email",
+    "repo": "https://github.com/nodejs/email",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/email",
+    "startTime": "2024-07-18T19:12:31.152Z",
+    "endTime": "2024-07-18T19:12:32.840Z",
+    "childProcessPid": 29015,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--email--29015",
+    "executionErrors": []
+}

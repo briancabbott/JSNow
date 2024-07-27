@@ -1,0 +1,72 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "The website build for iojs.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodejs/website.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nodejs/website/issues"
+  },
+  "scripts": {
+    "gulp": "./node_modules/gulp/bin/gulp.js"
+  },
+  "homepage": "https://github.com/nodejs/website",
+  "contributors": [
+    {
+      "name": "Trent Oswald",
+      "github": "therebelrobot",
+      "email": "trentoswald@therebelrobot.com"
+    },
+    {
+      "name": "Mikeal Rogers",
+      "github": "mikeal"
+    },
+    {
+      "name": "Jeremiah Senkpiel",
+      "github": "Fishrock123"
+    },
+    {
+      "name": "Charlie Robbins",
+      "github": "indexzero"
+    },
+    {
+      "name": "Sean Ouimet",
+      "github": "snostorm"
+    },
+    {
+      "name": "Zeke Sikelianos",
+      "github": "zeke"
+    }
+  ],
+  "dependencies": {
+    "autoprefixer-core": "^5.1.5",
+    "csswring": "^3.0.0",
+    "del": "^1.1.1",
+    "express": "^4.11.2",
+    "gulp": "^3.8.10",
+    "gulp-changed": "^1.1.0",
+    "gulp-clone": "^1.0.0",
+    "gulp-compile-handlebars": "^0.4.4",
+    "gulp-connect": "^2.2.0",
+    "gulp-htmlmin": "^1.1.1",
+    "gulp-imagemin": "^2.1.0",
+    "gulp-markdown": "^1.0.0",
+    "gulp-postcss": "^4.0.2",
+    "gulp-rename": "^1.2.0",
+    "gulp-size": "^1.2.1",
+    "gulp-stylus": "^2.0.0",
+    "handlebars": "^3.0.0",
+    "lodash": "^2.4.1",
+    "markdown-it": "^3.0.4",
+    "merge-stream": "^0.1.7",
+    "moment-timezone": "^0.3.0",
+    "request": "^2.53.0",
+    "require-dir": "^0.1.0",
+    "run-sequence": "^1.0.2",
+    "through2": "^0.6.3",
+    "vinyl-buffer": "^1.0.0"
+  }
+}

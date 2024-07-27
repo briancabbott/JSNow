@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/enterprise-advisory-group undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/enterprise-advisory-group",
+    "repo": "https://github.com/nodejs/enterprise-advisory-group",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/enterprise-advisory-group",
+    "startTime": "2024-07-18T19:12:32.841Z",
+    "endTime": "2024-07-18T19:12:34.475Z",
+    "childProcessPid": 29037,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--enterprise-advisory-group--29037",
+    "executionErrors": []
+}

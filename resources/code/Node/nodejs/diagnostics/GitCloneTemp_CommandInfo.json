@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/diagnostics undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/diagnostics",
+    "repo": "https://github.com/nodejs/diagnostics",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/diagnostics",
+    "startTime": "2024-07-18T19:03:18.575Z",
+    "endTime": "2024-07-18T19:03:21.438Z",
+    "childProcessPid": 27977,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--diagnostics--27977",
+    "executionErrors": []
+}

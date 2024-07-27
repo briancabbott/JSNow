@@ -1,0 +1,154 @@
+---
+
+#
+# variables shared in baselayout
+#
+
+git_no_binpkg: [ ]
+git_version: 2.10.2
+
+ssh_config: /etc/ssh/sshd_config
+
+sshd_service_map: {
+  'smartos21': 'ssh',
+  'smartos23': 'ssh',
+}
+
+sshd_service_name: "{{ sshd_service_map[os]|default(sshd_service_map[os|stripversion])|default('sshd') }}"
+
+ntp_service: {
+  chrony: ['rhel8', 'rhel9', 'debian11'],
+  systemd: ['debian8', 'debian10', 'debian12', 'ubuntu']
+}
+
+common_packages: [
+  'automake,bash,libtool',
+]
+
+# You can either add os family or os to this list (see smartos)
+# but the playbook chooses os over family - not both.
+#
+# To determine the value of `os` or of `arch` for a specific HOST, use ansible:
+# % ansible -m debug -a "var=arch"  HOST
+# % ansible -m debug -a "var=os"  HOST
+packages: {
+  # centos-release-scl is required to enable SCLo but we do it manually in
+  # partials/repo/centos7.yml for arm64
+  centos7_arm64: [
+    'git,python3', # git2u not available for aarch64 (yet)
+  ],
+  centos7_x64: ['devtoolset-6-libatomic-devel,git222,centos-release-scl,python3'],
+  centos7_ppc64: ['cmake3,glib2-devel,git,python3'],
+
+  centos7: [
+    'bzip2-devel,openssl-devel,ccache,gcc-c++,sudo,zlib-devel,libffi-devel,devtoolset-8,devtoolset-8-libatomic-devel',
+  ],
+
+  aix: [
+    'bash,cmake,coreutils,curl,gcc-c++,tar,unzip,git,make,sudo,python-setuptools,python3.9',
+  ],
+
+  aix72: [
+    'gcc8-c++,gcc10-c++,gcc12-c++'
+  ],
+
+  aix73: [
+    'gcc8-c++,gcc10-c++,gcc12-c++'
+  ],
+
+  ibmi: [
+    'autoconf,automake,ca-certificates-mozilla,tar-gnu,gzip,ccache,cmake,coreutils-gnu,gcc10,gcc10-cplusplus,gcc10-cpp,git,libstdcplusplus6-10-devel,m4-gnu,openssl-devel,python2-setuptools,python3,python3-pip,python39,python39-pip,python39-setuptools,sed-gnu,zlib-devel,icu-devel,c-ares-devel,brotli-devel,grep-gnu,pkg-config,xz',
+  ],
+
+  debian8: [
+    'ccache,git,gcc-4.9,g++-4.9,libfontconfig1,binutils-2.26,sudo',
+  ],
+
+  debian10: [
+    'gcc-8,g++-8,ccache,git,curl,libfontconfig1,apt-transport-https,ca-certificates,sudo,python3-pip',
+  ],
+
+  debian11: [
+    'gcc-10,g++-10,ccache,git,curl,libfontconfig1,apt-transport-https,ca-certificates,sudo,python3-pip',
+  ],
+
+  debian12: [
+    'systemd-timesyncd,gcc,g++,gcc-11,g++-11,make,ccache,git,curl,libfontconfig1,apt-transport-https,ca-certificates,sudo,python3-venv',
+  ],
+
+  fedora: [
+    'bzip2,ccache,gcc-c++,git,fontconfig,sudo,make,python3-pip',
+  ],
+
+  freebsd: [
+    'ccache,git,gmake,sudo,python2,python3'
+  ],
+
+  'macos10.15': [
+    'cmake,python,ccache'
+  ],
+
+  'macos10.16': [
+    'cmake,python,ccache'
+  ],
+
+  'macos11.0': [
+    'cmake,python,ccache'
+  ],
+
+  'macos11': [
+    'cmake,python,ccache'
+  ],
+
+  rhel7: [
+    'cmake,devtoolset-6,devtoolset-6-libatomic-devel,devtoolset-8,devtoolset-8-libatomic-devel,devtoolset-10,devtoolset-11,gcc-c++,sudo,git,make,zip,unzip,iptables-services,openssl-devel,python3',
+  ],
+
+  rhel8: [
+    'ccache,cmake,gcc-c++,gcc-toolset-10,gcc-toolset-10-libatomic-devel,gcc-toolset-11,gcc-toolset-12,gcc-toolset-12-libatomic-devel,gcc-toolset-13,gcc-toolset-13-libatomic-devel,git,make,python3',
+  ],
+
+  rhel9: [
+    'ccache,cmake,gcc-c++,gcc-toolset-12,gcc-toolset-12-libatomic-devel,gcc-toolset-13,gcc-toolset-13-libatomic-devel,git,make,python3',
+  ],
+
+  smartos: [
+    'gccmakedep',
+    'git',
+    'gmake',
+    'xz',
+    'sudo',
+  ],
+
+  smartos21: [
+    'gcc10',
+    'ccache',
+    'py310-pip'
+  ],
+
+  smartos23: [
+    'gcc13',
+    'ccache',
+    'python310',
+    'py310-pip'
+  ],
+
+  ubuntu: [
+    'acl,ccache,curl,git,libfontconfig1,sudo,python3-pip',
+  ],
+
+  # Default gcc/g++ package is 5.
+  ubuntu1604: [
+    'gcc-8,g++-8,gcc-6,g++-6,python3.9,python3.9-distutils',
+  ],
+
+  # Default gcc/g++ package is 7.
+  ubuntu1804: [
+    'gcc-6,g++-6,gcc-8,g++-8,python3.8',
+  ],  
+
+  # Default gcc/g++ package is 11.
+  ubuntu2204: [
+    'gcc,g++,python3,python-is-python3',
+  ],
+}

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="image/x-icon" rel="icon" href="../favicon.ico">
+    <link type="image/x-icon" rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="/pipe.css">
+    <link rel="stylesheet" href="/sh_vim-dark.css">
+    <link rel="stylesheet" href="/lfcollab.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//use.typekit.net/mse5tqx.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <link rel="alternate"
+          type="application/rss+xml"
+          title="node blog"
+          href="http://feeds.feedburner.com/nodejs/123123123">
+    <title>__TITLE__ | Node.js</title>
+  </head>
+
+  <body class="int alt" id="docs">
+
+    <div id="lfcollabprojects-header">
+      <div class="gray-diagonal">
+        <div class="header-inner">
+          <a id="lfcollabprojects-logo" href="http://collabprojects.linuxfoundation.org">Linux Foundation Collaborative Projects</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="nav">
+      <img id="logo" src="/images/logo.svg" alt="node.js">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/download/">Downloads</a></li>
+        <li><a href="/documentation/">Docs</a></li>
+        <li><a href="/contribute/">Contribute</a></li>
+        <li><a href="/foundation/">Foundation</a></li>
+        <li><a href="/community/">Community</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="http://jobs.nodejs.org">Jobs</a></li>
+        <li><a href="http://blog.nodejs.org">Blog</a></li>
+      </ul>
+    </div>
+
+    <div id="content-wrap">
+    <div id="content" class="clearfix">
+      <div id="column2" class="interior">
+        <!--<img src="/images/logo-light.svg" alt="node.js" width="170">-->
+        <ul class="docs-nav">
+          <li><a href="/contribute/">Contributing</a></li>
+          <li><a href="/contribute/code_contributions/">Code contributions</a></li>
+          <li><a href="/contribute/accepting_contributions.html">Accepting contributions</a></li>
+          <li><a href="/contribute/becoming_collaborator.html">Becoming a collaborator</a></li>
+        </ul>
+      </div>
+      <div id="column1" class="interior">
+        __CONTENT__
+      </div>
+    </div>
+    </div>
+
+    <div id="footer">
+      <div class="foot-1">
+        <div class="foot-nav">
+          <ul>
+            <li><a href="http://nodejs.org/download/">Downloads</a></li>
+          </ul>
+          <ul>
+            <li><a href="http://nodejs.org/documentation/">Documentation</a></li>
+            <li><a href="http://nodejs.org/api/">API Docs</a></li>
+            <li><a href="http://nodejs.org/documentation/tutorials/">Tutorials</a></li>
+            <li><a href="http://nodejs.org/documentation/localization/">Localization</a></li>
+          </ul>
+          <ul>
+            <li><a href="http://nodejs.org/contribute/">Contribute</a></li>
+            <li><a href="http://nodejs.org/contribute/code_contributions/">Code contributions</a></li>
+            <li><a href="http://nodejs.org/contribute/accepting_contributions.html">Accepting contributions</a></li>
+            <li><a href="http://nodejs.org/contribute/becoming_collaborator.html">Becoming a collaborator</a></li>
+          </ul>
+          <ul>
+            <li><a href="http://nodejs.org/foundation/">Foundation</a></li>
+            <li><a href="http://nodejs.org/foundation/members.html">Members</a></li>
+            <li><a href="http://nodejs.org/foundation/blog.html">Blog</a></li>
+          </ul>
+          <ul>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="https://github.com/joyent/node/issues">Github Issues</a></li>
+            <li><a href="http://groups.google.com/group/nodejs">Mailing List</a></li>
+            <li><a href="http://webchat.freenode.net/?channels=node.js">IRC</a></li>
+            <li><a href="https://twitter.com/nodejs">Twitter</a></li>
+          </ul>
+          <ul>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://nodejs.org/about/organization/">Organization</a></li>
+            <li><a href="http://nodejs.org/about/releases/">Releases</a></li>
+            <li><a href="http://nodejs.org/about/resources/">Resources</a></li>
+          </ul>
+          <ul>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="lfcollabprojects-footer">
+      <div class="gray-diagonal">
+        <div class="footer-inner">
+          <p>&copy; 2015 Node.js Foundation. All Rights Reserved. Portions of
+          this site originally &copy; 2015 Joyent. </p>
+          <p>Linux Foundation is a registered trademark of The Linux Foundation.</p>
+          <p>Node.js is a trademark of Joyent, Inc. and is used with its permission. Please review the Trademark Guidelines of the Node.js Foundation <a href="/images/trademark-policy.pdf">here</a>.</p>
+          <p>Linux is a registered <a href="http://www.linuxfoundation.org/programs/legal/trademark" title="Linux Mark Institute">trademark</a> of Linus Torvalds.</p>
+          <p>
+             <a href="https://raw.github.com/joyent/node/master/LICENSE">Node.js Project Licensing Information</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="/sh_main.js"></script>
+    <script src="/sh_javascript.min.js"></script>
+    <script>if (window.highlight) { highlight(undefined, undefined, 'pre'); }</script>
+
+    <script>
+      $(document).ready(function() {
+        $('#nav a[href^="/' + location.pathname.split("/")[1] + '"]').parent().closest('li').addClass('active');
+        $('.docs-nav a').each(function() {
+          if ($(this).attr("href") == window.location.pathname) {
+            $(this).parent().closest('li').addClass('active');
+          }
+        });
+      });
+    </script>
+    <script src="/tracking.js"></script>
+    <script src="/main.js"></script>
+  </body>
+</html>

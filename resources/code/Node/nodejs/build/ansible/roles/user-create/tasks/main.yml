@@ -1,0 +1,81 @@
+---
+
+#
+# Create the user and dirs needed for ci
+#
+
+- name: create group
+  when: not os|startswith("zos") and not os|startswith("ibmi")
+  group: name="{{ server_user }}"
+
+- name: create user
+  when: "not os|startswith('zos') and not os|startswith('ibmi')"
+  user:
+    name: "{{ server_user }}"
+    group: "{{ server_user }}"
+    shell: "{{ bash_path[os|stripversion]|default('/bin/bash') }}"
+
+- name: create group for ibmi
+  when: os|startswith("ibmi")
+  command: "/QOpenSys/usr/bin/system 'CRTUSRPRF USRPRF(GRP) GID(*GEN)'"
+  args:
+    creates: "/QSYS.LIB/GRP.USRPRF"
+
+- name: create user for ibmi
+  when: os|startswith("ibmi")
+  command: "/QOpenSys/usr/bin/system 'CRTUSRPRF USRPRF({{ server_user }}) PASSWORD(*none)'"
+  args:
+    creates: "/QSYS.LIB/IOJS.USRPRF"
+
+- name: add user to the group
+  when: os|startswith("ibmi")
+  command: "/QOpenSys/usr/bin/system 'CHGUSRPRF USRPRF({{ server_user }}) GRPPRF(GRP)'"
+
+- name: setup user home directory for ibmi
+  when: os|startswith("ibmi")
+  file:
+    path: "{{ home }}/{{ server_user|upper }}"
+    state: directory
+    owner: "{{ server_user }}"
+    mode: 0755
+    recurse: yes
+
+- name: set ulimits for AIX
+  changed_when: False
+  command: chsec -f /etc/security/limits -s {{ server_user }} -a {{ item }}
+  when: os|startswith("aix")
+  with_items:
+  - "data=-1"
+  - "fsize=-1"
+  - "nofiles=-1"
+
+- name: create NODE_TEST_DIR directory
+  file: path="{{ home }}/{{ server_user }}/tmp" state=directory
+
+- name: set NODE_TEST_DIR permission and owner
+  when:
+    - not os|startswith("ibmi")
+    - not os|startswith("zos")
+  file:
+    path: "{{ home }}/{{ server_user }}/tmp"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: 0755
+
+# group has very different meaning on IBMi, only set to the build user
+- name: set NODE_TEST_DIR permission and owner IBMi
+  when: os|startswith("ibmi")
+  file:
+    path: "{{ home }}/{{ server_user }}/tmp"
+    owner: "{{ server_user }}"
+    mode: 0755
+
+# We need the dirs to be made for V8 before calling the role
+- name: make v8 tool dir 
+  when: build_test_v8|default(False)
+  file: 
+    path: "/home/{{ server_user }}/build-tools"
+    state: directory
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: 0755

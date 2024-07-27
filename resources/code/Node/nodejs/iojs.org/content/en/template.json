@@ -1,0 +1,61 @@
+{
+  "browser-title": "io.js - JavaScript I/O",
+  "contribute-message": "See something you like? Want to help? Visit https://github.com/nodejs/website to contribute",
+  "heading-languages": "Languages",
+  "logo-text": "io.js",
+  "roadmap-url": "http://roadmap.iojs.org",
+  "roadmap-link": "Roadmap",
+  "faq-link": "FAQ",
+  "es6-link": "ES6",
+  "api-link": "API Docs",
+  "issues-link": "GitHub Issues",
+  "org-link": "GitHub Org",
+  "irc-link": "IRC Chat",
+  "irc-logs-link": "Logs",
+  "gov-link": "Governance",
+  "downloads": {
+    "linux": "Linux",
+    "win32": "Win32",
+    "win64": "Win64",
+    "mac": "Mac",
+    "all": "Other Downloads"
+  },
+  "verbose_version": "Version {{project.current_version}}",
+  "home": {
+    "download_button": "Download",
+    "download_for": "Download for",
+    "download_links": "Download for {{> current_download_links}}",
+    "faq_verbose": "{{link 'pages.faq_verbose'}}",
+    "nightly_releases": "{{link 'Nightly releases' 'https://iojs.org/download/nightly/'}} are available for testing,<br> also {{link 'nightlies for the next major version' 'https://iojs.org/download/next-nightly/'}} of io.js.",
+    "short_description": "{{link 'website'}} is an {{link 'npm'}} compatible platform originally based on {{link 'nodejs'}}.",
+    "slogan": "Bringing {{link 'pages.es6'}} to the Node Community!",
+    "news_link": "{{link 'Weekly Update – September 18th' 'https://medium.com/node-js-javascript/node-js-news-september-18th-c879f372abd7'}}<br><small>featuring core and community updates ({{link 'News Archive on Medium' 'https://medium.com/@iojs/latest'}})</small>"
+  },
+  "releases": {
+    "title": "io.js Release History",
+    "downloads": "Downloads"
+  },
+  "links": {
+    "nodejs": "Node.js™",
+    "npm": "npm",
+    "website": "io.js",
+    "pages": {
+      "changelog": "Changelog",
+      "releases": "Releases",
+      "home": "Home",
+      "es6": "ES6",
+      "faq": "FAQ",
+      "faq_verbose": "Frequently Asked Questions"
+    },
+    "rss": [
+      {
+        "title": "Weekly Updates (Medium)",
+        "url": "https://medium.com/feed/@iojs"
+      }
+    ]
+  },
+  "deprecation": {
+    "title": "io.js has merged with the Node.js project again.",
+    "content": "There won't be any further io.js releases. All of the features in io.js are available in Node.js v4 and above.<br>{{link 'Visit nodejs.org' 'https://nodejs.org'}} {{link 'Download latest Node.js version' 'https://nodejs.org/en/download/'}}"
+  }
+}

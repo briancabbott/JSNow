@@ -1,0 +1,21 @@
+server {
+    listen *:80;
+    listen [::]:80;
+    server_name benchmarking.nodejs.org;
+
+    # Benchmark Website is deprecated we redirect to nodejs.org now
+    return 301 https://nodejs.org;
+}
+
+server {
+    listen [::]:443 ssl http2;
+    listen *:443 ssl http2;
+    server_name benchmarking.nodejs.org;
+
+    ssl_certificate ssl/nodejs_chained.crt;
+    ssl_certificate_key ssl/nodejs.key;
+    ssl_trusted_certificate ssl/nodejs_chained.crt;
+
+    # Benchmark Website is deprecated we redirect to nodejs.org now
+    return 301 https://nodejs.org;
+}

@@ -1,0 +1,48 @@
+{
+  "name": "llparse-test-fixture",
+  "version": "5.0.2",
+  "description": "A test fixture for llparse (and llparse-based modules)",
+  "main": "lib/fixture.js",
+  "types": "lib/fixture.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf lib",
+    "prepare": "npm run clean && npm run build",
+    "lint": "tslint -c tslint.json src/**/*.ts test/**/*.ts",
+    "mocha": "mocha -r ts-node/register/type-check --reporter spec test/*-test.ts",
+    "test": "npm run mocha && npm run lint"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/indutny/llparse-test-fixture.git"
+  },
+  "keywords": [
+    "llparse",
+    "test",
+    "fixture"
+  ],
+  "author": "Fedor Indutny <fedor@indutny.com> (http://darksi.de/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/indutny/llparse-test-fixture/issues"
+  },
+  "homepage": "https://github.com/indutny/llparse-test-fixture#readme",
+  "devDependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^10.17.27",
+    "mocha": "^7.1.1",
+    "ts-node": "^8.8.1",
+    "tslint": "^5.20.1",
+    "typescript": "^3.9.6"
+  },
+  "dependencies": {
+    "esm": "^3.2.25",
+    "llparse": "^7.0.0",
+    "yargs": "^15.4.1"
+  }
+}

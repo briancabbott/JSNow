@@ -1,0 +1,7 @@
+node_modules/
+test/scaffold/*/node_modules
+test/.*
+coverage/
+/.tap
+.nyc_output/
+.eslintcache

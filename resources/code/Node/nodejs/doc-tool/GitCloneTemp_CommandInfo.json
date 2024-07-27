@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/doc-tool undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/doc-tool",
+    "repo": "https://github.com/nodejs/doc-tool",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/doc-tool",
+    "startTime": "2024-07-18T19:03:21.439Z",
+    "endTime": "2024-07-18T19:03:22.405Z",
+    "childProcessPid": 27999,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--doc-tool--27999",
+    "executionErrors": []
+}

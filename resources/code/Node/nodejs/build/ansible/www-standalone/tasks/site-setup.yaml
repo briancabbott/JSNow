@@ -1,0 +1,74 @@
+- name: Site Setup | Make /home/www
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: nodejs
+  with_items:
+    - /home/www
+    - /home/www/iojs
+    - /home/www/nodejs
+    - /home/www/coverage
+  tags: setup
+
+- name: Site Setup | Make /home/nodejs/.ssh
+  file:
+    path: /home/nodejs/.ssh
+    state: directory
+    mode: 0700
+    owner: nodejs
+  tags: setup
+
+- name: Site Setup | Copy benchmark_id_rsa key
+  copy:
+    src: ./resources/secrets/benchmark_id_rsa.key
+    dest: /home/nodejs/.ssh/benchmark_id_rsa
+    mode: 0600
+    owner: nodejs
+    group: nodejs
+  tags: setup
+
+- name: Site Setup | Copy nodejs SSH config
+  template:
+    src: ./resources/config/nodejs_ssh_config.j2
+    dest: /home/nodejs/.ssh/config
+    mode: 0600
+    owner: nodejs
+    group: nodejs
+  tags: setup
+
+- name: Site Setup | Copy cdn-purge.sh script
+  template:
+    src: ./resources/scripts/cdn-purge.sh.j2
+    dest: /home/nodejs/cdn-purge.sh
+    mode: 0700
+    owner: root
+    group: root
+  tags: setup
+
+- name: Site Setup | Copy queue-cdn-purge.sh script
+  copy:
+    src: ./resources/scripts/queue-cdn-purge.sh
+    dest: /home/nodejs/queue-cdn-purge.sh
+    mode: 0755
+    owner: root
+    group: root
+  tags: setup
+
+- name: Site Setup | Add periodic tasks to crontab
+  lineinfile:
+    dest: /etc/crontab
+    line: "{{ item }}"
+  with_items:
+    - "*/30 *    * * *   dist    /home/staging/tools/promote/promote_nightly.sh nodejs"
+    - "*/5  *    * * *   root    /home/nodejs/cdn-purge.sh"
+  tags: setup
+
+- name: Site Setup | Add dist-perms script in cron.daily
+  copy:
+    src: ./resources/scripts/dist-perms
+    dest: /etc/cron.daily/dist-perms
+    mode: 0755
+    owner: root
+    group: root
+  tags: setup

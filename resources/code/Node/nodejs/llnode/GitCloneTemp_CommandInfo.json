@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/llnode undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/llnode",
+    "repo": "https://github.com/nodejs/llnode",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/llnode",
+    "startTime": "2024-07-18T19:25:14.373Z",
+    "endTime": "2024-07-18T19:25:18.444Z",
+    "childProcessPid": 30297,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--llnode--30297",
+    "executionErrors": []
+}

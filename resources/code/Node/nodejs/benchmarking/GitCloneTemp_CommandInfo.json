@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/benchmarking undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/benchmarking",
+    "repo": "https://github.com/nodejs/benchmarking",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/benchmarking",
+    "startTime": "2024-07-18T18:58:07.104Z",
+    "endTime": "2024-07-18T18:58:15.327Z",
+    "childProcessPid": 27356,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--benchmarking--27356",
+    "executionErrors": []
+}

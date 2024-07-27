@@ -1,0 +1,16 @@
+---
+base_packages:
+  - aptitude
+  - python3-apt
+  - systemd-timesyncd
+
+packages:
+  - nodejs
+  - git
+
+required_directories:
+  - bin
+  - config
+  - environment
+  - logs
+  - repos

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/commit-queue undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/commit-queue",
+    "repo": "https://github.com/nodejs/commit-queue",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/commit-queue",
+    "startTime": "2024-07-18T18:59:00.158Z",
+    "endTime": "2024-07-18T18:59:01.297Z",
+    "childProcessPid": 27730,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--commit-queue--27730",
+    "executionErrors": []
+}

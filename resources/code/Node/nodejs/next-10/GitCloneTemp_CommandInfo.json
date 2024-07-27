@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/next-10 undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/next-10",
+    "repo": "https://github.com/nodejs/next-10",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/next-10",
+    "startTime": "2024-07-18T19:25:40.229Z",
+    "endTime": "2024-07-18T19:25:44.055Z",
+    "childProcessPid": 30764,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--next-10--30764",
+    "executionErrors": []
+}

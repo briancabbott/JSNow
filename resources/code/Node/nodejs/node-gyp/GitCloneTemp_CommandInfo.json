@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/node-gyp undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/node-gyp",
+    "repo": "https://github.com/nodejs/node-gyp",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/node-gyp",
+    "startTime": "2024-07-18T19:26:00.519Z",
+    "endTime": "2024-07-18T19:26:03.731Z",
+    "childProcessPid": 31346,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--node-gyp--31346",
+    "executionErrors": []
+}

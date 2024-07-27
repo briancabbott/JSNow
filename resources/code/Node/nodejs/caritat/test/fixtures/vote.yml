@@ -1,0 +1,35 @@
+subject: "test"
+
+candidates:
+  - >
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  - Bob
+
+allowedVoters:
+  - Riri
+  - Fifi
+  - Loulou
+
+method: "Condorcet"
+
+publicKey: |
+  -----BEGIN PUBLIC KEY-----
+  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvWVBfdEOFvziLTsu+4Oj
+  JgHS0Ybvx0gkbkvRDIkuase4hBd9maauFnSuORwIrPspNwKOE0Yei3mZGpMl53X0
+  +wDvATNq+ivg16XI8FUFFmoYz2pouxYokm7GSaXmKDv4M9lEFYYunNpb/1ppN3LP
+  h4Pu2l+OZgkSTJtvdFS06MUWQ/eElQwh27GZGGO+nBZ+0pksmKZX479sN6/4XjUd
+  syT6JefIYoCiaPaZGT+jfPlWR7ShlzJ6Wi9aZXaFmga+hfDAHrXoXMoHrfpPOqFh
+  tKXyqrkZMskrfuAGsW6Au0pH9APpIo6auADCy2+YuKrk7T4Pb+H3zWO0XMoQEHnu
+  TwIDAQAB
+  -----END PUBLIC KEY-----
+
+encryptedPrivateKey: "riozuh"
+
+headerInstructions: |
+  Please don't cheat guys
+  this vote is important
+
+footerInstructions: "Thank you"

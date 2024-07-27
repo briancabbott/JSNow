@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/full-icu-npm undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/full-icu-npm",
+    "repo": "https://github.com/nodejs/full-icu-npm",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/full-icu-npm",
+    "startTime": "2024-07-18T19:18:18.366Z",
+    "endTime": "2024-07-18T19:18:19.010Z",
+    "childProcessPid": 29684,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--full-icu-npm--29684",
+    "executionErrors": []
+}

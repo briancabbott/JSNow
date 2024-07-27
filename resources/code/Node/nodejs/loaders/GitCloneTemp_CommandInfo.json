@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/loaders undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/loaders",
+    "repo": "https://github.com/nodejs/loaders",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/loaders",
+    "startTime": "2024-07-18T19:25:21.406Z",
+    "endTime": "2024-07-18T19:25:22.369Z",
+    "childProcessPid": 30363,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--loaders--30363",
+    "executionErrors": []
+}

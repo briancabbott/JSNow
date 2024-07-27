@@ -1,0 +1,16 @@
+{
+  "name": "commonjs-extension-resolution-loader",
+  "version": "0.1.0",
+  "description": "Node.js loader for CommonJS-style automatic extension resolution within ES module files",
+  "type": "module",
+  "main": "./loader.js",
+  "scripts": {
+    "start": "npm test",
+    "test": "node test/basic.js && node test/test-esm-specifiers.js && node test/test-esm-specifiers-symlink.js"
+  },
+  "author": "Geoffrey Booth <webadmin@geoffreybooth.com>",
+  "license": "MIT",
+  "dependencies": {
+    "resolve": "^1.22.1"
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "name": "citgm",
+  "version": "9.2.2",
+  "description": "The Canary in the Goldmine",
+  "homepage": "https://nodejs.org",
+  "preferGlobal": true,
+  "type": "module",
+  "exports": false,
+  "bin": {
+    "citgm": "bin/citgm.js",
+    "citgm-all": "bin/citgm-all.js"
+  },
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "scripts": {
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "eslint . --cache",
+    "lint:eslint:fix": "npm run eslint -- --fix",
+    "lint:prettier": "prettier --check .",
+    "lint:prettier:fix": "prettier --write .",
+    "tap": "tap run \"test/**/test-*.js\"",
+    "test": "npm run lint && npm run tap"
+  },
+  "author": "James M Snell <jasnell@gmail.com> (http://jasnell.me)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodejs/citgm"
+  },
+  "bugs": {
+    "url": "https://github.com/nodejs/citgm/issues",
+    "email": "jasnell@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "async": "^3.2.5",
+    "bl": "^6.0.14",
+    "chalk": "^5.3.0",
+    "columnify": "^1.6.0",
+    "execa": "^9.3.0",
+    "lodash": "^4.17.21",
+    "normalize-git-url": "^3.0.2",
+    "npm-package-arg": "^11.0.2",
+    "npm-which": "^3.0.1",
+    "pnpm": "^9.5.0",
+    "read-package-json": "^7.0.0",
+    "root-check": "^2.0.0",
+    "semver": "^7.6.3",
+    "strip-ansi": "^7.1.0",
+    "supports-color": "^9.4.0",
+    "tar": "^7.4.0",
+    "uid-number": "0.0.6",
+    "undici": "^6.19.2",
+    "which": "^4.0.0",
+    "winston": "^3.13.1",
+    "xml-sanitizer": "^2.0.1",
+    "xmlbuilder": "^15.1.1",
+    "yargs": "^17.7.2",
+    "yarn": "^1.22.22"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.7.0",
+    "ansi-regex": "^6.0.1",
+    "eslint": "^9.7.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.8.0",
+    "prettier": "^3.3.3",
+    "string-to-stream": "^3.0.1",
+    "tap": "^20.0.3",
+    "tap-parser": "^17.0.0",
+    "xml2js": "^0.6.2"
+  },
+  "prettier": {
+    "proseWrap": "always",
+    "singleQuote": true,
+    "trailingComma": "none",
+    "overrides": [
+      {
+        "files": "LICENSE.md",
+        "options": {
+          "proseWrap": "never"
+        }
+      }
+    ]
+  },
+  "tap": {
+    "timeout": 480,
+    "allow-incomplete-coverage": true
+  },
+  "engines": {
+    "node": "18.x || 20.x || 21.x || 22.x"
+  }
+}

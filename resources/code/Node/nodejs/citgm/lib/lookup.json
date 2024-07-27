@@ -1,0 +1,472 @@
+{
+  "@babel/core": {
+    "maintainers": ["nicolo-ribaudo", "JLHwung", "liuxingbaoyu"],
+    "prefix": "v",
+    "yarn": true,
+    "scripts": ["build", "test-only"],
+    "skip": ["aix", "ppc", "s390", "win32"]
+  },
+  "@clinic/bubbleprof": {
+    "maintainers": ["mcollina", "rafaelgss"],
+    "prefix": "v",
+    "flaky": true
+  },
+  "@clinic/doctor": {
+    "maintainers": ["mcollina", "rafaelgss"],
+    "prefix": "v",
+    "flaky": true
+  },
+  "@clinic/flame": {
+    "maintainers": ["mcollina", "rafaelgss"],
+    "prefix": "v",
+    "flaky": true
+  },
+  "@hapi/shot": {
+    "maintainers": "cjihrig",
+    "prefix": "v"
+  },
+  "@yarnpkg/cli": {
+    "envVar": { "TEST_IGNORE_TIMEOUT_FAILURES": true },
+    "install": ["install", "--mode", "skip-build"],
+    "maintainers": ["arcanis", "merceyz", "paul-soporan", "larixer"],
+    "head": true,
+    "repo": "https://github.com/yarnpkg/berry",
+    "scripts": [
+      "build:cli --no-minify",
+      "typecheck:all",
+      "test:lint",
+      "test:unit --testPathIgnorePatterns ./packages/plugin-patch/tests/diffFolders.test.ts",
+      "test:integration sources/basic.test sources/pnp.test sources/pnp-esm.test sources/require.test sources/https.test sources/exports.test sources/commands/add.test"
+    ],
+    "skip": ["aix", "win32"],
+    "timeout": 3000000,
+    "yarn": true
+  },
+  "JSONStream": {
+    "prefix": "v",
+    "skip": "win32",
+    "maintainers": "dominictarr"
+  },
+  "ava": {
+    "prefix": "v",
+    "skip": ["ppc", "win32", "x86", "rhel", "aix", "ia32"],
+    "maintainers": ["sindresorhus", "novemberborn"],
+    "timeout": 600000
+  },
+  "bcrypt": {
+    "prefix": "v",
+    "tags": "native",
+    "maintainers": "ncb000gt"
+  },
+  "binary-split": {
+    "prefix": "v",
+    "flaky": "win32",
+    "maintainers": ["maxogden", "mourner"]
+  },
+  "bl": {
+    "prefix": "v",
+    "stripAnsi": true,
+    "expectFail": "fips",
+    "maintainers": "rvagg"
+  },
+  "blake2b-wasm": {
+    "maintainers": ["mafintosh", "addaleax"],
+    "prefix": "v",
+    "skip": ["win32", "aix"]
+  },
+  "body-parser": {
+    "flaky": "aix",
+    "maintainers": "dougwilson"
+  },
+  "browserify": {
+    "expectFail": "fips",
+    "maintainers": "substack"
+  },
+  "bufferutil": {
+    "prefix": "v",
+    "tags": "native",
+    "maintainers": ["3rdeden", "einaros", "lpinca"]
+  },
+  "cheerio": {
+    "skip": ["aix", "win32"],
+    "head": true,
+    "useGitClone": true,
+    "maintainers": ["matthewmueller", "jugglinmike"],
+    "scripts": ["test:jest"]
+  },
+  "clinic": {
+    "maintainers": "mcollina",
+    "flaky": ["rhel"],
+    "prefix": "v",
+    "skip": ["aix", "darwin", "win32"]
+  },
+  "coffeescript": {
+    "maintainers": ["jashkenas", "GeoffreyBooth"],
+    "skip": ["rhel", "aix"]
+  },
+  "commander": {
+    "prefix": "v",
+    "maintainers": ["shadowspawn", "abetomo"],
+    "skip": ["aix"]
+  },
+  "crc32-stream": {
+    "maintainers": "ctalkington",
+    "skip": "win32"
+  },
+  "csv-parser": {
+    "head": true,
+    "flaky": "win32",
+    "maintainers": "mafintosh"
+  },
+  "debug": {
+    "maintainers": ["qix", "tootallnate"],
+    "skip": [true, "aix", "ppc", "s390", "win32"],
+    "scripts": ["test:node", "lint"]
+  },
+  "dicer": {
+    "head": true,
+    "maintainers": "mscdex"
+  },
+  "duplexer2": {
+    "prefix": "v",
+    "maintainers": ["shinn", "deoxxa"]
+  },
+  "duplexify": {
+    "prefix": "v",
+    "maintainers": "mafintosh"
+  },
+  "ember-cli": {
+    "envVar": { "YARN_IGNORE_ENGINES": "true" },
+    "prefix": "v",
+    "skip": [">=21"],
+    "flaky": ["win32", "rhel", "sles"],
+    "head": true,
+    "expectFail": "fips",
+    "maintainers": ["stefanpenner", "rwjblue", "Turbo87", "kellyselden"]
+  },
+  "end-of-stream": {
+    "prefix": "v",
+    "maintainers": "mafintosh",
+    "skip": "win32"
+  },
+  "eslint": {
+    "prefix": "v",
+    "flaky": ["s390", "ubuntu"],
+    "skip": true,
+    "expectFail": "fips",
+    "maintainers": ["nzakas", "mysticatea", "not-an-aardvark"],
+    "comment": "Skipped because libX11 is required for headless Chrome"
+  },
+  "esprima": {
+    "maintainers": "ariya",
+    "expectFail": "fips",
+    "skip": ["win32"]
+  },
+  "express": {
+    "maintainers": ["wesleytodd", "ulisesgascon", "sheplu"]
+  },
+  "express-session": {
+    "prefix": "v",
+    "maintainers": "dougwilson"
+  },
+  "fastify": {
+    "maintainers": ["mcollina"],
+    "prefix": "v",
+    "skip": ["s390x", "aix"],
+    "scripts": ["citgm"]
+  },
+  "flush-write-stream": {
+    "prefix": "v",
+    "maintainers": "mafintosh",
+    "skip": "win32"
+  },
+  "from2": {
+    "prefix": "v",
+    "maintainers": ["mafintosh", "hughsk"]
+  },
+  "full-icu-test": {
+    "prefix": "v",
+    "maintainers": "srl295"
+  },
+  "glob": {
+    "prefix": "v",
+    "flaky": ["win32"],
+    "expectFail": "fips",
+    "maintainers": "isaacs",
+    "skip": true
+  },
+  "got": {
+    "maintainers": ["sindresorhus"],
+    "prefix": "v",
+    "skip": true
+  },
+  "gulp": {
+    "prefix": "v",
+    "flaky": ["ppc", "rhel"],
+    "skip": ["win32", "darwin"],
+    "maintainers": "contra"
+  },
+  "gulp-util": {
+    "prefix": "v",
+    "flaky": "rhel",
+    "maintainers": "contra",
+    "skip": "win32"
+  },
+  "iconv": {
+    "prefix": "v",
+    "flaky": "aix",
+    "tags": "native",
+    "maintainers": "bnoordhuis"
+  },
+  "import-in-the-middle": {
+    "prefix": "v",
+    "skip": "win32",
+    "maintainers": ["bengl", "Qard"]
+  },
+  "inherits": {
+    "prefix": "v",
+    "head": true,
+    "maintainers": "isaacs"
+  },
+  "is-core-module": {
+    "prefix": "v",
+    "skip": "win32",
+    "maintainers": "ljharb",
+    "scripts": ["tests-only"]
+  },
+  "isarray": {
+    "prefix": "v",
+    "maintainers": "juliangruber"
+  },
+  "jest": {
+    "prefix": "v",
+    "maintainers": ["cpojer", "SimenB", "thymikee", "jeysal"],
+    "yarn": true,
+    "head": true,
+    "install": ["install", "--no-immutable"],
+    "scripts": ["build:js", "remove-examples", "test-ci-partial"],
+    "envVar": { "CI": true },
+    "skip": ["aix", "s390x", "ppc", "darwin", "win32"],
+    "timeout": 1800000
+  },
+  "jose": {
+    "maintainers": ["panva"],
+    "prefix": "v",
+    "scripts": ["test", "tap:node"],
+    "envVar": { "CITGM": true },
+    "skip": ["aix"],
+    "comment": "esbuild doesn't support aix"
+  },
+  "jquery": {
+    "skip": "win32",
+    "flaky": ["linux", "aix", "darwin"],
+    "maintainers": "jeresig",
+    "ignoreGitHead": true
+  },
+  "koa": {
+    "flaky": "ubuntu",
+    "maintainers": "tj"
+  },
+  "level": {
+    "prefix": "v",
+    "flaky": ["aix"],
+    "maintainers": ["ralphtheninja", "vweevers"],
+    "skip": ["win32", "s390"]
+  },
+  "leveldown": {
+    "head": true,
+    "useGitClone": true,
+    "skip": ["ppc", "s390"],
+    "tags": "native",
+    "maintainers": ["ralphtheninja", "vweevers"]
+  },
+  "lodash": {
+    "expectFail": "fips",
+    "maintainers": "jdalton"
+  },
+  "lru-cache": {
+    "envVar": { "TAP_TIMEOUT": "300" },
+    "prefix": "v",
+    "maintainers": "isaacs",
+    "flaky": ["win32"],
+    "skip": "aix",
+    "comment": "Marked as flaky on win32 due to this issue https://github.com/nodejs/citgm/issues/930"
+  },
+  "microtime": {
+    "prefix": "v",
+    "tags": "native",
+    "maintainers": "wadey"
+  },
+  "mime": {
+    "prefix": "v",
+    "maintainers": "broofa",
+    "skip": "win32"
+  },
+  "minimist": {
+    "npm": true,
+    "skip": "win32",
+    "maintainers": "ljharb"
+  },
+  "multer": {
+    "prefix": "v",
+    "skip": "win32",
+    "maintainers": "linusu",
+    "flaky": ["darwin"]
+  },
+  "nan": {
+    "maintainers": ["nodejs/addon-api"],
+    "prefix": "v",
+    "scripts": ["rebuild-tests", "test"],
+    "tags": "native",
+    "head": true,
+    "skip": ["win32", "aix", "s390x"],
+    "comment": "Skipped while a proper solution is found"
+  },
+  "node-gyp": {
+    "envVar": { "FAST_TEST": "true" },
+    "tags": "native",
+    "maintainers": ["nodejs/node-gyp"],
+    "skip": ["win32"],
+    "head": true
+  },
+  "path-to-regexp": {
+    "prefix": "v",
+    "maintainers": "blakeembrey",
+    "skip": ["aix"]
+  },
+  "pino": {
+    "prefix": "v",
+    "maintainers": "mcollina",
+    "skip": ["aix", "s390x"]
+  },
+  "prom-client": {
+    "prefix": "v",
+    "maintainers": ["siimon", "zbjornson", "SimenB"],
+    "head": true
+  },
+  "pumpify": {
+    "prefix": "v",
+    "maintainers": "mafintosh",
+    "skip": "win32"
+  },
+  "q": {
+    "prefix": "v",
+    "maintainers": "kriskowal",
+    "skip": ["win32", ">=21"]
+  },
+  "readable-stream": {
+    "prefix": "v",
+    "maintainers": "nodejs/streams",
+    "skip": ["win32"]
+  },
+  "resolve": {
+    "prefix": "v",
+    "maintainers": "ljharb",
+    "scripts": ["tests-only", "posttest"]
+  },
+  "rewire": {
+    "prefix": "v",
+    "maintainers": "jhnns",
+    "scripts": ["test -- --timeout 30000"]
+  },
+  "sax": {
+    "skip": "win32",
+    "prefix": "v",
+    "expectFail": "fips",
+    "maintainers": "isaacs"
+  },
+  "semver": {
+    "skip": "win32",
+    "prefix": "v",
+    "maintainers": "isaacs",
+    "expectFail": "fips",
+    "envVar": { "npm_config_ignore_scripts": "true" },
+    "comment": "postlint script fails",
+    "timeout": 300000
+  },
+  "serialport": {
+    "skip": ["ppc", "s390x"],
+    "head": true,
+    "tags": "native",
+    "maintainers": "reconbot"
+  },
+  "split2": {
+    "prefix": "v",
+    "maintainers": "mcollina",
+    "head": true
+  },
+  "sqlite3": {
+    "prefix": "v",
+    "tags": "native",
+    "flaky": "ppc",
+    "maintainers": "koistya",
+    "skip": "win32"
+  },
+  "tape": {
+    "head": true,
+    "prefix": "v",
+    "skip": "win32",
+    "scripts": ["tests-only"],
+    "maintainers": "ljharb"
+  },
+  "thread-sleep": {
+    "install": ["install", "--build-from-source"],
+    "tags": "native",
+    "maintainers": ["forbeslindesay", "timothygu"],
+    "flaky": true
+  },
+  "through2": {
+    "maintainers": "rvagg",
+    "prefix": "v",
+    "scripts": ["test:node"],
+    "skip": ["aix", "win32"],
+    "stripAnsi": true
+  },
+  "throughv": {
+    "prefix": "v",
+    "stripAnsi": true,
+    "maintainers": "mcollina"
+  },
+  "underscore": {
+    "flaky": ["aix"],
+    "skip": ["win32", "darwin"],
+    "maintainers": "jashkenas"
+  },
+  "undici": {
+    "prefix": "v",
+    "maintainers": ["mcollina", "ronag"]
+  },
+  "uuid": {
+    "prefix": "v",
+    "maintainers": ["ctavan", "broofa"],
+    "skip": ["win32", "aix"]
+  },
+  "vinyl": {
+    "prefix": "v",
+    "maintainers": ["contra", "phated"],
+    "skip": "win32"
+  },
+  "watchify": {
+    "prefix": "v",
+    "flaky": ["ppc", "s390", "ubuntu", "rhel"],
+    "maintainers": "substack",
+    "skip": ["win32", "darwin"]
+  },
+  "weak": {
+    "head": true,
+    "maintainers": "tootallnate",
+    "tags": "native"
+  },
+  "ws": {
+    "expectFail": "fips",
+    "maintainers": ["einaros", "3rd-Eden", "lpinca"],
+    "scripts": ["test -- --timeout 30000"]
+  },
+  "yeoman-generator": {
+    "prefix": "v",
+    "flaky": ["ppc", "rhel"],
+    "skip": [">=21"],
+    "expectFail": "fips",
+    "maintainers": ["SBoudrias", "sindresorhus"]
+  }
+}

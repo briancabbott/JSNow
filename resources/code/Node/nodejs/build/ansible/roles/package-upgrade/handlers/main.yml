@@ -1,0 +1,14 @@
+---
+
+# Package upgrade handler
+
+- name: package updated
+  include_tasks: "{{ handler_include }}"
+  loop_control:
+    loop_var: handler_include
+  with_first_found:
+    - files:
+      - "{{ role_path }}/handlers/partials/{{ os }}-{{ arch }}.yml"
+      - "{{ role_path }}/handlers/partials/{{ os }}.yml"
+      - "{{ role_path }}/handlers/partials/{{ os|stripversion }}.yml"
+      skip: true

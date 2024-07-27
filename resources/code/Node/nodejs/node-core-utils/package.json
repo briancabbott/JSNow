@@ -1,0 +1,69 @@
+{
+  "name": "@node-core/utils",
+  "version": "5.3.1",
+  "description": "Utilities for Node.js core collaborators",
+  "type": "module",
+  "engines": {
+    "node": "^18.18.0 || >=20.0.0"
+  },
+  "bin": {
+    "get-metadata": "./bin/get-metadata.js",
+    "git-node": "./bin/git-node.js",
+    "ncu-config": "./bin/ncu-config.js",
+    "ncu-team": "./bin/ncu-team.js",
+    "ncu-ci": "./bin/ncu-ci.js"
+  },
+  "scripts": {
+    "test": "npm run test-unit && npm run lint",
+    "test-unit": "node --test test/unit/**",
+    "test:reporters": "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=@reporters/github --test-reporter-destination=stdout test/unit/**",
+    "coverage": "c8 --reporter=html --reporter=text --reporter=text-summary npm test",
+    "coverage:ci": "c8 --reporter=lcov --reporter=text --reporter=text-summary npm run test:reporters",
+    "lint": "eslint . --cache",
+    "lint-fix": "eslint . --fix"
+  },
+  "author": "Joyee Cheung <joyeec9h3@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:nodejs/node-core-utils.git"
+  },
+  "files": [
+    "lib/",
+    "bin/",
+    "components/"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@listr2/prompt-adapter-enquirer": "^2.0.10",
+    "@node-core/caritat": "^1.6.0",
+    "@pkgjs/nv": "^0.2.2",
+    "branch-diff": "^3.0.4",
+    "chalk": "^5.3.0",
+    "changelog-maker": "^4.1.1",
+    "cheerio": "^1.0.0-rc.12",
+    "clipboardy": "^4.0.0",
+    "core-validate-commit": "^4.0.0",
+    "figures": "^6.1.0",
+    "ghauth": "^6.0.5",
+    "inquirer": "^9.3.2",
+    "js-yaml": "^4.1.0",
+    "listr2": "^8.2.3",
+    "lodash": "^4.17.21",
+    "log-symbols": "^6.0.0",
+    "ora": "^8.0.1",
+    "replace-in-file": "^8.0.2",
+    "undici": "^6.19.2",
+    "which": "^4.0.0",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@reporters/github": "^1.7.0",
+    "c8": "^10.1.2",
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.4.0",
+    "sinon": "^18.0.0"
+  }
+}

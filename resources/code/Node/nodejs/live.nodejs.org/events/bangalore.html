@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Node.js</title>
+
+  <link rel="dns-prefetch" href="http://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="http://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="http://www.google-analytics.com">
+
+  <meta name="author" content="Node.js Foundation">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/static/milligram.min.css" media="all">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700' rel='stylesheet' type='text/css'>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67020396-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    a {
+      color: #80bd01;
+    }
+    .button {
+      background-color: #80bd01;
+      border: 0.1rem solid #80bd01;
+    }
+    div.live-event {
+      background-color: #b3b3b3;
+      border-radius: 3px;
+      margin: 10px 35px 10px 35px;
+      color: black;
+      font-family: "Open Sans Condensed",sans-serif;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    div.live-event h3 {
+      margin-top:5px;
+      margin-bottom: 0;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 50px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 50px;
+    }
+    div.live-event h3 a,
+    div.live-event h3 a:visited {
+      text-decoration: underline;
+      color: black;
+    }
+    div.live-event p {
+      margin-bottom: 5px;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    div.top-container div.column h2 {
+     padding-top:50px;
+     color:#80bd01;
+     font-weight:500;
+    }
+    div.events-container {
+      margin: 0;
+      padding: 30px 10%;
+      background: url(/static/background.jpg);
+    }
+    div.footer-container {
+      background-color:#b3b3b3;
+      padding:15px;
+    }
+    div.footer-container a {
+      color:#fff;
+      white-space: nowrap;
+    }
+    div.footer-container p {
+      margin-bottom:0;
+    }
+    img.logo {
+      max-width:100%;
+      padding: 50px 50px 50px 50px;
+    }
+    .languages {
+      display: block;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      list-style: none;
+    }
+    .languages li {
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-container container">
+    <div class="row">
+      <div class="column" style="text-align:center">
+        <img class="logo" src="/static/new-node.png" alt=""/>
+      </div>
+      <div class="column">
+        <p><h2>Node.js Live</h2></p>
+<p>The Node.js Foundation is kicking off a series of global events bringing together local Node.js developers around the world.</p>
+<p>Each event is different and tailored to the local community, varying in length and in some cases in partnership with local Node.js groups and users.</p>
+
+      </div>
+    </div>
+    <ul id="languages" class="languages">
+      <li><a data-lang="en" href="javascript:void(0);">English</a> |</li>
+      <li><a data-lang="zh-CN" href="javascript:void(0);">简体中文</a></li>
+    </ul>
+  </div>
+
+  <div class="events-container">
+    <style>
+  nav ul {
+    list-style-type:none;
+  }
+  li h3 {
+    color: black;
+    font-family: "Open Sans Condensed",sans-serif;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 50px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+  li h3 a, li h3 a:visited{
+    text-decoration: underline;
+    color: black;
+  }
+  div.events-container {
+    background-color: #F2F2F2;
+    background-image: none;
+  }
+  div.events-container div.row p img {
+    max-width:300px;
+    max-height:80px;
+    cursor:pointer;
+  }
+  /*npm logo*/
+  div.events-container h2 img {
+    position: relative;
+    bottom: -10px;
+    max-height:40px;
+    cursor:pointer;
+  }
+  @media screen and (max-width: 600px) {
+    div.side-navigation {
+      visibility: collapse !important;
+      display: none !important;
+    }
+  }
+</style>
+
+<div class="row">
+  <div class="column column-40 side-navigation">
+    <nav>
+      <ul>
+        <li><h3><a href="los-angeles.html">Los Angeles</a></h3></li>
+        <li><h3><a href="bangalore.html">Bangalore</a></h3></li>
+        <li><h3><a href="paris.html">Paris</a></h3></li>
+        <li><h3><a href="beijing.html">Beijing</a></h3></li>
+        <li><h3><a href="chicago.html">Chicago</a></h3></li>
+        <li><h3><a href="london.html">London</a></h3></li>
+        <li><h3><a href="boston.html">Boston</a></h3></li>
+        <li><h3><a href="washington.html">Wash. DC</a></h3></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="column">
+    <h1 id="bangalore">Bangalore</h1>
+<ul>
+<li><strong>Date:</strong> March, 19, 2016</li>
+<li><strong>Location:</strong> Wipro, Tower S4, 5th floor SJP 2, Auditorium</li>
+<li><strong>Address:</strong> Doddakannelli, Sarjapur Road, Bengaluru, Karnataka 560035</li>
+<li>Parking space is limited to 200 vehicles hence it is advised to hire cabs to attend the event.</li>
+<li>All guests are requested to report to SJP2, front office to collect guest passes.</li>
+</ul>
+<p><a class="button" href="https://www.regonline.com/Register/Checkin.aspx?EventID=1813427">Register Now!</a></p>
+<h2 id="sponsors">Sponsors</h2>
+<p><img src="/static/sponsors/WNC_Logo.png" alt="http://www.wipro.com/" title="Wipro"></p>
+<p>We&#39;re still looking for sponsors. <a href="mailto:tbenzies@linuxfoundation.org?subject=Node.js%20Live%20Sponsorship">Contact us</a> if you&#39;re interested.</p>
+<h2 id="nodetogether-by-https-www-npmjs-com-static-sponsors-npm-logo-svg-npm-">NodeTogether by <img src="/static/sponsors/npm-logo.svg" alt="https://www.npmjs.com" title="npm"></h2>
+<p>NodeTogether is an educational initiative to improve the diversity of the Node community by bringing people of underrepresented groups together to learn Node.js.</p>
+<p>To learn more, and/or if you are interested in applying as a student, mentor, or sponsor, please visit <a href="http://www.nodetogether.org/">http://www.nodetogether.org/</a>.</p>
+<h2 id="free-workshop-building-real-time-iot-applications-using-open-source-zettajs">Free Workshop: Building Real-Time IoT Applications Using Open Source ZettaJS</h2>
+<p>Node.js Foundation Member Apigee invites you to attend a free 3-hour IoT workshop which takes place the morning of Node.js Live Bengaluru, March 19, 2016 from 9:30 AM to 12:30 PM (IST).</p>
+<p>Why Attend:</p>
+<p>The Internet of Things revolves around increased machine-to-machine communication; it’s built on cloud computing and networks of data-gathering sensors; it’s mobile, virtual, and instantaneous connection; and they say it’s going to make everything in our lives from streetlights to seaports “smart.”</p>
+<p>Learn more and register here: <a href="https://zetta-nodejs-iot-workshop.eventbrite.com/">https://zetta-nodejs-iot-workshop.eventbrite.com/</a></p>
+<h2 id="agenda">Agenda</h2>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>13:00</td>
+<td>Arrivals</td>
+<td></td>
+</tr>
+<tr>
+<td>14:00</td>
+<td>Ashley Williams</td>
+<td>Welcome / You don&#39;t know npm</td>
+</tr>
+<tr>
+<td>14:30</td>
+<td>Niranja Janardhana</td>
+<td>Secure Scalable NodeJS for Enterprise</td>
+</tr>
+<tr>
+<td>15:00</td>
+<td>30 Minute Break</td>
+</tr>
+<tr>
+<td>15:30</td>
+<td>Gireesh Punathil</td>
+<td>Memory efficiency with Closures</td>
+</tr>
+<tr>
+<td>16:00</td>
+<td>Harminder Virk</td>
+<td>Writing maintainable apps with Adonis Js</td>
+</tr>
+<tr>
+<td>16:30</td>
+<td>30 Minute Break</td>
+</tr>
+<tr>
+<td>17:00</td>
+<td>Balachandra Kamat</td>
+<td>Real time visualization of events leveraging Kafka, Storm and MEAN Stack</td>
+</tr>
+<tr>
+<td>18:00</td>
+<td>Food/Beverage &amp; Networking</td>
+</tr>
+<tr>
+<td>19:30</td>
+<td>Event Concludes</td>
+</tr>
+</tbody>
+</table>
+<h4 id="-ashley-williams-https-github-com-ashleygwilliams-"><a href="https://github.com/ashleygwilliams">Ashley Williams</a></h4>
+<p>Ashley, npm&#39;s Developer Community and Content Manager, gives a quick tour of npm’s greatest
+features, old and new, and demonstrates how they can be integrated into your workflow to make
+you better, happier, and more productive. Ashley will outline the most commonly used npm tools
+for starting a project, managing a project through development, test, and deployment, and
+managing teams and organization project work. She’ll focus in particular on workflows that
+will help frontend developers, npm’s biggest and fastest-growing group of users.</p>
+<h5 id="-niranjan-janardhana-https-github-com-niranjan-j007-"><a href="https://github.com/Niranjan-J007">Niranjan Janardhana</a></h5>
+<p>Kraken is a secure and scalable layer that extends nodejs by providing structure and
+convention. It also supports private NPM for enterprise.</p>
+<p>Topics to be covered.</p>
+<ul>
+<li>NodeJS &amp; security</li>
+<li>Npm &amp; private hosting</li>
+<li>Internationalization support</li>
+</ul>
+<h4 id="-gireesh-punathil-https-github-com-gireeshpunathil-"><a href="https://github.com/gireeshpunathil">Gireesh Punathil</a></h4>
+<p>Memory Leaks leading to undesired growth and exhaustion of memory are by
+far the most common production problem reported on enterprise scale Node applications.
+Closures, a powerful semantic feature in functional programs which are used pervasively
+in Node.js/Javascript programs to support their asynchronous and event driven programming
+model, are a prominent source of unanticipated memory leaks.</p>
+<p>In this presentation, I will explain three of the most common use cases where
+Closures are used in Node. For each of the use cases, I will explain a) sample code, b)
+the life-span of the Closure context and which variables the closure keeps live, iii)
+what memory will be retained during the life-span of the Closure. The intention is to
+help the audience better understand the execution environment of Closures, their
+implications to memory footprint, and help them develop efficient code.</p>
+<h4 id="-harminder-virk-https-github-com-thetutlage-"><a href="https://github.com/thetutlage">Harminder Virk</a></h4>
+<p>Adonis Js is a different breed of framework in NodeJs. It follows some great concepts of Dependency Injection and leverages the full power of ES6 by using Proxies, ES6 generators etc.</p>
+<p>Topics to be covered.</p>
+<p>Why AdonisJs?
+New way to inject dependencies and writing testable code
+What the heck are ES6 proxies?</p>
+<h4 id="balachandra-kamat">Balachandra Kamat</h4>
+<p>In web-app design, node.js plays a crucial role in orchestrating user requests between
+different backend systems. Owing to its architecture, low memory footprint, and active
+community it is found to be a great fit for applications that demand high-performance
+and scalability, real-time visualization of data and modernizing legacy systems.</p>
+<p>Across industries we are seeing many usecases for leveraging node along with
+technologies like AngularJs, MongoDB, Kafka &amp; Storm. Some of the key scenarios
+that we will call out in this presentation</p>
+<ol>
+<li>Modernization of legacy mainframe applications using MEAN stack</li>
+<li>Leveraging NodeJs &amp; AngularJs to improve the scalability &amp; performance of
+internet scale applications Real time visualization of events leveraging Kafka,
+Storm and MEAN Stack</li>
+</ol>
+
+    <h2 id="conduct">Code of Conduct</h2>
+    <p>
+      All attendees, speakers, staff and sponsors are expected to follow the <a href="http://confcodeofconduct.com/">Code of Conduct.</a>
+    <p>
+  </div>
+</div>
+
+<script>
+  var elementList = document.querySelectorAll('div.events-container div.row img')
+  for (var i=0;i<elementList.length;i++) {
+    ;(function () {
+      var elem = elementList[i]
+      elem.addEventListener('click', function () {
+        window.location = elem.alt
+      })
+    })()
+  }
+</script>
+
+  </div>
+
+  <div class="footer-container">
+    <div class="container">
+      <p>© 2016 Node.js Foundation. All Rights Reserved. Node.js is a trademark of Joyent, Inc. and is used with its permission. Please review the <a href="https://nodejs.org/static/documents/trademark-policy.pdf">Trademark Guidelines of the Node.js Foundation</a>.</p>
+    </div>
+  </div>
+
+  <script src="/static/languages.js"></script>
+
+</body>
+</html>

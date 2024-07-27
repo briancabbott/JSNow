@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/corepack undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/corepack",
+    "repo": "https://github.com/nodejs/corepack",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/corepack",
+    "startTime": "2024-07-18T18:59:07.526Z",
+    "endTime": "2024-07-18T19:03:14.627Z",
+    "childProcessPid": 27862,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--corepack--27862",
+    "executionErrors": []
+}

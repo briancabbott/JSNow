@@ -1,0 +1,5 @@
+jenkins_url: "https://ci.nodejs.org"
+jenkins_agent_jar: "{{ jenkins_url }}/jnlpJars/agent.jar"
+server_user: iojs
+home: "/home"
+remote_env: {}

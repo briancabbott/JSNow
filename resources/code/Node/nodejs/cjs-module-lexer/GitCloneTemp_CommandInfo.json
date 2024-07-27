@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/cjs-module-lexer undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/cjs-module-lexer",
+    "repo": "https://github.com/nodejs/cjs-module-lexer",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/cjs-module-lexer",
+    "startTime": "2024-07-18T18:58:57.110Z",
+    "endTime": "2024-07-18T18:58:58.961Z",
+    "childProcessPid": 27686,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--cjs-module-lexer--27686",
+    "executionErrors": []
+}

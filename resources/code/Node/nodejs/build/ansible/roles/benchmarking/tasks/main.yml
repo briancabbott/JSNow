@@ -1,0 +1,80 @@
+---
+
+- name: gather facts
+  setup:
+
+- name: create custom jenkins workspace
+  ansible.builtin.file:
+    group: "{{ server_user }}"
+    owner: "{{ server_user }}"
+    path: "/w/bnch-comp"
+    state: directory
+
+- name: Install packages
+  package:
+    name: "{{ package }}"
+    state: present
+  loop_control:
+    loop_var: package
+  with_items: "{{ packages }}"
+
+- name: Download h2load git repo
+  git:
+    repo: 'https://github.com/nghttp2/nghttp2.git'
+    dest: "/home/{{ server_user }}/nghttp2"
+    force: yes
+
+- name: Setup and compile h2load
+  shell: "autoreconf -i && automake && autoconf && ./configure --enable-app && make -j4"
+  args:
+    chdir: "/home/{{ server_user }}/nghttp2"
+  environment:
+    CC: gcc-12
+    CXX: g++-12
+
+- name: Download wrk git repo
+  git:
+    repo: https://github.com/wg/wrk.git
+    dest: "/home/{{ server_user }}/wrk"
+    force: yes
+
+- name: Setup and compile wrk
+  shell: "make"
+  args:
+    chdir: "/home/{{ server_user }}/wrk"
+
+- name: Install Rscript repo | {{ os }}
+  when: os|startswith("ubuntu")
+  shell: echo "deb https://ftp.heanet.ie/mirrors/cran.r-project.org/bin/linux/ubuntu {{ ansible_distribution_release }}-cran40/" > /etc/apt/sources.list.d/r.list
+
+- name: Add R key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: E084DAB9
+
+- name: Add Rscript key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 51716619E084DAB9
+
+- name: Update keys
+  shell: "apt-key update"
+
+- name: Update packages
+  include_role:
+    name: package-upgrade
+
+- name: Install Rscript packages
+  package:
+    name: "{{ package }}"
+    state: present
+  loop_control:
+    loop_var: package
+  with_items:
+    - r-base
+
+- name: Install ggplot2
+  shell: echo 'install.packages("ggplot2", repo="http://cran.us.r-project.org")' | R --no-save
+
+- name: Install plyr
+  shell: echo 'install.packages("plyr", repo="http://cran.us.r-project.org")' | R --no-save

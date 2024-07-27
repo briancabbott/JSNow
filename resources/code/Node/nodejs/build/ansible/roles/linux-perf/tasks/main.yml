@@ -1,0 +1,63 @@
+---
+
+#
+# installs Linux perf @ /usr/local/bin/perf
+#
+
+- stat:
+    path: /usr/local/bin/perf
+  register: linux_perf
+  tags: linux_perf
+
+- name: install perf on linux
+  tags: linux_perf
+  when: not (linux_perf.stat.exists | bool)
+  block:
+    - name: Clean path
+      file:
+        state: absent
+        path: "{{ tmp_folder }}"
+
+    - name: Get current kernel version
+      ansible.builtin.shell: uname -r | awk -F. '{print $1"."$2}'
+      register: kernel_version
+      changed_when: false
+
+    - name: Download Linux source code
+      git:
+        repo: https://github.com/torvalds/linux.git
+        version: "v{{ kernel_version.stdout }}"
+        depth: 1
+        dest: "{{ tmp_folder }}/linux"
+
+    - name: Install packages
+      package:
+        name: "{{ package }}"
+        state: present
+      loop_control:
+        loop_var: package
+      with_items: "{{ packages }}"
+
+    - name: build Linux perf
+      shell: make -j{{ ansible_processor_cores | default(1) }}
+      args:
+        chdir: "{{ tmp_folder }}/linux/tools/perf"
+
+    - name: install Linux perf
+      shell: "cp {{ tmp_folder }}/linux/tools/perf/perf /usr/local/bin/perf"
+
+    - name: Clean path
+      file:
+        state: absent
+        path: "{{ tmp_folder }}"
+
+- name: Allow monitoring
+  ansible.builtin.lineinfile:
+    create: yes
+    dest: "/etc/sysctl.d/20-perf.conf"
+    line: "{{ item.line }}"
+    regexp: "{{ item.regexp }}"
+  notify: update sysctl settings
+  with_items:
+  - { regexp: "kernel.perf_event_paranoid", line: "kernel.perf_event_paranoid = 2" }
+  tags: linux_perf

@@ -1,0 +1,10 @@
+{
+    "commandText": "git clone --progress --verbose https://github.com/nodejs/foundation-slides undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/foundation-slides",
+    "repo": "https://github.com/nodejs/foundation-slides",
+    "targetPath": "undefined\\node--07-18-2024--b8XQEPu1ib7B5xzo2ZP6CZ/foundation-slides",
+    "startTime": "2024-07-18T19:18:16.810Z",
+    "endTime": "2024-07-18T19:18:17.783Z",
+    "childProcessPid": 29640,
+    "commandLogFilePath": "/Users/brian/dev_space/GitHub-briancabbott/JSNow/resources/code/Node/workingdir/--nodejs--foundation-slides--29640",
+    "executionErrors": []
+}

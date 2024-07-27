@@ -1,0 +1,55 @@
+name: Close stale issues/prs
+on:
+  workflow_dispatch:
+  schedule:
+    # Run every day at 1:00 AM UTC.
+    - cron: 0 1 * * *
+
+# yamllint disable rule:empty-lines
+env:
+  CLOSE_MESSAGE: >
+    It seems there has been no activity on this issue for a while,
+    and it is being closed. If you believe this issue should
+    remain open, please leave a comment.
+
+    If you need further assistance or have questions, you can
+    also search for similar issues on [Stack Overflow](https://stackoverflow.com/).
+
+    Make sure to look at the README file for the most updated links.
+
+  WARN_MESSAGE: >
+    It seems there has been no activity on this issue for a while,
+    and it is being closed **in 30 days**. If you believe this issue should
+    remain open, please leave a comment.
+
+    If you need further assistance or have questions, you can
+    also search for similar issues on [Stack Overflow](https://stackoverflow.com/).
+
+    Make sure to look at the README file for the most updated links.
+# yamllint enable
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  actions: write
+jobs:
+  stale:
+    if: github.repository == 'nodejs/help'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@28ca1036281a5e5922ead5184a1bbf96e5fc984e #v9.0.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          days-before-stale: 180
+          days-before-close: 30
+          stale-issue-message: ${{ env.WARN_MESSAGE }}
+          stale-pr-message: ${{ env.WARN_MESSAGE }}
+          close-issue-message: ${{ env.CLOSE_MESSAGE }}
+          close-pr-message: ${{ env.CLOSE_MESSAGE }}
+          exempt-issue-labels: never-stale
+          exempt-pr-labels: never-stale
+          stale-pr-label: stale
+          stale-issue-label: stale
+          operations-per-run: 500
+          remove-stale-when-updated: true
