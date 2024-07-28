@@ -1,24 +1,26 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ToDoCollection = void 0;
-const todoItem_1 = require("./todoItem");
-class ToDoCollection {
+import { ToDoItem } from "./todoItem.js";
+export class ToDoCollection {
     userName;
-    todoItems;
     nextId = 1;
+    itemMap = new Map();
     constructor(userName, todoItems = []) {
         this.userName = userName;
-        this.todoItems = todoItems;
+        if (todoItems !== undefined && todoItems.length > 0) {
+            todoItems.forEach(item => this.itemMap.set(item.id, item));
+        }
     }
     addToDo(task) {
         while (this.getToDoById(this.nextId)) {
             this.nextId++;
         }
-        this.todoItems.push(new todoItem_1.ToDoItem(this.nextId, task));
+        this.itemMap.set(this.nextId, new ToDoItem(this.nextId, task));
         return this.nextId;
     }
     getToDoById(id) {
-        return this.todoItems.find(item => item.id === id);
+        return this.itemMap.get(id);
+    }
+    getToDoItems(includeComplete) {
+        return [...this.itemMap.values()].filter(item => includeComplete || !item.complete);
     }
     markComplete(id, complete) {
         const todoItem = this.getToDoById(id);
@@ -26,5 +28,17 @@ class ToDoCollection {
             todoItem.complete = complete;
         }
     }
+    removeComplete() {
+        this.itemMap.forEach(item => {
+            if (item.complete) {
+                this.itemMap.delete(item.id);
+            }
+        });
+    }
+    getItemCounts() {
+        return {
+            total: this.itemMap.size,
+            incomplete: this.getToDoItems(false).length
+        };
+    }
 }
-exports.ToDoCollection = ToDoCollection;

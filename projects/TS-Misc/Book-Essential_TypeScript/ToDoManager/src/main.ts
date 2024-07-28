@@ -1,6 +1,6 @@
 
-import { ToDoItem } from "./todoItem";
-import { ToDoCollection } from "./todoCollection";
+import { ToDoItem } from "./todoItem.js";
+import { ToDoCollection } from "./todoCollection.js";
 
 let todos: ToDoItem[] = [
     new ToDoItem(1, "qwerty"),
