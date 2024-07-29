@@ -1,0 +1,32 @@
+name: Publish to GitHub Packages
+
+on:
+  # Publishes packages on release (the Rhino version should not be
+  # changed to '-SNAPSHOT' before creating the release in Github).
+  release:
+    types: [published]
+  # Allows to run this workflow manually from the Actions tab
+  workflow_dispatch:
+permissions: read-all
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
+    - name: Set up JDK
+      uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9 # v4.2.1
+      with:
+        java-version: '8'
+        distribution: 'adopt'
+        server-id: github
+        settings-path: ${{ github.workspace }}
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+    - name: Publish
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: ./gradlew publish
