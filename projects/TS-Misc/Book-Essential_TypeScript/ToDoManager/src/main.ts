@@ -2,6 +2,7 @@
 import { ToDoItem } from "./todoItem.js";
 import { ToDoCollection } from "./todoCollection.js";
 import inquirer from "inquirer";
+import { JsonToDoCollection } from "./jsonTodoCollection.js";
 
 let todos: ToDoItem[] = [
     new ToDoItem(1, "qwerty"),
@@ -10,7 +11,7 @@ let todos: ToDoItem[] = [
     new ToDoItem(4, "yuiop", true)
 ];
 
-let collection: ToDoCollection = new ToDoCollection("Brian", todos);
+let collection: ToDoCollection = new JsonToDoCollection("Brian", todos);
 let showCompleted = true;
 enum Commands {
     Add = "Add New Task",

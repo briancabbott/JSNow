@@ -8,7 +8,7 @@ type ItemCounts = {
 
 export class ToDoCollection {
     private nextId: number = 1;
-    private itemMap: Map<Number, ToDoItem> = new Map<Number, ToDoItem>();
+    protected itemMap: Map<Number, ToDoItem> = new Map<Number, ToDoItem>();
 
     constructor(public userName: string, todoItems: ToDoItem[] = []) {
         if (todoItems !== undefined && todoItems.length > 0) {
