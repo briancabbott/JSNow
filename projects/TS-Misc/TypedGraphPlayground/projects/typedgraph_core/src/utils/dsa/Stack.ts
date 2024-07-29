@@ -6,5 +6,14 @@ export interface IStack<T> {
 }
 
 export class Stack<T> implements IStack<T> {
+    push<T>(t: T): void {
+        throw new Error("Method not implemented.");
+    }
+    pop(): T {
+        throw new Error("Method not implemented.");
+    }
+    peek(): T {
+        throw new Error("Method not implemented.");
+    }
     
 }
